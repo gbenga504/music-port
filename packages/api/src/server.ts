@@ -16,10 +16,10 @@ database.on("connected", function () {
   console.log("Database connected");
 });
 
-app.listen(process.env.PORT, function () {
-  console.log(`API is listening on port:  ${process.env.PORT}
-    API base URL:     http://localhost:${process.env.PORT}/api/v1
-    Debug URL:        http://localhost:${process.env.PORT}/api/v1/debug
-    GraphQL base URL: http://localhost:${process.env.PORT}/api/v1/graphql
+app.listen(process.env.NODE_DOCKER_PORT, function () {
+  console.log(`API is listening on port:  ${process.env.NODE_DOCKER_PORT}
+    API base URL:     http://localhost:${process.env.NODE_DOCKER_PORT}/api/v1
+    Debug URL:        http://localhost:${process.env.NODE_DOCKER_PORT}/api/v1/debug
+    GraphQL base URL: http://localhost:${process.env.NODE_DOCKER_PORT}/api/v1/graphql
   `);
 });
