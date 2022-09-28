@@ -10,8 +10,8 @@ import {
 const schema = makeSchema({
   types: [],
   outputs: {
-    schema: join(__dirname, "../../nexus.gen.graphql"),
-    typegen: join(__dirname, "../../nexus.gen.ts"),
+    schema: join(__dirname, "nexus.gen.graphql"),
+    typegen: join(__dirname, "nexus.gen.ts"),
   },
   // TODO: The field authorize plugin should be configured to throw a NotPermittedError
   // Also in future, it might be a good idea to look into query complexities
