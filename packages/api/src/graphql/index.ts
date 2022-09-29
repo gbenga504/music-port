@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import type { Request } from "express";
 import { graphqlHTTP } from "express-graphql";
 import {
   makeSchema,
@@ -6,6 +7,7 @@ import {
   connectionPlugin,
   nullabilityGuardPlugin,
 } from "nexus";
+import { createGraphQLContext } from "../framework/createGraphQLContext";
 
 const schema = makeSchema({
   types: [],
@@ -47,8 +49,11 @@ const schema = makeSchema({
 });
 
 export function applyMiddleware() {
-  return graphqlHTTP({
-    schema,
-    graphiql: true,
+  return graphqlHTTP(function (req, _res) {
+    return {
+      schema,
+      graphiql: true,
+      context: createGraphQLContext(req as Request),
+    };
   });
 }
