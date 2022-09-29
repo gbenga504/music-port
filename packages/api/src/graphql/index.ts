@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import type { Request } from "express";
 import { graphqlHTTP } from "express-graphql";
 import {
   makeSchema,
@@ -6,12 +7,13 @@ import {
   connectionPlugin,
   nullabilityGuardPlugin,
 } from "nexus";
+import { createGraphQLContext } from "../framework/createGraphQLContext";
 
 const schema = makeSchema({
   types: [],
   outputs: {
-    schema: join(__dirname, "../../nexus.gen.graphql"),
-    typegen: join(__dirname, "../../nexus.gen.ts"),
+    schema: join(__dirname, "nexus.gen.graphql"),
+    typegen: join(__dirname, "nexus.gen.ts"),
   },
   // TODO: The field authorize plugin should be configured to throw a NotPermittedError
   // Also in future, it might be a good idea to look into query complexities
@@ -47,8 +49,11 @@ const schema = makeSchema({
 });
 
 export function applyMiddleware() {
-  return graphqlHTTP({
-    schema,
-    graphiql: true,
+  return graphqlHTTP(function (req, _res) {
+    return {
+      schema,
+      graphiql: true,
+      context: createGraphQLContext(req as Request),
+    };
   });
 }
