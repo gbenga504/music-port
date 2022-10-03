@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import type { GraphQLContextType } from "./../types/GraphQLContextType";
+import type { GraphQLContextType } from "./../types/graphql-context-type";
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin";
 import type { core, connectionPluginCore } from "nexus";
 

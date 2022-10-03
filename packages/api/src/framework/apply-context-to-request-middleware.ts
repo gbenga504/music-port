@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 
-import { createContext } from "./createContext";
+import { createContext } from "./create-context";
 
 export default (function applyContextToRequestMiddleware(
   req,
