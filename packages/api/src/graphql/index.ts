@@ -7,7 +7,7 @@ import {
   connectionPlugin,
   nullabilityGuardPlugin,
 } from "nexus";
-import { createGraphQLContext } from "../framework/createGraphQLContext";
+import { createGraphQLContext } from "../framework/create-graphql-context";
 
 const schema = makeSchema({
   types: [],
@@ -41,7 +41,7 @@ const schema = makeSchema({
     modules: [],
   },
   contextType: {
-    module: join(__dirname, "../types", "GraphQLContextType.ts"),
+    module: join(__dirname, "../types", "graphql-context-type.ts"),
     export: "GraphQLContextType",
   },
   prettierConfig: require.resolve("../../.prettierrc"),

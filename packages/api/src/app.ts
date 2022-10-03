@@ -2,7 +2,7 @@ import express from "express";
 
 import routes from "./routes";
 import * as graphql from "./graphql";
-import applyContextToRequestMiddleware from "./framework/applyContextToRequestMiddleware";
+import applyContextToRequestMiddleware from "./framework/apply-context-to-request-middleware";
 
 const app = express();
 

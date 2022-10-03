@@ -1,5 +1,5 @@
 import type { Request } from "express";
-import type { createContext } from "./createContext";
+import type { createContext } from "./create-context";
 
 type CreateGraphQLContextType = ReturnType<typeof createContext>;
 
