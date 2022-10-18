@@ -9,8 +9,13 @@ const app = express();
 
 app.use("/public", express.static("dist/public"));
 
-app.get("*", (req, res) => {
-  res.send(renderer(req, res));
+app.get("/*", async (req, res) => {
+  if (req.url === "/favicon.ico") {
+    return res.status(200).json({ status: "ok" });
+  }
+
+  const content = await renderer(req, res);
+  return res.status(200).send(content);
 });
 
 app.listen(process.env.PORT, function () {

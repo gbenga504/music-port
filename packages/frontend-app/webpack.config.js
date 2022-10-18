@@ -2,7 +2,7 @@ const path = require("path");
 const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
 
 module.exports = {
-  entry: "./src/app/client.tsx",
+  entry: { client: "./src/app/client.tsx" },
   mode: "development",
   output: {
     publicPath: "/public/",
@@ -18,8 +18,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        loader: "ts-loader",
+        test: /\.(ts|tsx|js)$/,
+        loader: "babel-loader",
+        exclude: /node_modules/,
       },
     ],
   },
