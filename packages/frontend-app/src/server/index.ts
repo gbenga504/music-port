@@ -10,12 +10,17 @@ const app = express();
 app.use("/public", express.static("dist/public"));
 
 app.get("/*", async (req, res) => {
-  if (req.url === "/favicon.ico") {
-    return res.status(200).json({ status: "ok" });
-  }
+  try {
+    if (req.url === "/favicon.ico") {
+      return res.status(200).json({ status: "ok" });
+    }
 
-  const content = await renderer(req, res);
-  return res.status(200).send(content);
+    const content = await renderer(req, res);
+    return res.status(200).send(content);
+  } catch (error) {
+    const content = await renderer(req, res, error);
+    return res.status(200).send(content);
+  }
 });
 
 app.listen(process.env.PORT, function () {

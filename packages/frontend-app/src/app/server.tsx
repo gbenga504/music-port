@@ -14,7 +14,8 @@ import { loadPageResources } from "./utils/routeUtils";
 
 export const renderer = async (
   req: Request,
-  _res: Response
+  _res: Response,
+  error?: Error
 ): Promise<string> => {
   const statsFile = path.resolve(__dirname, "../../dist/public/stats.json");
   const chunkExtractor = new ChunkExtractor({
@@ -27,6 +28,7 @@ export const renderer = async (
 
   const data = {
     pageDatas,
+    error,
   };
 
   const jsx = chunkExtractor.collectChunks(

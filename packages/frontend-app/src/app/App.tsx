@@ -9,6 +9,7 @@ import type {
   IMacthedRoutes,
 } from "./utils/routeUtils";
 
+import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "./utils/routeUtils";
 
@@ -43,9 +44,10 @@ const transformMatchedRoutes = ({
 
 interface IProps {
   pageDatas: IPageDatas;
+  error?: Error;
 }
 
-const App: React.FC<IProps> = ({ pageDatas }) => {
+const App: React.FC<IProps> = ({ pageDatas, error }) => {
   const location = useLocation();
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>([
     ...(transformMatchedRoutes({ routes, location, pageDatas }) || []),
@@ -67,7 +69,9 @@ const App: React.FC<IProps> = ({ pageDatas }) => {
     })();
   }, [location]);
 
-  return renderMatches(matchedRoutes);
+  return (
+    <ErrorBoundary error={error}>{renderMatches(matchedRoutes)}</ErrorBoundary>
+  );
 };
 
 export default App;
