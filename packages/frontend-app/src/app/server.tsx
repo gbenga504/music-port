@@ -5,6 +5,7 @@ import { ChunkExtractor } from "@loadable/server";
 import { StaticRouter } from "react-router-dom/server";
 import { matchRoutes } from "react-router-dom";
 import serialize from "serialize-javascript";
+import { Helmet } from "react-helmet";
 
 import type { Request, Response } from "express";
 
@@ -38,11 +39,25 @@ export const renderer = async (
   );
 
   const jsxHTML = renderToString(jsx);
+  const helmet = Helmet.renderStatic();
 
   return `
     <!doctype html>
+      <html lang="en">
       <head>
-        <title>Music port</title>
+        <meta charset="utf-8">
+        <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport" />
+        <meta name="author" content="Anifowoshe Gbenga" />
+        <meta property="og:type" content="article" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
+        ${helmet.link.toString()}
+        ${helmet.script.toString()}
+        ${chunkExtractor.getStyleTags()}
       </head>
       <body>
         <div id="root">${jsxHTML}</div>
