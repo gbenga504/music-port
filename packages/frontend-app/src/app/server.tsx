@@ -17,7 +17,7 @@ export const renderer = async (
   req: Request,
   _res: Response,
   error?: Error
-): Promise<string> => {
+): Promise<{ status: number; content: string }> => {
   const statsFile = path.resolve(__dirname, "../../dist/public/stats.json");
   const chunkExtractor = new ChunkExtractor({
     statsFile,
@@ -41,7 +41,7 @@ export const renderer = async (
   const jsxHTML = renderToString(jsx);
   const helmet = Helmet.renderStatic();
 
-  return `
+  const content = `
     <!doctype html>
       <html lang="en">
       <head>
@@ -68,4 +68,13 @@ export const renderer = async (
       </body>
     </html>
   `;
+
+  let status = 200;
+
+  if (error) {
+    //TODO: Get proper status code for other cases
+    status = 404;
+  }
+
+  return { content, status };
 };

@@ -25,11 +25,11 @@ app.get("/*", async (req, res) => {
       return res.status(200).json({ status: "ok" });
     }
 
-    const content = await renderer(req, res);
-    return res.status(200).send(content);
+    const { content, status } = await renderer(req, res);
+    return res.status(status).send(content);
   } catch (error) {
-    const content = await renderer(req, res, error);
-    return res.status(200).send(content);
+    const { content, status } = await renderer(req, res, error);
+    return res.status(status).send(content);
   }
 });
 
