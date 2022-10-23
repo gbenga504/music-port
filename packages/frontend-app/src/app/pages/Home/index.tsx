@@ -1,6 +1,7 @@
 import React from "react";
+import { ILoadableComponentProps } from "../../utils/routeUtils";
 
-const Home = (props: any) => {
+const Home = (props: ILoadableComponentProps) => {
   console.log("gadman", props);
 
   return (

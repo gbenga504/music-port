@@ -1,33 +1,40 @@
 import { matchRoutes } from "react-router-dom";
 
 import type { RouteObjectWithLoadData } from "react-router-dom";
-
-interface ILoadPageDataPromise {
-  id: string;
-  data: object | null;
-}
+import type { createApiClient } from "../api";
 
 export interface IPageDatas {
-  [key: string]: object | null;
+  [key: string]: any;
 }
 
 export interface ILoadableComponentProps {
   pageData: { [key: string]: any } | null;
+  api: ReturnType<typeof createApiClient>;
+}
+
+export interface ILoadData {
+  api: ReturnType<typeof createApiClient>;
 }
 
 export type IMacthedRoutes = ReturnType<
   typeof matchRoutes<RouteObjectWithLoadData>
 >;
 
+interface ILoadPageDataPromise {
+  id: string;
+  data: object | null;
+}
+
 export const loadPageResources = async (
   matchedRoutes: IMacthedRoutes,
   shouldLoadComponent = false,
+  api: ReturnType<typeof createApiClient>,
 ): Promise<IPageDatas> => {
   const matchedRoutesPromises = matchedRoutes!.map((matchedRoute) => {
     if (matchedRoute.route.loadData) {
       return new Promise<ILoadPageDataPromise>(async (resolve) => {
         if (matchedRoute.route.loadData) {
-          const data = await matchedRoute.route.loadData();
+          const data = await matchedRoute.route.loadData({ api });
 
           if (shouldLoadComponent) {
             await matchedRoute.route.component.load();

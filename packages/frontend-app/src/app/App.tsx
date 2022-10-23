@@ -8,6 +8,7 @@ import type {
   ILoadableComponentProps,
   IMacthedRoutes,
 } from "./utils/routeUtils";
+import type { createApiClient } from "./api";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
@@ -17,12 +18,14 @@ interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
   location: Location;
   pageDatas: IPageDatas;
+  api: ReturnType<typeof createApiClient>;
 }
 
 const transformMatchedRoutes = ({
   routes,
   location,
   pageDatas,
+  api,
 }: ITransformMatchedRoutesParams): IMacthedRoutes => {
   const matchedRoutes = matchRoutes(routes, location);
 
@@ -36,7 +39,7 @@ const transformMatchedRoutes = ({
       ...matchedRoute,
       route: {
         ...matchedRoute.route,
-        element: <Component pageData={pageData} />,
+        element: <Component pageData={pageData} api={api} />,
       },
     };
   });
@@ -45,24 +48,27 @@ const transformMatchedRoutes = ({
 interface IProps {
   pageDatas: IPageDatas;
   error?: Error;
+  api: ReturnType<typeof createApiClient>;
 }
 
-const App: React.FC<IProps> = ({ pageDatas, error }) => {
+const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   const location = useLocation();
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>([
-    ...(transformMatchedRoutes({ routes, location, pageDatas }) || []),
+    ...(transformMatchedRoutes({ routes, location, pageDatas, api }) || []),
   ]);
 
   useEffect(() => {
     (async function () {
       const pageDatas = await loadPageResources(
         matchRoutes(routes, location),
-        true
+        true,
+        api
       );
       const matchedRoutes = transformMatchedRoutes({
         routes,
         location,
         pageDatas,
+        api,
       });
 
       setMatchedRoutes(matchedRoutes);

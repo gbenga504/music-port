@@ -1,5 +1,6 @@
 const path = require("path");
 const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
   entry: { client: "./src/app/client.tsx" },
@@ -26,5 +27,6 @@ module.exports = {
   },
   plugins: [
     new LoadableWebpackPlugin({ filename: "stats.json", writeToDisk: true }),
+    new Dotenv(),
   ],
 };

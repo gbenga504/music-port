@@ -4,10 +4,12 @@ import { loadableReady } from "@loadable/component";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
+import { createApiClient } from "./api";
 import { IPageDatas } from "./utils/routeUtils";
 
 interface ICallbackProps {
   appData: { pageDatas: IPageDatas };
+  api: ReturnType<typeof createApiClient>;
 }
 
 function setupClient(callback: (props: ICallbackProps) => void) {
@@ -15,15 +17,21 @@ function setupClient(callback: (props: ICallbackProps) => void) {
     document.getElementById("app-data")!.textContent as string
   );
 
-  callback({ appData });
+  const api = createApiClient({
+    backendApiBaseUrl: process.env.API_PROXY,
+    frontendApiBaseUrl: "/",
+    timeout: 8000,
+  });
+
+  callback({ appData, api });
 }
 
-setupClient(({ appData }) => {
+setupClient(({ appData, api }) => {
   loadableReady(() => {
     hydrateRoot(
-      document.getElementById("root") as HTMLElement,
+      document.getElementById("root")!,
       <BrowserRouter>
-        <App {...appData} />
+        <App {...appData} api={api} />
       </BrowserRouter>
     );
   });

@@ -24,7 +24,7 @@ export const renderer = async (
   });
 
   const matchedRoutes = matchRoutes(routes, req.url) || [];
-  const pageDatas = await loadPageResources(matchedRoutes);
+  const pageDatas = await loadPageResources(matchedRoutes, false, req.api);
 
   const data = {
     pageDatas,
@@ -33,7 +33,7 @@ export const renderer = async (
 
   const jsx = chunkExtractor.collectChunks(
     <StaticRouter location={req.url}>
-      <App {...data} />
+      <App {...data} api={req.api} />
     </StaticRouter>
   );
 
