@@ -9,5 +9,17 @@ module.exports = (api) => {
       "@babel/plugin-transform-react-jsx",
       "@babel/plugin-transform-react-display-name",
     ],
+    env: {
+      node: {
+        plugins: [
+          [
+            "babel-plugin-transform-require-ignore",
+            {
+              extensions: [".css"],
+            },
+          ],
+        ],
+      },
+    },
   };
 };
