@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "babel": "babel src --extensions \".ts,.tsx\" --ignore \"**/*.d.ts\" --out-dir dist/ --copy-files",
+    "babel": "BABEL_ENV=node babel src --extensions \".ts,.tsx\" --ignore \"**/*.d.ts\" --out-dir dist/ --copy-files",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
     "dev:watch-server": "nodemon --watch dist --exec \"node dist/server/index.js\"",
@@ -13,7 +13,7 @@
     "dev:watch-web": "webpack build --watch",
     "dev:node": "yarn run babel --delete-dir-on-start",
     "dev:watch-node": "yarn run babel --watch",
-    "dev": "npm-run-all dev:node dev:web  --parallel dev:watch-** type-check:watch"
+    "dev": " export $(cat .env) && npm-run-all dev:node dev:web  --parallel dev:watch-** type-check:watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
@@ -32,12 +32,18 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-helmet": "^6.1.5",
     "@types/serialize-javascript": "^5.0.2",
+    "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
+    "babel-plugin-transform-require-ignore": "^0.1.1",
+    "css-loader": "^6.7.1",
     "dotenv": "^16.0.2",
     "dotenv-webpack": "^8.0.1",
     "express": "^4.18.1",
+    "mini-css-extract-plugin": "^2.6.1",
     "nodemon": "^2.0.20",
     "npm-run-all": "^4.1.5",
+    "postcss-loader": "^7.0.1",
+    "tailwindcss": "^3.2.1",
     "typescript": "^4.8.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
