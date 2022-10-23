@@ -5,27 +5,38 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev:cleanup-dist": "rm -rf dist",
+    "babel": "babel src --extensions \".ts,.tsx\" --ignore \"**/*.d.ts\" --out-dir dist/ --copy-files",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch",
     "dev:watch-server": "nodemon --watch dist --exec \"node dist/server/index.js\"",
     "dev:web": "webpack build",
     "dev:watch-web": "webpack build --watch",
-    "dev:node": "tsc --build",
-    "dev:watch-node": "tsc --build --watch",
-    "dev": "npm-run-all dev:cleanup-dist dev:web dev:node --parallel dev:watch-**",
-    "type-check": "tsc --noEmit"
+    "dev:node": "yarn run babel --delete-dir-on-start",
+    "dev:watch-node": "yarn run babel --watch",
+    "dev": "npm-run-all dev:node dev:web  --parallel dev:watch-** type-check:watch"
   },
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.19.3",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-transform-react-display-name": "^7.18.6",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
+    "@babel/preset-env": "^7.19.4",
+    "@babel/preset-typescript": "^7.18.6",
+    "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.15.2",
     "@types/express": "^4.17.14",
     "@types/loadable__component": "^5.13.4",
     "@types/loadable__server": "^5.12.6",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/serialize-javascript": "^5.0.2",
+    "babel-loader": "^8.2.5",
     "dotenv": "^16.0.2",
+    "dotenv-webpack": "^8.0.1",
     "express": "^4.18.1",
     "nodemon": "^2.0.20",
     "npm-run-all": "^4.1.5",
-    "ts-loader": "^9.4.1",
     "typescript": "^4.8.3",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
@@ -34,7 +45,10 @@
     "@loadable/component": "^5.15.2",
     "@loadable/server": "^5.15.2",
     "@types/react-dom": "^18.0.6",
+    "axios": "^1.1.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.2",
+    "serialize-javascript": "^6.0.0"
   }
 }

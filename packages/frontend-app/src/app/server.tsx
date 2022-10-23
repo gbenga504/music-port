@@ -1,26 +1,55 @@
 import path from "path";
 import React from "react";
-import { Request, Response } from "express";
 import { renderToString } from "react-dom/server";
 import { ChunkExtractor } from "@loadable/server";
+import { StaticRouter } from "react-router-dom/server";
+import { matchRoutes } from "react-router-dom";
+import serialize from "serialize-javascript";
+
+import type { Request, Response } from "express";
 
 import App from "./App";
+import routes from "./routes";
+import { loadPageResources } from "./utils/routeUtils";
 
-export const renderer = (_req: Request, _res: Response): string => {
+export const renderer = async (
+  req: Request,
+  _res: Response,
+  error?: Error
+): Promise<string> => {
   const statsFile = path.resolve(__dirname, "../../dist/public/stats.json");
-  const chunkExtractor = new ChunkExtractor({ statsFile });
+  const chunkExtractor = new ChunkExtractor({
+    statsFile,
+    entrypoints: ["client"],
+  });
 
-  const jsx = chunkExtractor.collectChunks(<App />);
+  const matchedRoutes = matchRoutes(routes, req.url) || [];
+  const pageDatas = await loadPageResources(matchedRoutes, false, req.api);
+
+  const data = {
+    pageDatas,
+    error,
+  };
+
+  const jsx = chunkExtractor.collectChunks(
+    <StaticRouter location={req.url}>
+      <App {...data} api={req.api} />
+    </StaticRouter>
+  );
+
   const jsxHTML = renderToString(jsx);
 
   return `
-    <html>
+    <!doctype html>
       <head>
-        <title>Music port app</title>
+        <title>Music port</title>
       </head>
       <body>
         <div id="root">${jsxHTML}</div>
         ${chunkExtractor.getScriptTags()}
+        <script id="app-data" type="application/json">${serialize(data, {
+          isJSON: true,
+        })}</script>
       </body>
     </html>
   `;

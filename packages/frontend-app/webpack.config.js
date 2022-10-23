@@ -1,8 +1,9 @@
 const path = require("path");
 const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  entry: "./src/app/client.tsx",
+  entry: { client: "./src/app/client.tsx" },
   mode: "development",
   output: {
     publicPath: "/public/",
@@ -13,15 +14,19 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", "..."],
   },
+  devtool:
+    process.env.NODE_ENV === "production" ? "source-map" : "eval-source-map",
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        loader: "ts-loader",
+        test: /\.(ts|tsx|js)$/,
+        loader: "babel-loader",
+        exclude: /node_modules/,
       },
     ],
   },
   plugins: [
     new LoadableWebpackPlugin({ filename: "stats.json", writeToDisk: true }),
+    new Dotenv(),
   ],
 };
