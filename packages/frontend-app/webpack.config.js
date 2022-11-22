@@ -25,7 +25,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
+        test: /\.s?css$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -33,7 +33,6 @@ module.exports = {
             options: {
               url: {
                 filter: (url) => {
-                  console.log("Maluu", url);
                   return !url.startsWith("/");
                 },
               },
@@ -45,6 +44,7 @@ module.exports = {
               sourceMap: true,
             },
           },
+          "sass-loader",
         ],
       },
     ],
