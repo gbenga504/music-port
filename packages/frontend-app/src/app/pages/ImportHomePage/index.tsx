@@ -11,7 +11,7 @@ const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
         title="Import HomePage"
         description="Import your music from a range of music streaming platforms"
       />
-      <AppHeader progressBar={{ value: 10 }} />
+      <AppHeader progressBar={{ value: 10 }} showExportButton={true} />
     </div>
   );
 };

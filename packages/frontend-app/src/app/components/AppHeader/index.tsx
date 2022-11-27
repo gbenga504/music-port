@@ -9,9 +9,15 @@ import {
 
 interface IProps {
   progressBar: IProgressBarProps;
+  showExportButton?: boolean;
+  showImportButton?: boolean;
 }
 
-export const AppHeader: React.FC<IProps> = ({ progressBar }) => {
+export const AppHeader: React.FC<IProps> = ({
+  progressBar,
+  showExportButton,
+  showImportButton,
+}) => {
   return (
     <div className="w-full">
       <nav className="w-4/5 m-auto flex justify-between items-center h-24">
@@ -23,9 +29,16 @@ export const AppHeader: React.FC<IProps> = ({ progressBar }) => {
           <Button variant="text" size="medium" href="#">
             Github
           </Button>
-          <Button variant="contained" size="medium" to="#">
-            Export
-          </Button>
+          {showExportButton && (
+            <Button variant="contained" size="medium" to="#">
+              Export
+            </Button>
+          )}
+          {showImportButton && (
+            <Button variant="contained" size="medium" to="#">
+              Import
+            </Button>
+          )}
         </Space>
       </nav>
       <ProgressBar {...progressBar} />
