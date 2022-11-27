@@ -4,6 +4,7 @@ import pick from "lodash/pick";
 import classNames from "classnames";
 
 import "./index.scss";
+import { SpinnerIcon } from "../icons/SpinnerIcon";
 
 import type { ReactNode, MouseEventHandler } from "react";
 
@@ -68,6 +69,8 @@ export const Button: React.FC<IProps> = (props) => {
     variant = "contained",
     size = "medium",
     color = "primary",
+    loading,
+    disabled = false,
   } = props;
 
   const buttonClassName = classNames(className, "button", {
@@ -94,8 +97,19 @@ export const Button: React.FC<IProps> = (props) => {
   }
 
   return (
-    <button className={buttonClassName} {...NativeButtonProps(props)}>
-      {children}
+    <button
+      className={buttonClassName}
+      {...NativeButtonProps(props)}
+      disabled={loading ? true : disabled}
+    >
+      {loading ? (
+        <>
+          <SpinnerIcon />
+          <span className="ml-2">Loading</span>
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 };
