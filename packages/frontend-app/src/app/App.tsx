@@ -76,7 +76,11 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   }, [location]);
 
   return (
-    <ErrorBoundary error={error}>{renderMatches(matchedRoutes)}</ErrorBoundary>
+    <ErrorBoundary error={error}>
+      <div className="bg-page min-h-full h-fit">
+        {renderMatches(matchedRoutes)}
+      </div>
+    </ErrorBoundary>
   );
 };
 

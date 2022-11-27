@@ -15,7 +15,7 @@ module.exports = (api) => {
           [
             "babel-plugin-transform-require-ignore",
             {
-              extensions: [".css"],
+              extensions: [".css", ".scss"],
             },
           ],
         ],

@@ -1,19 +1,19 @@
 import React from "react";
-import "./index.css";
 
 import { HeadMarkup } from "../../components/HeadMarkup";
+import { AppHeader } from "../../components/AppHeader";
 import { ILoadableComponentProps } from "../../utils/routeUtils";
 
-const Home = (props: ILoadableComponentProps) => {
+const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
   return (
-    <>
-      <HeadMarkup title="Home" />
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <span>
-        Gbenga<button onClick={() => console.log(props)}>click me</button>
-      </span>
-    </>
+    <div>
+      <HeadMarkup
+        title="Import HomePage"
+        description="Import your music from a range of music streaming platforms"
+      />
+      <AppHeader progressBar={{ value: 10 }} />
+    </div>
   );
 };
 
-export default Home;
+export default ImportHomePage;

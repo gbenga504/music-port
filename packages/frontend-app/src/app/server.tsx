@@ -43,7 +43,7 @@ export const renderer = async (
 
   const content = `
     <!doctype html>
-      <html lang="en">
+      <html lang="en" style="height: 100%">
       <head>
         <meta charset="utf-8">
         <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport" />
@@ -52,6 +52,9 @@ export const renderer = async (
         <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
@@ -59,8 +62,8 @@ export const renderer = async (
         ${helmet.script.toString()}
         ${chunkExtractor.getStyleTags()}
       </head>
-      <body>
-        <div id="root">${jsxHTML}</div>
+      <body style="height: 100%">
+        <div style="height: 100%" id="root">${jsxHTML}</div>
         ${chunkExtractor.getScriptTags()}
         <script id="app-data" type="application/json">${serialize(data, {
           isJSON: true,
