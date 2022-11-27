@@ -9,7 +9,7 @@
 
   .button-contained {
     &.button-primary {
-      @apply bg-black text-white;
+      @apply bg-black text-white font-light;
 
       &:hover,
       &:active,
@@ -33,7 +33,7 @@
 
   .button-text {
     &.button-primary {
-      @apply text-black;
+      @apply text-black font-light;
 
       &:hover,
       &:active,
