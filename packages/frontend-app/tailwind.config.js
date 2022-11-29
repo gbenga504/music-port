@@ -10,6 +10,11 @@ module.exports = {
       backgroundColor: {
         page: "#FFFDFA",
       },
+      textColor: {
+        title: "rgb(41, 43, 41)",
+        subTitle: "rgb(86, 93, 90)",
+        placeholder: "#6f7672",
+      },
     },
   },
   plugins: [],

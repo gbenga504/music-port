@@ -43,7 +43,7 @@ export const renderer = async (
 
   const content = `
     <!doctype html>
-      <html lang="en" style="height: 100%">
+      <html lang="en" style="height: 100%; color: rgb(86, 93, 90)">
       <head>
         <meta charset="utf-8">
         <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport" />

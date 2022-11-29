@@ -25,17 +25,8 @@ interface IProps {
 
 const NativeButtonProps = (
   props: IProps
-): Pick<
-  IProps,
-  "htmlType" | "disabled" | "onClick" | "children" | "className"
-> => {
-  return pick(props, [
-    "htmlType",
-    "disabled",
-    "onClick",
-    "children",
-    "className",
-  ]);
+): Pick<IProps, "disabled" | "onClick" | "children" | "className"> => {
+  return pick(props, ["disabled", "onClick", "children", "className"]);
 };
 
 const NativeAnchorProps = (
@@ -71,6 +62,7 @@ export const Button: React.FC<IProps> = (props) => {
     color = "primary",
     loading,
     disabled = false,
+    htmlType,
   } = props;
 
   const buttonClassName = classNames(className, "button", {
@@ -84,13 +76,13 @@ export const Button: React.FC<IProps> = (props) => {
 
   if (href) {
     return (
-      <a className={buttonClassName} {...NativeAnchorProps(props)}>
+      <a {...NativeAnchorProps(props)} className={buttonClassName}>
         {children}
       </a>
     );
   } else if (to) {
     return (
-      <Link className={buttonClassName} {...ClientSideLinkProps(props)}>
+      <Link {...ClientSideLinkProps(props)} className={buttonClassName}>
         {children}
       </Link>
     );
@@ -98,9 +90,10 @@ export const Button: React.FC<IProps> = (props) => {
 
   return (
     <button
-      className={buttonClassName}
       {...NativeButtonProps(props)}
+      className={buttonClassName}
       disabled={loading ? true : disabled}
+      type={htmlType}
     >
       {loading ? (
         <>
