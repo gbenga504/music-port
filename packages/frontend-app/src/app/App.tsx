@@ -61,7 +61,6 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
     (async function () {
       const pageDatas = await loadPageResources(
         matchRoutes(routes, location),
-        true,
         api
       );
       const matchedRoutes = transformMatchedRoutes({

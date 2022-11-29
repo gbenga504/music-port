@@ -27,23 +27,20 @@ interface ILoadPageDataPromise {
 
 export const loadPageResources = async (
   matchedRoutes: IMacthedRoutes,
-  shouldLoadComponent = false,
   api: ReturnType<typeof createApiClient>,
 ): Promise<IPageDatas> => {
   const matchedRoutesPromises = matchedRoutes!.map((matchedRoute) => {
     if (matchedRoute.route.loadData) {
       return new Promise<ILoadPageDataPromise>(async (resolve) => {
+        let data = null;
+
+        await matchedRoute.route.component.load();
+
         if (matchedRoute.route.loadData) {
-          const data = await matchedRoute.route.loadData({ api });
-
-          if (shouldLoadComponent) {
-            await matchedRoute.route.component.load();
-          }
-
-          resolve({ id: matchedRoute.route.id, data });
+          data = await matchedRoute.route.loadData({ api });
         }
 
-        resolve({ id: matchedRoute.route.id, data: null });
+        resolve({ id: matchedRoute.route.id, data });
       });
     }
 

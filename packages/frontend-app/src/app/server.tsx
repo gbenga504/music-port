@@ -25,7 +25,7 @@ export const renderer = async (
   });
 
   const matchedRoutes = matchRoutes(routes, req.url) || [];
-  const pageDatas = await loadPageResources(matchedRoutes, false, req.api);
+  const pageDatas = await loadPageResources(matchedRoutes, req.api);
 
   const data = {
     pageDatas,
