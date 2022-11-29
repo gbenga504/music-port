@@ -10,6 +10,15 @@ const routes: RouteObjectWithLoadData[] = [
     component: loadable<ILoadableComponentProps>(
       () => import("./pages/ImportHomePage"),
     ),
+    children: [
+      {
+        id: "home-paste-link",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ImportHomePage/PasteLink"),
+        ),
+      },
+    ],
   },
 ];
 

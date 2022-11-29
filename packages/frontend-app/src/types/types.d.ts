@@ -13,6 +13,7 @@ declare module "react-router-dom" {
       api: ReturnType<typeof createApiClient>;
     }) => Promise<IPageDatas>;
     component: LoadableComponent;
+    children?: RouteObjectWithLoadData[];
   };
 }
 
