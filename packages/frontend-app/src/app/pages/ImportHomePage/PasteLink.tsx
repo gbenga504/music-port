@@ -1,15 +1,22 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import * as formValidation from "../../utils/formValidation";
+import { constructURL } from "../../utils/url";
 
 import type { ILoadableComponentProps } from "../../utils/routeUtils";
 import type { importMusicFormInputs } from "../../utils/formValidation";
+import { routeIds } from "../../routes";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
-  const handleSubmitFormValues = (_values: importMusicFormInputs) => {};
+  const navigate = useNavigate();
+
+  const handleSubmitFormValues = (_values: importMusicFormInputs) => {
+    navigate(constructURL({ routeId: routeIds.importReview }));
+  };
 
   return (
     <div className="flex justify-between">
