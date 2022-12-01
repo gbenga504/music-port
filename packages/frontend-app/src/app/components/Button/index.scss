@@ -33,6 +33,10 @@
     &.button-fullWidth {
       @apply w-full;
     }
+
+    &.button-disabled {
+      @apply bg-stone-600;
+    }
   }
 
   .button-text {

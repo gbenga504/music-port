@@ -78,6 +78,7 @@ export const Button: React.FC<IProps> = (props) => {
     "button-small": size === "small",
     "button-primary": color === "primary",
     "button-fullWidth": fullWidth === true,
+    "button-disabled": disabled === true && isButton,
     "cursor-not-allowed": disabled === true && isButton,
   });
 
