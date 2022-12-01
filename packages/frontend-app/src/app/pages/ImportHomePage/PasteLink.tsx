@@ -1,11 +1,16 @@
 import React from "react";
+import { Form, Field } from "react-final-form";
 
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
+import * as formValidation from "../../utils/formValidation";
 
 import type { ILoadableComponentProps } from "../../utils/routeUtils";
+import type { importMusicFormInputs } from "../../utils/formValidation";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
+  const handleSubmitFormValues = (_values: importMusicFormInputs) => {};
+
   return (
     <div className="flex justify-between">
       <div className="w-2/5">
@@ -17,14 +22,42 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
         </p>
       </div>
       <div className="w-2/4">
-        <form>
-          <Input placeholder="Enter a streaming link" size="large" fullWidth />
-          <div className="mt-12">
-            <Button variant="contained" size="large" htmlType="submit">
-              Import
-            </Button>
-          </div>
-        </form>
+        <Form
+          onSubmit={handleSubmitFormValues}
+          validate={formValidation.validateFormInputsForImportMusic}
+          subscription={{ dirty: true, invalid: true, error: true }}
+          render={({ handleSubmit, form }) => {
+            const { invalid, dirty } = form.getState();
+
+            return (
+              <form onSubmit={handleSubmit}>
+                <Field
+                  name="link"
+                  render={({ input, meta }) => (
+                    <Input
+                      placeholder="Enter a streaming link"
+                      size="large"
+                      fullWidth
+                      error={Boolean(meta.error)}
+                      helperText={meta.error}
+                      {...input}
+                    />
+                  )}
+                />
+                <div className="mt-12">
+                  <Button
+                    variant="contained"
+                    size="large"
+                    htmlType="submit"
+                    disabled={invalid || !dirty}
+                  >
+                    Import
+                  </Button>
+                </div>
+              </form>
+            );
+          }}
+        />
       </div>
     </div>
   );
