@@ -57,3 +57,25 @@ export const loadPageResources = async (
     return acc;
   }, {});
 };
+
+export const getPath = ({
+  routes,
+  routeId,
+}: {
+  routes: RouteObjectWithLoadData[];
+  routeId: string;
+}): string | undefined => {
+  if (routes.length === 0) return undefined;
+
+  const [firstRoute, ...restRoutes] = routes;
+
+  if (firstRoute.id === routeId) {
+    return firstRoute.path;
+  } else if (firstRoute.children) {
+    const path = getPath({ routes: firstRoute.children, routeId });
+
+    if (path) return path;
+  }
+
+  return getPath({ routes: restRoutes, routeId });
+};
