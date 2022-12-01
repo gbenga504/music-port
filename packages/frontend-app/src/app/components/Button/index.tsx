@@ -21,6 +21,8 @@ interface IProps {
   children?: ReactNode;
   className?: string;
   color?: "primary";
+  loadingText?: string;
+  fullWidth?: boolean;
 }
 
 const NativeButtonProps = (
@@ -63,7 +65,10 @@ export const Button: React.FC<IProps> = (props) => {
     loading,
     disabled = false,
     htmlType,
+    loadingText,
+    fullWidth,
   } = props;
+  const isButton = !href && !to;
 
   const buttonClassName = classNames(className, "button", {
     "button-contained": variant === "contained",
@@ -72,6 +77,8 @@ export const Button: React.FC<IProps> = (props) => {
     "button-medium": size === "medium",
     "button-small": size === "small",
     "button-primary": color === "primary",
+    "button-fullWidth": fullWidth === true,
+    "cursor-not-allowed": disabled === true && isButton,
   });
 
   if (href) {
@@ -98,7 +105,7 @@ export const Button: React.FC<IProps> = (props) => {
       {loading ? (
         <>
           <SpinnerIcon />
-          <span className="ml-2">Loading</span>
+          <span className="ml-2">{loadingText || "Loading"}</span>
         </>
       ) : (
         children

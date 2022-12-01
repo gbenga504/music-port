@@ -29,6 +29,10 @@
     &.button-small {
       @apply rounded-sm h-6 px-3 text-sm;
     }
+
+    &.button-fullWidth {
+      @apply w-full;
+    }
   }
 
   .button-text {
