@@ -13,6 +13,7 @@ import type { createApiClient } from "./api";
 import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "./utils/routeUtils";
+import { ProgressBar } from "./components/ProgressBar";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -53,12 +54,15 @@ interface IProps {
 
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   const location = useLocation();
+  const [isPageLoading, setIsPageLoading] = useState(false);
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>([
     ...(transformMatchedRoutes({ routes, location, pageDatas, api }) || []),
   ]);
 
   useEffect(() => {
     (async function () {
+      setIsPageLoading(true);
+
       const pageDatas = await loadPageResources(
         matchRoutes(routes, location),
         api
@@ -70,12 +74,14 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
         api,
       });
 
+      setIsPageLoading(false);
       setMatchedRoutes(matchedRoutes);
     })();
   }, [location]);
 
   return (
     <ErrorBoundary error={error}>
+      {isPageLoading && <ProgressBar variant="indeterminate" />}
       <div className="bg-page min-h-full h-fit">
         {renderMatches(matchedRoutes)}
       </div>
