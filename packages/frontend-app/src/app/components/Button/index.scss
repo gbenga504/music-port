@@ -18,8 +18,12 @@
       }
     }
 
-    &.button-large {
+    &.button-xlarge {
       @apply rounded-lg h-16 px-10;
+    }
+
+    &.button-large {
+      @apply rounded-lg h-12 px-6;
     }
 
     &.button-medium {
@@ -48,6 +52,10 @@
       &:focus {
         @apply underline;
       }
+    }
+
+    &.button-xlarge {
+      @apply text-xl;
     }
 
     &.button-large {

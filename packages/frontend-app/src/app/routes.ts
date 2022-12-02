@@ -7,6 +7,7 @@ export const routeIds = {
   import: "import",
   importPasteLink: "importPasteLink",
   importReview: "importReview",
+  importCopyExportLink: "importCopyExportLink",
 };
 
 const routes: RouteObjectWithLoadData[] = [
@@ -30,6 +31,13 @@ const routes: RouteObjectWithLoadData[] = [
         path: "/review",
         component: loadable<ILoadableComponentProps>(
           () => import("./pages/ImportHomePage/Review"),
+        ),
+      },
+      {
+        id: routeIds.importCopyExportLink,
+        path: "/copy-export-link",
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ImportHomePage/CopyExportLink"),
         ),
       },
     ],

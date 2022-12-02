@@ -21,7 +21,7 @@ const Review: React.FC<ILoadableComponentProps> = () => {
           disabled
           loading
           fullWidth
-          size="large"
+          size="x-large"
           loadingText="Generating export link..."
         />
       </div>

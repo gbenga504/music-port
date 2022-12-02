@@ -10,7 +10,7 @@ import type { ReactNode, MouseEventHandler } from "react";
 
 interface IProps {
   variant?: "contained" | "text";
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | "large" | "x-large";
   htmlType?: "submit" | "button" | "reset";
   href?: string;
   to?: string;
@@ -74,6 +74,7 @@ export const Button: React.FC<IProps> = (props) => {
     "button-contained": variant === "contained",
     "button-text": variant === "text",
     "button-large": size === "large",
+    "button-xlarge": size === "x-large",
     "button-medium": size === "medium",
     "button-small": size === "small",
     "button-primary": color === "primary",

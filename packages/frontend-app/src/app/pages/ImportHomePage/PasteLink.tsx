@@ -54,7 +54,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
                 <div className="mt-12">
                   <Button
                     variant="contained"
-                    size="large"
+                    size="x-large"
                     htmlType="submit"
                     disabled={invalid || !dirty}
                   >
