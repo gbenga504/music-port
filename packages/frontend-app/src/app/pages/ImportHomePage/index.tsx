@@ -12,11 +12,18 @@ const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
 
   useEffect(() => {
     let reviewPath = getPath({ routes, routeId: routeIds.importReview });
+    let copyExportLinkPath = getPath({
+      routes,
+      routeId: routeIds.importCopyExportLink,
+    });
     let result = 0;
 
     switch (location.pathname) {
       case reviewPath:
         result = 47;
+        break;
+      case copyExportLinkPath:
+        result = 100;
         break;
       default:
         result = 10;
