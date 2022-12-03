@@ -81,7 +81,11 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
 
   return (
     <ErrorBoundary error={error}>
-      {isPageLoading && <ProgressBar variant="indeterminate" />}
+      {isPageLoading && (
+        <div className="absolute w-screen">
+          <ProgressBar variant="indeterminate" />
+        </div>
+      )}
       <div className="bg-page min-h-full h-fit">
         {renderMatches(matchedRoutes)}
       </div>
