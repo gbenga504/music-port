@@ -22,6 +22,7 @@ export function authenticate(
       authenticationMethodForPlatform = deezer.authenticate;
       break;
     default:
+      // TODO: Handle error properly
       throw new Error("UNKNOWN");
   }
 

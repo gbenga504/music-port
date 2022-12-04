@@ -23,4 +23,8 @@ declare global {
       api: ReturnType<typeof createApiClient>;
     }
   }
+
+  interface Error {
+    status: number;
+  }
 }

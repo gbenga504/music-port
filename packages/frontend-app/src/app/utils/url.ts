@@ -8,6 +8,5 @@ export const constructURL = ({ routeId }: { routeId: string }): string => {
     return path;
   }
 
-  // TODO: throw a proper error
-  throw new Error("Cannot find path");
+  throw new Error(`Cannot find path with routeId ${routeId}`);
 };
