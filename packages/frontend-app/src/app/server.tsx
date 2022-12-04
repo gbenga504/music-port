@@ -75,8 +75,12 @@ export const renderer = async (
   let status = 200;
 
   if (error) {
-    //TODO: Get proper status code for other cases
-    status = 404;
+    console.error(
+      `------------------- Server error --------------------------`
+    );
+    console.error(error.stack);
+
+    status = error.status;
   }
 
   return { content, status };

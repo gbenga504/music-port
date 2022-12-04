@@ -8,6 +8,7 @@ import {
   nullabilityGuardPlugin,
 } from "nexus";
 import { createGraphQLContext } from "../framework/create-graphql-context";
+import { UnauthorizedError } from "../errors/unauthorized-error";
 
 const schema = makeSchema({
   types: [],
@@ -15,10 +16,10 @@ const schema = makeSchema({
     schema: join(__dirname, "nexus.gen.graphql"),
     typegen: join(__dirname, "nexus.gen.ts"),
   },
-  // TODO: The field authorize plugin should be configured to throw a NotPermittedError
-  // Also in future, it might be a good idea to look into query complexities
   plugins: [
-    fieldAuthorizePlugin(),
+    fieldAuthorizePlugin({
+      formatError: () => new UnauthorizedError({ message: "not authorized" }),
+    }),
     connectionPlugin(),
     nullabilityGuardPlugin({
       onGuarded({ info }) {

@@ -14,6 +14,7 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "./utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
+import { NotFoundError } from "../errors/not-found-error";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -29,6 +30,10 @@ const transformMatchedRoutes = ({
   api,
 }: ITransformMatchedRoutesParams): IMacthedRoutes => {
   const matchedRoutes = matchRoutes(routes, location);
+
+  if (!matchedRoutes) {
+    throw new NotFoundError();
+  }
 
   return matchedRoutes!.map((matchedRoute) => {
     const Component = matchedRoute.route
@@ -55,9 +60,12 @@ interface IProps {
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   const location = useLocation();
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>([
-    ...(transformMatchedRoutes({ routes, location, pageDatas, api }) || []),
-  ]);
+  const transformedMatchedRoutes = error
+    ? []
+    : [...(transformMatchedRoutes({ routes, location, pageDatas, api }) || [])];
+  const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>(
+    transformedMatchedRoutes
+  );
 
   useEffect(() => {
     (async function () {
