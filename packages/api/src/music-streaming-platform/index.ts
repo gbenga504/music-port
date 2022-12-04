@@ -1,5 +1,6 @@
 import spotify from "./spotify";
 import deezer from "./deezer";
+import { InvalidMusicStreamingPlatformError } from "../errors/invalid-music-streaming-platform-error";
 
 import type { IMusicStreamingPlatform } from "./types";
 
@@ -22,8 +23,9 @@ export function authenticate(
       authenticationMethodForPlatform = deezer.authenticate;
       break;
     default:
-      // TODO: Handle error properly
-      throw new Error("UNKNOWN");
+      throw new InvalidMusicStreamingPlatformError({
+        message: `No authentication method available for ${platform}`,
+      });
   }
 
   return authenticationMethodForPlatform(...rest);

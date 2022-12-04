@@ -6,4 +6,8 @@ declare global {
       ctx: ReturnType<typeof createContext>;
     }
   }
+
+  interface Error {
+    status?: number;
+  }
 }

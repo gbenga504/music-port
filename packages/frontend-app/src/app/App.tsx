@@ -14,7 +14,7 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "./utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
-import { NotFound } from "../errors/not-found";
+import { NotFoundError } from "../errors/not-found-error";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -32,7 +32,7 @@ const transformMatchedRoutes = ({
   const matchedRoutes = matchRoutes(routes, location);
 
   if (!matchedRoutes) {
-    throw new NotFound();
+    throw new NotFoundError();
   }
 
   return matchedRoutes!.map((matchedRoute) => {
