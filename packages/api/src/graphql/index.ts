@@ -10,8 +10,10 @@ import {
 import { createGraphQLContext } from "../framework/create-graphql-context";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 
+import * as Playlist from "../playlist/graphql";
+
 const schema = makeSchema({
-  types: [],
+  types: [Playlist],
   outputs: {
     schema: join(__dirname, "nexus.gen.graphql"),
     typegen: join(__dirname, "nexus.gen.ts"),

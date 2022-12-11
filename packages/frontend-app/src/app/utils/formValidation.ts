@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z, ZodError } from "zod";
 
 const importMusicSchema = z.object({
   link: z.string().url(),
@@ -20,9 +20,13 @@ export const validateFormInputsForImportMusic = (input: {
 
     return {};
   } catch (error) {
-    const formattedError = error.format() as unknown as {
-      [key: string]: { _errors: string[] };
-    };
+    let formattedError: { [key: string]: { _errors: string[] } } = {};
+
+    if (error instanceof ZodError) {
+      formattedError = error.format() as unknown as {
+        [key: string]: { _errors: string[] };
+      };
+    }
 
     return Object.keys(formattedError).reduce(
       (acc: { [key: string]: string }, field) => {

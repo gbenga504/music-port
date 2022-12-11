@@ -1,8 +1,13 @@
+import axios from "axios";
 import passport from "passport";
 import { Strategy } from "passport-spotify";
-import type { StrategyOptions } from "passport-spotify";
 
+import { AxiosError } from "axios";
+import type { StrategyOptions } from "passport-spotify";
 import type { IMusicStreamingPlatform } from "./types";
+import type { IRawPlaylist } from "../models";
+
+import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
 
 const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -41,6 +46,86 @@ class Spotify implements IMusicStreamingPlatform {
       },
       args[1],
     );
+  }
+
+  async getPlaylist({
+    accessToken,
+    link,
+  }: {
+    accessToken: string;
+    link: string;
+  }): Promise<IRawPlaylist> {
+    const regex = /[a-zA-Z\d]+(?=\?)/;
+    const playlistId = regex.exec(link)![0];
+    const url = `https://api.spotify.com/v1/playlists/${playlistId}`;
+
+    try {
+      const { data } = await axios.get(url, {
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+
+      return this.transformPlaylistToInternalFormat(data);
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        const { data, status } = error.response;
+
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: data?.error?.message,
+          code: status,
+        });
+      }
+
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "An unknown error occurred",
+        code: 0,
+      });
+    }
+  }
+
+  transformPlaylistToInternalFormat(data: {
+    [key: string]: any;
+  }): IRawPlaylist {
+    type Image = IRawPlaylist["images"][number];
+    type Song = IRawPlaylist["songs"][number];
+
+    return {
+      importLink: data.external_urls.spotify,
+      images: data.images.map((image: Image) => ({
+        url: image.url,
+        width: image.width,
+        height: image.height,
+      })),
+      apiLink: data.href,
+      name: data.name,
+      owner: {
+        name: data.owner.display_name,
+      },
+      songs: data.tracks.items.map((item: any) => {
+        const {
+          track,
+          track: { album },
+        } = item;
+
+        const artists: Song["artists"] = album.artists.map(
+          (artist: { name: string }) => ({
+            name: artist.name,
+          }),
+        );
+
+        const images: Song["images"] = album.images.map((image: Image) => ({
+          url: image.url,
+          width: image.width,
+          height: image.height,
+        }));
+
+        return {
+          artists,
+          images,
+          name: track.name,
+          previewURL: track.preview_url,
+        };
+      }),
+    };
   }
 }
 

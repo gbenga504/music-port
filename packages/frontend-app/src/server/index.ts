@@ -28,7 +28,7 @@ app.get("/*", async (req, res) => {
     const { content, status } = await renderer(req, res);
     return res.status(status).send(content);
   } catch (error) {
-    const { content, status } = await renderer(req, res, error);
+    const { content, status } = await renderer(req, res, error as Error);
     return res.status(status).send(content);
   }
 });
