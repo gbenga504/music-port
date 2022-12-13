@@ -98,6 +98,6 @@ type PlaylistSongArtist {
 }
 
 type Query {
-  getPlaylistByExportLink(exportLink: String!): Playlist
-  getPlaylistById(id: ID!): Playlist
+  playlistByExportLink(exportLink: String!): Playlist
+  playlistById(id: ID!): Playlist
 }

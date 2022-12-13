@@ -131,8 +131,8 @@ export interface NexusGenFieldTypes {
   };
   Query: {
     // field return type
-    getPlaylistByExportLink: NexusGenRootTypes["Playlist"] | null; // Playlist
-    getPlaylistById: NexusGenRootTypes["Playlist"] | null; // Playlist
+    playlistByExportLink: NexusGenRootTypes["Playlist"] | null; // Playlist
+    playlistById: NexusGenRootTypes["Playlist"] | null; // Playlist
   };
 }
 
@@ -186,8 +186,8 @@ export interface NexusGenFieldTypeNames {
   };
   Query: {
     // field return type name
-    getPlaylistByExportLink: "Playlist";
-    getPlaylistById: "Playlist";
+    playlistByExportLink: "Playlist";
+    playlistById: "Playlist";
   };
 }
 
@@ -199,11 +199,11 @@ export interface NexusGenArgTypes {
     };
   };
   Query: {
-    getPlaylistByExportLink: {
+    playlistByExportLink: {
       // args
       exportLink: string; // String!
     };
-    getPlaylistById: {
+    playlistById: {
       // args
       id: string; // ID!
     };

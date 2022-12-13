@@ -121,7 +121,7 @@ export const importPlaylist = mutationField("importPlaylist", {
   },
 });
 
-export const getPlaylistById = queryField("getPlaylistById", {
+export const playlistById = queryField("playlistById", {
   type: nullable(Playlist),
   args: {
     id: idArg(),
@@ -133,7 +133,7 @@ export const getPlaylistById = queryField("getPlaylistById", {
   },
 });
 
-export const getPlaylistByExportLink = queryField("getPlaylistByExportLink", {
+export const playlistByExportLink = queryField("playlistByExportLink", {
   type: nullable(Playlist),
   args: {
     exportLink: stringArg(),
