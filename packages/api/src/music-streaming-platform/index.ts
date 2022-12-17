@@ -16,13 +16,16 @@ export function authenticate(
   ...rest: Parameters<IMusicStreamingPlatform["authenticate"]>
 ): ReturnType<IMusicStreamingPlatform["authenticate"]> {
   let authenticationMethodForPlatform = null;
+  let that = null;
 
   switch (platform) {
     case "spotify":
       authenticationMethodForPlatform = spotify.authenticate;
+      that = spotify;
       break;
     case "deezer":
       authenticationMethodForPlatform = deezer.authenticate;
+      that = deezer;
       break;
     default:
       throw new InvalidMusicStreamingPlatformError({
@@ -30,7 +33,7 @@ export function authenticate(
       });
   }
 
-  return authenticationMethodForPlatform(...rest);
+  return authenticationMethodForPlatform.bind(that)(...rest);
 }
 
 export function getPlaylist(
@@ -38,13 +41,16 @@ export function getPlaylist(
   ...rest: Parameters<IMusicStreamingPlatform["getPlaylist"]>
 ): ReturnType<IMusicStreamingPlatform["getPlaylist"]> {
   let getPlaylistMethod = null;
+  let that = null;
 
   switch (platform) {
     case "spotify":
       getPlaylistMethod = spotify.getPlaylist;
+      that = spotify;
       break;
     case "deezer":
       getPlaylistMethod = deezer.getPlaylist;
+      that = deezer;
       break;
     default:
       throw new InvalidMusicStreamingPlatformError({
@@ -52,7 +58,7 @@ export function getPlaylist(
       });
   }
 
-  return getPlaylistMethod(...rest);
+  return getPlaylistMethod.bind(that)(...rest);
 }
 
 export function getPlatformName(link: string): string | null {

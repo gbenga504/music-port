@@ -106,7 +106,7 @@ class Deezer implements IMusicStreamingPlatform {
       images: [
         { url: data.picture_small, width: 56, height: 56 },
         { url: data.picture_medium, width: 250, height: 250 },
-        { url: data.picture_large, width: 500, height: 500 },
+        { url: data.picture_big, width: 500, height: 500 },
       ],
       apiLink: data.tracklist,
       name: data.title,
@@ -123,7 +123,7 @@ class Deezer implements IMusicStreamingPlatform {
           images: [
             { url: item.album.cover_small, width: 56, height: 56 },
             { url: item.album.cover_medium, width: 250, height: 250 },
-            { url: item.album.cover_large, width: 500, height: 500 },
+            { url: item.album.cover_big, width: 500, height: 500 },
           ],
           name: item.title,
           previewURL: item.preview,

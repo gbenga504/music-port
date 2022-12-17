@@ -55,7 +55,9 @@ export function applyMiddleware() {
   return graphqlHTTP(function (req, _res) {
     return {
       schema,
-      graphiql: true,
+      graphiql: {
+        headerEditorEnabled: true,
+      },
       context: createGraphQLContext(req as Request),
     };
   });
