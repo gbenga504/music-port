@@ -99,6 +99,7 @@ export interface NexusGenFieldTypes {
     id: string; // String!
     images: NexusGenRootTypes["PlaylistImage"][]; // [PlaylistImage!]!
     importLink: string; // String!
+    importPlaylistId: string; // String!
     name: string; // String!
     owner: NexusGenRootTypes["PlaylistOwner"]; // PlaylistOwner!
     songs: NexusGenRootTypes["PlaylistSong"][]; // [PlaylistSong!]!
@@ -154,6 +155,7 @@ export interface NexusGenFieldTypeNames {
     id: "String";
     images: "PlaylistImage";
     importLink: "String";
+    importPlaylistId: "String";
     name: "String";
     owner: "PlaylistOwner";
     songs: "PlaylistSong";

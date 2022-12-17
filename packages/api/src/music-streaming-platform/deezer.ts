@@ -55,16 +55,20 @@ class Deezer implements IMusicStreamingPlatform {
     accessToken: string;
     link: string;
   }): Promise<IRawPlaylist> {
-    const playlistId = link.substring(link.lastIndexOf("/") + 1);
-    const url = `https://api.deezer.com/playlist/${playlistId}`;
+    const url = new URL(link);
+    const paths = url.pathname.split("/");
+    const playlistId = paths[paths.length - 1];
 
     try {
-      const { data } = await axios.get(url, {
-        headers: { Authorization: "Bearer " + accessToken },
-        params: {
-          access_token: accessToken,
+      const { data } = await axios.get(
+        `https://api.deezer.com/playlist/${playlistId}`,
+        {
+          headers: { Authorization: "Bearer " + accessToken },
+          params: {
+            access_token: accessToken,
+          },
         },
-      });
+      );
 
       if (data.error) {
         throw new MusicStreamingPlatformResourceFailureError({
@@ -73,7 +77,7 @@ class Deezer implements IMusicStreamingPlatform {
         });
       }
 
-      return this.transformPlaylistToInternalFormat(data);
+      return this.transformPlaylistToInternalFormat({ data, importLink: link });
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         const { data, status } = error.response;
@@ -98,11 +102,18 @@ class Deezer implements IMusicStreamingPlatform {
     }
   }
 
-  transformPlaylistToInternalFormat(data: {
-    [key: string]: any;
+  transformPlaylistToInternalFormat({
+    data,
+    importLink,
+  }: {
+    data: {
+      [key: string]: any;
+    };
+    importLink: string;
   }): IRawPlaylist {
     return {
-      importLink: data.link,
+      importLink,
+      importPlaylistId: data.id,
       images: [
         { url: data.picture_small, width: 56, height: 56 },
         { url: data.picture_medium, width: 250, height: 250 },

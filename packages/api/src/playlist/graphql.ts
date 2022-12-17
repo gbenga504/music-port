@@ -64,6 +64,9 @@ const Playlist = objectType({
       },
     });
     t.string("importLink", { description: "Link used to import playlist" });
+    t.string("importPlaylistId", {
+      description: "Playlist Id used on the music streaming platform",
+    });
     t.string("exportLink", { description: "Link used to export playlist" });
     t.list.field("images", {
       type: PlaylistImage,

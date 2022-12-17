@@ -26,6 +26,17 @@ export class PlaylistService {
   }): Promise<IPlaylist> {
     const platform = musicStreamingPlatform.getPlatformName(link);
 
+    // We don't want to send a request to the music streaming service neither
+    // do we want to save a playlist more than once. So we check if the import link
+    // already exists in our DB and we return early
+    const importPlaylistId = musicStreamingPlatform.getImportPlaylistId(link);
+    const existingPlaylist =
+      await this.playlistRepository.findOneByImportPlaylistId(importPlaylistId);
+
+    if (existingPlaylist) {
+      return existingPlaylist;
+    }
+
     const rawPlaylist = await musicStreamingPlatform.getPlaylist(platform, {
       accessToken,
       link,
@@ -48,7 +59,7 @@ export class PlaylistService {
   }: {
     exportLink: string;
   }): Promise<IPlaylist | null> {
-    return this.playlistRepository.findByExportLink(exportLink);
+    return this.playlistRepository.findOneByExportLink(exportLink);
   }
 
   private generateExportLink(): string {

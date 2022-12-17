@@ -28,6 +28,7 @@ const SongSchema = new Schema<Song>({
 
 const PlaylistSchema = new Schema<IPlaylist>({
   importLink: { type: String, required: true },
+  importPlaylistId: { type: String, required: true },
   exportLink: { type: String, required: true },
   images: [
     {

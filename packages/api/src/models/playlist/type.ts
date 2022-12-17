@@ -20,6 +20,7 @@ export interface Song {
 export interface IPlaylist {
   _id: ObjectId;
   importLink: string;
+  importPlaylistId: string;
   exportLink: string;
   images: Image[];
   apiLink: string;
@@ -32,5 +33,11 @@ export interface IPlaylist {
 
 export type IRawPlaylist = Pick<
   IPlaylist,
-  "importLink" | "images" | "apiLink" | "name" | "owner" | "songs"
+  | "importLink"
+  | "images"
+  | "apiLink"
+  | "name"
+  | "owner"
+  | "songs"
+  | "importPlaylistId"
 >;

@@ -75,3 +75,14 @@ export function getPlatformName(link: string): string | null {
 
   return null;
 }
+
+export function getImportPlaylistId(link: string): string {
+  // We have a generic function here since all our music streaming platforms
+  // all have the same pattern of adding the playlistId to the URL. i.e always the last path
+  // If a music streaming platform ever specifies differently, then this logic
+  // should be handled by each class and this function should only act as an adapter
+  const url = new URL(link);
+  const paths = url.pathname.split("/");
+
+  return paths[paths.length - 1];
+}

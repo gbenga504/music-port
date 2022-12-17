@@ -55,14 +55,17 @@ class Spotify implements IMusicStreamingPlatform {
     accessToken: string;
     link: string;
   }): Promise<IRawPlaylist> {
-    const regex = /[a-zA-Z\d]+(?=\?)/;
-    const playlistId = regex.exec(link)![0];
-    const url = `https://api.spotify.com/v1/playlists/${playlistId}`;
+    const url = new URL(link);
+    const paths = url.pathname.split("/");
+    const playlistId = paths[paths.length - 1];
 
     try {
-      const { data } = await axios.get(url, {
-        headers: { Authorization: "Bearer " + accessToken },
-      });
+      const { data } = await axios.get(
+        `https://api.spotify.com/v1/playlists/${playlistId}`,
+        {
+          headers: { Authorization: "Bearer " + accessToken },
+        },
+      );
 
       return this.transformPlaylistToInternalFormat(data);
     } catch (error) {
@@ -90,6 +93,7 @@ class Spotify implements IMusicStreamingPlatform {
 
     return {
       importLink: data.external_urls.spotify,
+      importPlaylistId: data.id,
       images: data.images.map((image: Image) => ({
         url: image.url,
         width: image.width,

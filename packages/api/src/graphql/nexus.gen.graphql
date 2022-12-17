@@ -34,6 +34,11 @@ type Playlist {
   importLink: String!
 
   """
+  Playlist Id used on the music streaming platform
+  """
+  importPlaylistId: String!
+
+  """
   Name of the playlist
   """
   name: String!
