@@ -1,7 +1,7 @@
 import { matchRoutes } from "react-router-dom";
 
 import type { RouteObjectWithLoadData } from "react-router-dom";
-import type { createApiClient } from "../api";
+import type { createApiClient } from "../app/api";
 
 export interface IPageDatas {
   [key: string]: any;

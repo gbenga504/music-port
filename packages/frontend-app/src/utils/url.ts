@@ -1,4 +1,4 @@
-import routes from "../routes";
+import routes from "../app/routes";
 import { getPath } from "./routeUtils";
 
 export const constructURL = ({ routeId }: { routeId: string }): string => {

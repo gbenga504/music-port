@@ -3,7 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 
 import { HeadMarkup } from "../../components/HeadMarkup";
 import { AppHeader } from "../../components/AppHeader";
-import { getPath, ILoadableComponentProps } from "../../utils/routeUtils";
+import { getPath, ILoadableComponentProps } from "../../../utils/routeUtils";
 import routes, { routeIds } from "../../routes";
 
 const ImportHomePage: React.FC<ILoadableComponentProps> = () => {

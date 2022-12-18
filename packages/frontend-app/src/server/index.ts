@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import express from "express";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 import { renderer } from "../app/server";
 import { createApiClient } from "../app/api";
@@ -18,6 +19,17 @@ app.use((req, _res, next) => {
 });
 
 app.use("/public", express.static("dist/public"));
+
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: process.env.BACKEND_API_BASE_URL!,
+    changeOrigin: true,
+    pathRewrite: {
+      "^/api": "/",
+    },
+  }),
+);
 
 app.get("/*", async (req, res) => {
   try {

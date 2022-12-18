@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "../../components/Button";
 
-import type { ILoadableComponentProps } from "../../utils/routeUtils";
+import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
 const Review: React.FC<ILoadableComponentProps> = () => {
   return (

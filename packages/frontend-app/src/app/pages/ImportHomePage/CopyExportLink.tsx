@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { ILoadableComponentProps } from "../../utils/routeUtils";
+import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
 import { Input, InputGroup, InputRightElement } from "../../components/Input";
 import { Button } from "../../components/Button";

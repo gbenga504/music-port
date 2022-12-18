@@ -7,12 +7,12 @@ import type {
   IPageDatas,
   ILoadableComponentProps,
   IMacthedRoutes,
-} from "./utils/routeUtils";
+} from "../utils/routeUtils";
 import type { createApiClient } from "./api";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
-import { loadPageResources } from "./utils/routeUtils";
+import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
 import { NotFoundError } from "../errors/not-found-error";
 

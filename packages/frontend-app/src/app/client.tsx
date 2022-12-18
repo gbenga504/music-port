@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { createApiClient } from "./api";
-import { IPageDatas } from "./utils/routeUtils";
+import { IPageDatas } from "../utils/routeUtils";
 
 interface ICallbackProps {
   appData: { pageDatas: IPageDatas };
