@@ -5,18 +5,26 @@ import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import * as formValidation from "../../../utils/formValidation";
 import { getPlatformName } from "../../../utils/linkUtils";
+import { useToast } from "../../components/Toast/ToastContext";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { importMusicFormInputs } from "../../../utils/formValidation";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
+  const toast = useToast();
+
   const handleSubmitFormValues = (values: importMusicFormInputs) => {
     try {
       const platformName = getPlatformName(values.link);
       location.href = `/api/auth/${platformName}?exportLink=${values.link}`;
     } catch (error) {
-      //TODO: Handle error
-      console.log(error);
+      const { name, message } = error as Error;
+
+      toast({
+        title: name,
+        description: message,
+        status: "error",
+      });
     }
   };
 
