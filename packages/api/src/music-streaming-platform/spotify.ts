@@ -11,7 +11,7 @@ import { MusicStreamingPlatformResourceFailureError } from "../errors/music-stre
 
 const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const callbackURL = process.env.FRONTEND_AUTH_CALLBACK_URL;
+const callbackURL = process.env.FRONTEND_SPOTIFY_AUTH_CALLBACK_URL;
 
 class Spotify implements IMusicStreamingPlatform {
   private readonly appName: string = "spotify";

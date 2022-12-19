@@ -4,6 +4,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 import { renderer } from "../app/server";
 import { createApiClient } from "../app/api";
+import authRoutes from "./auth-routes";
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use((req, _res, next) => {
 
 app.use("/public", express.static("dist/public"));
 
+app.use(authRoutes);
 app.use(
   "/api",
   createProxyMiddleware({

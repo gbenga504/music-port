@@ -11,7 +11,7 @@ import { MusicStreamingPlatformResourceFailureError } from "../errors/music-stre
 
 const clientID = process.env.DEEZER_CLIENTID;
 const clientSecret = process.env.DEEZER_CLIENT_SECRET;
-const callbackURL = process.env.FRONTEND_AUTH_CALLBACK_URL;
+const callbackURL = process.env.FRONTEND_DEEZER_AUTH_CALLBACK_URL;
 
 class Deezer implements IMusicStreamingPlatform {
   private readonly appName: string = "deezer";

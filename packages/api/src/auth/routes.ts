@@ -16,11 +16,13 @@ routes.get(
   `/auth/:platform(${Object.keys(getPassportStrategies).join("|")})`,
   (req, res, next) => {
     const { platform } = req.params;
-    const { exportLink } = req.query;
+    const { importLink } = req.query;
 
-    const state = Buffer.from(exportLink as string).toString("base64");
+    const state = Buffer.from(JSON.stringify({ importLink })).toString(
+      "base64",
+    );
 
-    return passportAuthenticate(platform, { state })(req, res, next);
+    passportAuthenticate(platform, { state })(req, res, next);
   },
 );
 
@@ -29,20 +31,16 @@ routes.get(
   (req, res, next) => {
     const { platform } = req.params;
 
-    return passportAuthenticate(
-      platform,
-      { session: false },
-      (error, tokens) => {
-        if (error) {
-          return res.status(400).json({
-            name: error.name,
-            message: error.message,
-          });
-        }
+    passportAuthenticate(platform, { session: false }, (error, tokens) => {
+      if (error) {
+        return res.status(400).json({
+          name: error.name,
+          message: error.message,
+        });
+      }
 
-        return res.status(200).json(tokens);
-      },
-    )(req, res, next);
+      return res.status(200).json(tokens);
+    })(req, res, next);
   },
 );
 
