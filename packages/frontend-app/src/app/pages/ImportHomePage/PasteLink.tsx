@@ -4,7 +4,7 @@ import { Form, Field } from "react-final-form";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import * as formValidation from "../../../utils/formValidation";
-import { getPlatformName } from "../../../utils/linkUtils";
+import { getPlatformName } from "../../../utils/url";
 import { useToast } from "../../components/Toast/ToastContext";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
