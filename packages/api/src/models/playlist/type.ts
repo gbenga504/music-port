@@ -21,7 +21,7 @@ export interface IPlaylist {
   _id: ObjectId;
   importLink: string;
   importPlaylistId: string;
-  exportLink: string;
+  exportId: string;
   images: Image[];
   apiLink: string;
   name: string;

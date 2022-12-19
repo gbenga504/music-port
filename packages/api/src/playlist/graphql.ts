@@ -67,7 +67,7 @@ const Playlist = objectType({
     t.string("importPlaylistId", {
       description: "Playlist Id used on the music streaming platform",
     });
-    t.string("exportLink", { description: "Link used to export playlist" });
+    t.string("exportId", { description: "Unique Id used to export playlist" });
     t.list.field("images", {
       type: PlaylistImage,
       description: "Images for the playlist",
@@ -136,14 +136,14 @@ export const playlistById = queryField("playlistById", {
   },
 });
 
-export const playlistByExportLink = queryField("playlistByExportLink", {
+export const playlistByExportId = queryField("playlistByExportId", {
   type: nullable(Playlist),
   args: {
-    exportLink: stringArg(),
+    exportId: stringArg(),
   },
   async resolve(_parent, args, ctx) {
-    const result = await ctx.playlistService.getByExportLink({
-      exportLink: args.exportLink,
+    const result = await ctx.playlistService.getByExportId({
+      exportId: args.exportId,
     });
 
     return result;

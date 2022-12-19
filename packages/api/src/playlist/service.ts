@@ -44,7 +44,7 @@ export class PlaylistService {
 
     const playlist = {
       ...rawPlaylist,
-      exportLink: this.generateExportLink(),
+      exportId: this.generateExportId(),
     };
 
     return this.playlistRepository.create(playlist);
@@ -54,17 +54,15 @@ export class PlaylistService {
     return this.playlistRepository.findById(id);
   }
 
-  async getByExportLink({
-    exportLink,
+  async getByExportId({
+    exportId,
   }: {
-    exportLink: string;
+    exportId: string;
   }): Promise<IPlaylist | null> {
-    return this.playlistRepository.findOneByExportLink(exportLink);
+    return this.playlistRepository.findOneByExportId(exportId);
   }
 
-  private generateExportLink(): string {
-    const id = nanoid();
-
-    return `${process.env.FRONTEND_EXPORT_URL}/${id}`;
+  private generateExportId(): string {
+    return nanoid();
   }
 }

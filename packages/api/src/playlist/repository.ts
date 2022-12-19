@@ -20,11 +20,11 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     return this.findOneById(id, options);
   }
 
-  public async findOneByExportLink(
-    exportLink: string,
+  public async findOneByExportId(
+    exportId: string,
     options?: IFindOneOptions,
   ): Promise<IPlaylist | null> {
-    return this.findOne({ exportLink }, options);
+    return this.findOne({ exportId }, options);
   }
 
   public async findOneByImportPlaylistId(

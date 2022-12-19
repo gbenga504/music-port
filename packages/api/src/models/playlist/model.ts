@@ -29,7 +29,7 @@ const SongSchema = new Schema<Song>({
 const PlaylistSchema = new Schema<IPlaylist>({
   importLink: { type: String, required: true },
   importPlaylistId: { type: String, required: true },
-  exportLink: { type: String, required: true },
+  exportId: { type: String, required: true },
   images: [
     {
       type: ImageSchema,
@@ -54,7 +54,11 @@ const PlaylistSchema = new Schema<IPlaylist>({
 });
 
 PlaylistSchema.index({
-  exportLink: 1,
+  exportId: 1,
+});
+
+PlaylistSchema.index({
+  importLink: 1,
 });
 
 export default model<IPlaylist>("Playlist", PlaylistSchema);

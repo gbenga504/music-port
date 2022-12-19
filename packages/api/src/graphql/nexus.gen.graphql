@@ -18,9 +18,9 @@ type Playlist {
   apiLink: String!
 
   """
-  Link used to export playlist
+  Unique Id used to export playlist
   """
-  exportLink: String!
+  exportId: String!
   id: String!
 
   """
@@ -103,6 +103,6 @@ type PlaylistSongArtist {
 }
 
 type Query {
-  playlistByExportLink(exportLink: String!): Playlist
+  playlistByExportId(exportId: String!): Playlist
   playlistById(id: ID!): Playlist
 }

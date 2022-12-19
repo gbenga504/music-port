@@ -95,7 +95,7 @@ export interface NexusGenFieldTypes {
   Playlist: {
     // field return type
     apiLink: string; // String!
-    exportLink: string; // String!
+    exportId: string; // String!
     id: string; // String!
     images: NexusGenRootTypes["PlaylistImage"][]; // [PlaylistImage!]!
     importLink: string; // String!
@@ -132,7 +132,7 @@ export interface NexusGenFieldTypes {
   };
   Query: {
     // field return type
-    playlistByExportLink: NexusGenRootTypes["Playlist"] | null; // Playlist
+    playlistByExportId: NexusGenRootTypes["Playlist"] | null; // Playlist
     playlistById: NexusGenRootTypes["Playlist"] | null; // Playlist
   };
 }
@@ -151,7 +151,7 @@ export interface NexusGenFieldTypeNames {
   Playlist: {
     // field return type name
     apiLink: "String";
-    exportLink: "String";
+    exportId: "String";
     id: "String";
     images: "PlaylistImage";
     importLink: "String";
@@ -188,7 +188,7 @@ export interface NexusGenFieldTypeNames {
   };
   Query: {
     // field return type name
-    playlistByExportLink: "Playlist";
+    playlistByExportId: "Playlist";
     playlistById: "Playlist";
   };
 }
@@ -201,9 +201,9 @@ export interface NexusGenArgTypes {
     };
   };
   Query: {
-    playlistByExportLink: {
+    playlistByExportId: {
       // args
-      exportLink: string; // String!
+      exportId: string; // String!
     };
     playlistById: {
       // args
