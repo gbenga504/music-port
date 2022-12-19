@@ -68,7 +68,7 @@ export const Toast: React.FC<IToastProps> = ({
 
   const handleCloseToast = async () => {
     setIsToastVisible(false);
-    await sleep(1000);
+    await sleep(500);
 
     onClose();
   };

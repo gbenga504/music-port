@@ -24,6 +24,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
         title: name,
         description: message,
         status: "error",
+        position: "bottom-right",
       });
     }
   };

@@ -14,7 +14,7 @@
       &:hover,
       &:active,
       &:focus {
-        @apply bg-stone-600;
+        @apply bg-stone-600 outline-none;
       }
     }
 
@@ -50,7 +50,7 @@
       &:hover,
       &:active,
       &:focus {
-        @apply underline;
+        @apply underline outline-none;
       }
     }
 
