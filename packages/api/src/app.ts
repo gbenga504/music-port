@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 
 import routes from "./routes";
 import * as graphql from "./graphql";
@@ -7,6 +8,7 @@ import applyAccessTokenToRequestCtxMiddleware from "./framework/apply-access-tok
 
 const app = express();
 
+app.use(cookieParser());
 app.use(applyContextToRequestMiddleware);
 app.use(applyAccessTokenToRequestCtxMiddleware);
 

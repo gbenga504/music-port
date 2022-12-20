@@ -16,6 +16,7 @@ import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
 import { NotFoundError } from "../errors/not-found-error";
 import { ToastProvider } from "./components/Toast/ToastContext";
+import { ApiProvider } from "./context/ApiContext";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -95,11 +96,13 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
           <ProgressBar variant="indeterminate" />
         </div>
       )}
-      <ToastProvider>
-        <div className="bg-page min-h-full h-fit">
-          {renderMatches(matchedRoutes)}
-        </div>
-      </ToastProvider>
+      <ApiProvider api={api}>
+        <ToastProvider>
+          <div className="bg-page min-h-full h-fit">
+            {renderMatches(matchedRoutes)}
+          </div>
+        </ToastProvider>
+      </ApiProvider>
     </ErrorBoundary>
   );
 };

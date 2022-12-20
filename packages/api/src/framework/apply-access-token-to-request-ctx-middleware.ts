@@ -6,7 +6,7 @@ export default (function applyAccessTokenToRequestCtxMiddlewware(
   next,
 ): void {
   const accessToken =
-    req.cookies?.accessToken || req.headers?.authorization || null;
+    req.cookies?.accessToken || req.headers["accesstoken"] || null;
 
   req.ctx = {
     ...req.ctx,

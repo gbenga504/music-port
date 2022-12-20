@@ -1,5 +1,6 @@
 import * as dotenv from "dotenv";
 import express from "express";
+import cookieParser from "cookie-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 import { renderer } from "../app/server";
@@ -20,6 +21,7 @@ app.use((req, _res, next) => {
 });
 
 app.use("/public", express.static("dist/public"));
+app.use(cookieParser());
 
 app.use(authRoutes);
 app.use(
