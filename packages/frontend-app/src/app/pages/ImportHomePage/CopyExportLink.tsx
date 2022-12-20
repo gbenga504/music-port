@@ -4,8 +4,14 @@ import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
 import { Input, InputGroup, InputRightElement } from "../../components/Input";
 import { Button } from "../../components/Button";
+import { useLocation } from "react-router-dom";
 
 const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
+  const { search } = useLocation();
+  const searchParams = new URLSearchParams(search);
+  const exportId = searchParams.get("exportId");
+  const exportLink = `${process.env.FRONTEND_BASE_URL}/export/${exportId}`;
+
   return (
     <div className="flex justify-between">
       <div className="w-2/5">
@@ -19,7 +25,13 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
       </div>
       <div className="w-2/4">
         <InputGroup>
-          <Input fullWidth size="large" className="pr-24" disabled />
+          <Input
+            fullWidth
+            size="large"
+            className="pr-24"
+            value={exportLink}
+            disabled
+          />
           <InputRightElement className="w-24">
             <Button size="large" variant="contained">
               Copy
