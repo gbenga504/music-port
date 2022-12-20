@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
 import { Input, InputGroup, InputRightElement } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { useLocation } from "react-router-dom";
+import { useToast } from "../../components/Toast/ToastContext";
 
 const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   const { search } = useLocation();
+  const toast = useToast();
+  const inputRef = useRef<HTMLInputElement>(null);
   const searchParams = new URLSearchParams(search);
   const exportId = searchParams.get("exportId");
   const exportLink = `${process.env.FRONTEND_BASE_URL}/export/${exportId}`;
+
+  const handleCopyToClipboard = async (): Promise<void> => {
+    inputRef.current!.select();
+
+    // For mobile devices
+    inputRef.current!.setSelectionRange(0, 99999);
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(inputRef.current!.value);
+
+    toast({
+      title: "Link copied to cliboard!",
+      status: "info",
+    });
+  };
 
   return (
     <div className="flex justify-between">
@@ -31,9 +49,14 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
             className="pr-24"
             value={exportLink}
             disabled
+            ref={inputRef}
           />
           <InputRightElement className="w-24">
-            <Button size="large" variant="contained">
+            <Button
+              size="large"
+              variant="contained"
+              onClick={handleCopyToClipboard}
+            >
               Copy
             </Button>
           </InputRightElement>
