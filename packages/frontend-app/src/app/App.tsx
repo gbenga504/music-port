@@ -8,7 +8,7 @@ import type {
   ILoadableComponentProps,
   IMacthedRoutes,
 } from "../utils/routeUtils";
-import type { createApiClient } from "./api";
+import type { ICreateApiClient } from "./api";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
@@ -22,7 +22,7 @@ interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
   location: Location;
   pageDatas: IPageDatas;
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 const transformMatchedRoutes = ({
@@ -56,7 +56,7 @@ const transformMatchedRoutes = ({
 interface IProps {
   pageDatas: IPageDatas;
   error?: Error;
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {

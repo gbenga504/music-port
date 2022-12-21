@@ -33,3 +33,5 @@ export const createApiClient = ({
     playlist: playlist({ httpClientForBackend, httpClientForFrontend }),
   };
 };
+
+export type ICreateApiClient = ReturnType<typeof createApiClient>;

@@ -1,7 +1,7 @@
 import { matchRoutes } from "react-router-dom";
 
 import type { RouteObjectWithLoadData } from "react-router-dom";
-import type { createApiClient } from "../app/api";
+import type { ICreateApiClient } from "../app/api";
 
 export interface IPageDatas {
   [key: string]: any;
@@ -9,11 +9,11 @@ export interface IPageDatas {
 
 export interface ILoadableComponentProps {
   pageData: { [key: string]: any } | null;
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 export interface ILoadData {
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 export type IMacthedRoutes = ReturnType<
@@ -27,7 +27,7 @@ interface ILoadPageDataPromise {
 
 export const loadPageResources = async (
   matchedRoutes: IMacthedRoutes,
-  api: ReturnType<typeof createApiClient>,
+  api: ICreateApiClient,
 ): Promise<IPageDatas> => {
   const matchedRoutesPromises = matchedRoutes!.map((matchedRoute) => {
     if (matchedRoute.route.loadData) {

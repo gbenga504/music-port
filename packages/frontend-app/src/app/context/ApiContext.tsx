@@ -4,10 +4,9 @@ import { canUseDOM } from "../../utils/dom";
 import { createApiClient } from "../api";
 
 import type { ReactNode } from "react";
+import type { ICreateApiClient } from "../api";
 
-type IContextValue = ReturnType<typeof createApiClient>;
-
-const getApiClient = (): ReturnType<typeof createApiClient> => {
+const getApiClient = (): ICreateApiClient => {
   if (canUseDOM()) {
     return createApiClient({
       backendApiBaseUrl: process.env.API_PROXY,
@@ -22,7 +21,7 @@ const getApiClient = (): ReturnType<typeof createApiClient> => {
   });
 };
 
-const ApiContext = createContext<IContextValue>(getApiClient());
+const ApiContext = createContext<ICreateApiClient>(getApiClient());
 
 export const useApi = () => {
   return useContext(ApiContext);
@@ -30,7 +29,7 @@ export const useApi = () => {
 
 export const ApiProvider: React.FC<{
   children: ReactNode;
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }> = ({ children, api }) => {
   return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>;
 };
