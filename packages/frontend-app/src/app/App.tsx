@@ -7,20 +7,22 @@ import type {
   IPageDatas,
   ILoadableComponentProps,
   IMacthedRoutes,
-} from "./utils/routeUtils";
-import type { createApiClient } from "./api";
+} from "../utils/routeUtils";
+import type { ICreateApiClient } from "./api";
 
 import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
-import { loadPageResources } from "./utils/routeUtils";
+import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
 import { NotFoundError } from "../errors/not-found-error";
+import { ToastProvider } from "./components/Toast/ToastContext";
+import { ApiProvider } from "./context/ApiContext";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
   location: Location;
   pageDatas: IPageDatas;
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 const transformMatchedRoutes = ({
@@ -54,7 +56,7 @@ const transformMatchedRoutes = ({
 interface IProps {
   pageDatas: IPageDatas;
   error?: Error;
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
@@ -94,9 +96,13 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
           <ProgressBar variant="indeterminate" />
         </div>
       )}
-      <div className="bg-page min-h-full h-fit">
-        {renderMatches(matchedRoutes)}
-      </div>
+      <ApiProvider api={api}>
+        <ToastProvider>
+          <div className="bg-page min-h-full h-fit">
+            {renderMatches(matchedRoutes)}
+          </div>
+        </ToastProvider>
+      </ApiProvider>
     </ErrorBoundary>
   );
 };

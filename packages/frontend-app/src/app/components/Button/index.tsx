@@ -4,7 +4,7 @@ import pick from "lodash/pick";
 import classNames from "classnames";
 
 import "./index.scss";
-import { SpinnerIcon } from "../icons/SpinnerIcon";
+import { SpinnerIcon } from "../icons";
 
 import type { ReactNode, MouseEventHandler } from "react";
 

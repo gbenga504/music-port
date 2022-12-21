@@ -1,7 +1,7 @@
 import loadable from "@loadable/component";
 
 import type { RouteObjectWithLoadData } from "react-router-dom";
-import type { ILoadableComponentProps } from "./utils/routeUtils";
+import type { ILoadableComponentProps } from "../utils/routeUtils";
 
 export const routeIds = {
   import: "import",

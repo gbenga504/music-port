@@ -1,17 +1,17 @@
 import type { RouteObject } from "react-router-dom";
 import type { LoadableComponent } from "@loadable/component";
 
-import type { createApiClient } from "../app/api";
+import type { ICreateApiClient } from "../app/api";
 import type { IPageDatas } from "../app/utils/routeUtils";
 
 declare module "react-router-dom" {
+  interface IndexRouteObject {
+    component: LoadableComponent;
+  }
+
   type RouteObjectWithLoadData = RouteObject & {
     id: string;
-    loadData?: ({
-      api,
-    }: {
-      api: ReturnType<typeof createApiClient>;
-    }) => Promise<IPageDatas>;
+    loadData?: ({ api }: { api: ICreateApiClient }) => Promise<IPageDatas>;
     component: LoadableComponent;
     children?: RouteObjectWithLoadData[];
   };
@@ -20,7 +20,7 @@ declare module "react-router-dom" {
 declare global {
   namespace Express {
     interface Request {
-      api: ReturnType<typeof createApiClient>;
+      api: ICreateApiClient;
     }
   }
 

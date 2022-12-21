@@ -27,6 +27,12 @@ module.exports = {
         subTitle: "rgb(86, 93, 90)",
         placeholder: "#6f7672",
       },
+
+      colors: {
+        blackAlpha: {
+          100: "rgba(0, 0, 0, 0.06)",
+        },
+      },
     },
   },
   plugins: [],

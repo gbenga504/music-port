@@ -1,8 +1,11 @@
 import * as dotenv from "dotenv";
 import express from "express";
+import cookieParser from "cookie-parser";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 import { renderer } from "../app/server";
 import { createApiClient } from "../app/api";
+import authRoutes from "./auth-routes";
 
 dotenv.config();
 
@@ -18,6 +21,19 @@ app.use((req, _res, next) => {
 });
 
 app.use("/public", express.static("dist/public"));
+app.use(cookieParser());
+
+app.use(authRoutes);
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: process.env.BACKEND_API_BASE_URL!,
+    changeOrigin: true,
+    pathRewrite: {
+      "^/api": "/",
+    },
+  }),
+);
 
 app.get("/*", async (req, res) => {
   try {
@@ -28,7 +44,7 @@ app.get("/*", async (req, res) => {
     const { content, status } = await renderer(req, res);
     return res.status(status).send(content);
   } catch (error) {
-    const { content, status } = await renderer(req, res, error);
+    const { content, status } = await renderer(req, res, error as Error);
     return res.status(status).send(content);
   }
 });

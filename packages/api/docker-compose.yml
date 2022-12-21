@@ -6,13 +6,10 @@ services:
     image: mongo:latest
     restart: unless-stopped
     env_file: ./.env
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
-      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     ports:
       - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
-      - db:/data/db
+      - ./db:/data/db
   app:
     container_name: backend-app
     depends_on:
@@ -26,6 +23,8 @@ services:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     volumes:
       - ./src:/app/packages/api/src
+      - ../../node_modules:/app/node_modules
+      - ./node_modules:/app/packages/api/node_modules
     stdin_open: true
     tty: true
 

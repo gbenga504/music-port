@@ -5,11 +5,13 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { createApiClient } from "./api";
-import { IPageDatas } from "./utils/routeUtils";
+import { IPageDatas } from "../utils/routeUtils";
+
+import type { ICreateApiClient } from "./api";
 
 interface ICallbackProps {
   appData: { pageDatas: IPageDatas };
-  api: ReturnType<typeof createApiClient>;
+  api: ICreateApiClient;
 }
 
 function setupClient(callback: (props: ICallbackProps) => void) {

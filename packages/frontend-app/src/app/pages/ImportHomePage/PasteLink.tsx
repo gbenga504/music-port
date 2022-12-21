@@ -1,21 +1,32 @@
 import React from "react";
 import { Form, Field } from "react-final-form";
-import { useNavigate } from "react-router-dom";
 
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
-import * as formValidation from "../../utils/formValidation";
-import { constructURL } from "../../utils/url";
+import * as formValidation from "../../../utils/formValidation";
+import { getPlatformName } from "../../../utils/url";
+import { useToast } from "../../components/Toast/ToastContext";
 
-import type { ILoadableComponentProps } from "../../utils/routeUtils";
-import type { importMusicFormInputs } from "../../utils/formValidation";
-import { routeIds } from "../../routes";
+import type { ILoadableComponentProps } from "../../../utils/routeUtils";
+import type { importMusicFormInputs } from "../../../utils/formValidation";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
-  const navigate = useNavigate();
+  const toast = useToast();
 
-  const handleSubmitFormValues = (_values: importMusicFormInputs) => {
-    navigate(constructURL({ routeId: routeIds.importReview }));
+  const handleSubmitFormValues = (values: importMusicFormInputs) => {
+    try {
+      const platformName = getPlatformName(values.link);
+      location.href = `/api/auth/${platformName}?importLink=${values.link}`;
+    } catch (error) {
+      const { name, message } = error as Error;
+
+      toast({
+        title: name,
+        description: message,
+        status: "error",
+        position: "bottom-right",
+      });
+    }
   };
 
   return (
