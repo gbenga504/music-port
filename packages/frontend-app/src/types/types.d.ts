@@ -5,6 +5,10 @@ import type { ICreateApiClient } from "../app/api";
 import type { IPageDatas } from "../app/utils/routeUtils";
 
 declare module "react-router-dom" {
+  interface IndexRouteObject {
+    component: LoadableComponent;
+  }
+
   type RouteObjectWithLoadData = RouteObject & {
     id: string;
     loadData?: ({ api }: { api: ICreateApiClient }) => Promise<IPageDatas>;

@@ -6,6 +6,8 @@ import { Input, InputGroup, InputRightElement } from "../../components/Input";
 import { Button } from "../../components/Button";
 import { useLocation } from "react-router-dom";
 import { useToast } from "../../components/Toast/ToastContext";
+import { constructURL } from "../../../utils/url";
+import { routeIds } from "../../routes";
 
 const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   const { search } = useLocation();
@@ -41,7 +43,7 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
           listening to
         </p>
       </div>
-      <div className="w-2/4">
+      <div className="w-2/4 grid grid-rows-[repeat(2,_max-content)] gap-y-4">
         <InputGroup>
           <Input
             fullWidth
@@ -61,6 +63,15 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
             </Button>
           </InputRightElement>
         </InputGroup>
+
+        <Button
+          size="large"
+          variant="text"
+          className="justify-end"
+          to={constructURL({ routeId: routeIds.importPasteLink })}
+        >
+          Want to import another playlist?
+        </Button>
       </div>
     </div>
   );
