@@ -8,6 +8,7 @@ import { useToast } from "../../components/Toast/ToastContext";
 import { getPath, ILoadableComponentProps } from "../../../utils/routeUtils";
 import { constructURL } from "../../../utils/url";
 import routes, { routeIds } from "../../routes";
+import { Layout } from "./components/Layout";
 
 const Review: React.FC<ILoadableComponentProps> = () => {
   const { search, pathname } = useLocation();
@@ -57,26 +58,19 @@ const Review: React.FC<ILoadableComponentProps> = () => {
   }, [search, pathname]);
 
   return (
-    <div className="flex justify-between">
-      <div className="w-2/5">
-        <h4 className="font-medium text-5xl text-title">
-          Review the contents of your playlist
-        </h4>
-        <p className="mt-8 block">
-          You can review the contents of your playlist before we generate an
-          export link
-        </p>
-      </div>
-      <div className="w-2/4">
-        <Button
-          disabled
-          loading
-          fullWidth
-          size="x-large"
-          loadingText="Generating export link..."
-        />
-      </div>
-    </div>
+    <Layout
+      title="Review the contents of your playlist"
+      description="You can review the contents of your playlist before we generate an
+    export link."
+    >
+      <Button
+        disabled
+        loading
+        fullWidth
+        size="x-large"
+        loadingText="Generating export link..."
+      />
+    </Layout>
   );
 };
 
