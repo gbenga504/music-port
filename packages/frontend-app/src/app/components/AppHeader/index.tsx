@@ -20,7 +20,7 @@ export const AppHeader: React.FC<IProps> = ({
 }) => {
   return (
     <div className="w-full">
-      <nav className="w-4/5 m-auto flex justify-between items-center h-24">
+      <nav className="w-11/12 md:w-4/5 m-auto flex justify-between items-center h-24">
         <div />
         <Space size="large">
           <Button variant="text" size="medium">

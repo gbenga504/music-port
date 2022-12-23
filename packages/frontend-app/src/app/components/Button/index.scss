@@ -8,6 +8,8 @@
   }
 
   .button-contained {
+    @apply justify-center;
+
     &.button-primary {
       @apply bg-black text-white font-light;
 

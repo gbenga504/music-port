@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { useToast } from "../../components/Toast/ToastContext";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
+import { Layout } from "./components/Layout";
 
 const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   const { search } = useLocation();
@@ -33,17 +34,12 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   };
 
   return (
-    <div className="flex justify-between">
-      <div className="w-2/5">
-        <h4 className="font-medium text-5xl text-title">
-          Copy and send this link
-        </h4>
-        <p className="mt-8 block">
-          You can now send this link to anyone who wishes to have what you are
-          listening to
-        </p>
-      </div>
-      <div className="w-2/4 grid grid-rows-[repeat(2,_max-content)] gap-y-4">
+    <Layout
+      title="Copy and send this link"
+      description="You can now send this link to anyone who wishes to have what you are
+    listening to"
+    >
+      <div className="grid grid-rows-[repeat(2,_max-content)] gap-y-4">
         <InputGroup>
           <Input
             fullWidth
@@ -73,7 +69,7 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
           Want to import another playlist?
         </Button>
       </div>
-    </div>
+    </Layout>
   );
 };
 

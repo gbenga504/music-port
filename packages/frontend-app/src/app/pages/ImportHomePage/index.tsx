@@ -43,7 +43,7 @@ const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
         progressBar={{ value: progressBarValue }}
         showExportButton={true}
       />
-      <div className="w-3/4 m-auto mt-20">
+      <div className="w-11/12 md:w-3/4 m-auto mt-6 md:mt-20">
         <Outlet />
       </div>
     </div>
