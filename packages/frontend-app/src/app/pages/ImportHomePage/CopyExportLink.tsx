@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import { useToast } from "../../components/Toast/ToastContext";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
-import { Layout } from "./components/Layout";
+import { PageLayout } from "../../components/PageLayout";
 
 const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   const { search } = useLocation();
@@ -34,7 +34,7 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   };
 
   return (
-    <Layout
+    <PageLayout
       title="Copy and send this link"
       description="You can now send this link to anyone who wishes to have what you are
     listening to"
@@ -69,7 +69,7 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
           Want to import another playlist?
         </Button>
       </div>
-    </Layout>
+    </PageLayout>
   );
 };
 

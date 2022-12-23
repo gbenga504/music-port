@@ -8,6 +8,8 @@ export const routeIds = {
   importPasteLink: "importPasteLink",
   importReview: "importReview",
   importCopyExportLink: "importCopyExportLink",
+  export: "export",
+  exportPasteLink: "exportPasteLink",
 };
 
 const routes: RouteObjectWithLoadData[] = [
@@ -38,6 +40,23 @@ const routes: RouteObjectWithLoadData[] = [
         path: "/copy-export-link",
         component: loadable<ILoadableComponentProps>(
           () => import("./pages/ImportHomePage/CopyExportLink"),
+        ),
+      },
+    ],
+  },
+  {
+    id: routeIds.export,
+    path: "/export",
+    component: loadable<ILoadableComponentProps>(
+      () => import("./pages/ExportHomePage"),
+    ),
+    children: [
+      {
+        id: routeIds.exportPasteLink,
+        path: "/export",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ExportHomePage/PasteLink"),
         ),
       },
     ],
