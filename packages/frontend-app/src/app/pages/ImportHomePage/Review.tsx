@@ -1,61 +1,67 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { Button } from "../../components/Button";
 import { useApi } from "../../context/ApiContext";
 import { useToast } from "../../components/Toast/ToastContext";
-
-import { getPath, ILoadableComponentProps } from "../../../utils/routeUtils";
 import { constructURL } from "../../../utils/url";
-import routes, { routeIds } from "../../routes";
+import { routeIds } from "../../routes";
 import { Layout } from "./components/Layout";
 
+import type { ILoadableComponentProps } from "../../../utils/routeUtils";
+
 const Review: React.FC<ILoadableComponentProps> = () => {
-  const { search, pathname } = useLocation();
+  const { search } = useLocation();
+  const [status, setStatus] = useState<"loading" | "error" | "success">(
+    "loading"
+  );
   const api = useApi();
   const toast = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
     (async function () {
-      const reviewPath = getPath({ routes, routeId: routeIds.importReview });
+      setStatus("loading");
+      const searchParams = new URLSearchParams(search);
+      const importLink = searchParams.get("importLink");
 
-      // TODO: BUG
-      // This is a known bug. We don't need to check the pathname
-      // This happens because the location is updated before we can load a new route component
-      // causing this useEffect to run a second time
-      if (pathname === reviewPath) {
-        const searchParams = new URLSearchParams(search);
-        const importLink = searchParams.get("importLink");
-
-        if (!importLink) {
-          return toast({
-            description: "Import link must be provided",
-            status: "error",
-          });
-        }
-
-        const result = await api.playlist.importPlaylist({
-          importLink: importLink!,
+      if (!importLink) {
+        return toast({
+          description: "Import link must be provided",
+          status: "error",
         });
-
-        if (!result.success) {
-          return toast({
-            title: result.error.name,
-            description: result.error.message,
-            status: "error",
-          });
-        }
-
-        navigate(
-          constructURL({
-            routeId: routeIds.importCopyExportLink,
-            query: { exportId: result.data.exportId },
-          })
-        );
       }
+
+      const result = await api.playlist.importPlaylist({
+        importLink: importLink!,
+      });
+
+      if (!result.success) {
+        setStatus("error");
+        return toast({
+          title: result.error.name,
+          description: result.error.message,
+          status: "error",
+        });
+      }
+
+      setStatus("success");
+      navigate(
+        constructURL({
+          routeId: routeIds.importCopyExportLink,
+          query: { exportId: result.data.exportId },
+        })
+      );
     })();
-  }, [search, pathname]);
+  }, []);
+
+  const handleTryAgain = (): void => {
+    navigate(
+      constructURL({
+        routeId: routeIds.importPasteLink,
+      })
+    );
+  };
 
   return (
     <Layout
@@ -64,12 +70,15 @@ const Review: React.FC<ILoadableComponentProps> = () => {
     export link."
     >
       <Button
-        disabled
-        loading
+        disabled={Boolean(status === "loading" || status === "success")}
+        loading={status === "loading"}
         fullWidth
+        onClick={handleTryAgain}
         size="x-large"
         loadingText="Generating export link..."
-      />
+      >
+        Try again
+      </Button>
     </Layout>
   );
 };
