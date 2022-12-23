@@ -77,7 +77,7 @@ const Review: React.FC<ILoadableComponentProps> = () => {
         size="x-large"
         loadingText="Generating export link..."
       >
-        Try again
+        {status === "error" ? "Try again" : "Redirecting..."}
       </Button>
     </Layout>
   );
