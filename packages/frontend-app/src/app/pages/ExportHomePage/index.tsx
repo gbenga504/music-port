@@ -14,15 +14,15 @@ const ExportHomePage: React.FC<ILoadableComponentProps> = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    let result = 100;
+    let result = 47;
 
     const doesPathMatchPasteLink = doesPathMatch({
       routeId: routeIds.exportPasteLink,
       pathname,
     });
 
-    const doesPathMatchReview = doesPathMatch({
-      routeId: routeIds.exportReview,
+    const doesPathMatchCreatePlaylist = doesPathMatch({
+      routeId: routeIds.exportCreatePlaylist,
       pathname,
     });
 
@@ -30,8 +30,8 @@ const ExportHomePage: React.FC<ILoadableComponentProps> = () => {
       result = 10;
     }
 
-    if (doesPathMatchReview) {
-      result = 47;
+    if (doesPathMatchCreatePlaylist) {
+      result = 100;
     }
 
     setProgressBarValue(result);

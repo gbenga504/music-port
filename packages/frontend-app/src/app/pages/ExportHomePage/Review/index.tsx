@@ -1,14 +1,21 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
 import type { ILoadableComponentProps } from "../../../../utils/routeUtils";
-import { Button } from "../../../components/Button";
 
+import { Button } from "../../../components/Button";
 import { PageLayout } from "../../../components/PageLayout";
 import { Select } from "../../../components/Select";
+import { routeIds } from "../../../routes";
+import { constructURL } from "../../../../utils/url";
 
 const Review: React.FC<ILoadableComponentProps> = () => {
-  const handleSubmitFormValues = () => {};
+  const navigate = useNavigate();
+
+  const handleSubmitFormValues = () => {
+    navigate(constructURL({ routeId: routeIds.exportCreatePlaylist }));
+  };
 
   const renderForm = () => {
     return (

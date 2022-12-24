@@ -11,6 +11,7 @@ export const routeIds = {
   export: "export",
   exportPasteLink: "exportPasteLink",
   exportReview: "exportReview",
+  exportCreatePlaylist: "exportCreatePlaylist",
 };
 
 const routes: RouteObjectWithLoadData[] = [
@@ -66,6 +67,14 @@ const routes: RouteObjectWithLoadData[] = [
         index: true,
         component: loadable<ILoadableComponentProps>(
           () => import("./pages/ExportHomePage/Review/index"),
+        ),
+      },
+      {
+        id: routeIds.exportCreatePlaylist,
+        path: "/export/create-playlist",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ExportHomePage/CreatePlaylist"),
         ),
       },
     ],
