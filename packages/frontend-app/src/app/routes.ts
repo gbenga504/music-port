@@ -10,6 +10,7 @@ export const routeIds = {
   importCopyExportLink: "importCopyExportLink",
   export: "export",
   exportPasteLink: "exportPasteLink",
+  exportReview: "exportReview",
 };
 
 const routes: RouteObjectWithLoadData[] = [
@@ -57,6 +58,14 @@ const routes: RouteObjectWithLoadData[] = [
         index: true,
         component: loadable<ILoadableComponentProps>(
           () => import("./pages/ExportHomePage/PasteLink"),
+        ),
+      },
+      {
+        id: routeIds.exportReview,
+        path: "/export/:id",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ExportHomePage/Review/index"),
         ),
       },
     ],

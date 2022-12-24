@@ -1,16 +1,28 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
-import { ILoadableComponentProps } from "../../../utils/routeUtils";
+import type { ILoadableComponentProps } from "../../../utils/routeUtils";
+import type { pasteExportLinkFormInputs } from "../../../utils/formValidation";
+
 import * as formValidation from "../../../utils/formValidation";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { PageLayout } from "../../components/PageLayout";
+import { constructURL } from "../../../utils/url";
+import { routeIds } from "../../routes";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
   const exportLinkSample = `${process.env.FRONTEND_BASE_URL}/export/[exportId]`;
+  const navigate = useNavigate();
 
-  const handleSubmitFormValues = () => {};
+  const handleSubmitFormValues = ({ link }: pasteExportLinkFormInputs) => {
+    const exportId = link.substring(link.lastIndexOf("/") + 1);
+
+    navigate(
+      constructURL({ routeId: routeIds.exportReview, params: { id: exportId } })
+    );
+  };
 
   return (
     <PageLayout

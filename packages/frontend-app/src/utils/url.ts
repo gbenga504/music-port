@@ -1,3 +1,5 @@
+import { generatePath } from "react-router-dom";
+
 import routes from "../app/routes";
 import { getPath } from "./routeUtils";
 import { ResourceError } from "../errors/resource-error";
@@ -5,15 +7,19 @@ import { ResourceError } from "../errors/resource-error";
 export const constructURL = ({
   routeId,
   query,
+  params,
 }: {
   routeId: string;
   query?: { [key: string]: string };
+  params?: { [key: string]: string | number };
 }): string => {
   let path = getPath({ routes, routeId });
 
   if (!path) {
     throw new Error(`Cannot find path with routeId ${routeId}`);
   }
+
+  path = generatePath(path, params);
 
   if (query) {
     const searchParams = new URLSearchParams();
