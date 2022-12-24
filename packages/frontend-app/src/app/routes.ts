@@ -8,6 +8,10 @@ export const routeIds = {
   importPasteLink: "importPasteLink",
   importReview: "importReview",
   importCopyExportLink: "importCopyExportLink",
+  export: "export",
+  exportPasteLink: "exportPasteLink",
+  exportReview: "exportReview",
+  exportCreatePlaylist: "exportCreatePlaylist",
 };
 
 const routes: RouteObjectWithLoadData[] = [
@@ -38,6 +42,39 @@ const routes: RouteObjectWithLoadData[] = [
         path: "/copy-export-link",
         component: loadable<ILoadableComponentProps>(
           () => import("./pages/ImportHomePage/CopyExportLink"),
+        ),
+      },
+    ],
+  },
+  {
+    id: routeIds.export,
+    path: "/export",
+    component: loadable<ILoadableComponentProps>(
+      () => import("./pages/ExportHomePage"),
+    ),
+    children: [
+      {
+        id: routeIds.exportPasteLink,
+        path: "/export",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ExportHomePage/PasteLink"),
+        ),
+      },
+      {
+        id: routeIds.exportReview,
+        path: "/export/:id",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ExportHomePage/Review/index"),
+        ),
+      },
+      {
+        id: routeIds.exportCreatePlaylist,
+        path: "/export/create-playlist",
+        index: true,
+        component: loadable<ILoadableComponentProps>(
+          () => import("./pages/ExportHomePage/CreatePlaylist"),
         ),
       },
     ],

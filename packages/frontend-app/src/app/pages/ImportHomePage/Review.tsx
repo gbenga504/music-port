@@ -6,7 +6,7 @@ import { useApi } from "../../context/ApiContext";
 import { useToast } from "../../components/Toast/ToastContext";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
-import { Layout } from "./components/Layout";
+import { PageLayout } from "../../components/PageLayout";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
@@ -64,7 +64,7 @@ const Review: React.FC<ILoadableComponentProps> = () => {
   };
 
   return (
-    <Layout
+    <PageLayout
       title="Review the contents of your playlist"
       description="You can review the contents of your playlist before we generate an
     export link."
@@ -79,7 +79,7 @@ const Review: React.FC<ILoadableComponentProps> = () => {
       >
         {status === "error" ? "Try again" : "Redirecting..."}
       </Button>
-    </Layout>
+    </PageLayout>
   );
 };
 

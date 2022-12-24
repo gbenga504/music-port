@@ -1,7 +1,9 @@
-import { matchRoutes } from "react-router-dom";
+import { matchPath, matchRoutes } from "react-router-dom";
 
 import type { RouteObjectWithLoadData } from "react-router-dom";
 import type { ICreateApiClient } from "../app/api";
+
+import routes from "../app/routes";
 
 export interface IPageDatas {
   [key: string]: any;
@@ -78,4 +80,19 @@ export const getPath = ({
   }
 
   return getPath({ routes: restRoutes, routeId });
+};
+
+export const doesPathMatch = ({
+  routeId,
+  pathname,
+}: {
+  routeId: string;
+  pathname: string;
+}): boolean => {
+  const path = getPath({
+    routes,
+    routeId,
+  });
+
+  return Boolean(matchPath(path!, pathname));
 };

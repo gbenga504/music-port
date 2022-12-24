@@ -8,7 +8,11 @@ interface IProps {
   children: ReactNode;
 }
 
-export const Layout: React.FC<IProps> = ({ children, title, description }) => {
+export const PageLayout: React.FC<IProps> = ({
+  children,
+  title,
+  description,
+}) => {
   return (
     <div className="flex flex-col md:flex-row justify-between">
       <div className="w-full md:w-2/5">

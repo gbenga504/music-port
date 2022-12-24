@@ -1,43 +1,37 @@
 import React from "react";
-import { Form, Field } from "react-final-form";
-
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
-import * as formValidation from "../../../utils/formValidation";
-import { getPlatformName } from "../../../utils/url";
-import { useToast } from "../../components/Toast/ToastContext";
-import { PageLayout } from "../../components/PageLayout";
+import { Field, Form } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
-import type { importMusicFormInputs } from "../../../utils/formValidation";
+import type { pasteExportLinkFormInputs } from "../../../utils/formValidation";
+
+import * as formValidation from "../../../utils/formValidation";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { PageLayout } from "../../components/PageLayout";
+import { constructURL } from "../../../utils/url";
+import { routeIds } from "../../routes";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
-  const toast = useToast();
+  const exportLinkSample = `${process.env.FRONTEND_BASE_URL}/export/[exportId]`;
+  const navigate = useNavigate();
 
-  const handleSubmitFormValues = (values: importMusicFormInputs) => {
-    try {
-      const platformName = getPlatformName(values.link);
-      location.href = `/api/auth/${platformName}?importLink=${values.link}`;
-    } catch (error) {
-      const { name, message } = error as Error;
+  const handleSubmitFormValues = ({ link }: pasteExportLinkFormInputs) => {
+    const exportId = link.substring(link.lastIndexOf("/") + 1);
 
-      toast({
-        title: name,
-        description: message,
-        status: "error",
-        position: "bottom-right",
-      });
-    }
+    navigate(
+      constructURL({ routeId: routeIds.exportReview, params: { id: exportId } })
+    );
   };
 
   return (
     <PageLayout
-      title="Paste a link from your streaming provider"
-      description="We will use the link to generate an export link that can be shared."
+      title="Paste an export link we generated"
+      description={`We will use the link to export and create a playlist on your favourite music platform. Export link is of the form ${exportLinkSample}`}
     >
       <Form
         onSubmit={handleSubmitFormValues}
-        validate={formValidation.validateFormInputsForImportMusic}
+        validate={formValidation.validateFormInputsForPasteExportLink}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
           const { invalid, dirty } = form.getState();
@@ -48,9 +42,9 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
                 name="link"
                 render={({ input, meta }) => (
                   <Input
-                    placeholder="Enter a streaming link"
                     size="large"
                     fullWidth
+                    placeholder={`Enter export link. E.g ${exportLinkSample}`}
                     error={Boolean(meta.error)}
                     helperText={meta.error}
                     {...input}
@@ -65,7 +59,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
                   fullWidth
                   disabled={invalid || !dirty}
                 >
-                  Import
+                  Export
                 </Button>
               </div>
             </form>

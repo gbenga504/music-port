@@ -4,25 +4,25 @@ import { Outlet, useLocation } from "react-router-dom";
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
 import { doesPathMatch } from "../../../utils/routeUtils";
-import { HeadMarkup } from "../../components/HeadMarkup";
 import { AppHeader } from "../../components/AppHeader";
-import { routeIds } from "../../routes";
 import { Container } from "../../components/Container";
+import { HeadMarkup } from "../../components/HeadMarkup";
+import { routeIds } from "../../routes";
 
-const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
+const ExportHomePage: React.FC<ILoadableComponentProps> = () => {
   const [progressBarValue, setProgressBarValue] = useState(10);
   const { pathname } = useLocation();
 
   useEffect(() => {
-    let result = 100;
+    let result = 47;
 
     const doesPathMatchPasteLink = doesPathMatch({
-      routeId: routeIds.importPasteLink,
+      routeId: routeIds.exportPasteLink,
       pathname,
     });
 
-    const doesPathMatchReview = doesPathMatch({
-      routeId: routeIds.importReview,
+    const doesPathMatchCreatePlaylist = doesPathMatch({
+      routeId: routeIds.exportCreatePlaylist,
       pathname,
     });
 
@@ -30,8 +30,8 @@ const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
       result = 10;
     }
 
-    if (doesPathMatchReview) {
-      result = 47;
+    if (doesPathMatchCreatePlaylist) {
+      result = 100;
     }
 
     setProgressBarValue(result);
@@ -40,12 +40,12 @@ const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
   return (
     <div>
       <HeadMarkup
-        title="Import HomePage"
-        description="Import your music from a range of music streaming platforms"
+        title="Export HomePage"
+        description="Export a playlist and play on your favourite streaming platform"
       />
       <AppHeader
         progressBar={{ value: progressBarValue }}
-        showExportButton={true}
+        showImportButton={true}
       />
       <Container className="mt-6 md:mt-20">
         <Outlet />
@@ -54,4 +54,4 @@ const ImportHomePage: React.FC<ILoadableComponentProps> = () => {
   );
 };
 
-export default ImportHomePage;
+export default ExportHomePage;

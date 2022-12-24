@@ -1,5 +1,25 @@
 import { z, ZodError } from "zod";
 
+const formatError = (error: unknown, input: any): { [key: string]: string } => {
+  let formattedError: { [key: string]: { _errors: string[] } } = {};
+
+  if (error instanceof ZodError) {
+    formattedError = error.format() as unknown as {
+      [key: string]: { _errors: string[] };
+    };
+  }
+
+  return Object.keys(formattedError).reduce(
+    (acc: { [key: string]: string }, field) => {
+      if (field in input) {
+        acc[field] = formattedError[field]._errors[0];
+      }
+      return acc;
+    },
+    {},
+  );
+};
+
 const importMusicSchema = z.object({
   link: z.string().url(),
 });
@@ -20,22 +40,38 @@ export const validateFormInputsForImportMusic = (input: {
 
     return {};
   } catch (error) {
-    let formattedError: { [key: string]: { _errors: string[] } } = {};
+    return formatError(error, input);
+  }
+};
 
-    if (error instanceof ZodError) {
-      formattedError = error.format() as unknown as {
-        [key: string]: { _errors: string[] };
-      };
-    }
+const pasteExportLinkFormSchema = z.object({
+  link: z
+    .string()
+    .url()
+    .regex(
+      new RegExp(`^${process.env.FRONTEND_BASE_URL}/export/\\S+$`),
+      "This URL is not recognized",
+    ),
+});
 
-    return Object.keys(formattedError).reduce(
-      (acc: { [key: string]: string }, field) => {
-        if (field in input) {
-          acc[field] = formattedError[field]._errors[0];
-        }
-        return acc;
-      },
-      {},
-    );
+export type pasteExportLinkFormInputs = z.infer<
+  typeof pasteExportLinkFormSchema
+>;
+
+export const parseFormInputsForPasteExportLink = (input: {
+  link: string;
+}): z.output<typeof pasteExportLinkFormSchema> => {
+  return pasteExportLinkFormSchema.parse(input);
+};
+
+export const validateFormInputsForPasteExportLink = (input: {
+  link: string;
+}): { [key: string]: string } => {
+  try {
+    parseFormInputsForPasteExportLink(input);
+
+    return {};
+  } catch (error) {
+    return formatError(error, input);
   }
 };
