@@ -37,7 +37,7 @@ const transformMatchedRoutes = ({
     throw new NotFoundError();
   }
 
-  return matchedRoutes!.map((matchedRoute) => {
+  return matchedRoutes.map((matchedRoute) => {
     const Component = matchedRoute.route
       .component as LoadableComponent<ILoadableComponentProps>;
 
