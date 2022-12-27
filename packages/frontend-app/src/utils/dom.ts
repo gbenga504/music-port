@@ -1,4 +1,4 @@
-export const canUseDOM = () => {
+export const canUseDOM = (): boolean => {
   return !!(
     typeof window !== "undefined" &&
     window.document &&
