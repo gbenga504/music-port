@@ -14,10 +14,12 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_SPOTIFY_AUTH_CALLBACK_URL;
 
 class Spotify implements IThirdPartyIntegrations {
-  private readonly appName: string = "spotify";
+  private readonly integrationName: string = "spotify";
 
-  getAppName(): ReturnType<IThirdPartyIntegrations["getAppName"]> {
-    return this.appName;
+  getIntegrationName(): ReturnType<
+    IThirdPartyIntegrations["getIntegrationName"]
+  > {
+    return this.integrationName;
   }
 
   getPassportStrategy(): ReturnType<

@@ -14,10 +14,12 @@ const clientSecret = process.env.DEEZER_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_DEEZER_AUTH_CALLBACK_URL;
 
 class Deezer implements IThirdPartyIntegrations {
-  private readonly appName: string = "deezer";
+  private readonly integrationName: string = "deezer";
 
-  getAppName(): ReturnType<IThirdPartyIntegrations["getAppName"]> {
-    return this.appName;
+  getIntegrationName(): ReturnType<
+    IThirdPartyIntegrations["getIntegrationName"]
+  > {
+    return this.integrationName;
   }
 
   getPassportStrategy(): ReturnType<

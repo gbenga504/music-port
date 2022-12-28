@@ -11,7 +11,7 @@ interface IPlatformTokens {
   ownerId: string;
 }
 export interface IThirdPartyIntegrations {
-  getAppName: () => string;
+  getIntegrationName: () => string;
   getPassportStrategy: () => DeezerStrategy | SpotifyStrategy;
   authenticate: (
     authOptions: AuthenticateOptions,
