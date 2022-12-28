@@ -4,7 +4,7 @@ import { Strategy } from "passport-spotify";
 
 import { AxiosError } from "axios";
 import type { StrategyOptions } from "passport-spotify";
-import type { IMusicStreamingPlatform } from "./types";
+import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
@@ -13,15 +13,15 @@ const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_SPOTIFY_AUTH_CALLBACK_URL;
 
-class Spotify implements IMusicStreamingPlatform {
+class Spotify implements IThirdPartyIntegrations {
   private readonly appName: string = "spotify";
 
-  getAppName(): ReturnType<IMusicStreamingPlatform["getAppName"]> {
+  getAppName(): ReturnType<IThirdPartyIntegrations["getAppName"]> {
     return this.appName;
   }
 
   getPassportStrategy(): ReturnType<
-    IMusicStreamingPlatform["getPassportStrategy"]
+    IThirdPartyIntegrations["getPassportStrategy"]
   > {
     return new Strategy(
       {
@@ -41,8 +41,8 @@ class Spotify implements IMusicStreamingPlatform {
   }
 
   authenticate(
-    ...args: Parameters<IMusicStreamingPlatform["authenticate"]>
-  ): ReturnType<IMusicStreamingPlatform["authenticate"]> {
+    ...args: Parameters<IThirdPartyIntegrations["authenticate"]>
+  ): ReturnType<IThirdPartyIntegrations["authenticate"]> {
     return passport.authenticate(
       "spotify",
       {

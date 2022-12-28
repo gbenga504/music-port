@@ -4,7 +4,7 @@ import spotify from "./spotify";
 import deezer from "./deezer";
 import { InvalidMusicStreamingPlatformError } from "../errors/invalid-music-streaming-platform-error";
 
-import type { IMusicStreamingPlatform } from "./types";
+import type { IThirdPartyIntegrations } from "./types";
 
 export const getPassportStrategies = {
   spotify: spotify.getPassportStrategy(),
@@ -13,8 +13,8 @@ export const getPassportStrategies = {
 
 export function authenticate(
   platform: string | null,
-  ...rest: Parameters<IMusicStreamingPlatform["authenticate"]>
-): ReturnType<IMusicStreamingPlatform["authenticate"]> {
+  ...rest: Parameters<IThirdPartyIntegrations["authenticate"]>
+): ReturnType<IThirdPartyIntegrations["authenticate"]> {
   let authenticationMethodForPlatform = null;
   let that = null;
 
@@ -38,8 +38,8 @@ export function authenticate(
 
 export function getPlaylist(
   platform: string | null,
-  ...rest: Parameters<IMusicStreamingPlatform["getPlaylist"]>
-): ReturnType<IMusicStreamingPlatform["getPlaylist"]> {
+  ...rest: Parameters<IThirdPartyIntegrations["getPlaylist"]>
+): ReturnType<IThirdPartyIntegrations["getPlaylist"]> {
   let getPlaylistMethod = null;
   let that = null;
 
@@ -63,8 +63,8 @@ export function getPlaylist(
 
 export function createPlaylist(
   platform: string | null,
-  ...rest: Parameters<IMusicStreamingPlatform["createPlaylist"]>
-): ReturnType<IMusicStreamingPlatform["createPlaylist"]> {
+  ...rest: Parameters<IThirdPartyIntegrations["createPlaylist"]>
+): ReturnType<IThirdPartyIntegrations["createPlaylist"]> {
   let createPlaylistMethod = null;
   let that = null;
 

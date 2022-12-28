@@ -4,7 +4,7 @@ import { Strategy } from "passport-deezer";
 
 import { AxiosError } from "axios";
 import type { StrategyOptions } from "passport-deezer";
-import type { IMusicStreamingPlatform } from "./types";
+import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
@@ -13,15 +13,15 @@ const clientID = process.env.DEEZER_CLIENTID;
 const clientSecret = process.env.DEEZER_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_DEEZER_AUTH_CALLBACK_URL;
 
-class Deezer implements IMusicStreamingPlatform {
+class Deezer implements IThirdPartyIntegrations {
   private readonly appName: string = "deezer";
 
-  getAppName(): ReturnType<IMusicStreamingPlatform["getAppName"]> {
+  getAppName(): ReturnType<IThirdPartyIntegrations["getAppName"]> {
     return this.appName;
   }
 
   getPassportStrategy(): ReturnType<
-    IMusicStreamingPlatform["getPassportStrategy"]
+    IThirdPartyIntegrations["getPassportStrategy"]
   > {
     return new Strategy(
       {
@@ -42,8 +42,8 @@ class Deezer implements IMusicStreamingPlatform {
   }
 
   authenticate(
-    ...args: Parameters<IMusicStreamingPlatform["authenticate"]>
-  ): ReturnType<IMusicStreamingPlatform["authenticate"]> {
+    ...args: Parameters<IThirdPartyIntegrations["authenticate"]>
+  ): ReturnType<IThirdPartyIntegrations["authenticate"]> {
     return passport.authenticate(
       "deezer",
       {

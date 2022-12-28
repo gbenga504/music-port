@@ -10,21 +10,25 @@ interface IPlatformTokens {
   expiresIn: number | null;
   ownerId: string;
 }
-export interface IMusicStreamingPlatform {
+export interface IThirdPartyIntegrations {
   getAppName: () => string;
   getPassportStrategy: () => DeezerStrategy | SpotifyStrategy;
   authenticate: (
     authOptions: AuthenticateOptions,
     callback?: (error: null | Error, platformTokens: IPlatformTokens) => void,
   ) => RequestHandler;
-  transformPlaylistToInternalFormat: (data: any) => IRawPlaylist;
-  getPlaylist: (playlistOptions: {
+  getPlaylist: (options: {
     accessToken: string;
     link: string;
   }) => Promise<IRawPlaylist>;
-  createPlaylist: (playlistOptions: {
+  createPlaylist: (options: {
     accessToken: string;
     userId: string;
     playlist: IPlaylist;
   }) => Promise<void>;
+  transformPlaylistToInternalFormat: (data: any) => IRawPlaylist;
+  searchForItems: (options: {
+    accessToken: string;
+    playlist: IPlaylist;
+  }) => Promise<(string | null)[]>;
 }
