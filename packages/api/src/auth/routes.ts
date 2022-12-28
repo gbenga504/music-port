@@ -19,7 +19,7 @@ routes.get(
     const { importLink, exportId } = req.query;
 
     const state = Buffer.from(
-      JSON.stringify({ importLink, exportId }),
+      JSON.stringify({ importLink, exportId, platform }),
     ).toString("base64");
 
     passportAuthenticate(platform, { state })(req, res, next);

@@ -54,11 +54,36 @@ export function getPlaylist(
       break;
     default:
       throw new InvalidMusicStreamingPlatformError({
-        message: `No authentication method available for ${platform}`,
+        message: `No get playlist method available for ${platform}`,
       });
   }
 
   return getPlaylistMethod.bind(that)(...rest);
+}
+
+export function createPlaylist(
+  platform: string | null,
+  ...rest: Parameters<IMusicStreamingPlatform["createPlaylist"]>
+): ReturnType<IMusicStreamingPlatform["createPlaylist"]> {
+  let createPlaylistMethod = null;
+  let that = null;
+
+  switch (platform) {
+    case "spotify":
+      createPlaylistMethod = spotify.createPlaylist;
+      that = spotify;
+      break;
+    case "deezer":
+      createPlaylistMethod = deezer.createPlaylist;
+      that = deezer;
+      break;
+    default:
+      throw new InvalidMusicStreamingPlatformError({
+        message: `No create playlist method available for ${platform}`,
+      });
+  }
+
+  return createPlaylistMethod.bind(that)(...rest);
 }
 
 export function getPlatformName(link: string): string | null {
@@ -81,6 +106,13 @@ export function getImportPlaylistId(link: string): string {
   // all have the same pattern of adding the playlistId to the URL. i.e always the last path
   // If a music streaming platform ever specifies differently, then this logic
   // should be handled by each class and this function should only act as an adapter
+  const url = new URL(link);
+  const paths = url.pathname.split("/");
+
+  return paths[paths.length - 1];
+}
+
+export function getExportPlaylistId(link: string): string {
   const url = new URL(link);
   const paths = url.pathname.split("/");
 

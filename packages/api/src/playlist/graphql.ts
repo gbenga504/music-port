@@ -124,6 +124,43 @@ export const importPlaylist = mutationField("importPlaylist", {
   },
 });
 
+const ExportPlaylistPayload = objectType({
+  name: "ExportPlaylistPayload",
+  definition(t) {
+    t.boolean("success");
+    t.nullable.field("error", {
+      type: GraphQLError,
+    });
+  },
+});
+
+export const exportPlaylist = mutationField("exportPlaylist", {
+  type: ExportPlaylistPayload,
+  args: {
+    platform: stringArg(),
+    exportId: stringArg(),
+  },
+  authorize(_parent, _args, ctx) {
+    return Boolean(ctx.accessToken);
+  },
+  async resolve(_parent, args, ctx) {
+    try {
+      await ctx.playlistService.exportPlaylist({
+        accessToken: ctx.accessToken,
+        exportId: args.exportId,
+        userId: ctx.userId,
+        platform: args.platform,
+      });
+
+      return { success: true };
+    } catch (error) {
+      const { name, message } = error as Error;
+
+      return { success: false, error: { name, message } };
+    }
+  },
+});
+
 export const playlistById = queryField("playlistById", {
   type: nullable(Playlist),
   args: {

@@ -2,12 +2,13 @@ import type { RequestHandler } from "express";
 import type { AuthenticateOptions } from "passport";
 import type { Strategy as SpotifyStrategy } from "passport-spotify";
 import type { Strategy as DeezerStrategy } from "passport-deezer";
-import type { IRawPlaylist } from "../models";
+import type { IPlaylist, IRawPlaylist } from "../models";
 
 interface IPlatformTokens {
   accessToken: string;
   refreshToken: string;
   expiresIn: number | null;
+  ownerId: string;
 }
 export interface IMusicStreamingPlatform {
   getAppName: () => string;
@@ -21,4 +22,9 @@ export interface IMusicStreamingPlatform {
     accessToken: string;
     link: string;
   }) => Promise<IRawPlaylist>;
+  createPlaylist: (playlistOptions: {
+    accessToken: string;
+    userId: string;
+    playlist: IPlaylist;
+  }) => Promise<void>;
 }

@@ -1,9 +1,7 @@
 import type { Request } from "express";
-import type { createContext } from "./create-context";
+import type { GraphQLContextType } from "../types/graphql-context-type";
 
-type CreateGraphQLContextType = ReturnType<typeof createContext>;
-
-export function createGraphQLContext(req: Request): CreateGraphQLContextType {
+export function createGraphQLContext(req: Request): GraphQLContextType {
   return {
     ...req.ctx,
   };

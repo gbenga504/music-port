@@ -5,7 +5,7 @@ import { Strategy } from "passport-spotify";
 import { AxiosError } from "axios";
 import type { StrategyOptions } from "passport-spotify";
 import type { IMusicStreamingPlatform } from "./types";
-import type { IRawPlaylist } from "../models";
+import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
 
@@ -29,8 +29,13 @@ class Spotify implements IMusicStreamingPlatform {
         clientSecret,
         callbackURL,
       } as StrategyOptions,
-      function (accessToken, refreshToken, expiresIn, _profile, done) {
-        return done(null, { accessToken, refreshToken, expiresIn });
+      function (accessToken, refreshToken, expiresIn, profile, done) {
+        return done(null, {
+          accessToken,
+          refreshToken,
+          expiresIn,
+          ownerId: profile.id,
+        });
       },
     );
   }
@@ -80,9 +85,113 @@ class Spotify implements IMusicStreamingPlatform {
 
       throw new MusicStreamingPlatformResourceFailureError({
         message: "An unknown error occurred",
-        code: 0,
       });
     }
+  }
+
+  async createPlaylist({
+    playlist,
+    accessToken,
+    userId,
+  }: {
+    playlist: IPlaylist;
+    accessToken: string;
+    userId: string;
+  }): Promise<void> {
+    try {
+      // Search for the items that should be added into the playlist
+      // This function should return an array of strings corresponding to
+      // the uri of the track
+      const items = await this.searchForItems({ playlist, accessToken });
+      const filteredItems = items.filter((item) => item);
+
+      if (filteredItems.length === 0) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: "There are no items to add to the playlist",
+        });
+      }
+
+      // Create a playlist for the user on spotify
+      const { data: playlistOnSpotify } = await axios.post(
+        `https://api.spotify.com/v1/users/${userId}/playlists`,
+        {
+          name: playlist.name,
+          public: true,
+          collaborative: false,
+        },
+        {
+          headers: { Authorization: "Bearer " + accessToken },
+        },
+      );
+
+      // Add items to the playlist we created earlier
+      await axios.post(
+        `https://api.spotify.com/v1/playlists/${playlistOnSpotify.id}/tracks`,
+        {
+          uris: items,
+        },
+        {
+          headers: { Authorization: "Bearer " + accessToken },
+        },
+      );
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        const { data, status } = error.response;
+
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: data?.error?.message,
+          code: status,
+        });
+      }
+
+      if (error instanceof MusicStreamingPlatformResourceFailureError) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: error.message,
+          code: error.code,
+        });
+      }
+
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "An unknown error occurred",
+      });
+    }
+  }
+
+  async searchForItems({
+    playlist,
+    accessToken,
+  }: {
+    playlist: IPlaylist;
+    accessToken: string;
+  }): Promise<(string | null)[]> {
+    async function searchItem(
+      song: IPlaylist["songs"][number],
+    ): Promise<string | null> {
+      const { artists, name } = song;
+      const url = encodeURI(
+        `https://api.spotify.com/v1/search?q=${name}&artist:${artists[0].name}`,
+      );
+
+      const { data } = await axios.get(url, {
+        params: {
+          type: "track",
+          limit: 10,
+        },
+        headers: { Authorization: "Bearer " + accessToken },
+      });
+
+      // We are only interested in the first item from the tracks
+      // query result. The item comes with a uri we should resolve
+      const {
+        tracks: { items },
+      } = data;
+
+      return items?.[0].uri || null;
+    }
+
+    const searchItems = playlist.songs.map((song) => searchItem(song));
+
+    return Promise.all(searchItems);
   }
 
   transformPlaylistToInternalFormat(data: {

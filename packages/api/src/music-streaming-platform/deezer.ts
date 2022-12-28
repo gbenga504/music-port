@@ -5,7 +5,7 @@ import { Strategy } from "passport-deezer";
 import { AxiosError } from "axios";
 import type { StrategyOptions } from "passport-deezer";
 import type { IMusicStreamingPlatform } from "./types";
-import type { IRawPlaylist } from "../models";
+import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
 
@@ -30,8 +30,13 @@ class Deezer implements IMusicStreamingPlatform {
         callbackURL,
         scope: ["basic_access", "manage_library"],
       } as StrategyOptions,
-      function (accessToken, refreshToken, _profile, done) {
-        return done(null, { accessToken, refreshToken, expiresIn: null });
+      function (accessToken, refreshToken, profile, done) {
+        return done(null, {
+          accessToken,
+          refreshToken,
+          expiresIn: null,
+          ownerId: profile.id,
+        });
       },
     );
   }
@@ -73,7 +78,6 @@ class Deezer implements IMusicStreamingPlatform {
       if (data.error) {
         throw new MusicStreamingPlatformResourceFailureError({
           message: data.error.message,
-          code: data.error.code || 0,
         });
       }
 
@@ -97,9 +101,121 @@ class Deezer implements IMusicStreamingPlatform {
 
       throw new MusicStreamingPlatformResourceFailureError({
         message: "An unknown error occurred",
-        code: 0,
       });
     }
+  }
+
+  async createPlaylist({
+    accessToken,
+    playlist,
+  }: {
+    accessToken: string;
+    playlist: IPlaylist;
+  }): Promise<void> {
+    try {
+      // Search for the items that should be added into the playlist
+      // This function should return an array of strings corresponding to
+      // the uri of the track
+      const items = await this.searchForItems({ playlist, accessToken });
+      const filteredItems = items.filter((item) => item);
+
+      if (filteredItems.length === 0) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: "There are no items to add to the playlist",
+        });
+      }
+
+      // Create a playlist for the user on spotify
+      const { data: playlistOnDeezer } = await axios.post(
+        `https://api.deezer.com/user/me/playlists?access_token=${accessToken}`,
+        {
+          title: playlist.name,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (playlistOnDeezer.error) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: playlistOnDeezer.error.message,
+        });
+      }
+
+      // Add items to the playlist we created earlier
+      const { data } = await axios.post(
+        `https://api.deezer.com/playlist/${playlistOnDeezer.id}/tracks?access_token=${accessToken}`,
+        {
+          songs: items.join(","),
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+
+      if (data.error) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: data.error.message,
+        });
+      }
+    } catch (error) {
+      if (error instanceof AxiosError && error.response) {
+        const { data, status } = error.response;
+
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: data?.error?.message,
+          code: status,
+        });
+      }
+
+      if (error instanceof MusicStreamingPlatformResourceFailureError) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: error.message,
+          code: error.code,
+        });
+      }
+
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "An unknown error occurred",
+      });
+    }
+  }
+
+  async searchForItems({
+    playlist,
+    accessToken,
+  }: {
+    playlist: IPlaylist;
+    accessToken: string;
+  }): Promise<(string | null)[]> {
+    async function searchItem(
+      song: IPlaylist["songs"][number],
+    ): Promise<string | null> {
+      const { artists, name } = song;
+      const url = encodeURI(
+        `https://api.deezer.com/search?q=track:"${name}" artist:"${artists[0].name}"&access_token=${accessToken}`,
+      );
+
+      const { data } = await axios.get(url);
+
+      if (data.error) {
+        throw new MusicStreamingPlatformResourceFailureError({
+          message: data.error.message,
+        });
+      }
+
+      // We are only interested in the first item from the tracks
+      // query result. The item comes with a uri we should resolve
+      return data?.data?.[0]?.id || null;
+    }
+
+    const searchItems = playlist.songs.map((song) => searchItem(song));
+
+    return Promise.all(searchItems);
   }
 
   transformPlaylistToInternalFormat({

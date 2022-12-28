@@ -5,6 +5,7 @@ import * as musicStreamingPlatform from "../music-streaming-platform";
 
 import type { ObjectId } from "mongoose";
 import type { PlaylistRepository } from "./repository";
+import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
@@ -48,6 +49,32 @@ export class PlaylistService {
     };
 
     return this.playlistRepository.create(playlist);
+  }
+
+  async exportPlaylist({
+    accessToken,
+    userId,
+    platform,
+    exportId,
+  }: {
+    accessToken: string;
+    userId: string;
+    platform: string;
+    exportId: string;
+  }): Promise<void> {
+    const playlist = await this.playlistRepository.findOneByExportId(exportId);
+
+    if (!playlist) {
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "Wrong export Id",
+      });
+    }
+
+    return musicStreamingPlatform.createPlaylist(platform, {
+      accessToken,
+      userId,
+      playlist,
+    });
   }
 
   async getById({ id }: { id: ObjectId | string }): Promise<IPlaylist | null> {
