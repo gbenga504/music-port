@@ -1,7 +1,7 @@
 import axios from "axios";
 
-import { auth } from "./auth";
-import { playlist } from "./playlist";
+import { Auth } from "./auth";
+import { Playlist } from "./playlist";
 
 interface ICreateApiClientParams {
   backendApiBaseUrl?: string;
@@ -28,9 +28,15 @@ export const createApiClient = ({
     headers,
   });
 
+  const auth = new Auth({ httpClientForBackend, httpClientForFrontend });
+  const playlist = new Playlist({
+    httpClientForBackend,
+    httpClientForFrontend,
+  });
+
   return {
-    auth: auth({ httpClientForBackend, httpClientForFrontend }),
-    playlist: playlist({ httpClientForBackend, httpClientForFrontend }),
+    auth,
+    playlist,
   };
 };
 
