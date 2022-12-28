@@ -4,7 +4,7 @@ import passport from "passport";
 import {
   getPassportStrategies,
   authenticate as passportAuthenticate,
-} from "../music-streaming-platform";
+} from "../third-party-integrations";
 
 const routes = Router();
 

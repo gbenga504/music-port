@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 
 import { IPlaylist } from "../models";
-import * as musicStreamingPlatform from "../music-streaming-platform";
+import * as thirdPartyIntegrations from "../third-party-integrations";
 
 import type { ObjectId } from "mongoose";
 import type { PlaylistRepository } from "./repository";
@@ -25,12 +25,12 @@ export class PlaylistService {
     accessToken: string;
     link: string;
   }): Promise<IPlaylist> {
-    const platform = musicStreamingPlatform.getPlatformName(link);
+    const platform = thirdPartyIntegrations.getPlatformName(link);
 
     // We don't want to send a request to the music streaming service neither
     // do we want to save a playlist more than once. So we check if the import link
     // already exists in our DB and we return early
-    const importPlaylistId = musicStreamingPlatform.getImportPlaylistId(link);
+    const importPlaylistId = thirdPartyIntegrations.getImportPlaylistId(link);
     const existingPlaylist =
       await this.playlistRepository.findOneByImportPlaylistId(importPlaylistId);
 
@@ -38,7 +38,7 @@ export class PlaylistService {
       return existingPlaylist;
     }
 
-    const rawPlaylist = await musicStreamingPlatform.getPlaylist(platform, {
+    const rawPlaylist = await thirdPartyIntegrations.getPlaylist(platform, {
       accessToken,
       link,
     });
@@ -70,7 +70,7 @@ export class PlaylistService {
       });
     }
 
-    return musicStreamingPlatform.createPlaylist(platform, {
+    return thirdPartyIntegrations.createPlaylist(platform, {
       accessToken,
       userId,
       playlist,
