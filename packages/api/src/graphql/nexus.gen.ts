@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import type { GraphQLContextType } from "./../types/graphql-context-type";
+import type { GraphQLContextType } from "./graphql-context-type";
 import type { IPlaylist } from "./../models";
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin";
 import type { core, connectionPluginCore } from "nexus";
@@ -36,6 +36,11 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  ExportPlaylistPayload: {
+    // root type
+    error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
   ImportPlaylistPayload: {
     // root type
     data?: NexusGenRootTypes["Playlist"] | null; // Playlist
@@ -82,6 +87,11 @@ export type NexusGenRootTypes = NexusGenObjects;
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars;
 
 export interface NexusGenFieldTypes {
+  ExportPlaylistPayload: {
+    // field return type
+    error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
   ImportPlaylistPayload: {
     // field return type
     data: NexusGenRootTypes["Playlist"] | null; // Playlist
@@ -90,6 +100,7 @@ export interface NexusGenFieldTypes {
   };
   Mutation: {
     // field return type
+    exportPlaylist: NexusGenRootTypes["ExportPlaylistPayload"]; // ExportPlaylistPayload!
     importPlaylist: NexusGenRootTypes["ImportPlaylistPayload"]; // ImportPlaylistPayload!
   };
   Playlist: {
@@ -138,6 +149,11 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  ExportPlaylistPayload: {
+    // field return type name
+    error: "PlaylistError";
+    success: "Boolean";
+  };
   ImportPlaylistPayload: {
     // field return type name
     data: "Playlist";
@@ -146,6 +162,7 @@ export interface NexusGenFieldTypeNames {
   };
   Mutation: {
     // field return type name
+    exportPlaylist: "ExportPlaylistPayload";
     importPlaylist: "ImportPlaylistPayload";
   };
   Playlist: {
@@ -195,6 +212,11 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    exportPlaylist: {
+      // args
+      exportId: string; // String!
+      platform: string; // String!
+    };
     importPlaylist: {
       // args
       link: string; // String!

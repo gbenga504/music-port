@@ -7,7 +7,7 @@ import {
   connectionPlugin,
   nullabilityGuardPlugin,
 } from "nexus";
-import { createGraphQLContext } from "../framework/create-graphql-context";
+import { createGraphQLContext } from "./create-graphql-context";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 
 import * as Playlist from "../playlist/graphql";
@@ -44,7 +44,7 @@ const schema = makeSchema({
     modules: [],
   },
   contextType: {
-    module: join(__dirname, "../types", "graphql-context-type.ts"),
+    module: join(__dirname, "graphql-context-type.ts"),
     export: "GraphQLContextType",
   },
   prettierConfig: require.resolve("../../.prettierrc"),

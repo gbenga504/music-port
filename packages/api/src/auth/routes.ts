@@ -4,7 +4,7 @@ import passport from "passport";
 import {
   getPassportStrategies,
   authenticate as passportAuthenticate,
-} from "../music-streaming-platform";
+} from "../third-party-integrations";
 
 const routes = Router();
 
@@ -16,11 +16,11 @@ routes.get(
   `/auth/:platform(${Object.keys(getPassportStrategies).join("|")})`,
   (req, res, next) => {
     const { platform } = req.params;
-    const { importLink } = req.query;
+    const { importLink, exportId } = req.query;
 
-    const state = Buffer.from(JSON.stringify({ importLink })).toString(
-      "base64",
-    );
+    const state = Buffer.from(
+      JSON.stringify({ importLink, exportId, platform }),
+    ).toString("base64");
 
     passportAuthenticate(platform, { state })(req, res, next);
   },
