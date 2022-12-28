@@ -78,6 +78,7 @@ class Deezer implements IMusicStreamingPlatform {
       if (data.error) {
         throw new MusicStreamingPlatformResourceFailureError({
           message: data.error.message,
+          code: data.error.code,
         });
       }
 
@@ -92,16 +93,7 @@ class Deezer implements IMusicStreamingPlatform {
         });
       }
 
-      if (error instanceof MusicStreamingPlatformResourceFailureError) {
-        throw new MusicStreamingPlatformResourceFailureError({
-          message: error.message,
-          code: error.code,
-        });
-      }
-
-      throw new MusicStreamingPlatformResourceFailureError({
-        message: "An unknown error occurred",
-      });
+      throw error;
     }
   }
 
@@ -141,6 +133,7 @@ class Deezer implements IMusicStreamingPlatform {
       if (playlistOnDeezer.error) {
         throw new MusicStreamingPlatformResourceFailureError({
           message: playlistOnDeezer.error.message,
+          code: playlistOnDeezer.error.code,
         });
       }
 
@@ -160,6 +153,7 @@ class Deezer implements IMusicStreamingPlatform {
       if (data.error) {
         throw new MusicStreamingPlatformResourceFailureError({
           message: data.error.message,
+          code: data.error.code,
         });
       }
     } catch (error) {
@@ -172,16 +166,7 @@ class Deezer implements IMusicStreamingPlatform {
         });
       }
 
-      if (error instanceof MusicStreamingPlatformResourceFailureError) {
-        throw new MusicStreamingPlatformResourceFailureError({
-          message: error.message,
-          code: error.code,
-        });
-      }
-
-      throw new MusicStreamingPlatformResourceFailureError({
-        message: "An unknown error occurred",
-      });
+      throw error;
     }
   }
 
@@ -205,6 +190,7 @@ class Deezer implements IMusicStreamingPlatform {
       if (data.error) {
         throw new MusicStreamingPlatformResourceFailureError({
           message: data.error.message,
+          code: data.error.code,
         });
       }
 

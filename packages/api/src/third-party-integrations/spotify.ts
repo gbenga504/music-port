@@ -83,9 +83,7 @@ class Spotify implements IMusicStreamingPlatform {
         });
       }
 
-      throw new MusicStreamingPlatformResourceFailureError({
-        message: "An unknown error occurred",
-      });
+      throw error;
     }
   }
 
@@ -144,16 +142,7 @@ class Spotify implements IMusicStreamingPlatform {
         });
       }
 
-      if (error instanceof MusicStreamingPlatformResourceFailureError) {
-        throw new MusicStreamingPlatformResourceFailureError({
-          message: error.message,
-          code: error.code,
-        });
-      }
-
-      throw new MusicStreamingPlatformResourceFailureError({
-        message: "An unknown error occurred",
-      });
+      throw error;
     }
   }
 

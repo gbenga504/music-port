@@ -5,7 +5,7 @@ import * as thirdPartyIntegrations from "../third-party-integrations";
 
 import type { ObjectId } from "mongoose";
 import type { PlaylistRepository } from "./repository";
-import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { InvalidExportIdError } from "../errors/invalid-export-id-error";
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
@@ -65,8 +65,8 @@ export class PlaylistService {
     const playlist = await this.playlistRepository.findOneByExportId(exportId);
 
     if (!playlist) {
-      throw new MusicStreamingPlatformResourceFailureError({
-        message: "Wrong export Id",
+      throw new InvalidExportIdError({
+        message: "Export Id not found",
       });
     }
 
