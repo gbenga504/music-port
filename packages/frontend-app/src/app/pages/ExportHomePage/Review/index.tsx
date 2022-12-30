@@ -1,20 +1,15 @@
 import React from "react";
 import { Field, Form } from "react-final-form";
-import { useNavigate } from "react-router-dom";
 
 import type { ILoadableComponentProps } from "../../../../utils/routeUtils";
 
 import { Button } from "../../../components/Button";
 import { PageLayout } from "../../../components/PageLayout";
 import { Select } from "../../../components/Select";
-import { routeIds } from "../../../routes";
-import { constructURL } from "../../../../utils/url";
 
-const Review: React.FC<ILoadableComponentProps> = () => {
-  const navigate = useNavigate();
-
-  const handleSubmitFormValues = () => {
-    navigate(constructURL({ routeId: routeIds.exportCreatePlaylist }));
+const Review: React.FC<ILoadableComponentProps> = ({ pageData, params }) => {
+  const handleSubmitFormValues = ({ platform }: { platform: string }) => {
+    location.href = `/api/auth/${platform}?exportId=${params.id}&actionType=export`;
   };
 
   const renderForm = () => {
@@ -70,15 +65,19 @@ const Review: React.FC<ILoadableComponentProps> = () => {
     >
       <div>
         <div className="flex gap-x-3">
-          <div className="w-24 h-24 rounded-md bg-slate-300"></div>
+          <div className="w-24 h-24 rounded-md bg-slate-300">
+            <img
+              src={pageData.images[0].url}
+              className="w-24 h-24 rounded-md"
+            />
+          </div>
           <div className="w-max">
-            <h5 className="font-medium text-xl text-title">
-              Beautiful Melodious music
-            </h5>
+            <h5 className="font-medium text-xl text-title">{pageData.name}</h5>
             <p className="text-sm text-title">
-              <span className="font-medium">Owned by: </span> Anifowoshe Gbenga
+              <span className="font-medium">Owned by: </span>{" "}
+              {pageData.owner.name}
             </p>
-            <p className="text-sm">5 Songs</p>
+            <p className="text-sm">{pageData.songs.length} Songs</p>
           </div>
         </div>
         <div className="mt-5">{renderForm()}</div>

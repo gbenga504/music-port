@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, matchRoutes, renderMatches } from "react-router-dom";
+import {
+  useLocation,
+  matchRoutes,
+  renderMatches,
+  useSearchParams,
+  matchPath,
+} from "react-router-dom";
 
 import type { RouteObjectWithLoadData, Location } from "react-router-dom";
 import type { LoadableComponent } from "@loadable/component";
@@ -14,7 +20,6 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
-import { NotFoundError } from "../errors/not-found-error";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 
@@ -23,6 +28,7 @@ interface ITransformMatchedRoutesParams {
   location: Location;
   pageDatas: IPageDatas;
   api: ICreateApiClient;
+  query: { [key: string]: string };
 }
 
 const transformMatchedRoutes = ({
@@ -30,16 +36,18 @@ const transformMatchedRoutes = ({
   location,
   pageDatas,
   api,
+  query,
 }: ITransformMatchedRoutesParams): IMacthedRoutes => {
   const matchedRoutes = matchRoutes(routes, location);
 
-  if (!matchedRoutes) {
-    throw new NotFoundError();
-  }
-
-  return matchedRoutes.map((matchedRoute) => {
+  return matchedRoutes!.map((matchedRoute) => {
     const Component = matchedRoute.route
       .component as LoadableComponent<ILoadableComponentProps>;
+
+    const matchedPath = matchPath(
+      matchedRoute.route.path!,
+      matchedRoute.pathname
+    );
 
     const pageData = pageDatas[matchedRoute.route.id];
 
@@ -47,7 +55,17 @@ const transformMatchedRoutes = ({
       ...matchedRoute,
       route: {
         ...matchedRoute.route,
-        element: <Component pageData={pageData} api={api} />,
+        element: (
+          <Component
+            pageData={pageData}
+            api={api}
+            query={query}
+            params={
+              (matchedPath?.params as unknown as { [key: string]: string }) ||
+              {}
+            }
+          />
+        ),
       },
     };
   });
@@ -61,10 +79,19 @@ interface IProps {
 
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const transformedMatchedRoutes = error
     ? []
-    : [...(transformMatchedRoutes({ routes, location, pageDatas, api }) || [])];
+    : [
+        ...(transformMatchedRoutes({
+          routes,
+          location,
+          pageDatas,
+          api,
+          query: convertSearchParamsToObject(),
+        }) || []),
+      ];
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>(
     transformedMatchedRoutes
   );
@@ -73,21 +100,33 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
     (async function () {
       setIsPageLoading(true);
 
-      const pageDatas = await loadPageResources(
-        matchRoutes(routes, location),
-        api
-      );
+      const pageDatas = await loadPageResources({
+        matchedRoutes: matchRoutes(routes, location),
+        api,
+        query: convertSearchParamsToObject(),
+      });
       const matchedRoutes = transformMatchedRoutes({
         routes,
         location,
         pageDatas,
         api,
+        query: convertSearchParamsToObject(),
       });
 
       setIsPageLoading(false);
       setMatchedRoutes(matchedRoutes);
     })();
   }, [location]);
+
+  function convertSearchParamsToObject() {
+    const obj: { [key: string]: string } = {};
+
+    for (const [key, value] of searchParams) {
+      obj[key] = value;
+    }
+
+    return obj;
+  }
 
   return (
     <ErrorBoundary error={error}>

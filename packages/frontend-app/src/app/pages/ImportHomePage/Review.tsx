@@ -50,7 +50,10 @@ const Review: React.FC<ILoadableComponentProps> = () => {
         constructURL({
           routeId: routeIds.importCopyExportLink,
           query: { exportId: result.data.exportId },
-        })
+        }),
+        {
+          replace: true,
+        }
       );
     })();
   }, []);

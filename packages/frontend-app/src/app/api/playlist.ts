@@ -35,4 +35,74 @@ export class Playlist {
 
     return importPlaylist;
   }
+
+  async getPlaylistByExportId({
+    exportId,
+  }: {
+    exportId: string;
+  }): Promise<any> {
+    const {
+      data: {
+        data: { playlistByExportId },
+      },
+    } = await this.httpClientForBackend.post("/graphql", {
+      query: gql`
+        query getPlaylistByExportId($exportId: String!) {
+          playlistByExportId(exportId: $exportId) {
+            id
+            exportId
+            images {
+              url
+              width
+              height
+            }
+            name
+            owner {
+              name
+            }
+            songs {
+              name
+            }
+          }
+        }
+      `,
+      variables: {
+        exportId,
+      },
+    });
+
+    return playlistByExportId;
+  }
+
+  async exportPlaylist({
+    platform,
+    exportId,
+  }: {
+    platform: string;
+    exportId: string;
+  }): Promise<any> {
+    const {
+      data: {
+        data: { exportPlaylist },
+      },
+    } = await this.httpClientForBackend.post("/graphql", {
+      query: gql`
+        mutation exportPlaylist($exportId: String!, $platform: String!) {
+          exportPlaylist(exportId: $exportId, platform: $platform) {
+            success
+            error {
+              name
+              message
+            }
+          }
+        }
+      `,
+      variables: {
+        exportId,
+        platform,
+      },
+    });
+
+    return exportPlaylist;
+  }
 }
