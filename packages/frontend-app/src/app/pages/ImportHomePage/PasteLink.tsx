@@ -17,7 +17,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
   const handleSubmitFormValues = (values: importMusicFormInputs) => {
     try {
       const platformName = getPlatformName(values.link);
-      location.href = `/api/auth/${platformName}?importLink=${values.link}`;
+      location.href = `/api/auth/${platformName}?importLink=${values.link}&actionType=import`;
     } catch (error) {
       const { name, message } = error as Error;
 

@@ -3,6 +3,8 @@ import loadable from "@loadable/component";
 import type { RouteObjectWithLoadData } from "react-router-dom";
 import type { ILoadableComponentProps } from "../utils/routeUtils";
 
+import { loadData as exportReviewLoadData } from "./pages/ExportHomePage/Review/loadData";
+
 export const routeIds = {
   import: "import",
   importPasteLink: "importPasteLink",
@@ -68,6 +70,7 @@ const routes: RouteObjectWithLoadData[] = [
         component: loadable<ILoadableComponentProps>(
           () => import("./pages/ExportHomePage/Review/index"),
         ),
+        loadData: exportReviewLoadData,
       },
       {
         id: routeIds.exportCreatePlaylist,

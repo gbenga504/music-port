@@ -3,6 +3,7 @@ import type { LoadableComponent } from "@loadable/component";
 
 import type { ICreateApiClient } from "../app/api";
 import type { IPageDatas } from "../app/utils/routeUtils";
+import type { ILoadData } from "../utils/routeUtils";
 
 declare module "react-router-dom" {
   interface IndexRouteObject {
@@ -11,7 +12,7 @@ declare module "react-router-dom" {
 
   type RouteObjectWithLoadData = RouteObject & {
     id: string;
-    loadData?: ({ api }: { api: ICreateApiClient }) => Promise<IPageDatas>;
+    loadData?: (options: ILoadData) => Promise<IPageDatas>;
     component: LoadableComponent;
     children?: RouteObjectWithLoadData[];
   };

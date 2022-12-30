@@ -10,12 +10,16 @@ export interface IPageDatas {
 }
 
 export interface ILoadableComponentProps {
-  pageData: { [key: string]: any } | null;
+  pageData: { [key: string]: any };
   api: ICreateApiClient;
+  query: { [key: string]: string };
+  params: { [key: string]: string };
 }
 
 export interface ILoadData {
   api: ICreateApiClient;
+  params: { [key: string]: string };
+  query: { [key: string]: string };
 }
 
 export type IMacthedRoutes = ReturnType<
@@ -27,19 +31,40 @@ interface ILoadPageDataPromise {
   data: object | null;
 }
 
-export const loadPageResources = async (
-  matchedRoutes: IMacthedRoutes,
-  api: ICreateApiClient,
-): Promise<IPageDatas> => {
+interface ILoadPageResourcesOptions {
+  matchedRoutes: IMacthedRoutes;
+  api: ICreateApiClient;
+  query: { [key: string]: string };
+}
+
+export const loadPageResources = async ({
+  matchedRoutes,
+  api,
+  query,
+}: ILoadPageResourcesOptions): Promise<IPageDatas> => {
   const matchedRoutesPromises = matchedRoutes!.map((matchedRoute) => {
+    let params = {};
+    const matchedPath = matchPath(
+      matchedRoute.route.path!,
+      matchedRoute.pathname,
+    );
+
+    if (matchedPath) {
+      params = matchedPath.params;
+    }
+
     if (matchedRoute.route.loadData) {
       return new Promise<ILoadPageDataPromise>(async (resolve) => {
-        let data = null;
+        let data = {};
 
         await matchedRoute.route.component.load();
 
         if (matchedRoute.route.loadData) {
-          data = await matchedRoute.route.loadData({ api });
+          data = await matchedRoute.route.loadData({
+            api,
+            params: params as { [key: string]: string },
+            query,
+          });
         }
 
         resolve({ id: matchedRoute.route.id, data });

@@ -8,7 +8,7 @@ interface IPlatformTokens {
   accessToken: string;
   refreshToken: string;
   expiresIn: number | null;
-  ownerId: string;
+  userId: string;
 }
 export interface IThirdPartyIntegrations {
   getIntegrationName: () => string;

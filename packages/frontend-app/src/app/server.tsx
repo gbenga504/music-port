@@ -25,7 +25,11 @@ export const renderer = async (
   });
 
   const matchedRoutes = matchRoutes(routes, req.url) || [];
-  const pageDatas = await loadPageResources(matchedRoutes, req.api);
+  const pageDatas = await loadPageResources({
+    matchedRoutes,
+    api: req.api,
+    query: req.query as { [key: string]: string },
+  });
 
   const data = {
     pageDatas,

@@ -36,7 +36,7 @@ class Spotify implements IThirdPartyIntegrations {
           accessToken,
           refreshToken,
           expiresIn,
-          ownerId: profile.id,
+          userId: profile.id,
         });
       },
     );
