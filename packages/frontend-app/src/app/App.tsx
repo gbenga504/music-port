@@ -20,7 +20,6 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
-import { NotFoundError } from "../errors/not-found-error";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 
@@ -41,11 +40,7 @@ const transformMatchedRoutes = ({
 }: ITransformMatchedRoutesParams): IMacthedRoutes => {
   const matchedRoutes = matchRoutes(routes, location);
 
-  if (!matchedRoutes) {
-    throw new NotFoundError();
-  }
-
-  return matchedRoutes.map((matchedRoute) => {
+  return matchedRoutes!.map((matchedRoute) => {
     const Component = matchedRoute.route
       .component as LoadableComponent<ILoadableComponentProps>;
 

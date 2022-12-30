@@ -24,12 +24,16 @@ export const renderer = async (
     entrypoints: ["client"],
   });
 
-  const matchedRoutes = matchRoutes(routes, req.url) || [];
-  const pageDatas = await loadPageResources({
-    matchedRoutes,
-    api: req.api,
-    query: req.query as { [key: string]: string },
-  });
+  let pageDatas = {};
+
+  if (!error) {
+    const matchedRoutes = matchRoutes(routes, req.url);
+    pageDatas = await loadPageResources({
+      matchedRoutes,
+      api: req.api,
+      query: req.query as { [key: string]: string },
+    });
+  }
 
   const data = {
     pageDatas,

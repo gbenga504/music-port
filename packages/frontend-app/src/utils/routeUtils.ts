@@ -4,6 +4,7 @@ import type { RouteObjectWithLoadData } from "react-router-dom";
 import type { ICreateApiClient } from "../app/api";
 
 import routes from "../app/routes";
+import { NotFoundError } from "../errors/not-found-error";
 
 export interface IPageDatas {
   [key: string]: any;
@@ -42,7 +43,11 @@ export const loadPageResources = async ({
   api,
   query,
 }: ILoadPageResourcesOptions): Promise<IPageDatas> => {
-  const matchedRoutesPromises = matchedRoutes!.map((matchedRoute) => {
+  if (!matchedRoutes) {
+    throw new NotFoundError();
+  }
+
+  const matchedRoutesPromises = matchedRoutes.map((matchedRoute) => {
     let params = {};
     const matchedPath = matchPath(
       matchedRoute.route.path!,
