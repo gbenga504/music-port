@@ -37,7 +37,7 @@ class Deezer implements IThirdPartyIntegrations {
           accessToken,
           refreshToken,
           expiresIn: null,
-          userId: profile.id,
+          ownerId: profile.id,
         });
       },
     );

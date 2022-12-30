@@ -1,6 +1,8 @@
 declare module "passport-deezer" {
   import { Request } from "express";
 
+  type VerifyCallback = (error?: Error | null, user?: object) => void;
+
   export interface StrategyOptions {
     clientID: string;
     clientSecret: string;
