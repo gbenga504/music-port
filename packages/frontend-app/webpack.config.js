@@ -2,6 +2,7 @@ const path = require("path");
 const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: { client: "./src/app/client.tsx" },
@@ -55,6 +56,11 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].bundle.css",
       chunkFilename: "[name].[contenthash].bundle.css",
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: `${__dirname}/src/assets`, to: `${__dirname}/dist/public` },
+      ],
     }),
   ],
 };
