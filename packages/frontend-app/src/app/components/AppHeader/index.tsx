@@ -8,6 +8,7 @@ import {
 } from "../../components/ProgressBar";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
+import { LogoIcon } from "../icons";
 
 interface IProps {
   progressBar: IProgressBarProps;
@@ -26,7 +27,9 @@ export const AppHeader: React.FC<IProps> = ({
   return (
     <div className="w-full">
       <nav className="w-11/12 md:w-4/5 m-auto flex justify-between items-center h-24">
-        <div />
+        <div>
+          <LogoIcon size={50} />
+        </div>
         <Space size="large">
           <Button variant="text" size="medium">
             Feedback
