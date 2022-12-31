@@ -42,6 +42,7 @@ const Review: React.FC<ILoadableComponentProps> = () => {
           title: result.error.name,
           description: result.error.message,
           status: "error",
+          duration: 4000,
         });
       }
 

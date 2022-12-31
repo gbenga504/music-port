@@ -77,10 +77,10 @@ class Spotify implements IThirdPartyIntegrations {
       return this.transformPlaylistToInternalFormat(data);
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
-        const { data, status } = error.response;
+        const { data, status, statusText } = error.response;
 
         throw new MusicStreamingPlatformResourceFailureError({
-          message: data?.error?.message,
+          message: data?.error?.message || statusText,
           code: status,
         });
       }
