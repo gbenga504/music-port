@@ -124,10 +124,20 @@ export const importPlaylist = mutationField("importPlaylist", {
   },
 });
 
+const ExportPlaylistPayloadData = objectType({
+  name: "ExportPlaylistPayloadData",
+  definition(t) {
+    t.string("url");
+  },
+});
+
 const ExportPlaylistPayload = objectType({
   name: "ExportPlaylistPayload",
   definition(t) {
     t.boolean("success");
+    t.nullable.field("data", {
+      type: ExportPlaylistPayloadData,
+    });
     t.nullable.field("error", {
       type: GraphQLError,
     });
@@ -145,14 +155,14 @@ export const exportPlaylist = mutationField("exportPlaylist", {
   },
   async resolve(_parent, args, ctx) {
     try {
-      await ctx.playlistService.exportPlaylist({
+      const result = await ctx.playlistService.exportPlaylist({
         accessToken: ctx.accessToken,
         exportId: args.exportId,
         userId: ctx.userId,
         platform: args.platform,
       });
 
-      return { success: true };
+      return { success: true, data: { url: result.url } };
     } catch (error) {
       const { name, message } = error as Error;
 

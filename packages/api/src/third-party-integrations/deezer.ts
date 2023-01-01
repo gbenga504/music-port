@@ -55,20 +55,16 @@ class Deezer implements IThirdPartyIntegrations {
     );
   }
 
-  async getPlaylist({
+  async getPlaylistById({
     accessToken,
-    link,
+    id,
   }: {
     accessToken: string;
-    link: string;
+    id: string;
   }): Promise<IRawPlaylist> {
-    const url = new URL(link);
-    const paths = url.pathname.split("/");
-    const playlistId = paths[paths.length - 1];
-
     try {
       const { data } = await axios.get(
-        `https://api.deezer.com/playlist/${playlistId}`,
+        `https://api.deezer.com/playlist/${id}`,
         {
           headers: { Authorization: "Bearer " + accessToken },
           params: {
@@ -84,7 +80,7 @@ class Deezer implements IThirdPartyIntegrations {
         });
       }
 
-      return this.transformPlaylistToInternalFormat({ data, importLink: link });
+      return this.transformPlaylistToInternalFormat(data);
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         const { data, status, statusText } = error.response;
@@ -99,13 +95,27 @@ class Deezer implements IThirdPartyIntegrations {
     }
   }
 
+  async getPlaylistByLink({
+    accessToken,
+    link,
+  }: {
+    accessToken: string;
+    link: string;
+  }): Promise<IRawPlaylist> {
+    const url = new URL(link);
+    const paths = url.pathname.split("/");
+    const playlistId = paths[paths.length - 1];
+
+    return this.getPlaylistById({ accessToken, id: playlistId });
+  }
+
   async createPlaylist({
     accessToken,
     playlist,
   }: {
     accessToken: string;
     playlist: IPlaylist;
-  }): Promise<void> {
+  }): Promise<{ url: string }> {
     try {
       // Search for the items that should be added into the playlist
       // This function should return an array of strings corresponding to
@@ -151,6 +161,15 @@ class Deezer implements IThirdPartyIntegrations {
           code: data.error.code,
         });
       }
+
+      // Get the url of the playlist on deezer.
+      // This is an extra step needed on deezer because deezer does not return the url of playlist during creation
+      const result = await this.getPlaylistById({
+        accessToken,
+        id: playlistOnDeezer.id,
+      });
+
+      return { url: result.importLink };
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         const { data, status } = error.response;
@@ -216,14 +235,8 @@ class Deezer implements IThirdPartyIntegrations {
     return filteredItems;
   }
 
-  transformPlaylistToInternalFormat({
-    data,
-    importLink,
-  }: {
-    data: {
-      [key: string]: any;
-    };
-    importLink: string;
+  transformPlaylistToInternalFormat(data: {
+    [key: string]: any;
   }): IRawPlaylist {
     if (data.tracks.data.length > 25) {
       throw new MusicStreamingPlatformResourceFailureError({
@@ -232,7 +245,7 @@ class Deezer implements IThirdPartyIntegrations {
     }
 
     return {
-      importLink,
+      importLink: data.link,
       importPlaylistId: data.id,
       images: [
         { url: data.picture_small, width: 56, height: 56 },

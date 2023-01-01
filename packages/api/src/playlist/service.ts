@@ -38,10 +38,13 @@ export class PlaylistService {
       return existingPlaylist;
     }
 
-    const rawPlaylist = await thirdPartyIntegrations.getPlaylist(platform, {
-      accessToken,
-      link,
-    });
+    const rawPlaylist = await thirdPartyIntegrations.getPlaylistByLink(
+      platform,
+      {
+        accessToken,
+        link,
+      },
+    );
 
     const playlist = {
       ...rawPlaylist,
@@ -61,7 +64,7 @@ export class PlaylistService {
     userId: string;
     platform: string;
     exportId: string;
-  }): Promise<void> {
+  }): Promise<{ url: string }> {
     const playlist = await this.playlistRepository.findOneByExportId(exportId);
 
     if (!playlist) {

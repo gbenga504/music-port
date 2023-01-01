@@ -36,20 +36,20 @@ export function authenticate(
   return authenticationMethodForPlatform.bind(that)(...rest);
 }
 
-export function getPlaylist(
+export function getPlaylistByLink(
   platform: string | null,
-  ...rest: Parameters<IThirdPartyIntegrations["getPlaylist"]>
-): ReturnType<IThirdPartyIntegrations["getPlaylist"]> {
+  ...rest: Parameters<IThirdPartyIntegrations["getPlaylistByLink"]>
+): ReturnType<IThirdPartyIntegrations["getPlaylistByLink"]> {
   let getPlaylistMethod = null;
   let that = null;
 
   switch (platform) {
     case "spotify":
-      getPlaylistMethod = spotify.getPlaylist;
+      getPlaylistMethod = spotify.getPlaylistByLink;
       that = spotify;
       break;
     case "deezer":
-      getPlaylistMethod = deezer.getPlaylist;
+      getPlaylistMethod = deezer.getPlaylistByLink;
       that = deezer;
       break;
     default:

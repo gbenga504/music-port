@@ -17,15 +17,19 @@ export interface IThirdPartyIntegrations {
     authOptions: AuthenticateOptions,
     callback?: (error: null | Error, platformTokens: IPlatformTokens) => void,
   ) => RequestHandler;
-  getPlaylist: (options: {
+  getPlaylistByLink: (options: {
     accessToken: string;
     link: string;
+  }) => Promise<IRawPlaylist>;
+  getPlaylistById: (options: {
+    accessToken: string;
+    id: string;
   }) => Promise<IRawPlaylist>;
   createPlaylist: (options: {
     accessToken: string;
     userId: string;
     playlist: IPlaylist;
-  }) => Promise<void>;
+  }) => Promise<{ url: string }>;
   transformPlaylistToInternalFormat: (data: any) => IRawPlaylist;
   searchForItems: (options: {
     accessToken: string;

@@ -90,6 +90,9 @@ export class Playlist {
         mutation exportPlaylist($exportId: String!, $platform: String!) {
           exportPlaylist(exportId: $exportId, platform: $platform) {
             success
+            data {
+              url
+            }
             error {
               name
               message

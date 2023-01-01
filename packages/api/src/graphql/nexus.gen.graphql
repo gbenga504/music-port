@@ -2,8 +2,13 @@
 ### Do not make changes to this file directly
 
 type ExportPlaylistPayload {
+  data: ExportPlaylistPayloadData
   error: PlaylistError
   success: Boolean!
+}
+
+type ExportPlaylistPayloadData {
+  url: String!
 }
 
 type ImportPlaylistPayload {

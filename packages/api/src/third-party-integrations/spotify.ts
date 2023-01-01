@@ -55,20 +55,16 @@ class Spotify implements IThirdPartyIntegrations {
     );
   }
 
-  async getPlaylist({
+  async getPlaylistById({
     accessToken,
-    link,
+    id,
   }: {
     accessToken: string;
-    link: string;
+    id: string;
   }): Promise<IRawPlaylist> {
-    const url = new URL(link);
-    const paths = url.pathname.split("/");
-    const playlistId = paths[paths.length - 1];
-
     try {
       const { data } = await axios.get(
-        `https://api.spotify.com/v1/playlists/${playlistId}`,
+        `https://api.spotify.com/v1/playlists/${id}`,
         {
           headers: { Authorization: "Bearer " + accessToken },
         },
@@ -89,6 +85,20 @@ class Spotify implements IThirdPartyIntegrations {
     }
   }
 
+  async getPlaylistByLink({
+    accessToken,
+    link,
+  }: {
+    accessToken: string;
+    link: string;
+  }): Promise<IRawPlaylist> {
+    const url = new URL(link);
+    const paths = url.pathname.split("/");
+    const playlistId = paths[paths.length - 1];
+
+    return this.getPlaylistById({ accessToken, id: playlistId });
+  }
+
   async createPlaylist({
     playlist,
     accessToken,
@@ -97,7 +107,7 @@ class Spotify implements IThirdPartyIntegrations {
     playlist: IPlaylist;
     accessToken: string;
     userId: string;
-  }): Promise<void> {
+  }): Promise<{ url: string }> {
     try {
       // Search for the items that should be added into the playlist
       // This function should return an array of strings corresponding to
@@ -127,6 +137,8 @@ class Spotify implements IThirdPartyIntegrations {
           headers: { Authorization: "Bearer " + accessToken },
         },
       );
+
+      return { url: playlistOnSpotify.external_urls.spotify };
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         const { data, status } = error.response;

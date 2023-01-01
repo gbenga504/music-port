@@ -38,8 +38,13 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   ExportPlaylistPayload: {
     // root type
+    data?: NexusGenRootTypes["ExportPlaylistPayloadData"] | null; // ExportPlaylistPayloadData
     error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
     success: boolean; // Boolean!
+  };
+  ExportPlaylistPayloadData: {
+    // root type
+    url: string; // String!
   };
   ImportPlaylistPayload: {
     // root type
@@ -89,8 +94,13 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars;
 export interface NexusGenFieldTypes {
   ExportPlaylistPayload: {
     // field return type
+    data: NexusGenRootTypes["ExportPlaylistPayloadData"] | null; // ExportPlaylistPayloadData
     error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
     success: boolean; // Boolean!
+  };
+  ExportPlaylistPayloadData: {
+    // field return type
+    url: string; // String!
   };
   ImportPlaylistPayload: {
     // field return type
@@ -151,8 +161,13 @@ export interface NexusGenFieldTypes {
 export interface NexusGenFieldTypeNames {
   ExportPlaylistPayload: {
     // field return type name
+    data: "ExportPlaylistPayloadData";
     error: "PlaylistError";
     success: "Boolean";
+  };
+  ExportPlaylistPayloadData: {
+    // field return type name
+    url: "String";
   };
   ImportPlaylistPayload: {
     // field return type name

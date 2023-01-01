@@ -13,6 +13,7 @@ const CreatePlaylist: React.FC<ILoadableComponentProps> = ({ query, api }) => {
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading"
   );
+  const [playlistURL, setPlaylistURL] = useState<string>();
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -40,12 +41,17 @@ const CreatePlaylist: React.FC<ILoadableComponentProps> = ({ query, api }) => {
     navigate(constructURL({ routeId: routeIds.exportCreatePlaylist }), {
       replace: true,
     });
+    setPlaylistURL(result.data.url);
     setStatus("success");
     toast({
       title: `Your playlist has been exported to ${platform}`,
       status: "success",
     });
   }
+
+  const handleOpenPlaylist = () => {
+    window.open(playlistURL, "_blank");
+  };
 
   return (
     <PageLayout
@@ -54,13 +60,13 @@ const CreatePlaylist: React.FC<ILoadableComponentProps> = ({ query, api }) => {
     >
       <Button
         loading={status === "loading"}
-        disabled={status === "loading" || status === "success"}
+        disabled={status === "loading"}
         fullWidth
         size="x-large"
-        onClick={exportPlaylist}
+        onClick={status === "error" ? exportPlaylist : handleOpenPlaylist}
         loadingText="Exporting playlist..."
       >
-        {status === "success" ? "Done!" : "Try again"}
+        {status === "success" ? "Open playlist" : "Try again"}
       </Button>
     </PageLayout>
   );
