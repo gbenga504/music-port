@@ -103,13 +103,6 @@ class Spotify implements IThirdPartyIntegrations {
       // This function should return an array of strings corresponding to
       // the uri of the track
       const items = await this.searchForItems({ playlist, accessToken });
-      const filteredItems = items.filter((item) => item);
-
-      if (filteredItems.length === 0) {
-        throw new MusicStreamingPlatformResourceFailureError({
-          message: "There are no items to add to the playlist",
-        });
-      }
 
       // Create a playlist for the user on spotify
       const { data: playlistOnSpotify } = await axios.post(
@@ -154,7 +147,7 @@ class Spotify implements IThirdPartyIntegrations {
   }: {
     playlist: IPlaylist;
     accessToken: string;
-  }): Promise<(string | null)[]> {
+  }): Promise<string[]> {
     async function searchItem(
       song: IPlaylist["songs"][number],
     ): Promise<string | null> {
@@ -180,9 +173,26 @@ class Spotify implements IThirdPartyIntegrations {
       return items?.[0].uri || null;
     }
 
+    if (playlist.songs.length > 25) {
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "Can only export a maximum of 25 songs",
+      });
+    }
+
     const searchItems = playlist.songs.map((song) => searchItem(song));
 
-    return Promise.all(searchItems);
+    const items = await Promise.all(searchItems);
+    const filteredItems: string[] = items.filter(
+      (item): item is string => item !== null,
+    );
+
+    if (filteredItems.length === 0) {
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "There are no items to add to the playlist",
+      });
+    }
+
+    return filteredItems;
   }
 
   transformPlaylistToInternalFormat(data: {
@@ -190,6 +200,12 @@ class Spotify implements IThirdPartyIntegrations {
   }): IRawPlaylist {
     type Image = IRawPlaylist["images"][number];
     type Song = IRawPlaylist["songs"][number];
+
+    if (data.tracks.items.length > 25) {
+      throw new MusicStreamingPlatformResourceFailureError({
+        message: "Can only import a maxium of 25 songs from a playlist",
+      });
+    }
 
     return {
       importLink: data.external_urls.spotify,
