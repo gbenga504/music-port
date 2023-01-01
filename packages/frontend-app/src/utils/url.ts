@@ -46,5 +46,5 @@ export const getPlatformName = (link: string): string | null => {
     return "deezer";
   }
 
-  throw new ResourceError({ message: "Platform link is not recognized" });
+  throw new ResourceError({ message: "Playlist link is not recognized" });
 };

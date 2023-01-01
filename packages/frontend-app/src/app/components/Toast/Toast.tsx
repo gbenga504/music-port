@@ -32,7 +32,7 @@ export const Toast: React.FC<IToastProps> = ({
   title,
   description,
   status = "info",
-  duration = 2000,
+  duration = 3000,
   id,
   position = "bottom",
   onClose,

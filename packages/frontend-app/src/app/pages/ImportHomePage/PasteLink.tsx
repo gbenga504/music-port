@@ -32,7 +32,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
 
   return (
     <PageLayout
-      title="Paste a link from your streaming provider"
+      title="Paste a playlist link from your streaming provider"
       description="We will use the link to generate an export link that can be shared."
     >
       <Form

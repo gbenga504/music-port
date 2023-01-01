@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { Button } from "../../components/Button";
 import { Space } from "../../components/Space";
@@ -27,9 +28,9 @@ export const AppHeader: React.FC<IProps> = ({
   return (
     <div className="w-full">
       <nav className="w-11/12 md:w-4/5 m-auto flex justify-between items-center h-24">
-        <div>
+        <Link to={constructURL({ routeId: routeIds.importPasteLink })}>
           <LogoIcon size={50} />
-        </div>
+        </Link>
         <Space size="large">
           <Button variant="text" size="medium">
             Feedback
