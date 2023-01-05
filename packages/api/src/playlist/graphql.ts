@@ -7,8 +7,12 @@ import {
   stringArg,
 } from "nexus";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import { GraphQLError } from "../graphql/error-handling";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PlaylistImage = objectType({
   name: "PlaylistImage",

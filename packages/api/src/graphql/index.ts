@@ -1,18 +1,27 @@
 import { join } from "node:path";
+import path from "node:path";
+import { fileURLToPath } from "url";
 import type { Request } from "express";
 import { graphqlHTTP } from "express-graphql";
-import {
-  makeSchema,
-  fieldAuthorizePlugin,
-  connectionPlugin,
-  nullabilityGuardPlugin,
-} from "nexus";
+import nexus from "nexus";
 import { createGraphQLContext } from "./create-graphql-context";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 
 //@ts-ignore
 import prettierrc from "../../.prettierrc";
 import * as Playlist from "../playlist/graphql";
+// @ts-ignore
+import prettierrc from "../../.prettierrc";
+
+const {
+  makeSchema,
+  fieldAuthorizePlugin,
+  connectionPlugin,
+  nullabilityGuardPlugin,
+} = nexus;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const schema = makeSchema({
   types: [Playlist],
