@@ -10,6 +10,8 @@ import {
 import { createGraphQLContext } from "./create-graphql-context";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 
+//@ts-ignore
+import prettierrc from "../../.prettierrc";
 import * as Playlist from "../playlist/graphql";
 
 const schema = makeSchema({
@@ -47,7 +49,7 @@ const schema = makeSchema({
     module: join(__dirname, "graphql-context-type.ts"),
     export: "GraphQLContextType",
   },
-  prettierConfig: require.resolve("../../.prettierrc"),
+  prettierConfig: prettierrc,
   nonNullDefaults: { output: true, input: true },
 });
 
