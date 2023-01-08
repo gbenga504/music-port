@@ -5,12 +5,15 @@ COPY ./yarn.lock /app/
 COPY ./tsconfig-base.json /app/
 COPY ./package.json /app/
 COPY ./.prettierrc.js /app/
-COPY ./packages/api/package.json /app/packages/api/
+COPY ./packages/frontend-app/package.json /app/packages/frontend-app/
 
 WORKDIR /app
 
 RUN yarn install
-COPY ./packages/api /app/packages/api/
+COPY ./packages/frontend-app /app/packages/frontend-app/
 
-WORKDIR /app/packages/api
+WORKDIR /app/packages/frontend-app
+
+EXPOSE 9999
+
 CMD yarn dev
