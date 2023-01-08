@@ -51,6 +51,9 @@ export class Playlist {
           playlistByExportId(exportId: $exportId) {
             id
             exportId
+            platform
+            public
+            importLink
             images {
               url
               width

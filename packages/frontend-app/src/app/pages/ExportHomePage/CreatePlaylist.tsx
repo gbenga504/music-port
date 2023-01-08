@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 
@@ -16,13 +16,26 @@ const CreatePlaylist: React.FC<ILoadableComponentProps> = ({ query, api }) => {
   const [playlistURL, setPlaylistURL] = useState<string>();
   const toast = useToast();
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   useEffect(() => {
-    exportPlaylist();
+    const { platform, exportId } = query;
+
+    // If the exportId and plaform are both available then we want to
+    // export the playlist by creating it for the user
+    // else we just give the user direct access to the playlist using the link
+    // stored in the navigation state
+    if (exportId && platform) {
+      exportPlaylist();
+      return;
+    }
+
+    accessPlaylistWithoutExporting();
   }, []);
 
-  async function exportPlaylist() {
+  const exportPlaylist = async () => {
     const { platform, exportId } = query;
+
     setStatus("loading");
 
     const result = await api.playlist.exportPlaylist({ platform, exportId });
@@ -47,7 +60,14 @@ const CreatePlaylist: React.FC<ILoadableComponentProps> = ({ query, api }) => {
       title: `Your playlist has been exported to ${platform}`,
       status: "success",
     });
-  }
+  };
+
+  const accessPlaylistWithoutExporting = () => {
+    const { link } = state;
+
+    setStatus("success");
+    setPlaylistURL(link);
+  };
 
   const handleOpenPlaylist = () => {
     window.open(playlistURL, "_blank");
