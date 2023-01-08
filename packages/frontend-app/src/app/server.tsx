@@ -88,8 +88,9 @@ export const renderer = async (
       `------------------- Server error --------------------------`
     );
     console.error(error.stack);
+    console.error("Network status ===>  ", error.status || 500);
 
-    status = error.status;
+    status = error.status || 500;
   }
 
   return { content, status };
