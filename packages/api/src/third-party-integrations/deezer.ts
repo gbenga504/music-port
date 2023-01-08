@@ -246,6 +246,8 @@ class Deezer implements IThirdPartyIntegrations {
 
     return {
       importLink: data.link,
+      platform: "deezer",
+      public: Boolean(data.public),
       importPlaylistId: data.id,
       images: [
         { url: data.picture_small, width: 56, height: 56 },

@@ -60,6 +60,16 @@ type Playlist {
   owner: PlaylistOwner!
 
   """
+  The platform for this playlist
+  """
+  platform: PlaylistPlatform!
+
+  """
+  If the playlist is public or not
+  """
+  public: Boolean!
+
+  """
   Songs associated with the playlist
   """
   songs: [PlaylistSong!]!
@@ -85,6 +95,14 @@ type PlaylistImage {
 
 type PlaylistOwner {
   name: String!
+}
+
+"""
+The platform for this playlist
+"""
+enum PlaylistPlatform {
+  deezer
+  spotify
 }
 
 type PlaylistSong {

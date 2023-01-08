@@ -1,4 +1,5 @@
 import {
+  enumType,
   idArg,
   mutationField,
   nullable,
@@ -64,6 +65,15 @@ const Playlist = objectType({
       },
     });
     t.string("importLink", { description: "Link used to import playlist" });
+    t.boolean("public", { description: "If the playlist is public or not" });
+    t.field("platform", {
+      description: "The platform for this playlist",
+      type: enumType({
+        name: "PlaylistPlatform",
+        members: ["deezer", "spotify"],
+        description: "The platform for this playlist",
+      }),
+    });
     t.string("importPlaylistId", {
       description: "Playlist Id used on the music streaming platform",
     });

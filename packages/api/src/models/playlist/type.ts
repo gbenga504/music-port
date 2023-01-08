@@ -20,6 +20,8 @@ export interface Song {
 export interface IPlaylist {
   _id: ObjectId;
   importLink: string;
+  public: boolean;
+  platform: "spotify" | "deezer";
   importPlaylistId: string;
   exportId: string;
   images: Image[];
@@ -40,4 +42,6 @@ export type IRawPlaylist = Pick<
   | "owner"
   | "songs"
   | "importPlaylistId"
+  | "public"
+  | "platform"
 >;

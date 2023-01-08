@@ -28,6 +28,8 @@ const SongSchema = new Schema<Song>({
 
 const PlaylistSchema = new Schema<IPlaylist>({
   importLink: { type: String, required: true },
+  public: { type: Boolean, required: true },
+  platform: { type: String, enum: ["deezer", "spotify"], required: true },
   importPlaylistId: { type: String, required: true },
   exportId: { type: String, required: true },
   images: [

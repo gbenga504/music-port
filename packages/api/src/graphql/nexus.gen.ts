@@ -25,7 +25,9 @@ declare global {
 
 export interface NexusGenInputs {}
 
-export interface NexusGenEnums {}
+export interface NexusGenEnums {
+  PlaylistPlatform: "deezer" | "spotify";
+}
 
 export interface NexusGenScalars {
   String: string;
@@ -89,7 +91,9 @@ export interface NexusGenUnions {}
 
 export type NexusGenRootTypes = NexusGenObjects;
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars;
+export type NexusGenAllTypes = NexusGenRootTypes &
+  NexusGenScalars &
+  NexusGenEnums;
 
 export interface NexusGenFieldTypes {
   ExportPlaylistPayload: {
@@ -123,6 +127,8 @@ export interface NexusGenFieldTypes {
     importPlaylistId: string; // String!
     name: string; // String!
     owner: NexusGenRootTypes["PlaylistOwner"]; // PlaylistOwner!
+    platform: NexusGenEnums["PlaylistPlatform"]; // PlaylistPlatform!
+    public: boolean; // Boolean!
     songs: NexusGenRootTypes["PlaylistSong"][]; // [PlaylistSong!]!
   };
   PlaylistError: {
@@ -190,6 +196,8 @@ export interface NexusGenFieldTypeNames {
     importPlaylistId: "String";
     name: "String";
     owner: "PlaylistOwner";
+    platform: "PlaylistPlatform";
+    public: "Boolean";
     songs: "PlaylistSong";
   };
   PlaylistError: {
@@ -257,7 +265,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 

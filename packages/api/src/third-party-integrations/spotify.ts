@@ -221,6 +221,8 @@ class Spotify implements IThirdPartyIntegrations {
 
     return {
       importLink: data.external_urls.spotify,
+      platform: "spotify",
+      public: Boolean(data.public),
       importPlaylistId: data.id,
       images: data.images.map((image: Image) => ({
         url: image.url,
