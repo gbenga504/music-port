@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "npm-run-all dev:node dev:web",
     "babel": "BABEL_ENV=node babel src --extensions \".ts,.tsx\" --ignore \"**/*.d.ts\" --out-dir dist/ --copy-files",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
@@ -13,7 +13,8 @@
     "dev:watch-web": "webpack build --watch",
     "dev:node": "yarn run babel --delete-dir-on-start",
     "dev:watch-node": "yarn run babel --watch",
-    "dev": " export $(cat .env) && npm-run-all dev:node dev:web  --parallel dev:watch-** type-check:watch"
+    "dev": " export $(cat .env) && npm-run-all dev:node dev:web  --parallel dev:watch-** type-check:watch",
+    "prod": "export $(cat .env) && node dist/server/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
