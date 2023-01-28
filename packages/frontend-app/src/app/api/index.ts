@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { Auth } from "./auth";
 import { Playlist } from "./playlist";
+import { canUseDOM } from "../../utils/dom";
 
 interface ICreateApiClientParams {
   backendApiBaseUrl?: string;
@@ -41,3 +42,18 @@ export const createApiClient = ({
 };
 
 export type ICreateApiClient = ReturnType<typeof createApiClient>;
+
+export const getApiClient = (): ICreateApiClient => {
+  if (canUseDOM()) {
+    return createApiClient({
+      backendApiBaseUrl: process.env.API_PROXY,
+      frontendApiBaseUrl: "/",
+      timeout: 8000,
+    });
+  }
+
+  return createApiClient({
+    backendApiBaseUrl: process.env.BACKEND_API_BASE_URL,
+    frontendApiBaseUrl: process.env.FRONTEND_BASE_URL,
+  });
+};

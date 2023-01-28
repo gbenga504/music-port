@@ -4,18 +4,15 @@ import cookieParser from "cookie-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
 import { renderer } from "../app/server";
-import { createApiClient } from "../app/api";
 import authRoutes from "./auth-routes";
+import { getApiClient } from "../app/api";
 
 dotenv.config();
 
 const app = express();
 
 app.use((req, _res, next) => {
-  req.api = createApiClient({
-    backendApiBaseUrl: process.env.BACKEND_API_BASE_URL,
-    frontendApiBaseUrl: process.env.FRONTEND_BASE_URL,
-  });
+  req.api = getApiClient();
 
   next();
 });

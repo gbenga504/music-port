@@ -4,9 +4,9 @@ import { loadableReady } from "@loadable/component";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import { createApiClient } from "./api";
-import { IPageDatas } from "../utils/routeUtils";
+import { getApiClient } from "./api";
 
+import type { IPageDatas } from "../utils/routeUtils";
 import type { ICreateApiClient } from "./api";
 
 interface ICallbackProps {
@@ -19,13 +19,7 @@ function setupClient(callback: (props: ICallbackProps) => void) {
     document.getElementById("app-data")!.textContent as string
   );
 
-  const api = createApiClient({
-    backendApiBaseUrl: process.env.API_PROXY,
-    frontendApiBaseUrl: "/",
-    timeout: 8000,
-  });
-
-  callback({ appData, api });
+  callback({ appData, api: getApiClient() });
 }
 
 setupClient(({ appData, api }) => {
