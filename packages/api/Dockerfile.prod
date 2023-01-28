@@ -4,7 +4,8 @@ LABEL AUTHOR="Gbenga Anifowoshe <daveanifowoshe@gmail.com>"
 RUN apt update
 
 # Yarn
-RUN apt install curl
+RUN export DEBIAN_FRONTEND=noninteractive
+RUN apt-get -yq install curl
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 RUN apt install -y yarn
