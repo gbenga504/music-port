@@ -21,4 +21,6 @@ RUN yarn install
 COPY ./packages/api /app/packages/api/
 
 WORKDIR /app/packages/api
-CMD yarn dev
+
+RUN yarn build
+CMD node dist/server.js

@@ -46,7 +46,12 @@ const schema = makeSchema({
     modules: [],
   },
   contextType: {
-    module: join(__dirname, "graphql-context-type.ts"),
+    module: join(
+      __dirname,
+      process.env.NODE_ENV === "development"
+        ? "graphql-context-type.ts"
+        : "graphql-context-type.js",
+    ),
     export: "GraphQLContextType",
   },
   prettierConfig: prettierrc,

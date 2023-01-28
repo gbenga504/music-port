@@ -7,6 +7,7 @@
   "license": "ISC",
   "main": "src/server.js",
   "scripts": {
+    "build": "tsc",
     "dev": "concurrently --kill-others 'yarn dev:server'",
     "dev:server": "nodemon --watch src --ext 'js json ts' -r ts-node/register/transpile-only src/server",
     "format": "yarn prettier --write .",
