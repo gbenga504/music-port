@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  mongodb:
+    container_name: mongodb
+    hostname: mongodb
+    image: mongo:latest
+    restart: unless-stopped
+    env_file: ./packages/api/.env
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    volumes:
+      - ./packages/api/db:/data/db
+
+  backend-app:
+    container_name: backend-app
+    hostname: backend-app
+    depends_on:
+      - mongodb
+    build:
+      context: .
+      dockerfile: ./Dockerfile.api.prod
+    restart: unless-stopped
+    env_file: ./packages/api/.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    stdin_open: true
+    tty: true
+
+  frontend-app:
+    container_name: frontend-app
+    hostname: frontend-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend.prod
+    restart: unless-stopped
+    env_file: ./packages/frontend-app/.env
+    ports:
+      - $PORT:$PORT
+    stdin_open: true
+    tty: true
+
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nginx.prod
+    restart: unless-stopped
+    ports:
+      - 80:80
+
+volumes:
+  db:
