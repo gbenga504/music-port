@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     env_file: ./packages/api/.env
     ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+      - 27018:27017
     volumes:
       - ./packages/api/db:/data/db
 
@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
     env_file: ./packages/api/.env
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - 8888:8888
     stdin_open: true
     tty: true
 
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
     env_file: ./packages/frontend-app/.env
     ports:
-      - $PORT:$PORT
+      - 9999:9999
     stdin_open: true
     tty: true
 
