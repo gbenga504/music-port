@@ -6,7 +6,7 @@ services:
     hostname: mongodb
     image: mongo:latest
     restart: unless-stopped
-    env_file: ./packages/api/.env
+    env_file: packages/api/.env
     ports:
       - 27018:27017
     volumes:
@@ -21,9 +21,9 @@ services:
       context: .
       dockerfile: ./Dockerfile.api.prod
     restart: unless-stopped
-    env_file: ./packages/api/.env
-    ports:
-      - 8888:8888
+    env_file: packages/api/.env
+    expose:
+      - 8888
     stdin_open: true
     tty: true
 
@@ -34,9 +34,9 @@ services:
       context: .
       dockerfile: ./Dockerfile.frontend.prod
     restart: unless-stopped
-    env_file: ./packages/frontend-app/.env
-    ports:
-      - 9999:9999
+    env_file: packages/frontend-app/.env
+    expose:
+      - 9999
     stdin_open: true
     tty: true
 
@@ -46,9 +46,20 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile.nginx.prod
-    restart: unless-stopped
+    restart: always
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - ./certbot/www/:/var/www/certbot/
+      - ./certbot/conf/:/etc/nginx/ssl/
+      - ./nginx-default.conf:/etc/nginx/conf.d/default.conf
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www:/var/www/certbot/
+      - ./certbot/conf/:/etc/letsencrypt/
 
 volumes:
   db:
