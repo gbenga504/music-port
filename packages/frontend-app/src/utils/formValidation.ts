@@ -49,7 +49,7 @@ const pasteExportLinkFormSchema = z.object({
     .string()
     .url()
     .regex(
-      new RegExp(`^${process.env.FRONTEND_BASE_URL}/export/\\S+$`),
+      new RegExp(`^${process.env.SITE_ORIGIN}/export/\\S+$`),
       "This URL is not recognized",
     ),
 });

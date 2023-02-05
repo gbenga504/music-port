@@ -16,7 +16,7 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const searchParams = new URLSearchParams(search);
   const exportId = searchParams.get("exportId");
-  const exportLink = `${process.env.FRONTEND_BASE_URL}/export/${exportId}`;
+  const exportLink = `${process.env.SITE_ORIGIN}/export/${exportId}`;
 
   const handleCopyToClipboard = async (): Promise<void> => {
     inputRef.current!.select();

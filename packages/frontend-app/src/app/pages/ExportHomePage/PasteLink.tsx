@@ -13,7 +13,7 @@ import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 
 const PasteLink: React.FC<ILoadableComponentProps> = () => {
-  const exportLinkSample = `${process.env.FRONTEND_BASE_URL}/export/[exportId]`;
+  const exportLinkSample = `${process.env.SITE_ORIGIN}/export/[exportId]`;
   const navigate = useNavigate();
 
   const handleSubmitFormValues = ({ link }: pasteExportLinkFormInputs) => {
