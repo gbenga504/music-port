@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { Auth } from "./auth";
 import { Playlist } from "./playlist";
-import { canUseDOM } from "../../utils/dom";
+import { isDOMLoaded } from "../../utils/dom";
 
 interface ICreateApiClientParams {
   backendApiBaseUrl?: string;
@@ -44,7 +44,7 @@ export const createApiClient = ({
 export type ICreateApiClient = ReturnType<typeof createApiClient>;
 
 export const getApiClient = (): ICreateApiClient => {
-  if (canUseDOM()) {
+  if (isDOMLoaded()) {
     return createApiClient({
       backendApiBaseUrl: process.env.API_PROXY,
       frontendApiBaseUrl: "/",
