@@ -5,13 +5,14 @@
   "author": "Anifowoshe Gbenga <daveanifowoshe@ymail.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "concurrently --kill-others 'yarn dev:server'",
-    "dev:server": "nodemon --watch src --ext 'js json ts' -r ts-node/register/transpile-only src/server",
+    "dev:server": "nodemon --watch src --ext 'js json ts' --exec 'ts-node --experimentalSpecifierResolution node --esm --transpileOnly src/server.ts'",
     "format": "yarn prettier --write .",
-    "format:check": "yarn prettier --check ."
+    "format:check": "yarn prettier --check .",
+    "build": "tsc"
   },
   "dependencies": {
     "axios": "^1.2.1",
@@ -22,7 +23,7 @@
     "express-graphql": "^0.12.0",
     "graphql": "^16.6.0",
     "mongoose": "^6.6.1",
-    "nanoid": "3.3.1",
+    "nanoid": "^4.0.0",
     "nexus": "^1.3.0",
     "nodemon": "^2.0.20",
     "passport": "^0.6.0",

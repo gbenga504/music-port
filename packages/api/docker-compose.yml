@@ -22,7 +22,7 @@ services:
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     volumes:
-      - ./src:/app/packages/api/src
+      - ./:/app/packages/api
       - ../../node_modules:/app/node_modules
       - ./node_modules:/app/packages/api/node_modules
     stdin_open: true
