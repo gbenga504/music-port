@@ -32,10 +32,12 @@ export const AppHeader: React.FC<IProps> = ({
           <LogoIcon size={50} />
         </Link>
         <Space size="large">
-          <Button variant="text" size="medium">
-            Feedback
-          </Button>
-          <Button variant="text" size="medium" href="#">
+          <Button
+            variant="text"
+            size="medium"
+            target="blank"
+            href="https://github.com/gbenga504/music-port"
+          >
             Github
           </Button>
           {showExportButton && (

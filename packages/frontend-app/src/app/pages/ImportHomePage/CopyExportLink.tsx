@@ -35,8 +35,8 @@ const CopyExportLink: React.FC<ILoadableComponentProps> = () => {
 
   return (
     <PageLayout
-      title="Copy and send this link"
-      description="You can now send this link to anyone who wishes to have what you are
+      title="Send this link to anyone"
+      description="You can now send this link to anyone who wishes to listen to what you are
     listening to"
     >
       <div className="grid grid-rows-[repeat(2,_max-content)] gap-y-4">

@@ -33,7 +33,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
   return (
     <PageLayout
       title="Paste a playlist link from your streaming provider"
-      description="We will use the link to generate an export link that can be shared."
+      description="We will use the link to generate an export link that can be shared. Only spotify and deezer playlist links are supported at the moment."
     >
       <Form
         onSubmit={handleSubmitFormValues}
@@ -48,7 +48,7 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
                 name="link"
                 render={({ input, meta }) => (
                   <Input
-                    placeholder="Enter a streaming link"
+                    placeholder="Enter your playlist link"
                     size="large"
                     fullWidth
                     error={Boolean(meta.error)}
