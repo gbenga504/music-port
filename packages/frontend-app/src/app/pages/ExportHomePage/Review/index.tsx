@@ -30,7 +30,17 @@ const Review: React.FC<ILoadableComponentProps> = ({ pageData, params }) => {
       );
     }
 
-    location.href = `/api/auth/${platform}?exportId=${params.id}&actionType=export`;
+    const redirectURI = constructURL({
+      routeId: routeIds.exportCreatePlaylist,
+      query: {
+        platform: platform,
+        exportId: params.id,
+      },
+    });
+
+    location.href = `/api/auth/${platform}?redirect_uri=${encodeURIComponent(
+      redirectURI
+    )}`;
   };
 
   const renderForm = () => {

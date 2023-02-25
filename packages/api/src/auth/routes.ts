@@ -16,11 +16,11 @@ routes.get(
   `/auth/:platform(${Object.keys(getPassportStrategies).join("|")})`,
   (req, res, next) => {
     const { platform } = req.params;
-    const { importLink, exportId, actionType } = req.query;
+    const { redirect_uri } = req.query;
 
-    const state = Buffer.from(
-      JSON.stringify({ importLink, exportId, actionType }),
-    ).toString("base64");
+    const state = Buffer.from(JSON.stringify({ redirect_uri })).toString(
+      "base64",
+    );
 
     passportAuthenticate(platform, { state })(req, res, next);
   },
