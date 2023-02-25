@@ -4,9 +4,10 @@ import { Form, Field } from "react-final-form";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 import * as formValidation from "../../../utils/formValidation";
-import { getPlatformName } from "../../../utils/url";
+import { constructURL, getPlatformName } from "../../../utils/url";
 import { useToast } from "../../components/Toast/ToastContext";
 import { PageLayout } from "../../components/PageLayout";
+import { routeIds } from "../../routes";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { importMusicFormInputs } from "../../../utils/formValidation";
@@ -15,9 +16,18 @@ const PasteLink: React.FC<ILoadableComponentProps> = () => {
   const toast = useToast();
 
   const handleSubmitFormValues = (values: importMusicFormInputs) => {
+    const redirectURI = constructURL({
+      routeId: routeIds.importReview,
+      query: {
+        importLink: values.link,
+      },
+    });
+
     try {
       const platformName = getPlatformName(values.link);
-      location.href = `/api/auth/${platformName}?importLink=${values.link}&actionType=import`;
+      location.href = `/api/auth/${platformName}?redirect_uri=${encodeURIComponent(
+        redirectURI
+      )}`;
     } catch (error) {
       const { name, message } = error as Error;
 
