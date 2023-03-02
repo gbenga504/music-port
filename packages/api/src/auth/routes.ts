@@ -30,8 +30,14 @@ routes.get(
   `/auth/:platform(${Object.keys(getPassportStrategies).join("|")})/callback`,
   (req, res, next) => {
     const { platform } = req.params;
+    const { fromTokenGenerator } = req.query;
 
     passportAuthenticate(platform, { session: false }, (error, tokens) => {
+      // TODO: Save the tokens in the database
+      if (fromTokenGenerator === "true") {
+        console.log("Tokens are:", tokens);
+      }
+
       if (error) {
         return res.status(400).json({
           name: error.name,
