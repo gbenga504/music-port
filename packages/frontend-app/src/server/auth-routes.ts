@@ -14,7 +14,16 @@ routes.get(
         Buffer.from(state, "base64").toString(),
       );
 
-      const tokens = await req.api.auth.authenticateUser({ platform, code });
+      const tokens = await req.api.auth.authenticateUser({
+        platform,
+        code,
+        fromTokenGenerator: redirect_uri === "null",
+      });
+
+      if (redirect_uri === "null") {
+        res.status(200).send("Token generated");
+        return;
+      }
 
       res.cookie("accessToken", tokens.accessToken, {
         httpOnly: true,
