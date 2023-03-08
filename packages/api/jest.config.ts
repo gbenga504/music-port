@@ -145,7 +145,7 @@ const jestConfig: JestConfigWithTsJest = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-node",
+  testEnvironment: "./test-setup/jest-custom-environment.js",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
