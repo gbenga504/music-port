@@ -17,8 +17,8 @@ import * as Playlist from "../playlist/graphql";
 const schema = makeSchema({
   types: [Playlist],
   outputs: {
-    schema: join(__dirname, "nexus.gen.graphql"),
-    typegen: join(__dirname, "nexus.gen.ts"),
+    schema: join(__dirname, "graphql.gen.graphql"),
+    typegen: join(__dirname, "graphql.gen.ts"),
   },
   plugins: [
     fieldAuthorizePlugin({
@@ -48,9 +48,9 @@ const schema = makeSchema({
   contextType: {
     module: join(
       __dirname,
-      process.env.NODE_ENV === "development"
-        ? "graphql-context-type.ts"
-        : "graphql-context-type.js",
+      process.env.NODE_ENV === "production"
+        ? "graphql-context-type.js"
+        : "graphql-context-type.ts",
     ),
     export: "GraphQLContextType",
   },

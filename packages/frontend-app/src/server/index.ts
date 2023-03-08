@@ -5,6 +5,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 import { renderer } from "../app/server";
 import authRoutes from "./auth-routes";
+import tokenGeneratorRoutes from "./token-generator-routes";
 import { getApiClient } from "../app/api";
 
 dotenv.config();
@@ -21,6 +22,8 @@ app.use("/public", express.static("dist/public"));
 app.use(cookieParser());
 
 app.use(authRoutes);
+app.use(tokenGeneratorRoutes);
+
 app.use(
   "/api",
   createProxyMiddleware({
