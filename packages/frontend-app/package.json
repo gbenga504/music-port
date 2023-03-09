@@ -14,7 +14,8 @@
     "dev:node": "yarn run babel --delete-dir-on-start",
     "dev:watch-node": "yarn run babel --watch",
     "dev": " export $(cat .env) && npm-run-all dev:node dev:web  --parallel dev:watch-** type-check:watch",
-    "prod": "export $(cat .env) && node dist/server/index.js"
+    "prod": "export $(cat .env) && node dist/server/index.js",
+    "graphql:typegen": "graphql-codegen --config ./codegen.ts"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
@@ -24,6 +25,11 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-typescript": "^7.18.6",
+    "@graphql-codegen/cli": "^3.2.2",
+    "@graphql-codegen/typescript": "^3.0.2",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.8",
+    "@graphql-codegen/typescript-operations": "^3.0.2",
+    "@graphql-codegen/typescript-resolvers": "^3.1.1",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/webpack-plugin": "^5.15.2",
     "@playwright/test": "^1.31.1",
@@ -62,6 +68,7 @@
     "classnames": "^2.3.2",
     "cookie-parser": "^1.4.6",
     "final-form": "^4.20.7",
+    "graphql-request": "4.0.0",
     "http-proxy-middleware": "^2.0.6",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

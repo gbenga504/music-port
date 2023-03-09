@@ -1,78 +1,25 @@
-import { gql } from "../../utils/gql";
 import type { IBaseClientParams } from "./types";
 
 export class Playlist {
-  private httpClientForBackend: IBaseClientParams["httpClientForBackend"];
+  private graphQLClient: IBaseClientParams["graphQLClient"];
 
-  constructor({ httpClientForBackend }: IBaseClientParams) {
-    this.httpClientForBackend = httpClientForBackend;
+  constructor({ graphQLClient }: IBaseClientParams) {
+    this.graphQLClient = graphQLClient;
   }
 
-  async importPlaylist({ importLink }: { importLink: string }): Promise<any> {
-    const {
-      data: {
-        data: { importPlaylist },
-      },
-    } = await this.httpClientForBackend.post("/graphql", {
-      query: gql`
-        mutation importPlaylist($link: String!) {
-          importPlaylist(link: $link) {
-            success
-            error {
-              name
-              message
-            }
-            data {
-              exportId
-            }
-          }
-        }
-      `,
-      variables: {
-        link: importLink,
-      },
+  async importPlaylist({ importLink }: { importLink: string }) {
+    const { importPlaylist } = await this.graphQLClient.importPlaylist({
+      link: importLink,
     });
 
     return importPlaylist;
   }
 
-  async getPlaylistByExportId({
-    exportId,
-  }: {
-    exportId: string;
-  }): Promise<any> {
-    const {
-      data: {
-        data: { playlistByExportId },
-      },
-    } = await this.httpClientForBackend.post("/graphql", {
-      query: gql`
-        query getPlaylistByExportId($exportId: String!) {
-          playlistByExportId(exportId: $exportId) {
-            id
-            exportId
-            platform
-            public
-            importLink
-            images {
-              url
-              width
-              height
-            }
-            name
-            owner {
-              name
-            }
-            songs {
-              name
-            }
-          }
-        }
-      `,
-      variables: {
+  async getPlaylistByExportId({ exportId }: { exportId: string }) {
+    const { playlistByExportId } =
+      await this.graphQLClient.getPlaylistByExportId({
         exportId,
-      },
-    });
+      });
 
     return playlistByExportId;
   }
@@ -83,30 +30,10 @@ export class Playlist {
   }: {
     platform: string;
     exportId: string;
-  }): Promise<any> {
-    const {
-      data: {
-        data: { exportPlaylist },
-      },
-    } = await this.httpClientForBackend.post("/graphql", {
-      query: gql`
-        mutation exportPlaylist($exportId: String!, $platform: String!) {
-          exportPlaylist(exportId: $exportId, platform: $platform) {
-            success
-            data {
-              url
-            }
-            error {
-              name
-              message
-            }
-          }
-        }
-      `,
-      variables: {
-        exportId,
-        platform,
-      },
+  }) {
+    const { exportPlaylist } = await this.graphQLClient.exportPlaylist({
+      exportId,
+      platform,
     });
 
     return exportPlaylist;

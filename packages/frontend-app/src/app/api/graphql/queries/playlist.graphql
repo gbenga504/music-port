@@ -1,0 +1,73 @@
+mutation importPlaylist($link: String!) {
+  importPlaylist(link: $link) {
+    success
+    error {
+      name
+      message
+    }
+    data {
+      id
+      importLink
+      public
+      platform
+      importPlaylistId
+      exportId
+      images {
+        url
+        width
+        height
+      }
+      apiLink
+      name
+      owner {
+        name
+      }
+      songs {
+        artists {
+          name
+        }
+        images {
+          url
+          width
+          height
+        }
+        name
+      }
+    }
+  }
+}
+
+query getPlaylistByExportId($exportId: String!) {
+  playlistByExportId(exportId: $exportId) {
+    id
+    exportId
+    platform
+    public
+    importLink
+    images {
+      url
+      width
+      height
+    }
+    name
+    owner {
+      name
+    }
+    songs {
+      name
+    }
+  }
+}
+
+mutation exportPlaylist($exportId: String!, $platform: String!) {
+  exportPlaylist(exportId: $exportId, platform: $platform) {
+    success
+    data {
+      url
+    }
+    error {
+      name
+      message
+    }
+  }
+}

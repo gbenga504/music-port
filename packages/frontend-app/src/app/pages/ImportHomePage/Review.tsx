@@ -39,8 +39,8 @@ const Review: React.FC<ILoadableComponentProps> = () => {
       if (!result.success) {
         setStatus("error");
         return toast({
-          title: result.error.name,
-          description: result.error.message,
+          title: result!.error!.name,
+          description: result!.error!.message,
           status: "error",
           duration: 4000,
         });
@@ -50,7 +50,7 @@ const Review: React.FC<ILoadableComponentProps> = () => {
       navigate(
         constructURL({
           routeId: routeIds.importCopyExportLink,
-          query: { exportId: result.data.exportId },
+          query: { exportId: result!.data!.exportId },
         }),
         {
           replace: true,
