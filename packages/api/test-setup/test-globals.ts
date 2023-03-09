@@ -1,12 +1,12 @@
 import type { AxiosInstance } from "axios";
 import type { Db } from "mongodb";
-import type { Sdk } from "../src/graphql/graphql-client";
+import type { GraphQLClient } from "../src/graphql/graphql-client";
 
 interface ICustomGlobal {
   hasServerStarted: boolean;
   hasDbStarted: boolean;
   restClient: AxiosInstance;
-  graphQLClient: Sdk;
+  graphQLClient: GraphQLClient;
   server: any;
   db: Db;
 }
