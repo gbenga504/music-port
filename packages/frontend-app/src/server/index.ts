@@ -52,6 +52,6 @@ app.get("/*", async (req, res) => {
 app.listen(process.env.PORT, function () {
   console.log(`Frontend app is listening on port:  ${process.env.PORT}
     Frontend base URL:     http://localhost:${process.env.PORT}
-    GraphQL base URL: http://localhost:${process.env.PORT}/api/v1/graphql
+    GraphQL base URL: http://localhost:${process.env.PORT}/api/graphql
   `);
 });

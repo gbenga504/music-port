@@ -3,10 +3,11 @@ import axios from "axios";
 import { Auth } from "./auth";
 import { Playlist } from "./playlist";
 import { isDOMLoaded } from "../../utils/dom";
+import { createGraphQLClient } from "./graphql/graphql-client";
 
 interface ICreateApiClientParams {
-  backendApiBaseUrl?: string;
-  frontendApiBaseUrl?: string;
+  backendApiBaseUrl: string;
+  frontendApiBaseUrl: string;
   timeout?: number;
 }
 
@@ -29,10 +30,20 @@ export const createApiClient = ({
     headers,
   });
 
-  const auth = new Auth({ httpClientForBackend, httpClientForFrontend });
+  const graphQLClient = createGraphQLClient({
+    url: backendApiBaseUrl,
+    headers,
+  });
+
+  const auth = new Auth({
+    httpClientForBackend,
+    httpClientForFrontend,
+    graphQLClient,
+  });
   const playlist = new Playlist({
     httpClientForBackend,
     httpClientForFrontend,
+    graphQLClient,
   });
 
   return {
@@ -46,14 +57,14 @@ export type ICreateApiClient = ReturnType<typeof createApiClient>;
 export const getApiClient = (): ICreateApiClient => {
   if (isDOMLoaded()) {
     return createApiClient({
-      backendApiBaseUrl: process.env.API_PROXY,
+      backendApiBaseUrl: process.env.API_PROXY!,
       frontendApiBaseUrl: "/",
       timeout: 8000,
     });
   }
 
   return createApiClient({
-    backendApiBaseUrl: process.env.BACKEND_API_BASE_URL,
-    frontendApiBaseUrl: process.env.FRONTEND_BASE_URL,
+    backendApiBaseUrl: process.env.BACKEND_API_BASE_URL!,
+    frontendApiBaseUrl: process.env.FRONTEND_BASE_URL!,
   });
 };

@@ -54,7 +54,7 @@ const CreatePlaylist: React.FC<ILoadableComponentProps> = ({ query, api }) => {
     navigate(constructURL({ routeId: routeIds.exportCreatePlaylist }), {
       replace: true,
     });
-    setPlaylistURL(result.data.url);
+    setPlaylistURL(result!.data!.url);
     setStatus("success");
     toast({
       title: `Your playlist has been exported to ${platform}`,
