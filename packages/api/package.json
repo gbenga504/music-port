@@ -12,7 +12,7 @@
     "dev:server": "nodemon --watch src --ext 'js json ts' -r ts-node/register/transpile-only src/server",
     "format": "yarn prettier --write .",
     "format:check": "yarn prettier --check .",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "graphql:typegen": "graphql-codegen --config ./codegen.ts"
   },
   "dependencies": {
