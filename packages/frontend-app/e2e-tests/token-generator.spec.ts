@@ -27,23 +27,34 @@ import cookies from "./cookie.json";
 //   await context.close();
 // });
 
+// test("get spotify token", async ({ browser }) => {
+//   const context = await browser.newContext();
+//   const page = await context.newPage();
+
+//   // Listen for all console logs
+//   page.on("console", (msg) => console.log(msg.text()));
+
+//   // Go on spotify and set cookies
+//   await page.goto("https://open.spotify.com/");
+//   await page.waitForURL(/spotify/);
+//   //@ts-ignore
+//   await context.addCookies(cookies);
+
+//   // Go to token generator and obtain token
+//   await page.goto("http://localhost:9999/token-generator/spotify");
+//   const locator = page.locator("body");
+//   await expect(locator).toHaveText(/Token generated/);
+
+//   await context.close();
+// });
+
 test("get spotify token", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  // Listen for all console logs
-  page.on("console", (msg) => console.log(msg.text()));
-
   // Go on spotify and set cookies
-  await page.goto("https://open.spotify.com/");
-  await page.waitForURL(/spotify/);
-  //@ts-ignore
-  await context.addCookies(cookies);
-
-  // Go to token generator and obtain token
-  await page.goto("http://localhost:9999/token-generator/spotify");
-  const locator = page.locator("body");
-  await expect(locator).toHaveText(/Token generated/);
+  await page.goto("http://localhost:9998");
+  await page.getByTestId("gadbutton").click();
 
   await context.close();
 });

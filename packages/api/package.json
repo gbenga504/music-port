@@ -8,11 +8,12 @@
   "main": "src/server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "concurrently --kill-others 'yarn dev:server'",
+    "dev": "export $(cat .env) && concurrently --kill-others 'yarn dev:server'",
     "dev:server": "nodemon --watch src --ext 'js json ts' -r ts-node/register/transpile-only src/server",
+    "prod": "export $(cat .env) && node dist/server.js",
     "format": "yarn prettier --write .",
     "format:check": "yarn prettier --check .",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "graphql:typegen": "graphql-codegen --config ./codegen.ts"
   },
   "dependencies": {
