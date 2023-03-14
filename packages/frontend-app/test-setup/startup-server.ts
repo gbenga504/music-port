@@ -4,12 +4,17 @@ import dotenv from "dotenv";
 import fs from "node:fs";
 import waitOn from "wait-on";
 
-const backendEnvs = dotenv.parse(
-  fs.readFileSync(path.join(__dirname, "../..", "api/.test.env")),
-);
-const frontendEnvs = dotenv.parse(
-  fs.readFileSync(path.join(__dirname, "..", ".test.env")),
-);
+const backendEnvs = {
+  ...process.env,
+  ...dotenv.parse(
+    fs.readFileSync(path.join(__dirname, "../..", "api/.test.env")),
+  ),
+};
+
+const frontendEnvs = {
+  ...process.env,
+  ...dotenv.parse(fs.readFileSync(path.join(__dirname, "..", ".test.env"))),
+};
 
 const backendServerPath = path.resolve(__dirname, "../..", "api/src/server.ts");
 const frontendServerPath = path.resolve(
@@ -22,7 +27,7 @@ function startBackendServer(): Promise<NodeJS.Process> {
   const api = spawn(
     "node",
     ["-r", "ts-node/register/transpile-only", backendServerPath],
-    { env: { ...process.env, ...backendEnvs } },
+    { env: backendEnvs },
   );
 
   api.stdout.pipe(process.stdout);
@@ -43,7 +48,7 @@ function startBackendServer(): Promise<NodeJS.Process> {
 
 function startFrontendServer(): Promise<NodeJS.Process> {
   const frontend = spawn("node", [frontendServerPath], {
-    env: { ...process.env, ...frontendEnvs },
+    env: frontendEnvs,
   });
 
   frontend.stdout.pipe(process.stdout);
