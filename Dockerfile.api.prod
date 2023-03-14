@@ -24,4 +24,4 @@ COPY ./packages/api /app/packages/api/
 WORKDIR /app/packages/api
 
 RUN yarn build
-CMD node dist/server.js
+CMD yarn prod

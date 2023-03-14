@@ -1,4 +1,3 @@
-import * as dotenv from "dotenv";
 import express from "express";
 import cookieParser from "cookie-parser";
 import { createProxyMiddleware } from "http-proxy-middleware";
@@ -7,8 +6,6 @@ import { renderer } from "../app/server";
 import authRoutes from "./auth-routes";
 import tokenGeneratorRoutes from "./token-generator-routes";
 import { getApiClient } from "../app/api";
-
-dotenv.config();
 
 const app = express();
 

@@ -1,10 +1,17 @@
 import { defineConfig, devices } from "@playwright/test";
+import dotenv from "dotenv";
+import path from "node:path";
+import fs from "node:fs";
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
+
+const frontendEnvs = dotenv.parse(
+  fs.readFileSync(path.join(__dirname, ".test.env")),
+);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -35,7 +42,7 @@ export default defineConfig({
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
+    baseURL: frontendEnvs.SITE_ORIGIN,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -83,8 +90,11 @@ export default defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   port: 3000,
-  // },
+  webServer: {
+    command:
+      "node -r ts-node/register/transpile-only ./test-setup/startup-server.ts",
+    url: frontendEnvs.SITE_ORIGIN,
+    timeout: 60000,
+    reuseExistingServer: !process.env.CI,
+  },
 });
