@@ -11,12 +11,12 @@
     @apply justify-center;
 
     &.button-primary {
-      @apply bg-black text-white font-light;
+      @apply bg-primary text-white font-light;
 
       &:hover,
       &:active,
       &:focus {
-        @apply bg-stone-600 outline-none;
+        @apply bg-teal-600 outline-none;
       }
     }
 
@@ -41,18 +41,36 @@
     }
 
     &.button-disabled {
-      @apply bg-stone-600;
+      @apply bg-teal-600;
     }
   }
 
   .button-text {
-    &.button-primary {
-      @apply text-black font-light;
-
+    & a {
       &:hover,
       &:active,
       &:focus {
-        @apply underline outline-none;
+        @apply outline-none;
+      }
+    }
+
+    & a {
+      &:hover + span.button-text-decorator,
+      &:active + span.button-text-decorator,
+      &:focus + span.button-text-decorator {
+        @apply opacity-100 w-4/5;
+      }
+
+      & + span.button-text-decorator {
+        @apply block w-0 border-t-2 border-solid opacity-0 transition-all;
+      }
+    }
+
+    &.button-primary {
+      @apply text-white font-light;
+
+      & .button-text-decorator {
+        @apply border-primary;
       }
     }
 
@@ -70,6 +88,12 @@
 
     &.button-small {
       @apply text-sm;
+    }
+
+    &.button-focused {
+      & .button-text-decorator {
+        @apply opacity-100 w-4/5;
+      }
     }
   }
 }

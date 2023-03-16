@@ -23,6 +23,7 @@ interface IProps {
   color?: "primary";
   loadingText?: string;
   fullWidth?: boolean;
+  focused?: boolean;
 }
 
 const NativeButtonProps = (
@@ -67,6 +68,7 @@ export const Button: React.FC<IProps> = (props) => {
     htmlType,
     loadingText,
     fullWidth,
+    focused,
   } = props;
   const isButton = !href && !to;
 
@@ -81,19 +83,22 @@ export const Button: React.FC<IProps> = (props) => {
     "button-fullWidth": fullWidth === true,
     "button-disabled": disabled === true && isButton,
     "cursor-not-allowed": disabled === true && isButton,
+    "button-focused": focused === true,
   });
 
   if (href) {
     return (
-      <a {...NativeAnchorProps(props)} className={buttonClassName}>
-        {children}
-      </a>
+      <span className={classNames(buttonClassName, "block")}>
+        <a {...NativeAnchorProps(props)}>{children}</a>
+        <span className="button-text-decorator" />
+      </span>
     );
   } else if (to) {
     return (
-      <Link {...ClientSideLinkProps(props)} className={buttonClassName}>
-        {children}
-      </Link>
+      <span className={classNames(buttonClassName, "block")}>
+        <Link {...ClientSideLinkProps(props)}>{children}</Link>
+        <span className="button-text-decorator" />
+      </span>
     );
   }
 
