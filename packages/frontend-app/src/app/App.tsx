@@ -22,6 +22,7 @@ import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
+import "./App.scss";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -137,7 +138,7 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
       )}
       <ApiProvider api={api}>
         <ToastProvider>
-          <div className="bg-page min-h-full h-fit">
+          <div className="bg-secondary min-h-full h-fit">
             {renderMatches(matchedRoutes)}
           </div>
         </ToastProvider>
