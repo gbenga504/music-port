@@ -9,7 +9,7 @@ import { SpinnerIcon } from "../icons";
 import type { ReactNode, MouseEventHandler } from "react";
 
 interface IProps {
-  variant?: "contained" | "text";
+  variant?: "contained" | "text" | "transparent";
   size?: "small" | "medium" | "large" | "x-large";
   htmlType?: "submit" | "button" | "reset";
   href?: string;
@@ -75,6 +75,7 @@ export const Button: React.FC<IProps> = (props) => {
   const buttonClassName = classNames(className, "button", {
     "button-contained": variant === "contained",
     "button-text": variant === "text",
+    "button-transparent": variant === "transparent",
     "button-large": size === "large",
     "button-xlarge": size === "x-large",
     "button-medium": size === "medium",
@@ -88,17 +89,20 @@ export const Button: React.FC<IProps> = (props) => {
 
   if (href) {
     return (
-      <span className={classNames(buttonClassName, "block")}>
-        <a {...NativeAnchorProps(props)}>{children}</a>
-        <span className="button-text-decorator" />
-      </span>
+      <a className={classNames(buttonClassName)} {...NativeAnchorProps(props)}>
+        <span>{children}</span>
+        {variant === "text" && <span className="button-text-decorator" />}
+      </a>
     );
   } else if (to) {
     return (
-      <span className={classNames(buttonClassName, "block")}>
-        <Link {...ClientSideLinkProps(props)}>{children}</Link>
-        <span className="button-text-decorator" />
-      </span>
+      <Link
+        className={classNames(buttonClassName)}
+        {...ClientSideLinkProps(props)}
+      >
+        <span>{children}</span>
+        {variant === "text" && <span className="button-text-decorator" />}
+      </Link>
     );
   }
 
@@ -117,6 +121,7 @@ export const Button: React.FC<IProps> = (props) => {
       ) : (
         children
       )}
+      {variant === "text" && <span className="button-text-decorator" />}
     </button>
   );
 };

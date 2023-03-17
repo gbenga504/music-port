@@ -46,24 +46,22 @@
   }
 
   .button-text {
-    & a {
-      &:hover,
-      &:active,
-      &:focus {
-        @apply outline-none;
-      }
+    @apply block;
+
+    &a:hover,
+    &a:active,
+    &a:focus {
+      @apply outline-none;
     }
 
-    & a {
-      &:hover + span.button-text-decorator,
-      &:active + span.button-text-decorator,
-      &:focus + span.button-text-decorator {
-        @apply opacity-100 w-4/5;
-      }
+    &:hover span.button-text-decorator,
+    &:active span.button-text-decorator,
+    &:focus span.button-text-decorator {
+      @apply opacity-100 w-4/5;
+    }
 
-      & + span.button-text-decorator {
-        @apply block w-0 border-t-2 border-solid opacity-0 transition-all;
-      }
+    & span.button-text-decorator {
+      @apply block w-0 border-t-2 border-solid opacity-0 transition-all;
     }
 
     &.button-primary {
@@ -94,6 +92,28 @@
       & .button-text-decorator {
         @apply opacity-100 w-4/5;
       }
+    }
+  }
+
+  .button-transparent {
+    &.button-xlarge {
+      @apply rounded-lg h-16 text-xl;
+    }
+
+    &.button-large {
+      @apply rounded-lg h-12 text-base;
+    }
+
+    &.button-medium {
+      @apply rounded h-8 text-base;
+    }
+
+    &.button-small {
+      @apply rounded-sm h-6 text-sm;
+    }
+
+    &.button-fullWidth {
+      @apply w-full;
     }
   }
 }

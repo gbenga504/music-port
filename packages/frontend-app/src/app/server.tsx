@@ -51,7 +51,7 @@ export const renderer = async (
 
   const content = `
     <!doctype html>
-      <html lang="en" style="height: 100%; color: rgb(86, 93, 90)">
+      <html lang="en" style="height: 100%; color: white">
       <head>
         <meta charset="utf-8">
         <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport" />
@@ -63,7 +63,7 @@ export const renderer = async (
         <link rel="icon" type="image/x-icon" href="public/images/logo.svg">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/circular-std?styles=17909,17911,17907,17905" rel="stylesheet">
 
         ${helmet.title.toString()}
         ${helmet.meta.toString()}

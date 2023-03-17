@@ -11,15 +11,17 @@ import { sleep } from "../../../utils/sleep";
 interface IProps {
   open: boolean;
   children: ReactNode;
-  placement: "right" | "bottom";
+  placement?: "right" | "bottom";
   onClose?: MouseEventHandler<HTMLElement>;
+  contentContainerInnerBgColorClassName?: string;
 }
 
 export const Drawer: React.FC<IProps> = ({
   children,
-  placement,
+  placement = "right",
   open,
   onClose,
+  contentContainerInnerBgColorClassName = "bg-white",
 }) => {
   const [hasDrawerBeenAppendedToBody, setHasDrawerBeenAppendedToBody] =
     useState(false);
@@ -42,7 +44,7 @@ export const Drawer: React.FC<IProps> = ({
     (async function () {
       if (open) {
         setInternallyOpen(true);
-        await sleep(200);
+        await sleep(100);
 
         setIsDrawerOnScreen(true);
         return;
@@ -75,7 +77,9 @@ export const Drawer: React.FC<IProps> = ({
             motion: isDrawerOnScreen,
           })}
         >
-          <div className="w-full h-full overflow-auto bg-white pointer-events-auto">
+          <div
+            className={`drawer-contentContainer-inner w-full h-full overflow-auto ${contentContainerInnerBgColorClassName} pointer-events-auto`}
+          >
             <div className="flex flex-col w-full h-full">{children}</div>
           </div>
         </div>

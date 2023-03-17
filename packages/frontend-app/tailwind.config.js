@@ -4,15 +4,12 @@ module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     fontFamily: {
-      sans: ["ubuntu", ...defaultTheme.fontFamily.sans],
+      sans: ["Circular Std", ...defaultTheme.fontFamily.sans],
     },
     extend: {
       animation: {
         linearXMovement: "linearXMovement 2s ease-in-out infinite",
-      },
-
-      backgroundColor: {
-        page: "#FFFDFA",
+        widthify: "widthify 1s ease-in",
       },
 
       keyframes: {
@@ -22,16 +19,19 @@ module.exports = {
         },
       },
 
-      textColor: {
-        title: "rgb(41, 43, 41)",
-        subTitle: "rgb(86, 93, 90)",
-        placeholder: "#6f7672",
+      colors: {
+        primary: "#0BB4B5",
+        secondary: "#06062D",
+        secondaryAlpha: "#181835",
+        blackAlpha45: "rgba(0,0,0,.45)",
       },
 
-      colors: {
-        blackAlpha: {
-          100: "rgba(0, 0, 0, 0.06)",
-        },
+      transformOrigin: {
+        "left-center": "left center",
+      },
+
+      zIndex: {
+        1000: "1000",
       },
     },
   },
