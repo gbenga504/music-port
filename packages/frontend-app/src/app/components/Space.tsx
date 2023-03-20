@@ -1,7 +1,7 @@
-import React from "react";
+import React, { Children, cloneElement, ReactElement } from "react";
 import classNames from "classnames";
 
-import type { ReactNode } from "react";
+import type { ReactNode, CSSProperties } from "react";
 
 interface IProps {
   size?: "large" | "medium" | "small";
@@ -9,11 +9,7 @@ interface IProps {
   className?: string;
 }
 
-export const Space: React.FC<IProps> = ({
-  children,
-  size = "medium",
-  className,
-}) => {
+const Space: React.FC<IProps> = ({ children, size = "medium", className }) => {
   return (
     <div
       className={classNames(
@@ -30,3 +26,44 @@ export const Space: React.FC<IProps> = ({
     </div>
   );
 };
+
+interface ICompactProps {
+  style?: CSSProperties;
+  className?: string;
+  children: ReactElement[];
+}
+
+const Compact: React.FC<ICompactProps> = ({ style, className, children }) => {
+  const getChildClassName = (index: number): string => {
+    console.log("gad", index, index === 0);
+    if (index === 0) {
+      return "!rounded-r-none !border-r-0";
+    } else if (index + 1 === Children.count(children)) {
+      return "!rounded-l-none !border-l-0";
+    }
+
+    return "!rounded-r-none !rounded-r-none !border-r-0 !border-l-0";
+  };
+
+  return (
+    <div className={classNames("flex", className)} style={style}>
+      {Children.map(children, (child, index) =>
+        cloneElement(child, {
+          className: classNames(
+            getChildClassName(index),
+            child.props.className
+          ),
+        })
+      )}
+    </div>
+  );
+};
+
+type CompoundComponent = React.FC<IProps> & {
+  Compact: typeof Compact;
+};
+
+const CompoundSpace = Space as CompoundComponent;
+CompoundSpace.Compact = Compact;
+
+export { CompoundSpace as Space };
