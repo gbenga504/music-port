@@ -6,3 +6,5 @@ export { CloseIcon } from "./CloseIcon";
 export { ArrowDownIcon } from "./ArrowDownIcon";
 export { LogoIcon } from "./LogoIcon";
 export { AnimatedHamburgerIcon } from "./AnimatedHamburgerIcon";
+export { RedStarIcon } from "./RedStarIcon";
+export { LinkIcon } from "./LinkIcon";
