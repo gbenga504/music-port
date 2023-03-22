@@ -8,3 +8,8 @@ export { LogoIcon } from "./LogoIcon";
 export { AnimatedHamburgerIcon } from "./AnimatedHamburgerIcon";
 export { RedStarIcon } from "./RedStarIcon";
 export { LinkIcon } from "./LinkIcon";
+export { SpotifyIcon } from "./SpotifyIcon";
+export { DeezerIcon } from "./DeezerIcon";
+export { BoomplayIcon } from "./BoomplayIcon";
+export { AudiomackIcon } from "./AudiomackIcon";
+export { AppleMusicIcon } from "./AppleMusicIcon";

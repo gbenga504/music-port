@@ -3,7 +3,7 @@
 @import "tailwindcss/utilities";
 
 .input {
-  @apply flex items-center w-[25ch] border rounded-lg border-slate-500;
+  @apply flex items-center w-[25ch] border rounded-md border-lightGray;
   @apply hover:border-primary;
 
   &.focused {
@@ -15,11 +15,11 @@
   }
 
   &.small {
-    @apply px-4 py-[9px];
+    @apply px-4 py-[9px] h-8;
   }
 
   &.medium {
-    @apply px-4 py-[18px];
+    @apply px-4 py-[18px] h-16;
   }
 
   &.outlined {
@@ -40,7 +40,7 @@
   }
 
   & input {
-    @apply flex-1 outline-none bg-transparent placeholder:text-slate-500 text-ellipsis text-base;
+    @apply flex-1 outline-none bg-transparent placeholder:text-primaryGray text-ellipsis text-base;
 
     &.textBlack {
       @apply text-black;

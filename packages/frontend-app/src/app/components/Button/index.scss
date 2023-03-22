@@ -46,10 +46,11 @@
   }
 
   .button-text {
-    @apply block;
+    @apply block outline-none;
 
     &a:hover,
     &a:active,
+    &a:focus-visible,
     &a:focus {
       @apply outline-none;
     }
@@ -96,6 +97,12 @@
   }
 
   .button-transparent {
+    @apply outline-none;
+
+    &:focus {
+      @apply border border-primary;
+    }
+
     &.button-xlarge {
       @apply rounded-lg h-16 text-xl;
     }

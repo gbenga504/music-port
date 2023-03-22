@@ -21,8 +21,10 @@ interface IProps {
   prefix?: ReactNode;
   label?: string;
   required?: boolean;
-  inputTextColor?: "black" | "white";
+  theme?: "dark" | "white";
   className?: string;
+  invisibleLabel?: boolean;
+  name?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, IProps>(
@@ -37,8 +39,10 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
       variant = "outlined",
       label,
       required,
-      inputTextColor = "black",
+      theme = "dark",
+      name,
       className,
+      invisibleLabel,
       ...rest
     },
     ref
@@ -47,9 +51,18 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
 
     return (
       <div className="flex-1">
-        {label && (
-          <div className="flex items-start mb-2">
-            <span className="text-slate-500">{label}</span>
+        {(label || invisibleLabel) && (
+          <div
+            className={classNames(
+              "flex items-start mb-2 min-h-[24px] max-h-[24px]",
+              {
+                invisible: invisibleLabel,
+              }
+            )}
+          >
+            <label htmlFor={name} className="text-primaryGray">
+              {label}
+            </label>
             {required && (
               <span className="ml-1">
                 <RedStarIcon size={10} />
@@ -73,16 +86,17 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
           {prefix && <div className="mr-3">{prefix}</div>}
           <input
             ref={ref}
-            required
+            required={required}
             className={classNames({
-              textBlack: inputTextColor === "black",
-              textWhite: inputTextColor === "white",
+              textBlack: theme === "dark",
+              textWhite: theme === "white",
             })}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             {...rest}
             disabled={disabled}
             placeholder="Paste playlist link"
+            name={name}
           />
         </div>
         {helperText && (

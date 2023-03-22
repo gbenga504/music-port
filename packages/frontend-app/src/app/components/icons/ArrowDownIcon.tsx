@@ -3,17 +3,20 @@ import React from "react";
 interface IProps {
   size?: number;
   color?: string;
+  className?: string;
 }
 
 export const ArrowDownIcon: React.FC<IProps> = ({
   size = 20,
   color = "currentColor",
+  className,
 }) => {
   return (
     <svg
       viewBox="0 0 24 24"
       focusable="false"
       style={{ width: size, height: size }}
+      className={className}
     >
       <path
         fill={color}

@@ -30,6 +30,15 @@ module.exports = {
         "left-center": "left center",
       },
 
+      textColor: {
+        primaryGray: "#ABA6A6",
+      },
+
+      borderColor: {
+        lightGray: "#303048",
+        darkGray: "#E6E6E6",
+      },
+
       zIndex: {
         1000: "1000",
       },
