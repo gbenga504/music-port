@@ -28,7 +28,6 @@ interface IProps {
   name?: string;
   placeholder: string;
   children: ReactNode;
-  invisibleLabel?: boolean;
   theme?: "dark" | "white";
   renderLabel?: IRenderLabel;
 }
@@ -47,7 +46,6 @@ const Select: React.FC<IProps> = ({
   children,
   placeholder,
   theme = "white",
-  invisibleLabel,
   renderLabel: customRenderLabel,
   onChange,
 }) => {
@@ -134,15 +132,8 @@ const Select: React.FC<IProps> = ({
 
   return (
     <div className="flex-1 relative">
-      {(label || invisibleLabel) && (
-        <div
-          className={classNames(
-            "flex items-start mb-2 min-h-[24px] max-h-[24px]",
-            {
-              invisible: invisibleLabel,
-            }
-          )}
-        >
+      {label && (
+        <div className={classNames("flex items-start mb-2")}>
           <span className="text-primaryGray">{label}</span>
           {required && (
             <span className="ml-1">

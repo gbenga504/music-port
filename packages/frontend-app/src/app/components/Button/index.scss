@@ -21,19 +21,19 @@
     }
 
     &.button-xlarge {
-      @apply rounded-lg h-16 px-10;
+      @apply rounded-lg px-4 py-6 h-16;
     }
 
     &.button-large {
-      @apply rounded-lg h-12 px-6;
+      @apply rounded-lg px-4 py-5 h-16;
     }
 
     &.button-medium {
-      @apply rounded px-4 py-[18px];
+      @apply rounded px-4 py-[18px] h-16;
     }
 
     &.button-small {
-      @apply rounded-sm px-4 py-[9px] text-sm;
+      @apply rounded-sm px-4 py-[9px] text-sm h-8;
     }
 
     &.button-fullWidth {

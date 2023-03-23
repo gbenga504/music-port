@@ -35,7 +35,6 @@ interface ICompactProps {
 
 const Compact: React.FC<ICompactProps> = ({ style, className, children }) => {
   const getChildClassName = (index: number): string => {
-    console.log("gad", index, index === 0);
     if (index === 0) {
       return "!rounded-r-none !border-r-0";
     } else if (index + 1 === Children.count(children)) {

@@ -13,3 +13,4 @@ export { DeezerIcon } from "./DeezerIcon";
 export { BoomplayIcon } from "./BoomplayIcon";
 export { AudiomackIcon } from "./AudiomackIcon";
 export { AppleMusicIcon } from "./AppleMusicIcon";
+export { ArrowSwapIcon } from "./ArrowSwapIcon";

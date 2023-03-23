@@ -23,7 +23,6 @@ interface IProps {
   required?: boolean;
   theme?: "dark" | "white";
   className?: string;
-  invisibleLabel?: boolean;
   name?: string;
 }
 
@@ -42,7 +41,6 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
       theme = "dark",
       name,
       className,
-      invisibleLabel,
       ...rest
     },
     ref
@@ -50,16 +48,9 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-      <div className="flex-1">
-        {(label || invisibleLabel) && (
-          <div
-            className={classNames(
-              "flex items-start mb-2 min-h-[24px] max-h-[24px]",
-              {
-                invisible: invisibleLabel,
-              }
-            )}
-          >
+      <div className={classNames("flex-1", { [`${className}`]: className })}>
+        {label && (
+          <div className={classNames("flex items-start mb-2")}>
             <label htmlFor={name} className="text-primaryGray">
               {label}
             </label>
@@ -80,7 +71,6 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
             disabled,
             error,
             focused: isFocused,
-            [`${className}`]: className,
           })}
         >
           {prefix && <div className="mr-3">{prefix}</div>}
