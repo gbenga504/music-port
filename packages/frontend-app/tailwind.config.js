@@ -9,7 +9,6 @@ module.exports = {
     extend: {
       animation: {
         linearXMovement: "linearXMovement 2s ease-in-out infinite",
-        widthify: "widthify 1s ease-in",
       },
 
       keyframes: {
