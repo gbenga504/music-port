@@ -42,6 +42,11 @@ module.exports = {
       zIndex: {
         1000: "1000",
       },
+
+      gridTemplateRows: {
+        autoRepeat2: "repeat(2, auto)",
+        autoRepeat3: "repeat(3, auto)",
+      },
     },
   },
   plugins: [],

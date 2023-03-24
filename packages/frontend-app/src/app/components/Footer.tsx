@@ -14,7 +14,10 @@ export const Footer: React.FC = () => {
         "md:justify-between"
       )}
     >
-      <Space size="large">
+      <Space
+        size="large"
+        className="flex flex-col-reverse w-full !items-start md:inline-flex md:flex-row md:w-auto md:items-center"
+      >
         <span>
           &copy; {new Date().getFullYear()} Conplay | All Rights Reserved
         </span>
@@ -23,7 +26,7 @@ export const Footer: React.FC = () => {
         </Button>
       </Space>
 
-      <Space className="mt-3 md:mt-0">
+      <Space className="mt-6 md:mt-0 w-full md:w-auto !items-start md:items-center">
         <Button variant="transparent" size="small">
           <TwitterIcon />
         </Button>
