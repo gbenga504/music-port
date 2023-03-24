@@ -14,3 +14,6 @@ export { BoomplayIcon } from "./BoomplayIcon";
 export { AudiomackIcon } from "./AudiomackIcon";
 export { AppleMusicIcon } from "./AppleMusicIcon";
 export { ArrowSwapIcon } from "./ArrowSwapIcon";
+export { LinkedInIcon } from "./LinkedInIcon";
+export { FacebookIcon } from "./FacebookIcon";
+export { TwitterIcon } from "./TwitterIcon";
