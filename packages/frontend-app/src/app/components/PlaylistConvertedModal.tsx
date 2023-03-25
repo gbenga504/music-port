@@ -31,7 +31,7 @@ export const PlaylistConvertedModal: React.FC<IProps> = ({
   const renderHeadline = () => {
     return (
       <div className="my-8 text-black text-center">
-        <h3 className="text-4xl">Successfully Converted</h3>
+        <h3 className="text-2xl lg:text-4xl">Successfully Converted</h3>
         <div className="mt-4">
           <span className="text-primaryGray">
             Your {fromPlatform} playlist has been successfully converted to an

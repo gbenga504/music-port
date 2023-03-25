@@ -11,6 +11,8 @@ import { sleep } from "../../../utils/sleep";
 import { CancelIcon } from "../icons";
 
 import "./index.scss";
+import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
+import { Drawer } from "../Drawer";
 
 interface IProps {
   title?: string;
@@ -31,6 +33,7 @@ export const Modal: React.FC<IProps> = ({
   width = "md",
   children,
 }) => {
+  const matches = useMediaQuery(`(max-width: ${screens.lg})`);
   const [hasModalBeenAppendedToBody, setHasModalBeenAppendedToBody] =
     useState(false);
   const [internallyOpen, setInternallyOpen] = useState(false);
@@ -109,8 +112,8 @@ export const Modal: React.FC<IProps> = ({
           className={classNames("modal-contentContainer", {
             open: internallyOpen,
             motion: isModalOnScreen,
-            "w-4/12": width === "md",
-            "w-5/12": width === "lg",
+            "lg:w-6/12 xl:w-4/12": width === "md",
+            "lg:w-7/12 xl:w-5/12": width === "lg",
           })}
         >
           {renderHeader()}
@@ -120,6 +123,21 @@ export const Modal: React.FC<IProps> = ({
       </div>
     );
   };
+
+  if (matches) {
+    return (
+      <Drawer
+        open={open}
+        placement="bottom"
+        contentContainerInnerBgColorClassName="bg-white rounded-t-md p-6 pb-0 mb-14"
+        onClose={onClose}
+      >
+        {renderHeader()}
+        {children}
+        {renderFooter()}
+      </Drawer>
+    );
+  }
 
   if (hasModalBeenAppendedToBody) {
     return createPortal(renderModal(), portalRef.current!);
