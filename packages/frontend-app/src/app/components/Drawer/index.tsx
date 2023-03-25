@@ -36,6 +36,7 @@ export const Drawer: React.FC<IProps> = ({
     setHasDrawerBeenAppendedToBody(true);
 
     return () => {
+      document.getElementsByTagName("body")[0].style.overflow = "";
       document.body.removeChild(portalRef.current!);
     };
   }, []);
@@ -43,6 +44,8 @@ export const Drawer: React.FC<IProps> = ({
   useEffect(() => {
     (async function () {
       if (open) {
+        document.getElementsByTagName("body")[0].style.overflow = "hidden";
+
         setInternallyOpen(true);
         await sleep(100);
 
@@ -50,20 +53,19 @@ export const Drawer: React.FC<IProps> = ({
         return;
       }
 
+      document.getElementsByTagName("body")[0].style.overflow = "";
+
       setIsDrawerOnScreen(false);
       await sleep(500);
       setInternallyOpen(false);
     })();
   }, [open]);
 
-  const renderModal = () => {
+  const renderDrawer = () => {
     return (
       <div
-        className={classNames(
-          "drawer fixed pointer-events-none z-1000 w-screen h-screen top-0 left-0",
-          { open: internallyOpen }
-        )}
-        tabIndex={-1}
+        className={classNames("drawer", { open: internallyOpen })}
+        tabIndex={isDrawerOnScreen ? 0 : -1}
       >
         <div
           className={classNames("drawer-overlay", {
@@ -78,7 +80,7 @@ export const Drawer: React.FC<IProps> = ({
           })}
         >
           <div
-            className={`drawer-contentContainer-inner w-full h-full overflow-auto ${contentContainerInnerBgColorClassName} pointer-events-auto`}
+            className={`w-full h-full overflow-auto ${contentContainerInnerBgColorClassName} pointer-events-auto`}
           >
             <div className="flex flex-col w-full h-full">{children}</div>
           </div>
@@ -88,7 +90,7 @@ export const Drawer: React.FC<IProps> = ({
   };
 
   if (hasDrawerBeenAppendedToBody) {
-    return createPortal(renderModal(), portalRef.current!);
+    return createPortal(renderDrawer(), portalRef.current!);
   }
 
   return null;

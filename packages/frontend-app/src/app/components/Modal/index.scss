@@ -1,0 +1,30 @@
+.modal {
+  @apply fixed flex justify-center pointer-events-none z-1000 w-screen h-screen top-0 left-0;
+
+  & .modal-overlay {
+    @apply hidden absolute transition-all duration-500 z-1000 opacity-0 pointer-events-auto w-full h-full bg-blackAlpha45;
+  }
+
+  & .modal-contentContainer {
+    @apply hidden absolute z-1000 transition-all duration-500 opacity-0 h-max;
+    @apply mt-24 bg-white rounded-lg p-8 pointer-events-auto overflow-y-scroll;
+  }
+
+  &.open {
+    & .modal-overlay {
+      @apply block;
+
+      &.modal-overlay-motion {
+        @apply opacity-100;
+      }
+    }
+
+    & .modal-contentContainer {
+      @apply block;
+
+      &.motion {
+        @apply opacity-100;
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { SpinnerIcon } from "../icons";
 
 import type { ReactNode, MouseEventHandler } from "react";
 
-interface IProps {
+export interface IProps {
   variant?: "contained" | "text" | "transparent";
   size?: "small" | "medium" | "large" | "x-large";
   htmlType?: "submit" | "button" | "reset";

@@ -20,9 +20,17 @@ module.exports = {
 
       colors: {
         primary: "#0BB4B5",
+        primaryAlpha: "#C9F6F7",
         secondary: "#06062D",
         secondaryAlpha: "#181835",
         blackAlpha45: "rgba(0,0,0,.45)",
+
+        // These are special colors, hence have them here
+        whatsapp: "#1ED760",
+        twitter: "#55ACEE",
+        telegram: "#85B6FF",
+        linkedIn: "#0A66C2",
+        facebook: "#0000FF",
       },
 
       transformOrigin: {
@@ -35,7 +43,7 @@ module.exports = {
 
       borderColor: {
         lightGray: "#303048",
-        darkGray: "#E6E6E6",
+        mediumGray: "#ABA6A6",
       },
 
       zIndex: {
@@ -43,6 +51,11 @@ module.exports = {
       },
 
       gridTemplateRows: {
+        autoRepeat2: "repeat(2, auto)",
+        autoRepeat3: "repeat(3, auto)",
+      },
+
+      gridTemplateColumns: {
         autoRepeat2: "repeat(2, auto)",
         autoRepeat3: "repeat(3, auto)",
       },

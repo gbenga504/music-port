@@ -30,7 +30,7 @@ const Space: React.FC<IProps> = ({ children, size = "medium", className }) => {
 interface ICompactProps {
   style?: CSSProperties;
   className?: string;
-  children: ReactElement[];
+  children: ReactElement | ReactElement[];
 }
 
 const Compact: React.FC<ICompactProps> = ({ style, className, children }) => {

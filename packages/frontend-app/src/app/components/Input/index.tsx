@@ -21,7 +21,7 @@ interface IProps {
   prefix?: ReactNode;
   label?: string;
   required?: boolean;
-  theme?: "dark" | "white";
+  textColor?: "black" | "white";
   className?: string;
   name?: string;
 }
@@ -38,7 +38,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
       variant = "outlined",
       label,
       required,
-      theme = "dark",
+      textColor = "black",
       name,
       className,
       ...rest
@@ -48,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-      <div className={classNames("flex-1", { [`${className}`]: className })}>
+      <div className={classNames("flex-1")}>
         {label && (
           <div className={classNames("flex items-start mb-2")}>
             <label htmlFor={name} className="text-primaryGray">
@@ -71,6 +71,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
             disabled,
             error,
             focused: isFocused,
+            [`${className}`]: className,
           })}
         >
           {prefix && <div className="mr-3">{prefix}</div>}
@@ -78,8 +79,8 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
             ref={ref}
             required={required}
             className={classNames({
-              textBlack: theme === "dark",
-              textWhite: theme === "white",
+              textBlack: textColor === "black",
+              textWhite: textColor === "white",
             })}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}

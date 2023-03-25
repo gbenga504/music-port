@@ -1,4 +1,6 @@
 .drawer {
+  @apply fixed pointer-events-none z-1000 w-screen h-screen top-0 left-0;
+
   & .drawer-overlay {
     @apply hidden absolute transition-all duration-500 z-1000 opacity-0 pointer-events-auto w-full h-full bg-blackAlpha45;
   }

@@ -17,3 +17,8 @@ export { ArrowSwapIcon } from "./ArrowSwapIcon";
 export { LinkedInIcon } from "./LinkedInIcon";
 export { FacebookIcon } from "./FacebookIcon";
 export { TwitterIcon } from "./TwitterIcon";
+export { CancelIcon } from "./CancelIcon";
+export { SuccessCelebrationIcon } from "./SuccessCelebrationIcon";
+export { CopyIcon } from "./CopyIcon";
+export { TelegramIcon } from "./TelegramIcon";
+export { WhatsappIcon } from "./WhatsappIcon";

@@ -19,6 +19,7 @@ import {
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
+import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 
 const Home: React.FC<ILoadableComponentProps> = () => {
   const renderHeadline = () => {
@@ -115,7 +116,7 @@ const Home: React.FC<ILoadableComponentProps> = () => {
       >
         <Input
           fullWidth
-          theme="white"
+          textColor="white"
           size="medium"
           variant="dashed"
           prefix={<LinkIcon size={16} />}
@@ -167,6 +168,18 @@ const Home: React.FC<ILoadableComponentProps> = () => {
     );
   };
 
+  const renderPlaylistConvertedModal = () => {
+    return (
+      <PlaylistConvertedModal
+        open={false}
+        link="https://react.dev/learn/you-might-not-need-an-effect"
+        fromPlatform="Spotify"
+        toPlatform="Apple Music"
+        onClose={() => {}}
+      />
+    );
+  };
+
   return (
     <PageLayout>
       <AppHeader />
@@ -175,6 +188,7 @@ const Home: React.FC<ILoadableComponentProps> = () => {
         {renderTagline()}
       </div>
       {renderConverter()}
+      {renderPlaylistConvertedModal()}
     </PageLayout>
   );
 };
