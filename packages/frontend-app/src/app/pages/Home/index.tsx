@@ -109,9 +109,9 @@ const Home: React.FC<ILoadableComponentProps> = () => {
     return (
       <div
         className={classNames(
-          "w-full mt-12 md:mt-14 md:p-14 md:rounded-lg md:bg-secondaryAlpha grid",
-          "grid-rows-autoRepeat3 md:grid-rows-1 gap-y-6 md:gap-y-0 items-start md:items-end",
-          "grid-cols-1 md:grid-cols-[3fr_2fr_1fr] gap-x-0 md:gap-x-6"
+          "w-full mt-12 xl:mt-14 xl:p-14 xl:rounded-lg xl:bg-secondaryAlpha grid",
+          "grid-rows-autoRepeat3 xl:grid-rows-1 gap-y-6 xl:gap-y-0 items-start xl:items-end",
+          "grid-cols-1 xl:grid-cols-[3fr_2fr_1fr] gap-x-0 xl:gap-x-6"
         )}
       >
         <Input
