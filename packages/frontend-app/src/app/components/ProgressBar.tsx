@@ -12,15 +12,15 @@ export const ProgressBar: React.FC<IProps> = ({
   const _value = value > 100 ? 100 : value;
 
   return (
-    <div className="w-full h-1 bg-slate-300 relative">
+    <div className="w-full h-1 bg-primary relative">
       {variant === "determinate" && (
         <div
-          className="bg-black h-1 ease-in-out duration-500"
+          className="bg-primary h-1 ease-in-out duration-500"
           style={{ width: `${_value}%` }}
         />
       )}
       {variant === "indeterminate" && (
-        <div className="absolute bg-black w-1/2 h-1 animate-linearXMovement" />
+        <div className="absolute bg-primary w-1/2 h-1 animate-linearXMovement" />
       )}
     </div>
   );

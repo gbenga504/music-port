@@ -1,0 +1,35 @@
+.animated-hamburger-icon {
+  @apply cursor-pointer w-9 h-5 relative rotate-0 duration-500 ease-in-out;
+
+  & span {
+    @apply block absolute h-0.5 w-full bg-white rounded-lg opacity-100;
+    @apply left-0 rotate-0;
+    transition: 0.25s ease-in-out;
+  }
+
+  & span:nth-child(1) {
+    @apply top-0 origin-left-center text-white;
+  }
+
+  & span:nth-child(2) {
+    @apply top-2 origin-left-center text-white;
+  }
+
+  & span:nth-child(3) {
+    @apply top-4 origin-left-center text-white;
+  }
+
+  &.open {
+    & span:nth-child(1) {
+      @apply -top-1 left-2 rotate-45;
+    }
+
+    & span:nth-child(2) {
+      @apply w-0 opacity-0;
+    }
+
+    & span:nth-child(3) {
+      @apply top-[22px] left-2 -rotate-45;
+    }
+  }
+}

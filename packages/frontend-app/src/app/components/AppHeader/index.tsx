@@ -1,58 +1,65 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../../components/Button";
 import { Space } from "../../components/Space";
-import {
-  ProgressBar,
-  IProps as IProgressBarProps,
-} from "../../components/ProgressBar";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { LogoIcon } from "../icons";
+import { doesPathMatch } from "../../../utils/routeUtils";
+import { MobileMenu } from "./MobileMenu";
+import { AnimatedHamburgerIcon } from "../icons";
+import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 
-interface IProps {
-  progressBar: IProgressBarProps;
-  showExportButton?: boolean;
-  showImportButton?: boolean;
-}
+interface IProps {}
 
-export const AppHeader: React.FC<IProps> = ({
-  progressBar,
-  showExportButton,
-  showImportButton,
-}) => {
-  const exportLink = constructURL({ routeId: routeIds.exportPasteLink });
-  const importLink = constructURL({ routeId: routeIds.importPasteLink });
+export const AppHeader: React.FC<IProps> = () => {
+  const { pathname } = useLocation();
+  const matches = useMediaQuery(`(max-width: ${screens.lg})`);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const renderMobileMenuHamburger = () => {
+    return (
+      <Space className="block lg:hidden relative">
+        <AnimatedHamburgerIcon
+          open={isMobileMenuOpen}
+          onClick={() => setIsMobileMenuOpen(true)}
+        />
+      </Space>
+    );
+  };
 
   return (
     <div className="w-full">
-      <nav className="w-11/12 md:w-4/5 m-auto flex justify-between items-center h-24">
-        <Link to={constructURL({ routeId: routeIds.importPasteLink })}>
-          <LogoIcon size={50} />
+      <nav className="pt-10 lg:pt-14 w-full flex justify-between items-center">
+        <Link to={constructURL({ routeId: routeIds.home })}>
+          <LogoIcon />
         </Link>
-        <Space size="large">
+        <Space size="large" className="hidden lg:inline-flex">
           <Button
             variant="text"
             size="medium"
             target="blank"
-            href="https://github.com/gbenga504/music-port"
+            focused={doesPathMatch({ routeId: routeIds.home, pathname })}
+            to="#"
           >
-            Github
+            Home
           </Button>
-          {showExportButton && (
-            <Button variant="contained" size="medium" to={exportLink}>
-              Export
-            </Button>
-          )}
-          {showImportButton && (
-            <Button variant="contained" size="medium" to={importLink}>
-              Import
-            </Button>
-          )}
+          <Button variant="text" size="medium" target="blank" to="#">
+            Community playlist
+          </Button>
+          <Button variant="text" size="medium" target="blank" to="#">
+            Pricing
+          </Button>
         </Space>
+        {renderMobileMenuHamburger()}
+        {matches && (
+          <MobileMenu
+            open={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </nav>
-      <ProgressBar {...progressBar} />
     </div>
   );
 };

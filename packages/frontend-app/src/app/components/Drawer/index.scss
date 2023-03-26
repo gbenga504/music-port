@@ -1,0 +1,45 @@
+.drawer {
+  @apply fixed pointer-events-none z-1000 w-screen h-screen top-0 left-0;
+
+  & .drawer-overlay {
+    @apply hidden absolute transition-all duration-500 z-1000 opacity-0 pointer-events-auto w-full h-full bg-blackAlpha45;
+  }
+
+  & .drawer-contentContainer {
+    @apply hidden absolute z-1000 transition-all duration-500;
+
+    &.right {
+      @apply top-0 -right-full md:-right-[378px] w-full md:w-[378px] h-full;
+    }
+
+    &.bottom {
+      @apply left-0 -bottom-[95%] h-[95%] w-full;
+    }
+  }
+
+  &.open {
+    & .drawer-overlay {
+      @apply block;
+
+      &.drawer-overlay-motion {
+        @apply opacity-100;
+      }
+    }
+
+    & .drawer-contentContainer {
+      @apply block;
+
+      &.right {
+        &.motion {
+          @apply right-0;
+        }
+      }
+
+      &.bottom {
+        &.motion {
+          @apply bottom-0;
+        }
+      }
+    }
+  }
+}

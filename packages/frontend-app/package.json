@@ -82,6 +82,7 @@
     "react-final-form": "^6.5.9",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^6.4.2",
+    "react-swipeable": "^7.0.0",
     "sass": "^1.56.1",
     "serialize-javascript": "^6.0.0",
     "zod": "^3.19.1"

@@ -1,0 +1,53 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+.input {
+  @apply flex items-center w-[25ch] border rounded-md border-lightGray;
+  @apply hover:border-primary;
+
+  &.focused {
+    @apply border-primary;
+  }
+
+  &.fullWidth {
+    @apply w-full;
+  }
+
+  &.small {
+    @apply px-4 py-[9px] h-8;
+  }
+
+  &.medium {
+    @apply px-4 py-[18px] h-16;
+  }
+
+  &.outlined {
+    @apply border-solid;
+  }
+
+  &.dashed {
+    @apply border-dashed;
+  }
+
+  &.disabled {
+    @apply cursor-not-allowed;
+  }
+
+  &.error,
+  &.focused.error {
+    @apply border-red-600 hover:shadow-red-600;
+  }
+
+  & input {
+    @apply flex-1 outline-none bg-transparent placeholder:text-primaryGray text-ellipsis text-base;
+
+    &.textBlack {
+      @apply text-black;
+    }
+
+    &.textWhite {
+      @apply text-white;
+    }
+  }
+}
