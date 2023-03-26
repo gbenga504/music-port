@@ -6,13 +6,13 @@ import type { ReactNode } from "react";
 import type { IProps as IButtonProps } from "../Button";
 
 import { Button } from "../Button";
-import { isDOMLoaded } from "../../../utils/dom";
 import { sleep } from "../../../utils/sleep";
 import { CancelIcon } from "../icons";
 
 import "./index.scss";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../Drawer";
+import useSsr from "../../hooks/useSsr";
 
 interface IProps {
   title?: string;
@@ -38,9 +38,8 @@ export const Modal: React.FC<IProps> = ({
     useState(false);
   const [internallyOpen, setInternallyOpen] = useState(false);
   const [isModalOnScreen, setIsModalOnScreen] = useState(false);
-  const portalRef = useRef(
-    isDOMLoaded() ? document.createElement("div") : null
-  );
+  const { isBrowser } = useSsr();
+  const portalRef = useRef(isBrowser ? document.createElement("div") : null);
 
   useEffect(() => {
     document.body.appendChild(portalRef.current!);

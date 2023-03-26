@@ -6,8 +6,8 @@ import { useSwipeable } from "react-swipeable";
 import type { ReactNode, TouchEvent } from "react";
 
 import "./index.scss";
-import { isDOMLoaded } from "../../../utils/dom";
 import { sleep } from "../../../utils/sleep";
+import useSsr from "../../hooks/useSsr";
 
 interface IProps {
   open: boolean;
@@ -57,11 +57,10 @@ export const Drawer: React.FC<IProps> = ({
   const [internallyOpen, setInternallyOpen] = useState(false);
   const [isDrawerOnScreen, setIsDrawerOnScreen] = useState(false);
 
+  const { isBrowser } = useSsr();
   const isSwipeableRef = useRef(true);
   const drawerSwipeableContainerRef = useRef<HTMLDivElement>();
-  const portalRef = useRef(
-    isDOMLoaded() ? document.createElement("div") : null
-  );
+  const portalRef = useRef(isBrowser ? document.createElement("div") : null);
 
   const handlers = useSwipeable({
     onSwiped: (eventData) => {

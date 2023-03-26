@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { Auth } from "./auth";
 import { Playlist } from "./playlist";
-import { isDOMLoaded } from "../../utils/dom";
+import { isDOM } from "../../utils/dom";
 import { createGraphQLClient } from "./graphql/graphql-client";
 
 interface ICreateApiClientParams {
@@ -55,7 +55,7 @@ export const createApiClient = ({
 export type ICreateApiClient = ReturnType<typeof createApiClient>;
 
 export const getApiClient = (): ICreateApiClient => {
-  if (isDOMLoaded()) {
+  if (isDOM) {
     return createApiClient({
       backendApiBaseUrl: process.env.API_PROXY!,
       frontendApiBaseUrl: "/",
