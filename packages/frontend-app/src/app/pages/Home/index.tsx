@@ -25,7 +25,7 @@ import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal"
 const Home: React.FC<ILoadableComponentProps> = () => {
   const renderHeadline = () => {
     return (
-      <h3 className="max-w-screen-md text-left md:text-center font-bold text-2xl md:text-4xl">
+      <h3 className="font-bold text-2xl md:text-4xl">
         <span className="text-primary">Convert</span>
         <span>
           {" "}
@@ -38,7 +38,7 @@ const Home: React.FC<ILoadableComponentProps> = () => {
 
   const renderTagline = () => {
     return (
-      <span className="max-w-screen-md text-left md:text-center text-base px-0 md:px-12 text-primaryGray">
+      <span className="text-base px-0 md:px-12 text-primaryGray">
         You can finally convert your musical playlist across all Musical
         streaming platforms without the hassle of doing it
       </span>
@@ -216,7 +216,12 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   return (
     <PageLayout>
       <AppHeader />
-      <div className="w-full grid grid-rows-autoRepeat2 justify-items-center gap-y-6 mt-12 lg:mt-24">
+      <div
+        className={classNames(
+          "w-full md:max-w-screen-md grid grid-rows-autoRepeat2 justify-items-center gap-y-6",
+          "text-left md:text-center mt-12 lg:mt-24 md:mx-auto"
+        )}
+      >
         {renderHeadline()}
         {renderTagline()}
       </div>

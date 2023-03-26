@@ -10,7 +10,7 @@ interface IProps {
 
 export const PageLayout: React.FC<IProps> = ({ children }) => {
   return (
-    <div className="max-w-screen-xl xl:mx-auto md:mx-8 mx-4">
+    <div className="mx-4 md:mx-8 xl:max-w-screen-xl xl:mx-auto">
       <div>{children}</div>
       <Footer />
     </div>

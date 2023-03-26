@@ -39,13 +39,17 @@ export const AppHeader: React.FC<IProps> = () => {
           <Button
             variant="text"
             size="medium"
-            target="blank"
             focused={doesPathMatch({ routeId: routeIds.home, pathname })}
-            to="#"
+            to={constructURL({ routeId: routeIds.home })}
           >
             Home
           </Button>
-          <Button variant="text" size="medium" target="blank" to="#">
+          <Button
+            variant="text"
+            size="medium"
+            focused={doesPathMatch({ routeId: routeIds.community, pathname })}
+            to={constructURL({ routeId: routeIds.community })}
+          >
             Community playlist
           </Button>
           <Button variant="text" size="medium" target="blank" to="#">
