@@ -1,7 +1,5 @@
-export const isDOMLoaded = (): boolean => {
-  return !!(
-    typeof window !== "undefined" &&
-    window.document &&
-    window.document.createElement
-  );
-};
+export const isDOM = !!(
+  typeof window !== "undefined" &&
+  window.document &&
+  window.document.documentElement
+);
