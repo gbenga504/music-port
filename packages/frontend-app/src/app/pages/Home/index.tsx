@@ -171,7 +171,7 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   const renderPlaylistConvertedModal = () => {
     return (
       <PlaylistConvertedModal
-        open={true}
+        open={false}
         link="https://react.dev/learn/you-might-not-need-an-effect"
         fromPlatform="Spotify"
         toPlatform="Apple Music"

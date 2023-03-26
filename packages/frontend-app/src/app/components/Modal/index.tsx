@@ -129,7 +129,7 @@ export const Modal: React.FC<IProps> = ({
       <Drawer
         open={open}
         placement="bottom"
-        contentContainerInnerBgColorClassName="bg-white rounded-t-md p-6 pb-0 mb-14"
+        contentContainerInnerBgColorClassName="bg-white rounded-t-md p-4"
         onClose={onClose}
       >
         {renderHeader()}
