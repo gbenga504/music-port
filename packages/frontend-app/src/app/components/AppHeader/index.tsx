@@ -9,11 +9,13 @@ import { LogoIcon } from "../icons";
 import { doesPathMatch } from "../../../utils/routeUtils";
 import { MobileMenu } from "./MobileMenu";
 import { AnimatedHamburgerIcon } from "../icons";
+import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 
 interface IProps {}
 
 export const AppHeader: React.FC<IProps> = () => {
   const { pathname } = useLocation();
+  const matches = useMediaQuery(`(max-width: ${screens.lg})`);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const renderMobileMenuHamburger = () => {
@@ -51,10 +53,12 @@ export const AppHeader: React.FC<IProps> = () => {
           </Button>
         </Space>
         {renderMobileMenuHamburger()}
-        <MobileMenu
-          open={isMobileMenuOpen}
-          onClose={() => setIsMobileMenuOpen(false)}
-        />
+        {matches && (
+          <MobileMenu
+            open={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </nav>
     </div>
   );
