@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { Field, Form } from "react-final-form";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { IRenderLabel } from "../../components/Select";
@@ -107,64 +108,96 @@ const Home: React.FC<ILoadableComponentProps> = () => {
 
   const renderConverter = () => {
     return (
-      <div
-        className={classNames(
-          "w-full mt-12 xl:mt-14 xl:p-14 xl:rounded-lg xl:bg-secondaryAlpha grid",
-          "grid-rows-autoRepeat3 xl:grid-rows-1 gap-y-6 xl:gap-y-0 items-start xl:items-end",
-          "grid-cols-1 xl:grid-cols-[3fr_2fr_1fr] gap-x-0 xl:gap-x-6"
-        )}
-      >
-        <Input
-          fullWidth
-          textColor="white"
-          size="medium"
-          variant="dashed"
-          prefix={<LinkIcon size={16} />}
-          name="link"
-        />
-        <Space size="small" className="flex-col md:flex-row">
-          <div className="w-full">
-            <Select
-              fullWidth
-              size="medium"
-              theme="dark"
-              placeholder="select platform"
-              label="Convert from"
-              name="fromPlatform"
-              renderLabel={renderLabel}
-              value="spotify"
-              disabled
+      <Form
+        onSubmit={() => {}}
+        subscription={{ dirty: true, invalid: true, error: true }}
+        render={({ handleSubmit, form }) => {
+          const { invalid, dirty } = form.getState();
+
+          return (
+            <form
+              className={classNames(
+                "w-full mt-12 xl:mt-14 xl:p-14 xl:rounded-lg xl:bg-secondaryAlpha grid",
+                "grid-rows-autoRepeat3 xl:grid-rows-1 gap-y-6 xl:gap-y-0 items-start xl:items-end",
+                "grid-cols-1 xl:grid-cols-[3fr_2fr_1fr] gap-x-0 xl:gap-x-6"
+              )}
+              onSubmit={handleSubmit}
             >
-              {renderOptions()}
-            </Select>
-          </div>
-          <div className="mt-4 mb-4 md:mt-8 md:mb-0">
-            <ArrowSwapIcon className="rotate-90 md:rotate-0" />
-          </div>
-          <div className="w-full">
-            <Select
-              fullWidth
-              size="medium"
-              theme="dark"
-              placeholder="select platform"
-              label="Convert from"
-              name="fromPlatform"
-              renderLabel={renderLabel}
-              value="appleMusic"
-            >
-              {renderOptions()}
-            </Select>
-          </div>
-        </Space>
-        <Button
-          variant="contained"
-          color="primary"
-          size="medium"
-          className="mt-4 md:mt-0"
-        >
-          Convert
-        </Button>
-      </div>
+              <Field
+                name="link"
+                render={({ input, meta }) => (
+                  <Input
+                    fullWidth
+                    textColor="white"
+                    size="medium"
+                    variant="dashed"
+                    prefix={<LinkIcon size={16} />}
+                    helperText={meta.error}
+                    error={Boolean(meta.error)}
+                    {...input}
+                  />
+                )}
+              />
+              <Space size="small" className="flex-col md:flex-row">
+                <div className="w-full">
+                  <Field
+                    name="fromPlatform"
+                    render={({ input, meta }) => (
+                      <Select
+                        fullWidth
+                        size="medium"
+                        theme="dark"
+                        placeholder="select platform"
+                        label="Convert from"
+                        renderLabel={renderLabel}
+                        disabled
+                        helperText={meta.error}
+                        error={Boolean(meta.error)}
+                        {...input}
+                      >
+                        {renderOptions()}
+                      </Select>
+                    )}
+                  />
+                </div>
+                <div className="mt-4 mb-4 md:mt-8 md:mb-0">
+                  <ArrowSwapIcon className="rotate-90 md:rotate-0" />
+                </div>
+                <div className="w-full">
+                  <Field
+                    name="toPlatform"
+                    render={({ input, meta }) => (
+                      <Select
+                        fullWidth
+                        size="medium"
+                        theme="dark"
+                        placeholder="select platform"
+                        label="Convert to"
+                        renderLabel={renderLabel}
+                        helperText={meta.error}
+                        error={Boolean(meta.error)}
+                        {...input}
+                      >
+                        {renderOptions()}
+                      </Select>
+                    )}
+                  />
+                </div>
+              </Space>
+              <Button
+                variant="contained"
+                color="primary"
+                size="medium"
+                className="mt-4 md:mt-0"
+                htmlType="submit"
+                disabled={invalid || !dirty}
+              >
+                Convert
+              </Button>
+            </form>
+          );
+        }}
+      />
     );
   };
 
