@@ -147,7 +147,7 @@ export const Drawer: React.FC<IProps> = ({
     setHasDrawerBeenAppendedToBody(true);
 
     return () => {
-      document.getElementsByTagName("body")[0].style.overflow = "";
+      document.getElementsByTagName("body")[0].style.overflowY = "";
       document.body.removeChild(portalRef.current!);
     };
   }, []);
@@ -155,7 +155,7 @@ export const Drawer: React.FC<IProps> = ({
   useEffect(() => {
     (async function () {
       if (open) {
-        document.getElementsByTagName("body")[0].style.overflow = "hidden";
+        document.getElementsByTagName("body")[0].style.overflowY = "hidden";
 
         setInternallyOpen(true);
         await sleep(100);
@@ -164,7 +164,7 @@ export const Drawer: React.FC<IProps> = ({
         return;
       }
 
-      document.getElementsByTagName("body")[0].style.overflow = "";
+      document.getElementsByTagName("body")[0].style.overflowY = "";
 
       setIsDrawerOnScreen(false);
       await sleep(500);

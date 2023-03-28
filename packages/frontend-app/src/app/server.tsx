@@ -71,7 +71,7 @@ export const renderer = async (
         ${helmet.script.toString()}
         ${chunkExtractor.getStyleTags()}
       </head>
-      <body style="height: 100%">
+      <body style="height: 100%; overflow-x: hidden">
         <div style="height: 100%" id="root">${jsxHTML}</div>
         ${chunkExtractor.getScriptTags()}
         <script id="app-data" type="application/json">${serialize(data, {

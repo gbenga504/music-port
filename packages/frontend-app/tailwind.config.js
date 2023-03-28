@@ -59,6 +59,10 @@ module.exports = {
         autoRepeat2: "repeat(2, auto)",
         autoRepeat3: "repeat(3, auto)",
       },
+
+      borderCollapse: {
+        gbenga: "unset",
+      },
     },
   },
   plugins: [],
