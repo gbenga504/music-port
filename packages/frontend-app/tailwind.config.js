@@ -63,6 +63,15 @@ module.exports = {
       borderCollapse: {
         gbenga: "unset",
       },
+
+      fontSize: {
+        xxs: [
+          "0.625rem",
+          {
+            lineHeight: "1rem",
+          },
+        ],
+      },
     },
   },
   plugins: [],

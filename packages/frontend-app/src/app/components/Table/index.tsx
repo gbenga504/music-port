@@ -87,12 +87,13 @@ const TableBody: React.FC<ITableBodyProps> = ({ className, children }) => {
 interface ITableRowProps {
   className?: string;
   children: ReactElement | ReactElement[];
-  onClick?: () => {};
+  onClick?: () => void;
   selected?: boolean;
 }
 
 interface ITableRowInternalProps extends ITableRowProps {
   isEncapsulatedByTableHead: boolean;
+  isEncapsulatedByTableFooter: boolean;
   stickyHeader: boolean;
 }
 
@@ -100,13 +101,14 @@ const TableRow: React.FC<ITableRowInternalProps> = ({
   className,
   children,
   isEncapsulatedByTableHead,
+  isEncapsulatedByTableFooter,
   stickyHeader,
   onClick,
   selected,
 }) => {
   let extraProps = {};
 
-  if (!isEncapsulatedByTableHead) {
+  if (!isEncapsulatedByTableHead && !isEncapsulatedByTableFooter) {
     extraProps = { role: "button", tabIndex: "0" };
   }
 
@@ -117,7 +119,7 @@ const TableRow: React.FC<ITableRowInternalProps> = ({
       className={classNames("table-row align-middle outline-0", {
         [className!]: !!className,
         "hover:bg-secondaryAlpha focus:bg-secondaryAlpha":
-          !isEncapsulatedByTableHead,
+          !isEncapsulatedByTableHead && !isEncapsulatedByTableFooter,
         "border-l-2 border-l-primary bg-secondaryAlpha": selected,
       })}
     >
@@ -134,6 +136,7 @@ interface ITableCellProps {
   className?: string;
   children: ReactNode;
   align?: "center" | "justify" | "left" | "right";
+  colspan?: number;
 }
 
 interface ITableCellInternalProps extends ITableCellProps {
@@ -147,8 +150,14 @@ const TableCell: React.FC<ITableCellInternalProps> = ({
   isEncapsulatedByTableHead,
   stickyHeader,
   align = "left",
+  colspan,
 }) => {
   const Element = isEncapsulatedByTableHead ? "th" : "td";
+  let extraProps = {};
+
+  if (Element === "td" && colspan) {
+    extraProps = { colspan };
+  }
 
   return (
     <Element
@@ -164,9 +173,22 @@ const TableCell: React.FC<ITableCellInternalProps> = ({
         }
       )}
       scope="col"
+      {...extraProps}
     >
       {children}
     </Element>
+  );
+};
+
+interface ITableFooterProps {
+  children: ReactElement<any, typeof TableRow>;
+}
+
+const TableFooter: React.FC<ITableFooterProps> = ({ children }) => {
+  return (
+    <tfoot className="table-footer-group">
+      {cloneElement(children, { isEncapsulatedByTableFooter: true })}
+    </tfoot>
   );
 };
 
@@ -180,4 +202,5 @@ export {
   TableBody,
   CompoundTableRow as TableRow,
   CompoundTableCell as TableCell,
+  TableFooter,
 };

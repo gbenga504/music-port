@@ -11,7 +11,7 @@ import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
 
 export type IRenderLabel = (opts: {
   label: string;
-  value: string;
+  value: string | number;
 }) => ReactNode;
 
 interface IProps {
@@ -19,7 +19,7 @@ interface IProps {
   size?: "medium" | "small";
   variant?: "dashed" | "outlined";
   onChange?: (opts: { value: string }) => void;
-  value?: string;
+  value?: string | number;
   disabled?: boolean;
   fullWidth?: boolean;
   error?: boolean;
@@ -200,14 +200,14 @@ const Select: React.FC<IProps> = ({
 
 // Should be used by the consumer
 interface IOptionProps {
-  value: string;
+  value: string | number;
   label?: string;
   children: ReactNode;
 }
 
 // Should only be used internally
 interface IOptionAllProps extends IOptionProps {
-  onChange: (opts: { value: string }) => void;
+  onChange: (opts: { value: string | number }) => void;
   theme: "dark" | "white";
 }
 
