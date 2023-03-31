@@ -60,10 +60,6 @@ module.exports = {
         autoRepeat3: "repeat(3, auto)",
       },
 
-      borderCollapse: {
-        gbenga: "unset",
-      },
-
       fontSize: {
         xxs: [
           "0.625rem",

@@ -18,6 +18,7 @@ interface IProps {
   pageSizeOptions?: number[];
   onChange?: (val: IOnChangeParams) => void;
   fullWidth?: boolean;
+  classes?: { pageSizeOptionsSelect?: string };
 }
 
 export const Pagination: React.FC<IProps> = ({
@@ -27,6 +28,7 @@ export const Pagination: React.FC<IProps> = ({
   pageSizeOptions = [10, 20, 50, 100],
   onChange,
   fullWidth,
+  classes = {},
 }) => {
   const paginationItems = useMemo(() => {
     let results: { type: "seperator" | "number"; value?: number }[] = [];
@@ -151,7 +153,10 @@ export const Pagination: React.FC<IProps> = ({
       </li>
       <li className="ml-4 inline-block">
         <select
-          className="pagination-page-size-selector"
+          className={classNames("pagination-page-size-selector", {
+            [`${classes.pageSizeOptionsSelect}`]:
+              !!classes.pageSizeOptionsSelect,
+          })}
           onChange={(evt) =>
             handleChange({ pageSize: Number(evt.target.value), current: 1 })()
           }

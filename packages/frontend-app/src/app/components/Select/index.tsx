@@ -30,7 +30,7 @@ interface IProps {
   children: ReactNode;
   theme?: "dark" | "white";
   renderLabel?: IRenderLabel;
-  selectClassName?: string;
+  classes?: { select?: string; label?: string };
 }
 
 const Select: React.FC<IProps> = ({
@@ -49,7 +49,7 @@ const Select: React.FC<IProps> = ({
   theme = "white",
   renderLabel: customRenderLabel,
   onChange,
-  selectClassName,
+  classes = {},
 }) => {
   const [selectedOptionValue, setSelectedOptionValue] = useState(value);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -140,7 +140,13 @@ const Select: React.FC<IProps> = ({
     >
       {label && (
         <div className={classNames("flex items-start mb-2")}>
-          <span className="text-primaryGray">{label}</span>
+          <span
+            className={classNames("text-primaryGray", {
+              [`${classes.label}`]: classes.label,
+            })}
+          >
+            {label}
+          </span>
           {required && (
             <span className="ml-1">
               <RedStarIcon size={10} />
@@ -165,7 +171,7 @@ const Select: React.FC<IProps> = ({
           dashed: variant === "dashed",
           disabled,
           error,
-          [`${selectClassName}`]: !!selectClassName,
+          [`${classes.select}`]: !!classes.select,
         })}
         onClick={toggleDropdownVisibility}
       >

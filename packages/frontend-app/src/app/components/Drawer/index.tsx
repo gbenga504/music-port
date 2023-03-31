@@ -14,7 +14,7 @@ interface IProps {
   children: ReactNode;
   placement?: "right" | "bottom";
   onClose?: () => void;
-  contentContainerInnerBgColorClassName?: string;
+  classes?: { contentContainer?: string };
 }
 
 const retrieveScrollableNode = (node: HTMLElement): HTMLElement | null => {
@@ -50,7 +50,7 @@ export const Drawer: React.FC<IProps> = ({
   placement = "right",
   open,
   onClose,
-  contentContainerInnerBgColorClassName = "bg-white",
+  classes = {},
 }) => {
   const [hasDrawerBeenAppendedToBody, setHasDrawerBeenAppendedToBody] =
     useState(false);
@@ -217,7 +217,12 @@ export const Drawer: React.FC<IProps> = ({
           })}
         >
           <div
-            className={`w-full h-full overflow-auto ${contentContainerInnerBgColorClassName} pointer-events-auto`}
+            className={classNames(
+              "w-full h-full overflow-auto bg-white pointer-events-auto",
+              {
+                [`${classes.contentContainer}`]: !!classes.contentContainer,
+              }
+            )}
             onTouchStart={handleTouchStart}
           >
             <div className="flex flex-col w-full h-auto">{children}</div>

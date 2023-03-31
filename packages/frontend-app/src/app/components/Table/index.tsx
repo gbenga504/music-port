@@ -4,13 +4,13 @@ import classNames from "classnames";
 import type { ReactElement, ReactNode } from "react";
 
 interface ITableProps {
-  className?: string;
   children: ReactElement | ReactElement[];
   stickyHeader?: boolean;
+  classes?: { container?: string; table?: string };
 }
 
 const Table: React.FC<ITableProps> = ({
-  className,
+  classes = {},
   children,
   stickyHeader = false,
 }) => {
@@ -18,11 +18,15 @@ const Table: React.FC<ITableProps> = ({
     <div
       className={classNames(
         "w-full overflow-x-auto border border-lightGray rounded-md",
-        { [className!]: !!className }
+        {
+          [classes.container!]: !!classes.container,
+        }
       )}
     >
       <table
-        className={classNames("w-full table border-spacing-0 min-w-[750px]")}
+        className={classNames("w-full table border-spacing-0 min-w-[750px]", {
+          [classes.table!]: !!classes.table,
+        })}
       >
         {Children.map(children, (child, i) => (
           <React.Fragment key={i}>
@@ -136,7 +140,7 @@ interface ITableCellProps {
   className?: string;
   children: ReactNode;
   align?: "center" | "justify" | "left" | "right";
-  colspan?: number;
+  colSpan?: number;
 }
 
 interface ITableCellInternalProps extends ITableCellProps {
@@ -150,13 +154,13 @@ const TableCell: React.FC<ITableCellInternalProps> = ({
   isEncapsulatedByTableHead,
   stickyHeader,
   align = "left",
-  colspan,
+  colSpan,
 }) => {
   const Element = isEncapsulatedByTableHead ? "th" : "td";
   let extraProps = {};
 
-  if (Element === "td" && colspan) {
-    extraProps = { colspan };
+  if (Element === "td" && colSpan) {
+    extraProps = { colSpan };
   }
 
   return (
