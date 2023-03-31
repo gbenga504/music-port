@@ -25,6 +25,7 @@ import { Pagination } from "../../components/Table/Pagination";
 import { Button } from "../../components/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
+import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 
 export const Playlists: React.FC<{}> = () => {
   const matches = useMediaQuery(`(max-width: ${screens.lg})`);
@@ -272,6 +273,18 @@ export const Playlists: React.FC<{}> = () => {
     );
   };
 
+  const renderPlaylistConvertedModal = () => {
+    return (
+      <PlaylistConvertedModal
+        open={false}
+        link="https://react.dev/learn/you-might-not-need-an-effect"
+        fromPlatform="Spotify"
+        toPlatform="Apple Music"
+        onClose={() => {}}
+      />
+    );
+  };
+
   return (
     <div className="mt-12 xl:mt-14 grid grid-cols-1 lg:grid-cols-[2fr_1fr] lg:gap-x-4">
       {renderPlaylistOverview()}
@@ -290,6 +303,7 @@ export const Playlists: React.FC<{}> = () => {
           {renderConverter()}
         </Drawer>
       )}
+      {renderPlaylistConvertedModal()}
     </div>
   );
 };
