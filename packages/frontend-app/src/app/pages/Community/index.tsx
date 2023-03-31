@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
@@ -7,8 +7,12 @@ import { AppHeader } from "../../components/AppHeader";
 import { Button } from "../../components/Button";
 import { PageLayout } from "../../components/PageLayout";
 import { Playlists } from "./Playlists";
+import { CreatePlaylistModal } from "./CreatePlaylistModal";
 
 const Community: React.FC<ILoadableComponentProps> = () => {
+  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
+    useState(false);
+
   const renderHeadline = () => {
     return (
       <h3 className="font-bold text-2xl md:text-4xl">
@@ -39,12 +43,21 @@ const Community: React.FC<ILoadableComponentProps> = () => {
         {renderHeadline()}
         {renderTagline()}
         <div className="mt-6 md:mt-8 w-full md:w-56">
-          <Button variant="contained" color="primary" fullWidth>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={() => setIsCreatePlaylistModalOpen(true)}
+          >
             Post a playlist
           </Button>
         </div>
       </div>
       <Playlists />
+      <CreatePlaylistModal
+        open={isCreatePlaylistModalOpen}
+        onClose={() => setIsCreatePlaylistModalOpen(false)}
+      />
     </PageLayout>
   );
 };
