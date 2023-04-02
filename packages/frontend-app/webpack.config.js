@@ -56,6 +56,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].bundle.css",
       chunkFilename: "[name].[contenthash].bundle.css",
+      // Ignore the order of css imports until we can reorganize the imports
+      ignoreOrder: true,
     }),
     new CopyPlugin({
       patterns: [
