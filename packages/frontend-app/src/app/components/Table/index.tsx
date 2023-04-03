@@ -112,7 +112,7 @@ const TableRow: React.FC<ITableRowInternalProps> = ({
 }) => {
   let extraProps = {};
 
-  if (!isEncapsulatedByTableHead && !isEncapsulatedByTableFooter) {
+  if (!isEncapsulatedByTableHead && !isEncapsulatedByTableFooter && onClick) {
     extraProps = { role: "button", tabIndex: "0" };
   }
 

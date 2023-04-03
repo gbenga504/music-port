@@ -52,9 +52,6 @@ export const AppHeader: React.FC<IProps> = () => {
           >
             Community playlist
           </Button>
-          <Button variant="text" size="medium" target="blank" to="#">
-            Pricing
-          </Button>
         </Space>
         {renderMobileMenuHamburger()}
         {matches && (

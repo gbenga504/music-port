@@ -26,11 +26,6 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             Community playlist
           </Button>
         </li>
-        <li>
-          <Button variant="transparent" size="large" fullWidth to="#">
-            Pricing
-          </Button>
-        </li>
       </ul>
     );
   };
