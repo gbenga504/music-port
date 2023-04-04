@@ -1,5 +1,5 @@
 import React from "react";
-import { Input } from "../../components/Input";
+import { Field, Form } from "react-final-form";
 
 import type { IRenderLabel } from "../../components/Select";
 
@@ -14,6 +14,7 @@ import {
 } from "../../components/icons";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
 
 interface IProps {
   open: boolean;
@@ -84,33 +85,103 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
 
   return (
     <Modal open={open} onClose={onClose} title="Post a playlist">
-      <div className="my-14 grid grid-rows-5 gap-y-8">
-        <Input fullWidth label="Your Name" required />
-        <Input fullWidth label="Title of playlist" required />
-        <Input fullWidth label="Playlist link" required />
-        <Select
-          fullWidth
-          label="Playlist genre"
-          required
-          placeholder="Select a genre"
-        >
-          <Option value="rnb">Rnb</Option>
-          <Option value="afro">Afro</Option>
-        </Select>
-        <Select
-          fullWidth
-          label="Streaming service"
-          required
-          placeholder="Select a streaming service"
-          renderLabel={renderLabel}
-          disabled
-        >
-          {renderOptions()}
-        </Select>
-      </div>
-      <Button variant="contained" color="primary" fullWidth>
-        Post playlist
-      </Button>
+      <Form
+        onSubmit={() => {}}
+        subscription={{ dirty: true, invalid: true, error: true }}
+        render={({ handleSubmit, form }) => {
+          const { invalid, dirty } = form.getState();
+
+          return (
+            <form onSubmit={handleSubmit}>
+              <div className="my-14 grid grid-rows-5 gap-y-8">
+                <Field
+                  name="name"
+                  render={({ input, meta }) => (
+                    <Input
+                      fullWidth
+                      label="Your Name"
+                      required
+                      helperText={meta.error}
+                      error={Boolean(meta.error)}
+                      {...input}
+                    />
+                  )}
+                />
+                <Field
+                  name="playlistTitle"
+                  render={({ input, meta }) => (
+                    <Input
+                      fullWidth
+                      label="Title of playlist"
+                      required
+                      helperText={meta.error}
+                      error={Boolean(meta.error)}
+                      {...input}
+                    />
+                  )}
+                />
+                <Field
+                  name="playlistLink"
+                  render={({ input, meta }) => (
+                    <Input
+                      fullWidth
+                      label="Playlist link"
+                      required
+                      helperText={meta.error}
+                      error={Boolean(meta.error)}
+                      {...input}
+                    />
+                  )}
+                />
+                <Field
+                  name="playlistGenre"
+                  render={({ input, meta }) => (
+                    <Select
+                      fullWidth
+                      label="Playlist genre"
+                      required
+                      placeholder="Select a genre"
+                      helperText={meta.error}
+                      error={Boolean(meta.error)}
+                      {...input}
+                    >
+                      <Option value="rnb">Rnb</Option>
+                      <Option value="afro">Afro</Option>
+                    </Select>
+                  )}
+                />
+                <Field
+                  name="streamingService"
+                  render={({ input, meta }) => (
+                    <Select
+                      fullWidth
+                      label="Streaming service"
+                      required
+                      placeholder="Select a streaming service"
+                      renderLabel={renderLabel}
+                      disabled
+                      helperText={meta.error}
+                      error={Boolean(meta.error)}
+                      {...input}
+                    >
+                      {renderOptions()}
+                    </Select>
+                  )}
+                />
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                htmlType="submit"
+                disabled={invalid || !dirty}
+              >
+                Post playlist
+              </Button>
+            </form>
+          );
+        }}
+      />
     </Modal>
   );
 };
