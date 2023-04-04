@@ -46,7 +46,7 @@ export const Modal: React.FC<IProps> = ({
     setHasModalBeenAppendedToBody(true);
 
     return () => {
-      document.getElementsByTagName("body")[0].style.overflow = "";
+      document.getElementsByTagName("body")[0].style.overflowY = "";
       document.body.removeChild(portalRef.current!);
     };
   }, []);
@@ -54,7 +54,7 @@ export const Modal: React.FC<IProps> = ({
   useEffect(() => {
     (async function () {
       if (open) {
-        document.getElementsByTagName("body")[0].style.overflow = "hidden";
+        document.getElementsByTagName("body")[0].style.overflowY = "hidden";
 
         setInternallyOpen(true);
         await sleep(100);
@@ -63,7 +63,7 @@ export const Modal: React.FC<IProps> = ({
         return;
       }
 
-      document.getElementsByTagName("body")[0].style.overflow = "";
+      document.getElementsByTagName("body")[0].style.overflowY = "";
 
       setIsModalOnScreen(false);
       await sleep(500);
@@ -128,7 +128,7 @@ export const Modal: React.FC<IProps> = ({
       <Drawer
         open={open}
         placement="bottom"
-        contentContainerInnerBgColorClassName="bg-white rounded-t-md p-4"
+        classes={{ contentContainer: "!bg-white rounded-t-md p-4" }}
         onClose={onClose}
       >
         {renderHeader()}

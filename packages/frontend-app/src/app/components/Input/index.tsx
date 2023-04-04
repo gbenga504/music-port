@@ -77,7 +77,6 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
           {prefix && <div className="mr-3">{prefix}</div>}
           <input
             ref={ref}
-            required={required}
             className={classNames({
               textBlack: textColor === "black",
               textWhite: textColor === "white",
@@ -86,7 +85,6 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
             onBlur={() => setIsFocused(false)}
             {...rest}
             disabled={disabled}
-            placeholder="Paste playlist link"
             name={name}
           />
         </div>

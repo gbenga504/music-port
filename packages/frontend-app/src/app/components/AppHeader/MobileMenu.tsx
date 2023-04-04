@@ -1,14 +1,12 @@
 import React from "react";
 
-import type { MouseEventHandler } from "react";
-
 import { Drawer } from "../Drawer";
 import { AnimatedHamburgerIcon } from "../icons";
 import { Button } from "../Button";
 
 interface IProps {
   open: boolean;
-  onClose: MouseEventHandler<HTMLElement>;
+  onClose: () => void;
 }
 
 export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
@@ -28,11 +26,6 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             Community playlist
           </Button>
         </li>
-        <li>
-          <Button variant="transparent" size="large" fullWidth to="#">
-            Pricing
-          </Button>
-        </li>
       </ul>
     );
   };
@@ -41,7 +34,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
     <Drawer
       open={open}
       onClose={onClose}
-      contentContainerInnerBgColorClassName="bg-secondary"
+      classes={{ contentContainer: "!bg-secondary" }}
     >
       <div className="p-4 mt-5">
         {renderHeader()}

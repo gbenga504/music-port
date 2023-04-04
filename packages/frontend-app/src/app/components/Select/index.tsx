@@ -11,15 +11,15 @@ import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
 
 export type IRenderLabel = (opts: {
   label: string;
-  value: string;
+  value: string | number;
 }) => ReactNode;
 
 interface IProps {
   label?: string;
   size?: "medium" | "small";
   variant?: "dashed" | "outlined";
-  onChange?: (opts: { value: string }) => void;
-  value?: string;
+  onChange?: (value: string | number) => void;
+  value?: string | number;
   disabled?: boolean;
   fullWidth?: boolean;
   error?: boolean;
@@ -30,6 +30,9 @@ interface IProps {
   children: ReactNode;
   theme?: "dark" | "white";
   renderLabel?: IRenderLabel;
+  classes?: { select?: string; label?: string };
+  onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 const Select: React.FC<IProps> = ({
@@ -48,6 +51,9 @@ const Select: React.FC<IProps> = ({
   theme = "white",
   renderLabel: customRenderLabel,
   onChange,
+  classes = {},
+  onBlur,
+  onFocus,
 }) => {
   const [selectedOptionValue, setSelectedOptionValue] = useState(value);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -75,18 +81,20 @@ const Select: React.FC<IProps> = ({
       await sleep(100);
 
       setIsDropdownOnScreen(true);
+      onFocus?.();
       return;
     }
 
     setIsDropdownOpen(false);
     await sleep(500);
     setIsDropdownOnScreen(false);
+    onBlur?.();
   };
 
-  const handleChange = ({ value }: { value: string }) => {
+  const handleChange = (value: string | number) => {
     toggleDropdownVisibility();
     setSelectedOptionValue(value);
-    onChange?.({ value });
+    onChange?.(value);
   };
 
   const renderLabel = () => {
@@ -131,10 +139,20 @@ const Select: React.FC<IProps> = ({
   };
 
   return (
-    <div className="flex-1 relative">
+    <div
+      className={classNames("relative", {
+        "flex-1": fullWidth,
+      })}
+    >
       {label && (
         <div className={classNames("flex items-start mb-2")}>
-          <span className="text-primaryGray">{label}</span>
+          <span
+            className={classNames("text-primaryGray", {
+              [`${classes.label}`]: classes.label,
+            })}
+          >
+            {label}
+          </span>
           {required && (
             <span className="ml-1">
               <RedStarIcon size={10} />
@@ -151,6 +169,7 @@ const Select: React.FC<IProps> = ({
       />
       <Button
         variant="transparent"
+        htmlType="button"
         className={classNames("select", {
           fullWidth,
           small: size === "small",
@@ -159,6 +178,7 @@ const Select: React.FC<IProps> = ({
           dashed: variant === "dashed",
           disabled,
           error,
+          [`${classes.select}`]: !!classes.select,
         })}
         onClick={toggleDropdownVisibility}
       >
@@ -170,12 +190,7 @@ const Select: React.FC<IProps> = ({
             className="absolute right-0"
           />
         )}
-        <input
-          name={name}
-          value={selectedOptionValue}
-          required={required}
-          hidden
-        />
+        <input name={name} value={selectedOptionValue} hidden />
       </Button>
       {renderDropdown()}
       {helperText && (
@@ -193,25 +208,25 @@ const Select: React.FC<IProps> = ({
 
 // Should be used by the consumer
 interface IOptionProps {
-  value: string;
+  value: string | number;
   label?: string;
   children: ReactNode;
 }
 
 // Should only be used internally
-interface IOptionAllProps extends IOptionProps {
-  onChange: (opts: { value: string }) => void;
+interface IOptionInternalProps extends IOptionProps {
+  onChange: (value: string | number) => void;
   theme: "dark" | "white";
 }
 
-const Option: React.FC<IOptionAllProps> = ({
+const Option: React.FC<IOptionInternalProps> = ({
   value,
   theme,
   children,
   onChange,
 }) => {
   const handleChange = () => {
-    onChange({ value });
+    onChange(value);
   };
 
   return (
@@ -220,6 +235,7 @@ const Option: React.FC<IOptionAllProps> = ({
         variant="transparent"
         onClick={handleChange}
         className="option-button"
+        htmlType="button"
       >
         {children}
       </Button>

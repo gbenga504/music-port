@@ -24,18 +24,32 @@ export interface IProps {
   loadingText?: string;
   fullWidth?: boolean;
   focused?: boolean;
+  tabIndex?: number;
 }
 
 const NativeButtonProps = (
   props: IProps
 ): Pick<IProps, "disabled" | "onClick" | "children" | "className"> => {
-  return pick(props, ["disabled", "onClick", "children", "className"]);
+  return pick(props, [
+    "disabled",
+    "onClick",
+    "children",
+    "className",
+    "tabIndex",
+  ]);
 };
 
 const NativeAnchorProps = (
   props: IProps
 ): Pick<IProps, "href" | "onClick" | "children" | "className" | "target"> => {
-  return pick(props, ["href", "onClick", "children", "className", "target"]);
+  return pick(props, [
+    "href",
+    "onClick",
+    "children",
+    "className",
+    "target",
+    "tabIndex",
+  ]);
 };
 
 const ClientSideLinkProps = (
@@ -49,6 +63,7 @@ const ClientSideLinkProps = (
     "children",
     "className",
     "target",
+    "tabIndex",
   ]) as Pick<IProps, "to" | "onClick" | "children" | "className" | "target"> & {
     to: string;
   };

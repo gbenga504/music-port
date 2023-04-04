@@ -14,7 +14,7 @@ interface IProps {
   children: ReactNode;
   placement?: "right" | "bottom";
   onClose?: () => void;
-  contentContainerInnerBgColorClassName?: string;
+  classes?: { contentContainer?: string };
 }
 
 const retrieveScrollableNode = (node: HTMLElement): HTMLElement | null => {
@@ -50,7 +50,7 @@ export const Drawer: React.FC<IProps> = ({
   placement = "right",
   open,
   onClose,
-  contentContainerInnerBgColorClassName = "bg-white",
+  classes = {},
 }) => {
   const [hasDrawerBeenAppendedToBody, setHasDrawerBeenAppendedToBody] =
     useState(false);
@@ -147,7 +147,7 @@ export const Drawer: React.FC<IProps> = ({
     setHasDrawerBeenAppendedToBody(true);
 
     return () => {
-      document.getElementsByTagName("body")[0].style.overflow = "";
+      document.getElementsByTagName("body")[0].style.overflowY = "";
       document.body.removeChild(portalRef.current!);
     };
   }, []);
@@ -155,7 +155,7 @@ export const Drawer: React.FC<IProps> = ({
   useEffect(() => {
     (async function () {
       if (open) {
-        document.getElementsByTagName("body")[0].style.overflow = "hidden";
+        document.getElementsByTagName("body")[0].style.overflowY = "hidden";
 
         setInternallyOpen(true);
         await sleep(100);
@@ -164,7 +164,7 @@ export const Drawer: React.FC<IProps> = ({
         return;
       }
 
-      document.getElementsByTagName("body")[0].style.overflow = "";
+      document.getElementsByTagName("body")[0].style.overflowY = "";
 
       setIsDrawerOnScreen(false);
       await sleep(500);
@@ -217,7 +217,12 @@ export const Drawer: React.FC<IProps> = ({
           })}
         >
           <div
-            className={`w-full h-full overflow-auto ${contentContainerInnerBgColorClassName} pointer-events-auto`}
+            className={classNames(
+              "w-full h-full overflow-auto bg-white pointer-events-auto",
+              {
+                [`${classes.contentContainer}`]: !!classes.contentContainer,
+              }
+            )}
             onTouchStart={handleTouchStart}
           >
             <div className="flex flex-col w-full h-auto">{children}</div>

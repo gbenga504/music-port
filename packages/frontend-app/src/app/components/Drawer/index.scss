@@ -1,3 +1,7 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
 .drawer {
   @apply fixed pointer-events-none z-1000 w-screen h-screen top-0 left-0;
 

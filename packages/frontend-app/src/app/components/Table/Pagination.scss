@@ -1,0 +1,53 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+.pagination {
+  @apply m-0 p-0 text-white text-sm w-auto flex items-center;
+
+  &.fullWidth {
+    @apply w-full;
+  }
+}
+
+.pagination-list-item {
+  @apply inline-block min-w-[32px] max-h-12 text-center rounded-md cursor-pointer;
+  @apply select-none mr-2;
+
+  &:nth-child(7) {
+    @apply mr-0;
+  }
+
+  &:hover {
+    @apply text-primary;
+  }
+
+  &.active {
+    @apply font-bold border border-primary text-primary;
+  }
+
+  &.disabled {
+    @apply cursor-not-allowed;
+
+    &:hover {
+      @apply text-white;
+    }
+  }
+
+  & .ellipsis {
+    @apply tracking-wide font-extralight text-xxs cursor-default;
+
+    &:hover {
+      @apply text-white;
+    }
+  }
+
+  & button {
+    @apply border-none w-full justify-center;
+  }
+}
+
+.pagination-page-size-selector {
+  @apply bg-transparent border border-secondaryAlpha cursor-pointer min-w-[70px];
+  @apply outline-none active:border-primary focus:border-primary rounded-md h-7;
+}

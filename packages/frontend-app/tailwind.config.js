@@ -1,5 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
@@ -58,6 +59,15 @@ module.exports = {
       gridTemplateColumns: {
         autoRepeat2: "repeat(2, auto)",
         autoRepeat3: "repeat(3, auto)",
+      },
+
+      fontSize: {
+        xxs: [
+          "0.625rem",
+          {
+            lineHeight: "1rem",
+          },
+        ],
       },
     },
   },
