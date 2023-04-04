@@ -18,7 +18,7 @@ interface IProps {
   label?: string;
   size?: "medium" | "small";
   variant?: "dashed" | "outlined";
-  onChange?: (opts: { value: string }) => void;
+  onChange?: (value: string | number) => void;
   value?: string | number;
   disabled?: boolean;
   fullWidth?: boolean;
@@ -85,10 +85,10 @@ const Select: React.FC<IProps> = ({
     setIsDropdownOnScreen(false);
   };
 
-  const handleChange = ({ value }: { value: string }) => {
+  const handleChange = (value: string | number) => {
     toggleDropdownVisibility();
     setSelectedOptionValue(value);
-    onChange?.({ value });
+    onChange?.(value);
   };
 
   const renderLabel = () => {
@@ -208,19 +208,19 @@ interface IOptionProps {
 }
 
 // Should only be used internally
-interface IOptionAllProps extends IOptionProps {
-  onChange: (opts: { value: string | number }) => void;
+interface IOptionInternalProps extends IOptionProps {
+  onChange: (value: string | number) => void;
   theme: "dark" | "white";
 }
 
-const Option: React.FC<IOptionAllProps> = ({
+const Option: React.FC<IOptionInternalProps> = ({
   value,
   theme,
   children,
   onChange,
 }) => {
   const handleChange = () => {
-    onChange({ value });
+    onChange(value);
   };
 
   return (
