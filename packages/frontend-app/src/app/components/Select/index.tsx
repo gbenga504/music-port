@@ -31,6 +31,8 @@ interface IProps {
   theme?: "dark" | "white";
   renderLabel?: IRenderLabel;
   classes?: { select?: string; label?: string };
+  onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 const Select: React.FC<IProps> = ({
@@ -50,6 +52,8 @@ const Select: React.FC<IProps> = ({
   renderLabel: customRenderLabel,
   onChange,
   classes = {},
+  onBlur,
+  onFocus,
 }) => {
   const [selectedOptionValue, setSelectedOptionValue] = useState(value);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -77,12 +81,14 @@ const Select: React.FC<IProps> = ({
       await sleep(100);
 
       setIsDropdownOnScreen(true);
+      onFocus?.();
       return;
     }
 
     setIsDropdownOpen(false);
     await sleep(500);
     setIsDropdownOnScreen(false);
+    onBlur?.();
   };
 
   const handleChange = (value: string | number) => {
