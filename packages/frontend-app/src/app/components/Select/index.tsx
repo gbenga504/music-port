@@ -163,6 +163,7 @@ const Select: React.FC<IProps> = ({
       />
       <Button
         variant="transparent"
+        htmlType="button"
         className={classNames("select", {
           fullWidth,
           small: size === "small",
@@ -228,6 +229,7 @@ const Option: React.FC<IOptionAllProps> = ({
         variant="transparent"
         onClick={handleChange}
         className="option-button"
+        htmlType="button"
       >
         {children}
       </Button>

@@ -130,6 +130,7 @@ const Home: React.FC<ILoadableComponentProps> = () => {
                     fullWidth
                     textColor="white"
                     size="medium"
+                    placeholder="Paste playlist link"
                     variant="dashed"
                     prefix={<LinkIcon size={16} />}
                     helperText={meta.error}

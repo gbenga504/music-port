@@ -85,7 +85,6 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
             onBlur={() => setIsFocused(false)}
             {...rest}
             disabled={disabled}
-            placeholder="Paste playlist link"
             name={name}
           />
         </div>

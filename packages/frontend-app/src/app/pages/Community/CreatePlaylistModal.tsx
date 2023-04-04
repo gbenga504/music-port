@@ -86,7 +86,9 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   return (
     <Modal open={open} onClose={onClose} title="Post a playlist">
       <Form
-        onSubmit={() => {}}
+        onSubmit={(values) => {
+          console.log("gad", values);
+        }}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
           const { invalid, dirty } = form.getState();
@@ -100,6 +102,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                     <Input
                       fullWidth
                       label="Your Name"
+                      placeholder="E.g John Doe"
                       required
                       helperText={meta.error}
                       error={Boolean(meta.error)}
@@ -113,6 +116,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                     <Input
                       fullWidth
                       label="Title of playlist"
+                      placeholder="E.g Best of Afro"
                       required
                       helperText={meta.error}
                       error={Boolean(meta.error)}
@@ -126,6 +130,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                     <Input
                       fullWidth
                       label="Playlist link"
+                      placeholder="E.g https://open.spotify.com/playlist/id"
                       required
                       helperText={meta.error}
                       error={Boolean(meta.error)}
