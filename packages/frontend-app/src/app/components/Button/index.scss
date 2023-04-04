@@ -122,5 +122,9 @@
     &.button-fullWidth {
       @apply w-full;
     }
+
+    &.button-focused {
+      @apply text-primary;
+    }
   }
 }

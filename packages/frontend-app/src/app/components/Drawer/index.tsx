@@ -218,7 +218,7 @@ export const Drawer: React.FC<IProps> = ({
         >
           <div
             className={classNames(
-              "w-full h-full overflow-auto bg-white pointer-events-auto",
+              "w-full h-full overflow-auto bg-white pointer-events-auto pb-24 md:pb-0",
               {
                 [`${classes.contentContainer}`]: !!classes.contentContainer,
               }
