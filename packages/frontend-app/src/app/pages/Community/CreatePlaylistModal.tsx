@@ -86,9 +86,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   return (
     <Modal open={open} onClose={onClose} title="Post a playlist">
       <Form
-        onSubmit={(values) => {
-          console.log("gad", values);
-        }}
+        onSubmit={() => {}}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
           const { invalid, dirty } = form.getState();
@@ -162,7 +160,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       fullWidth
                       label="Streaming service"
                       required
-                      placeholder="Select a streaming service"
+                      placeholder="Streaming service auto generated"
                       renderLabel={renderLabel}
                       disabled
                       helperText={meta.error}
