@@ -191,7 +191,7 @@ const Select: React.FC<IProps> = ({
             className="absolute right-0"
           />
         )}
-        <input name={name} value={selectedOptionValue} hidden />
+        <input name={name} value={selectedOptionValue} hidden readOnly />
       </Button>
       {renderDropdown()}
       {helperText && (
