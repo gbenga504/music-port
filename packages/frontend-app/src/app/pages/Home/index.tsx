@@ -1,7 +1,9 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import classNames from "classnames";
 import { Field, Form } from "react-final-form";
+import omit from "lodash/omit";
 
+import type { FormRenderProps } from "react-final-form";
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { IRenderLabel } from "../../components/Select";
 
@@ -10,8 +12,6 @@ import { AppHeader } from "../../components/AppHeader";
 import { Input } from "../../components/Input";
 import {
   AppleMusicIcon,
-  AudiomackIcon,
-  BoomplayIcon,
   DeezerIcon,
   LinkIcon,
   SpotifyIcon,
@@ -21,8 +21,40 @@ import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
+import { getPlatformName } from "../../../utils/url";
+import { Platform, PlatformValues } from "../../../utils/platform";
+import * as formValidation from "../../../utils/formValidation";
 
 const Home: React.FC<ILoadableComponentProps> = () => {
+  const handleLinkChange = (
+    form: FormRenderProps<formValidation.convertPlaylistUsingLinkFormInputs>["form"]
+  ) => {
+    return function (evt) {
+      const link = evt.target.value;
+      form.change("link", link);
+
+      const platformName = getPlatformName(link);
+      form.change("fromPlatform", platformName);
+    } as ChangeEventHandler<HTMLInputElement>;
+  };
+
+  const handleSubmitFormValues = (
+    values: formValidation.convertPlaylistUsingLinkFormInputs
+  ) => {
+    console.log(values);
+  };
+
+  const getPlatformIcon = (platform: Platform) => {
+    switch (platform) {
+      case Platform.Spotify:
+        return <SpotifyIcon />;
+      case Platform.Deezer:
+        return <DeezerIcon />;
+      default:
+        return <AppleMusicIcon />;
+    }
+  };
+
   const renderHeadline = () => {
     return (
       <h3 className="font-bold text-2xl md:text-4xl">
@@ -46,61 +78,20 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   };
 
   const renderOptions = () => {
-    return (
-      <>
-        <Option value="spotify" label="Spotify">
-          <Space>
-            <SpotifyIcon />
-            <span>Spotify</span>
-          </Space>
-        </Option>
-        <Option value="appleMusic" label="Apple Music">
-          <Space>
-            <AppleMusicIcon />
-            <span>Apple Music</span>
-          </Space>
-        </Option>
-        <Option value="audiomack" label="Audiomack">
-          <Space>
-            <AudiomackIcon />
-            <span>Audiomack</span>
-          </Space>
-        </Option>
-        <Option value="deezer" label="Deezer">
-          <Space>
-            <DeezerIcon />
-            <span>Deezer</span>
-          </Space>
-        </Option>
-        <Option value="boomplay" label="Boomplay">
-          <Space>
-            <BoomplayIcon />
-            <span>Boomplay</span>
-          </Space>
-        </Option>
-      </>
-    );
+    return PlatformValues.map((platform) => (
+      <Option key={platform} value={platform} label={platform}>
+        <Space>
+          {getPlatformIcon(platform)}
+          <span>{platform}</span>
+        </Space>
+      </Option>
+    ));
   };
 
-  const renderLabel = (opts: Parameters<IRenderLabel>[0]) => {
-    const getIcon = () => {
-      switch (opts.value) {
-        case "spotify":
-          return <SpotifyIcon key="spotify" />;
-        case "deezer":
-          return <DeezerIcon key="deezer" />;
-        case "appleMusic":
-          return <AppleMusicIcon key="appleMusic" />;
-        case "audiomack":
-          return <AudiomackIcon key="audiomack" />;
-        default:
-          return <BoomplayIcon key="boomplay" />;
-      }
-    };
-
+  const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     return (
       <Space>
-        {getIcon()}
+        {getPlatformIcon(opts.value)}
         <span>{opts.label}</span>
       </Space>
     );
@@ -109,7 +100,8 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   const renderConverter = () => {
     return (
       <Form
-        onSubmit={() => {}}
+        onSubmit={handleSubmitFormValues}
+        validate={formValidation.validateConvertPlaylistUsingLinkForm}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
           const { invalid, dirty } = form.getState();
@@ -133,9 +125,10 @@ const Home: React.FC<ILoadableComponentProps> = () => {
                     placeholder="Paste playlist link"
                     variant="dashed"
                     prefix={<LinkIcon size={16} />}
-                    helperText={meta.error}
-                    error={Boolean(meta.error)}
-                    {...input}
+                    helperText={meta.dirty && meta.error}
+                    error={Boolean(meta.error && meta.dirty)}
+                    onChange={handleLinkChange(form)}
+                    {...omit(input, "onChange")}
                   />
                 )}
               />
@@ -152,8 +145,8 @@ const Home: React.FC<ILoadableComponentProps> = () => {
                         label="Convert from"
                         renderLabel={renderLabel}
                         disabled
-                        helperText={meta.error}
-                        error={Boolean(meta.error)}
+                        helperText={meta.dirty && meta.error}
+                        error={Boolean(meta.error && meta.dirty)}
                         {...input}
                       >
                         {renderOptions()}
@@ -175,8 +168,8 @@ const Home: React.FC<ILoadableComponentProps> = () => {
                         placeholder="select platform"
                         label="Convert to"
                         renderLabel={renderLabel}
-                        helperText={meta.error}
-                        error={Boolean(meta.error)}
+                        helperText={meta.dirty && meta.error}
+                        error={Boolean(meta.error && meta.dirty)}
                         {...input}
                       >
                         {renderOptions()}

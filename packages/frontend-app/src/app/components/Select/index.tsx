@@ -1,4 +1,4 @@
-import React, { useState, cloneElement, useMemo } from "react";
+import React, { useState, cloneElement, useMemo, useEffect } from "react";
 import classNames from "classnames";
 
 import type { ReactNode } from "react";
@@ -9,10 +9,7 @@ import "./index.scss";
 import { Button } from "../Button";
 import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
 
-export type IRenderLabel = (opts: {
-  label: string;
-  value: string | number;
-}) => ReactNode;
+export type IRenderLabel<T> = (opts: { label: string; value: T }) => ReactNode;
 
 interface IProps {
   label?: string;
@@ -29,7 +26,7 @@ interface IProps {
   placeholder: string;
   children: ReactNode;
   theme?: "dark" | "white";
-  renderLabel?: IRenderLabel;
+  renderLabel?: IRenderLabel<any>;
   classes?: { select?: string; label?: string };
   onBlur?: () => void;
   onFocus?: () => void;
@@ -58,6 +55,10 @@ const Select: React.FC<IProps> = ({
   const [selectedOptionValue, setSelectedOptionValue] = useState(value);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOnScreen, setIsDropdownOnScreen] = useState(false);
+
+  useEffect(() => {
+    setSelectedOptionValue(value);
+  }, [value]);
 
   const options = useMemo(() => {
     const options = getOptionsFromChildren(children);

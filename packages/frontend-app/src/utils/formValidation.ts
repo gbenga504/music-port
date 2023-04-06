@@ -1,6 +1,7 @@
 import { z, ZodError } from "zod";
+import { PlatformValues } from "./platform";
 
-const formatError = (error: unknown, input: any): { [key: string]: string } => {
+const formatError = (error: unknown): { [key: string]: string } => {
   let formattedError: { [key: string]: { _errors: string[] } } = {};
 
   if (error instanceof ZodError) {
@@ -11,7 +12,7 @@ const formatError = (error: unknown, input: any): { [key: string]: string } => {
 
   return Object.keys(formattedError).reduce(
     (acc: { [key: string]: string }, field) => {
-      if (field in input) {
+      if (field && field !== "_errors") {
         acc[field] = formattedError[field]._errors[0];
       }
       return acc;
@@ -20,58 +21,24 @@ const formatError = (error: unknown, input: any): { [key: string]: string } => {
   );
 };
 
-const importMusicSchema = z.object({
+const convertPlaylistUsingLinkSchema = z.object({
   link: z.string().url(),
+  fromPlatform: z.enum(PlatformValues),
+  toPlatform: z.enum(PlatformValues),
 });
 
-export type importMusicFormInputs = z.infer<typeof importMusicSchema>;
-
-export const parseFormInputsForImportMusic = (input: {
-  link: string;
-}): z.output<typeof importMusicSchema> => {
-  return importMusicSchema.parse(input);
-};
-
-export const validateFormInputsForImportMusic = (input: {
-  link: string;
-}): { [key: string]: string } => {
-  try {
-    parseFormInputsForImportMusic(input);
-
-    return {};
-  } catch (error) {
-    return formatError(error, input);
-  }
-};
-
-const pasteExportLinkFormSchema = z.object({
-  link: z
-    .string()
-    .url()
-    .regex(
-      new RegExp(`^${process.env.SITE_ORIGIN}/export/\\S+$`),
-      "This URL is not recognized",
-    ),
-});
-
-export type pasteExportLinkFormInputs = z.infer<
-  typeof pasteExportLinkFormSchema
+export type convertPlaylistUsingLinkFormInputs = z.infer<
+  typeof convertPlaylistUsingLinkSchema
 >;
 
-export const parseFormInputsForPasteExportLink = (input: {
-  link: string;
-}): z.output<typeof pasteExportLinkFormSchema> => {
-  return pasteExportLinkFormSchema.parse(input);
-};
-
-export const validateFormInputsForPasteExportLink = (input: {
-  link: string;
-}): { [key: string]: string } => {
+export const validateConvertPlaylistUsingLinkForm = (
+  input: convertPlaylistUsingLinkFormInputs,
+): { [key: string]: string } => {
   try {
-    parseFormInputsForPasteExportLink(input);
+    convertPlaylistUsingLinkSchema.parse(input);
 
     return {};
   } catch (error) {
-    return formatError(error, input);
+    return formatError(error);
   }
 };

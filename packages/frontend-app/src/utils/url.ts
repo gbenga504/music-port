@@ -3,6 +3,7 @@ import { generatePath } from "react-router-dom";
 import routes from "../app/routes";
 import { getPath } from "./routeUtils";
 import { ResourceError } from "../errors/resource-error";
+import { Platform } from "./platform";
 
 export const constructURL = ({
   routeId,
@@ -34,19 +35,19 @@ export const constructURL = ({
   return path;
 };
 
-export const getPlatformName = (link: string): string | null => {
+export const getPlatformName = (link: string): Platform => {
   const url = new URL(link);
   const origin = url.origin;
 
   if (origin.indexOf("spotify.com") !== -1) {
-    return "spotify";
+    return Platform.Spotify;
   }
 
   if (origin.indexOf("deezer.com") !== -1) {
-    return "deezer";
+    return Platform.Deezer;
   }
 
   throw new ResourceError({
-    message: "Only spotify and deezer playlists are supported",
+    message: "Playlists not currently supported",
   });
 };
