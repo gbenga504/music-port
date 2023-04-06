@@ -196,7 +196,7 @@ const Select: React.FC<IProps> = ({
       {renderDropdown()}
       {helperText && (
         <p
-          className={classNames("mt-2 text-xs", {
+          className={classNames("mt-2 text-xs absolute", {
             "text-red-600": error === true,
           })}
         >

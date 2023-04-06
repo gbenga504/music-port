@@ -48,7 +48,11 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-      <div className={classNames("flex-1")}>
+      <div
+        className={classNames("relative", {
+          "flex-1": fullWidth,
+        })}
+      >
         {label && (
           <div className={classNames("flex items-start mb-2")}>
             <label htmlFor={name} className="text-primaryGray">
@@ -90,7 +94,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
         </div>
         {helperText && (
           <p
-            className={classNames("mt-2 text-xs", {
+            className={classNames("mt-2 text-xs absolute", {
               "text-red-600": error === true,
             })}
           >
