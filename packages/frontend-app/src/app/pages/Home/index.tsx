@@ -1,8 +1,9 @@
-import React, { ChangeEventHandler } from "react";
+import React from "react";
 import classNames from "classnames";
 import { Field, Form } from "react-final-form";
 import omit from "lodash/omit";
 
+import type { ChangeEventHandler } from "react";
 import type { FormRenderProps } from "react-final-form";
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { IRenderLabel } from "../../components/Select";
@@ -31,10 +32,12 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   ) => {
     return function (evt) {
       const link = evt.target.value;
-      form.change("link", link);
-
       const platformName = getPlatformName(link);
-      form.change("fromPlatform", platformName);
+
+      form.batch(() => {
+        form.change("link", link);
+        form.change("fromPlatform", platformName ?? undefined);
+      });
     } as ChangeEventHandler<HTMLInputElement>;
   };
 

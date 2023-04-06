@@ -1,5 +1,8 @@
 import { z, ZodError } from "zod";
+import { ResourceError } from "../errors/resource-error";
+
 import { PlatformValues } from "./platform";
+import { getPlatformNameOrThrow } from "./url";
 
 const formatError = (error: unknown): { [key: string]: string } => {
   let formattedError: { [key: string]: { _errors: string[] } } = {};
@@ -22,7 +25,21 @@ const formatError = (error: unknown): { [key: string]: string } => {
 };
 
 const convertPlaylistUsingLinkSchema = z.object({
-  link: z.string().url(),
+  link: z
+    .string()
+    .url()
+    .superRefine((value, ctx) => {
+      try {
+        getPlatformNameOrThrow(value);
+      } catch (error) {
+        if (error instanceof ResourceError) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: error.message,
+          });
+        }
+      }
+    }),
   fromPlatform: z.enum(PlatformValues),
   toPlatform: z.enum(PlatformValues),
 });
