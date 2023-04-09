@@ -17,7 +17,7 @@ routes.get(
       const tokens = await req.api.auth.authenticateUser({
         platform,
         code,
-        fromTokenGenerator: redirect_uri === "null",
+        fromAdminAuthTokenGenerator: redirect_uri === "null",
       });
 
       if (redirect_uri === "null") {

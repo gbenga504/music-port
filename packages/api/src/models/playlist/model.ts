@@ -26,34 +26,37 @@ const SongSchema = new Schema<Song>({
   previewURL: String,
 });
 
-const PlaylistSchema = new Schema<IPlaylist>({
-  importLink: { type: String, required: true },
-  public: { type: Boolean, required: true },
-  platform: { type: String, enum: ["deezer", "spotify"], required: true },
-  importPlaylistId: { type: String, required: true },
-  exportId: { type: String, required: true },
-  images: [
-    {
-      type: ImageSchema,
+const PlaylistSchema = new Schema<IPlaylist>(
+  {
+    importLink: { type: String, required: true },
+    public: { type: Boolean, required: true },
+    platform: { type: String, enum: ["deezer", "spotify"], required: true },
+    importPlaylistId: { type: String, required: true },
+    exportId: { type: String, required: true },
+    images: [
+      {
+        type: ImageSchema,
+        required: true,
+      },
+    ],
+    apiLink: { type: String, required: true },
+    name: { type: String, required: true },
+    owner: {
+      type: new Schema(
+        { name: { type: String, required: true } },
+        { _id: false, timestamps: false },
+      ),
       required: true,
     },
-  ],
-  apiLink: { type: String, required: true },
-  name: { type: String, required: true },
-  owner: {
-    type: new Schema(
-      { name: { type: String, required: true } },
-      { _id: false, timestamps: false },
-    ),
-    required: true,
+    songs: [
+      {
+        type: SongSchema,
+        required: true,
+      },
+    ],
   },
-  songs: [
-    {
-      type: SongSchema,
-      required: true,
-    },
-  ],
-});
+  { timestamps: true },
+);
 
 PlaylistSchema.index({
   exportId: 1,

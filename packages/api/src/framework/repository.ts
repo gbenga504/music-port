@@ -1,5 +1,7 @@
 import type { ObjectId, Model } from "mongoose";
 
+import { ResourceError } from "../errors/resource-error";
+
 interface IDocument {
   _id: ObjectId;
 }
@@ -21,6 +23,26 @@ export class Repository<T extends IDocument> {
 
   protected async createOne(document: Partial<T>): Promise<T> {
     const result = await this.model.create(document);
+
+    return result;
+  }
+
+  protected async findOneAndUpdate(
+    query: object,
+    update: Partial<T>,
+    opt: { upsert: boolean } | undefined = { upsert: false },
+  ) {
+    const result = await this.model.findOneAndUpdate(query, update, {
+      new: true,
+      ...opt,
+    });
+
+    if (result === null) {
+      throw new ResourceError({
+        resource: this.model.name,
+        message: `${this.model.name} returned null`,
+      });
+    }
 
     return result;
   }

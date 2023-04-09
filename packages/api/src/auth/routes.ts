@@ -5,6 +5,7 @@ import {
   getPassportStrategies,
   authenticate as passportAuthenticate,
 } from "../third-party-integrations";
+import { Platform } from "../utils/platform";
 
 const routes = Router();
 
@@ -30,23 +31,30 @@ routes.get(
   `/auth/:platform(${Object.keys(getPassportStrategies).join("|")})/callback`,
   (req, res, next) => {
     const { platform } = req.params;
-    const { fromTokenGenerator } = req.query;
+    const { fromAdminAuthTokenGenerator } = req.query;
 
-    passportAuthenticate(platform, { session: false }, (error, tokens) => {
-      // TODO: Save the tokens in the database
-      if (fromTokenGenerator === "true") {
-        console.log("Tokens are:", tokens);
-      }
+    passportAuthenticate(
+      platform,
+      { session: false },
+      async (error, tokens) => {
+        if (fromAdminAuthTokenGenerator === "true") {
+          await req.ctx.adminAuthTokenService.createToken({
+            token: tokens.accessToken,
+            userId: tokens.userId,
+            platform: platform as Platform,
+          });
+        }
 
-      if (error) {
-        return res.status(400).json({
-          name: error.name,
-          message: error.message,
-        });
-      }
+        if (error) {
+          return res.status(400).json({
+            name: error.name,
+            message: error.message,
+          });
+        }
 
-      return res.status(200).json(tokens);
-    })(req, res, next);
+        return res.status(200).json(tokens);
+      },
+    )(req, res, next);
   },
 );
 
