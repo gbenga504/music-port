@@ -114,7 +114,7 @@ class Deezer implements IThirdPartyIntegrations {
     playlist,
   }: {
     accessToken: string;
-    playlist: IPlaylist;
+    playlist: IRawPlaylist;
   }): Promise<{ url: string }> {
     try {
       // Search for the items that should be added into the playlist
@@ -188,7 +188,7 @@ class Deezer implements IThirdPartyIntegrations {
     playlist,
     accessToken,
   }: {
-    playlist: IPlaylist;
+    playlist: IRawPlaylist;
     accessToken: string;
   }): Promise<string[]> {
     async function searchItem(

@@ -7,35 +7,22 @@ export class Playlist {
     this.graphQLClient = graphQLClient;
   }
 
-  async importPlaylist({ importLink }: { importLink: string }) {
-    const { importPlaylist } = await this.graphQLClient.importPlaylist({
-      link: importLink,
-    });
-
-    return importPlaylist;
-  }
-
-  async getPlaylistByExportId({ exportId }: { exportId: string }) {
-    const { playlistByExportId } =
-      await this.graphQLClient.getPlaylistByExportId({
-        exportId,
+  async convertPlaylistUsingAdminAuthToken({
+    fromPlatform,
+    toPlatform,
+    link,
+  }: {
+    fromPlatform: string;
+    toPlatform: string;
+    link: string;
+  }) {
+    const { convertPlaylistUsingAdminAuthToken } =
+      await this.graphQLClient.convertPlaylistUsingAdminAuthToken({
+        fromPlatform,
+        toPlatform,
+        link,
       });
 
-    return playlistByExportId;
-  }
-
-  async exportPlaylist({
-    platform,
-    exportId,
-  }: {
-    platform: string;
-    exportId: string;
-  }) {
-    const { exportPlaylist } = await this.graphQLClient.exportPlaylist({
-      exportId,
-      platform,
-    });
-
-    return exportPlaylist;
+    return convertPlaylistUsingAdminAuthToken;
   }
 }

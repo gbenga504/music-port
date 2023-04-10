@@ -28,11 +28,11 @@ export interface IThirdPartyIntegrations {
   createPlaylist: (options: {
     accessToken: string;
     userId: string;
-    playlist: IPlaylist;
+    playlist: IRawPlaylist;
   }) => Promise<{ url: string }>;
   transformPlaylistToInternalFormat: (data: any) => IRawPlaylist;
   searchForItems: (options: {
     accessToken: string;
-    playlist: IPlaylist;
+    playlist: IRawPlaylist;
   }) => Promise<(string | null)[]>;
 }

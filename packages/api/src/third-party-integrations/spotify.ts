@@ -104,7 +104,7 @@ class Spotify implements IThirdPartyIntegrations {
     accessToken,
     userId,
   }: {
-    playlist: IPlaylist;
+    playlist: IRawPlaylist;
     accessToken: string;
     userId: string;
   }): Promise<{ url: string }> {
@@ -157,7 +157,7 @@ class Spotify implements IThirdPartyIntegrations {
     playlist,
     accessToken,
   }: {
-    playlist: IPlaylist;
+    playlist: IRawPlaylist;
     accessToken: string;
   }): Promise<string[]> {
     async function searchItem(

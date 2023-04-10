@@ -13,10 +13,12 @@ import {
 import { Modal } from "./Modal";
 import { Space } from "./Space";
 import { Input } from "./Input";
+import useCopyToClipboard from "../hooks/useCopyToClipboard";
+import { useToast } from "./Toast/ToastContext";
 
 interface IProps {
   open: boolean;
-  link: string;
+  link: string | null;
   fromPlatform: string;
   toPlatform: string;
   onClose: () => void;
@@ -27,7 +29,11 @@ export const PlaylistConvertedModal: React.FC<IProps> = ({
   fromPlatform,
   toPlatform,
   link,
+  onClose,
 }) => {
+  const toast = useToast();
+  const [_, copy] = useCopyToClipboard();
+
   const renderHeadline = () => {
     return (
       <div className="my-8 text-black text-center">
@@ -68,18 +74,28 @@ export const PlaylistConvertedModal: React.FC<IProps> = ({
   };
 
   return (
-    <Modal width="lg" open={open}>
+    <Modal width="lg" open={open} onClose={onClose}>
       <div className="flex flex-col items-center">
         <SuccessCelebrationIcon size={150} />
         {renderHeadline()}
         <Space.Compact className="w-full">
           <Input
-            value={link}
+            value={link ?? ""}
             disabled
             fullWidth
             className="!border-mediumGray"
           />
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              copy(link as string);
+              toast({
+                title: "Link copied to cliboard!",
+                status: "info",
+              });
+            }}
+          >
             <CopyIcon className="mr-2" />
             Copy
           </Button>

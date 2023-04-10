@@ -1,3 +1,4 @@
+import { ResourceError } from "../errors/resource-error";
 import type { IAdminAuthToken } from "../models";
 import type { Platform } from "../utils/platform";
 import type { AdminAuthTokenRepository } from "./repository";
@@ -31,11 +32,22 @@ export class AdminAuthTokenService {
     return this.adminAuthTokenRepository.create(adminAuthToken);
   }
 
-  async getByPlatform({
+  async getTokenByPlatform({
     platform,
   }: {
     platform: Platform;
-  }): Promise<IAdminAuthToken | null> {
-    return this.adminAuthTokenRepository.findOneByPlatform(platform);
+  }): Promise<IAdminAuthToken> {
+    const token = await this.adminAuthTokenRepository.findOneByPlatform(
+      platform,
+    );
+
+    if (token === null) {
+      throw new ResourceError({
+        resource: "adminAuthToken",
+        message: "adminAuthToken is null",
+      });
+    }
+
+    return token;
   }
 }

@@ -1,12 +1,4 @@
-import {
-  enumType,
-  idArg,
-  mutationField,
-  nullable,
-  objectType,
-  queryField,
-  stringArg,
-} from "nexus";
+import { enumType, mutationField, objectType, stringArg } from "nexus";
 import path from "path";
 
 import { GraphQLError } from "../graphql/error-handling";
@@ -97,56 +89,19 @@ const Playlist = objectType({
   },
 });
 
-const ImportPlaylistPayload = objectType({
-  name: "ImportPlaylistPayload",
-  definition(t) {
-    t.boolean("success");
-    t.nullable.field("data", {
-      type: Playlist,
-    });
-    t.nullable.field("error", {
-      type: GraphQLError,
-    });
-  },
-});
-
-export const importPlaylist = mutationField("importPlaylist", {
-  type: ImportPlaylistPayload,
-  args: {
-    link: stringArg(),
-  },
-  authorize(_parent, _args, ctx) {
-    return Boolean(ctx.accessToken);
-  },
-  async resolve(_parent, args, ctx) {
-    try {
-      const result = await ctx.playlistService.importPlaylist({
-        accessToken: ctx.accessToken,
-        link: args.link,
-      });
-
-      return { success: true, data: result };
-    } catch (error) {
-      const { name, message } = error as Error;
-
-      return { success: false, error: { name, message } };
-    }
-  },
-});
-
-const ExportPlaylistPayloadData = objectType({
-  name: "ExportPlaylistPayloadData",
+const ConvertPlaylistData = objectType({
+  name: "ConvertPlaylistData",
   definition(t) {
     t.string("url");
   },
 });
 
-const ExportPlaylistPayload = objectType({
-  name: "ExportPlaylistPayload",
+const ConvertPlaylistPayload = objectType({
+  name: "ConvertPlaylistPayload",
   definition(t) {
     t.boolean("success");
     t.nullable.field("data", {
-      type: ExportPlaylistPayloadData,
+      type: ConvertPlaylistData,
     });
     t.nullable.field("error", {
       type: GraphQLError,
@@ -154,55 +109,35 @@ const ExportPlaylistPayload = objectType({
   },
 });
 
-export const exportPlaylist = mutationField("exportPlaylist", {
-  type: ExportPlaylistPayload,
-  args: {
-    platform: stringArg(),
-    exportId: stringArg(),
-  },
-  authorize(_parent, _args, ctx) {
-    return Boolean(ctx.accessToken);
-  },
-  async resolve(_parent, args, ctx) {
-    try {
-      const result = await ctx.playlistService.exportPlaylist({
-        accessToken: ctx.accessToken,
-        exportId: args.exportId,
-        userId: ctx.userId,
-        platform: args.platform,
-      });
+export const convertPlaylistUsingAdminAuthToken = mutationField(
+  "convertPlaylistUsingAdminAuthToken",
+  {
+    type: ConvertPlaylistPayload,
+    args: {
+      fromPlatform: stringArg(),
+      toPlatform: stringArg(),
+      link: stringArg(),
+    },
+    authorize(_parent, _args, ctx) {
+      return Boolean(ctx.accessToken);
+    },
+    async resolve(_parent, args, ctx) {
+      try {
+        const result =
+          await ctx.playlistService.convertPlaylistUsingAdminAuthToken({
+            fromPlatform: args.fromPlatform,
+            toPlatform: args.toPlatform,
+            userAccessToken: ctx.accessToken,
+            userId: ctx.userId,
+            link: args.link,
+          });
 
-      return { success: true, data: { url: result.url } };
-    } catch (error) {
-      const { name, message } = error as Error;
+        return { success: true, data: { url: result.url } };
+      } catch (error) {
+        const { name, message } = error as Error;
 
-      return { success: false, error: { name, message } };
-    }
+        return { success: false, error: { name, message } };
+      }
+    },
   },
-});
-
-export const playlistById = queryField("playlistById", {
-  type: nullable(Playlist),
-  args: {
-    id: idArg(),
-  },
-  async resolve(_parent, args, ctx) {
-    const result = await ctx.playlistService.getById({ id: args.id });
-
-    return result;
-  },
-});
-
-export const playlistByExportId = queryField("playlistByExportId", {
-  type: nullable(Playlist),
-  args: {
-    exportId: stringArg(),
-  },
-  async resolve(_parent, args, ctx) {
-    const result = await ctx.playlistService.getByExportId({
-      exportId: args.exportId,
-    });
-
-    return result;
-  },
-});
+);

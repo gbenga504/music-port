@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 import { Field, Form } from "react-final-form";
 import omit from "lodash/omit";
@@ -22,11 +22,49 @@ import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { getPlatformName } from "../../../utils/url";
+import { constructURL, getPlatformName } from "../../../utils/url";
 import { Platform, PlatformValues } from "../../../utils/platform";
 import * as formValidation from "../../../utils/formValidation";
+import { routeIds } from "../../routes";
+import { useToast } from "../../components/Toast/ToastContext";
+import { useNavigate } from "react-router-dom";
 
-const Home: React.FC<ILoadableComponentProps> = () => {
+const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
+  const [isConvertingPlaylist, setIsConvertingPlaylist] = useState(false);
+  const [playlistURL, setPlaylistURL] = useState<string | null>(null);
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async function () {
+      const { link, fromPlatform, toPlatform, isAuthTokenAvailable } = query;
+
+      if (isAuthTokenAvailable === "true") {
+        setIsConvertingPlaylist(true);
+
+        const result = await api.playlist.convertPlaylistUsingAdminAuthToken({
+          toPlatform,
+          fromPlatform,
+          link,
+        });
+
+        setIsConvertingPlaylist(false);
+
+        if (result.error) {
+          toast({
+            title: result.error.name,
+            description: result.error.message,
+            status: "error",
+          });
+
+          return;
+        }
+
+        setPlaylistURL(result.data?.url ?? "");
+      }
+    })();
+  }, [query]);
+
   const handleLinkChange = (
     form: FormRenderProps<formValidation.convertPlaylistUsingLinkFormInputs>["form"]
   ) => {
@@ -44,7 +82,28 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   const handleSubmitFormValues = (
     values: formValidation.convertPlaylistUsingLinkFormInputs
   ) => {
-    console.log(values);
+    const redirectURI = constructURL({
+      routeId: routeIds.home,
+      query: {
+        ...values,
+        isAuthTokenAvailable: "true",
+      },
+    });
+
+    try {
+      location.href = `/api/auth/${
+        values.toPlatform
+      }?redirect_uri=${encodeURIComponent(redirectURI)}`;
+    } catch (error) {
+      const { name, message } = error as Error;
+
+      toast({
+        title: name,
+        description: message,
+        status: "error",
+        position: "bottom-right",
+      });
+    }
   };
 
   const getPlatformIcon = (platform: Platform) => {
@@ -104,10 +163,20 @@ const Home: React.FC<ILoadableComponentProps> = () => {
     return (
       <Form
         onSubmit={handleSubmitFormValues}
+        initialValues={{
+          link: query.link,
+          fromPlatform: query.fromPlatform,
+          toPlatform: query.toPlatform,
+        }}
         validate={formValidation.validateConvertPlaylistUsingLinkForm}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
-          const { invalid, dirty } = form.getState();
+          const { invalid, dirtyFieldsSinceLastSubmit } = form.getState();
+
+          const dirty = Object.values(dirtyFieldsSinceLastSubmit).reduce(
+            (acc, value) => acc && value,
+            true
+          );
 
           return (
             <form
@@ -188,6 +257,8 @@ const Home: React.FC<ILoadableComponentProps> = () => {
                 className="mt-4 md:mt-0"
                 htmlType="submit"
                 disabled={invalid || !dirty}
+                loading={isConvertingPlaylist}
+                loadingText="Converting..."
               >
                 Convert
               </Button>
@@ -201,11 +272,14 @@ const Home: React.FC<ILoadableComponentProps> = () => {
   const renderPlaylistConvertedModal = () => {
     return (
       <PlaylistConvertedModal
-        open={false}
-        link="https://react.dev/learn/you-might-not-need-an-effect"
-        fromPlatform="Spotify"
-        toPlatform="Apple Music"
-        onClose={() => {}}
+        open={Boolean(playlistURL)}
+        link={playlistURL}
+        fromPlatform={query.fromPlatform}
+        toPlatform={query.toPlatform}
+        onClose={() => {
+          navigate(constructURL({ routeId: routeIds.home }), { replace: true });
+          setPlaylistURL(null);
+        }}
       />
     );
   };
