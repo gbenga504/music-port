@@ -1,6 +1,7 @@
-import { IPlaylist, IRawPlaylist } from "../models";
 import * as thirdPartyIntegrations from "../third-party-integrations";
+import * as validator from "./validator";
 
+import type { IPlaylist, IRawPlaylist } from "../models";
 import type { ObjectId } from "mongoose";
 import type { PlaylistRepository } from "./repository";
 import type { Platform } from "../utils/platform";
@@ -29,18 +30,21 @@ export class PlaylistService {
   }
 
   async convertPlaylistUsingAdminAuthToken({
-    fromPlatform,
-    toPlatform,
+    inputs,
     userAccessToken,
     userId,
-    link,
   }: {
-    fromPlatform: string;
-    toPlatform: string;
+    inputs: {
+      fromPlatform: string;
+      toPlatform: string;
+      link: string;
+    };
     userAccessToken: string;
     userId: string;
-    link: string;
   }): Promise<{ url: string }> {
+    const { fromPlatform, link, toPlatform } =
+      validator.convertPlaylistUsingAdminAuthToken(inputs);
+
     const adminAccessToken =
       await this.adminAuthTokenService.getTokenByPlatform({
         platform: fromPlatform as Platform,

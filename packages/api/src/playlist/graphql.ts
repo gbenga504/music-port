@@ -125,11 +125,13 @@ export const convertPlaylistUsingAdminAuthToken = mutationField(
       try {
         const result =
           await ctx.playlistService.convertPlaylistUsingAdminAuthToken({
-            fromPlatform: args.fromPlatform,
-            toPlatform: args.toPlatform,
+            inputs: {
+              fromPlatform: args.fromPlatform,
+              toPlatform: args.toPlatform,
+              link: args.link,
+            },
             userAccessToken: ctx.accessToken,
             userId: ctx.userId,
-            link: args.link,
           });
 
         return { success: true, data: { url: result.url } };

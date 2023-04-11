@@ -56,11 +56,23 @@ const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
             description: result.error.message,
             status: "error",
           });
-
-          return;
         }
 
-        setPlaylistURL(result.data?.url ?? "");
+        if (result.data) {
+          setPlaylistURL(result.data.url);
+        }
+
+        navigate(
+          constructURL({
+            routeId: routeIds.home,
+            query: {
+              link,
+              fromPlatform,
+              toPlatform,
+            },
+          }),
+          { replace: true }
+        );
       }
     })();
   }, [query]);
@@ -86,6 +98,7 @@ const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
       routeId: routeIds.home,
       query: {
         ...values,
+        link: encodeURIComponent(values.link),
         isAuthTokenAvailable: "true",
       },
     });
