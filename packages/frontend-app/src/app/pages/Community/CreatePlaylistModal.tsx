@@ -22,7 +22,7 @@ import {
   PlatformValues,
   PlaylistGenreValues,
 } from "../../../utils/platform";
-import useParsedSearchParams from "../../hooks/useParsedSearchParams";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import * as formValidation from "../../../utils/formValidation";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { routeIds } from "../../routes";
@@ -38,7 +38,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
   const toast = useToast();
   const api = useApi();
-  const [searchParams] = useParsedSearchParams();
+  const [query] = useParsedQueryParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
         playlistGenre,
         streamingService,
         isAuthTokenAvailableForCreatingPlaylist,
-      } = searchParams;
+      } = query;
 
       if (isAuthTokenAvailableForCreatingPlaylist === "true") {
         setIsCreatingPlaylist(true);
@@ -92,7 +92,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
         }
       }
     })();
-  }, [searchParams]);
+  }, [query]);
 
   const getPlatformIcon = (platform: Platform) => {
     switch (platform) {
@@ -172,11 +172,11 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
       <Form
         onSubmit={handleSubmitFormValues}
         initialValues={{
-          author: searchParams.link,
-          playlistTitle: searchParams.playlistTitle,
-          playlistLink: searchParams.playlistLink,
-          playlistGenre: searchParams.playlistGenre,
-          streamingService: searchParams.streamingService,
+          author: query.link,
+          playlistTitle: query.playlistTitle,
+          playlistLink: query.playlistLink,
+          playlistGenre: query.playlistGenre,
+          streamingService: query.streamingService,
         }}
         validate={formValidation.validateCreatePlaylistForm}
         subscription={{ dirty: true, invalid: true, error: true }}

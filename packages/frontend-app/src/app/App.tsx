@@ -22,7 +22,7 @@ import { ProgressBar } from "./components/ProgressBar";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import "./App.scss";
-import useParsedSearchParams from "./hooks/useParsedSearchParams";
+import useParsedQueryParams from "./hooks/useParsedQueryParams";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -80,7 +80,7 @@ interface IProps {
 
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   const location = useLocation();
-  const [searchParams] = useParsedSearchParams();
+  const [query] = useParsedQueryParams();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const transformedMatchedRoutes = error
     ? []
@@ -90,7 +90,7 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
           location,
           pageDatas,
           api,
-          query: searchParams,
+          query,
         }) || []),
       ];
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>(
@@ -104,14 +104,14 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
       const pageDatas = await loadPageResources({
         matchedRoutes: matchRoutes(routes, location),
         api,
-        query: searchParams,
+        query,
       });
       const matchedRoutes = transformMatchedRoutes({
         routes,
         location,
         pageDatas,
         api,
-        query: searchParams,
+        query,
       });
 
       setIsPageLoading(false);
