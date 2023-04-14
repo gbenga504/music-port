@@ -8,6 +8,7 @@ import { Button } from "../../components/Button";
 import { PageLayout } from "../../components/PageLayout";
 import { Playlists } from "./Playlists";
 import { CreatePlaylistModal } from "./CreatePlaylistModal";
+import { HeadMarkup } from "../../components/HeadMarkup";
 
 const Community: React.FC<ILoadableComponentProps> = ({ query }) => {
   const { isAuthTokenAvailableForCreatingPlaylist } = query;
@@ -35,6 +36,7 @@ const Community: React.FC<ILoadableComponentProps> = ({ query }) => {
 
   return (
     <PageLayout>
+      <HeadMarkup title="Community | Discover a world of music" />
       <AppHeader />
       <div
         className={classNames(

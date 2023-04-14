@@ -28,6 +28,7 @@ import * as formValidation from "../../../utils/formValidation";
 import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
 import { useNavigate } from "react-router-dom";
+import { HeadMarkup } from "../../components/HeadMarkup";
 
 const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
   const [isConvertingPlaylist, setIsConvertingPlaylist] = useState(false);
@@ -299,6 +300,7 @@ const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
 
   return (
     <PageLayout>
+      <HeadMarkup title="Home | Convert playlists easily" />
       <AppHeader />
       <div
         className={classNames(

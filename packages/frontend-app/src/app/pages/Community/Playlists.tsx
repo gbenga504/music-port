@@ -26,23 +26,20 @@ import { Button } from "../../components/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
+import { Platform } from "../../../utils/platform";
 
 export const Playlists: React.FC<{}> = () => {
   const matches = useMediaQuery(`(max-width: ${screens.lg})`);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [isMobileConverterOpen, setIsMobileConverterOpen] = useState(false);
 
-  const renderLabel = (opts: Parameters<IRenderLabel>[0]) => {
+  const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     const getIcon = () => {
       switch (opts.value) {
-        case "spotify":
+        case Platform.Spotify:
           return <SpotifyIcon key="spotify" />;
-        case "deezer":
+        case Platform.Deezer:
           return <DeezerIcon key="deezer" />;
-        case "appleMusic":
-          return <AppleMusicIcon key="appleMusic" />;
-        case "audiomack":
-          return <AudiomackIcon key="audiomack" />;
         default:
           return <BoomplayIcon key="boomplay" />;
       }
