@@ -9,7 +9,7 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     super({ model: Models.Playlist });
   }
 
-  public async create(playlist: Partial<IPlaylist>): Promise<IPlaylist> {
+  public async create(playlist: Omit<IPlaylist, "_id">): Promise<IPlaylist> {
     return this.createOne(playlist);
   }
 

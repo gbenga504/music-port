@@ -18,3 +18,55 @@ mutation convertPlaylistUsingAdminAuthToken(
     }
   }
 }
+
+mutation createPlaylist(
+  $author: String!
+  $playlistTitle: String!
+  $playlistLink: String!
+  $playlistGenre: String!
+  $platform: String!
+) {
+  createPlaylist(
+    author: $author
+    playlistTitle: $playlistTitle
+    playlistLink: $playlistLink
+    playlistGenre: $playlistGenre
+    platform: $platform
+  ) {
+    success
+    data {
+      id
+      importLink
+      public
+      platform
+      importPlaylistId
+      exportId
+      images {
+        url
+        width
+        height
+      }
+      apiLink
+      name
+      owner {
+        name
+      }
+      songs {
+        artists {
+          name
+        }
+        images {
+          url
+          width
+          height
+        }
+        name
+      }
+      genre
+    }
+    error {
+      name
+      message
+    }
+  }
+}

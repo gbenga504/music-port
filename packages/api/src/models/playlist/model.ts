@@ -1,5 +1,8 @@
 import { Schema, model } from "mongoose";
-import { Artist, Image, IPlaylist, Song } from "./type";
+
+import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
+
+import type { Artist, Image, IPlaylist, Song } from "./type";
 
 const ImageSchema = new Schema<Image>(
   {
@@ -30,7 +33,7 @@ const PlaylistSchema = new Schema<IPlaylist>(
   {
     importLink: { type: String, required: true },
     public: { type: Boolean, required: true },
-    platform: { type: String, enum: ["deezer", "spotify"], required: true },
+    platform: { type: String, enum: PlatformValues, required: true },
     importPlaylistId: { type: String, required: true },
     exportId: { type: String, required: true },
     images: [
@@ -54,6 +57,8 @@ const PlaylistSchema = new Schema<IPlaylist>(
         required: true,
       },
     ],
+    genre: { type: String, enum: PlaylistGenreValues, required: true },
+    duration: { type: Number, required: true },
   },
   { timestamps: true },
 );
@@ -64,6 +69,10 @@ PlaylistSchema.index({
 
 PlaylistSchema.index({
   importLink: 1,
+});
+
+PlaylistSchema.index({
+  genre: 1,
 });
 
 export default model<IPlaylist>("Playlist", PlaylistSchema);

@@ -6,6 +6,7 @@ mutation convertPlaylistUsingAdminAuthToken(
   convertPlaylistUsingAdminAuthToken(
     fromPlatform: $fromPlatform
     toPlatform: $toPlatform
+    link: $link
   ) {
     success
     data {

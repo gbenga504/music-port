@@ -1,13 +1,14 @@
 import axios from "axios";
 import passport from "passport";
 import { Strategy } from "passport-deezer";
-
 import { AxiosError } from "axios";
+
 import type { StrategyOptions } from "passport-deezer";
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { Platform } from "../utils/platform";
 
 const clientID = process.env.DEEZER_CLIENTID;
 const clientSecret = process.env.DEEZER_CLIENT_SECRET;
@@ -246,7 +247,7 @@ class Deezer implements IThirdPartyIntegrations {
 
     return {
       importLink: data.link,
-      platform: "deezer",
+      platform: Platform.Deezer,
       public: Boolean(data.public),
       importPlaylistId: data.id,
       images: [
@@ -259,6 +260,7 @@ class Deezer implements IThirdPartyIntegrations {
       owner: {
         name: data.creator.name,
       },
+      duration: data.duration * 1000, // converted to Milliseconds
       songs: data.tracks.data.map((item: any) => {
         return {
           artists: [

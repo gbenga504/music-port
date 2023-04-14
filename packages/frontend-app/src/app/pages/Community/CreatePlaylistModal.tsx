@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Field, Form } from "react-final-form";
+import omit from "lodash/omit";
+import { useNavigate } from "react-router-dom";
 
 import type { IRenderLabel } from "../../components/Select";
+import type { FormRenderProps } from "react-final-form";
+import type { ChangeEventHandler } from "react";
 
 import { Modal } from "../../components/Modal";
 import { Option, Select } from "../../components/Select";
 import {
   AppleMusicIcon,
-  AudiomackIcon,
-  BoomplayIcon,
   DeezerIcon,
   SpotifyIcon,
 } from "../../components/icons";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
+import {
+  Platform,
+  PlatformValues,
+  PlaylistGenreValues,
+} from "../../../utils/platform";
+import useParsedSearchParams from "../../hooks/useParsedSearchParams";
+import * as formValidation from "../../../utils/formValidation";
+import { constructURL, getPlatformName } from "../../../utils/url";
+import { routeIds } from "../../routes";
+import { useToast } from "../../components/Toast/ToastContext";
+import { useApi } from "../../context/ApiContext";
 
 interface IProps {
   open: boolean;
@@ -22,88 +35,172 @@ interface IProps {
 }
 
 export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
-  const renderLabel = (opts: Parameters<IRenderLabel>[0]) => {
-    const getIcon = () => {
-      switch (opts.value) {
-        case "spotify":
-          return <SpotifyIcon key="spotify" />;
-        case "deezer":
-          return <DeezerIcon key="deezer" />;
-        case "appleMusic":
-          return <AppleMusicIcon key="appleMusic" />;
-        case "audiomack":
-          return <AudiomackIcon key="audiomack" />;
-        default:
-          return <BoomplayIcon key="boomplay" />;
-      }
-    };
+  const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
+  const toast = useToast();
+  const api = useApi();
+  const [searchParams] = useParsedSearchParams();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    (async function () {
+      const {
+        author,
+        playlistTitle,
+        playlistLink,
+        playlistGenre,
+        streamingService,
+        isAuthTokenAvailableForCreatingPlaylist,
+      } = searchParams;
+
+      if (isAuthTokenAvailableForCreatingPlaylist === "true") {
+        setIsCreatingPlaylist(true);
+
+        const result = await api.playlist.createPlaylist({
+          author,
+          playlistTitle,
+          playlistLink,
+          playlistGenre,
+          platform: streamingService,
+        });
+
+        setIsCreatingPlaylist(false);
+
+        if (result.error) {
+          toast({
+            title: result.error.name,
+            description: result.error.message,
+            status: "error",
+          });
+        }
+
+        if (result.data) {
+          toast({
+            title: "Playlist created",
+            description: `Your playlist (${result.data.name}) has been created`,
+            status: "success",
+            duration: 4000,
+          });
+
+          onClose();
+
+          navigate(
+            constructURL({
+              routeId: routeIds.community,
+            }),
+            { replace: true }
+          );
+        }
+      }
+    })();
+  }, [searchParams]);
+
+  const getPlatformIcon = (platform: Platform) => {
+    switch (platform) {
+      case Platform.Spotify:
+        return <SpotifyIcon />;
+      case Platform.Deezer:
+        return <DeezerIcon />;
+      default:
+        return <AppleMusicIcon />;
+    }
+  };
+
+  const handleSubmitFormValues = (
+    values: formValidation.createPlaylistFormInputs
+  ) => {
+    const redirectURI = constructURL({
+      routeId: routeIds.community,
+      query: {
+        ...values,
+        playlistLink: encodeURIComponent(values.playlistLink),
+        isAuthTokenAvailableForCreatingPlaylist: "true",
+      },
+    });
+
+    try {
+      location.href = `/api/auth/${
+        values.streamingService
+      }?redirect_uri=${encodeURIComponent(redirectURI)}`;
+    } catch (error) {
+      const { name, message } = error as Error;
+
+      toast({
+        title: name,
+        description: message,
+        status: "error",
+        position: "bottom-right",
+      });
+    }
+  };
+
+  const handlePlaylistLinkChange = (
+    form: FormRenderProps<formValidation.createPlaylistFormInputs>["form"]
+  ) => {
+    return function (evt) {
+      const link = evt.target.value;
+      const platformName = getPlatformName(link);
+
+      form.batch(() => {
+        form.change("playlistLink", link);
+        form.change("streamingService", platformName ?? undefined);
+      });
+    } as ChangeEventHandler<HTMLInputElement>;
+  };
+
+  const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     return (
       <Space>
-        {getIcon()}
+        {getPlatformIcon(opts.value)}
         <span>{opts.label}</span>
       </Space>
     );
   };
 
   const renderOptions = () => {
-    return (
-      <>
-        <Option value="spotify" label="Spotify">
-          <Space>
-            <SpotifyIcon />
-            <span>Spotify</span>
-          </Space>
-        </Option>
-        <Option value="appleMusic" label="Apple Music">
-          <Space>
-            <AppleMusicIcon />
-            <span>Apple Music</span>
-          </Space>
-        </Option>
-        <Option value="audiomack" label="Audiomack">
-          <Space>
-            <AudiomackIcon />
-            <span>Audiomack</span>
-          </Space>
-        </Option>
-        <Option value="deezer" label="Deezer">
-          <Space>
-            <DeezerIcon />
-            <span>Deezer</span>
-          </Space>
-        </Option>
-        <Option value="boomplay" label="Boomplay">
-          <Space>
-            <BoomplayIcon />
-            <span>Boomplay</span>
-          </Space>
-        </Option>
-      </>
-    );
+    return PlatformValues.map((platform) => (
+      <Option value={platform} label={platform} key={platform}>
+        <Space>
+          {getPlatformIcon(platform)}
+          <span>{platform}</span>
+        </Space>
+      </Option>
+    ));
   };
 
   return (
     <Modal open={open} onClose={onClose} title="Post a playlist">
       <Form
-        onSubmit={() => {}}
+        onSubmit={handleSubmitFormValues}
+        initialValues={{
+          author: searchParams.link,
+          playlistTitle: searchParams.playlistTitle,
+          playlistLink: searchParams.playlistLink,
+          playlistGenre: searchParams.playlistGenre,
+          streamingService: searchParams.streamingService,
+        }}
+        validate={formValidation.validateCreatePlaylistForm}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
-          const { invalid, dirty } = form.getState();
+          const { invalid, dirtyFieldsSinceLastSubmit } = form.getState();
+
+          const dirty = Object.values(dirtyFieldsSinceLastSubmit).reduce(
+            (acc, value) => acc && value,
+            true
+          );
 
           return (
             <form onSubmit={handleSubmit}>
               <div className="my-14 grid grid-rows-5 gap-y-8">
                 <Field
-                  name="name"
+                  name="author"
                   render={({ input, meta }) => (
                     <Input
                       fullWidth
                       label="Your Name"
                       placeholder="E.g John Doe"
                       required
-                      helperText={meta.error}
-                      error={Boolean(meta.error)}
+                      helperText={meta.dirty && meta.error}
+                      error={Boolean(meta.error && meta.dirty)}
                       {...input}
                     />
                   )}
@@ -116,8 +213,8 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       label="Title of playlist"
                       placeholder="E.g Best of Afro"
                       required
-                      helperText={meta.error}
-                      error={Boolean(meta.error)}
+                      helperText={meta.dirty && meta.error}
+                      error={Boolean(meta.error && meta.dirty)}
                       {...input}
                     />
                   )}
@@ -130,9 +227,10 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       label="Playlist link"
                       placeholder="E.g https://open.spotify.com/playlist/id"
                       required
-                      helperText={meta.error}
-                      error={Boolean(meta.error)}
-                      {...input}
+                      helperText={meta.dirty && meta.error}
+                      error={Boolean(meta.error && meta.dirty)}
+                      onChange={handlePlaylistLinkChange(form)}
+                      {...omit(input, "onChange")}
                     />
                   )}
                 />
@@ -144,12 +242,15 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       label="Playlist genre"
                       required
                       placeholder="Select a genre"
-                      helperText={meta.error}
-                      error={Boolean(meta.error)}
+                      helperText={meta.dirty && meta.error}
+                      error={Boolean(meta.error && meta.dirty)}
                       {...input}
                     >
-                      <Option value="rnb">Rnb</Option>
-                      <Option value="afro">Afro</Option>
+                      {PlaylistGenreValues.map((genre) => (
+                        <Option value={genre} key={genre}>
+                          {genre}
+                        </Option>
+                      ))}
                     </Select>
                   )}
                 />
@@ -163,8 +264,8 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       placeholder="Streaming service auto generated"
                       renderLabel={renderLabel}
                       disabled
-                      helperText={meta.error}
-                      error={Boolean(meta.error)}
+                      helperText={meta.dirty && meta.error}
+                      error={Boolean(meta.error && meta.dirty)}
                       {...input}
                     >
                       {renderOptions()}
@@ -178,6 +279,8 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                 fullWidth
                 htmlType="submit"
                 disabled={invalid || !dirty}
+                loadingText="Posting..."
+                loading={isCreatingPlaylist}
               >
                 Post playlist
               </Button>

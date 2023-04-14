@@ -1,13 +1,14 @@
 import axios from "axios";
 import passport from "passport";
 import { Strategy } from "passport-spotify";
-
 import { AxiosError } from "axios";
+
 import type { StrategyOptions } from "passport-spotify";
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { Platform } from "../utils/platform";
 
 const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -219,9 +220,39 @@ class Spotify implements IThirdPartyIntegrations {
       });
     }
 
+    let duration = 0;
+
+    let songs = data.tracks.items.map((item: any) => {
+      const {
+        track,
+        track: { album },
+      } = item;
+
+      const artists: Song["artists"] = album.artists.map(
+        (artist: { name: string }) => ({
+          name: artist.name,
+        }),
+      );
+
+      const images: Song["images"] = album.images.map((image: Image) => ({
+        url: image.url,
+        width: image.width,
+        height: image.height,
+      }));
+
+      duration += track.duration_ms;
+
+      return {
+        artists,
+        images,
+        name: track.name,
+        previewURL: track.preview_url,
+      };
+    });
+
     return {
       importLink: data.external_urls.spotify,
-      platform: "spotify",
+      platform: Platform.Spotify,
       public: Boolean(data.public),
       importPlaylistId: data.id,
       images: data.images.map((image: Image) => ({
@@ -234,31 +265,8 @@ class Spotify implements IThirdPartyIntegrations {
       owner: {
         name: data.owner.display_name,
       },
-      songs: data.tracks.items.map((item: any) => {
-        const {
-          track,
-          track: { album },
-        } = item;
-
-        const artists: Song["artists"] = album.artists.map(
-          (artist: { name: string }) => ({
-            name: artist.name,
-          }),
-        );
-
-        const images: Song["images"] = album.images.map((image: Image) => ({
-          url: image.url,
-          width: image.width,
-          height: image.height,
-        }));
-
-        return {
-          artists,
-          images,
-          name: track.name,
-          previewURL: track.preview_url,
-        };
-      }),
+      duration,
+      songs,
     };
   }
 }

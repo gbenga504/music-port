@@ -9,9 +9,11 @@ import { PageLayout } from "../../components/PageLayout";
 import { Playlists } from "./Playlists";
 import { CreatePlaylistModal } from "./CreatePlaylistModal";
 
-const Community: React.FC<ILoadableComponentProps> = () => {
-  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
-    useState(false);
+const Community: React.FC<ILoadableComponentProps> = ({ query }) => {
+  const { isAuthTokenAvailableForCreatingPlaylist } = query;
+  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] = useState(
+    isAuthTokenAvailableForCreatingPlaylist === "true"
+  );
 
   const renderHeadline = () => {
     return (

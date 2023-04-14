@@ -43,3 +43,14 @@ export const getPlatformNameOrThrow = (link: string): Platform => {
 
   return platformName;
 };
+
+export enum PlaylistGenre {
+  Afro = "afro",
+  HipPop = "hipPop",
+  Others = "Others",
+}
+
+export const PlaylistGenreValues = Object.values(PlaylistGenre) as [
+  PlaylistGenre,
+  ...PlaylistGenre[],
+];

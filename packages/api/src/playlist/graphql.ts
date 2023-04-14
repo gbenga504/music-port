@@ -2,6 +2,7 @@ import { enumType, mutationField, objectType, stringArg } from "nexus";
 import path from "path";
 
 import { GraphQLError } from "../graphql/error-handling";
+import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
 
 const PlaylistImage = objectType({
   name: "PlaylistImage",
@@ -62,8 +63,7 @@ const Playlist = objectType({
       description: "The platform for this playlist",
       type: enumType({
         name: "PlaylistPlatform",
-        members: ["deezer", "spotify"],
-        description: "The platform for this playlist",
+        members: PlatformValues,
       }),
     });
     t.string("importPlaylistId", {
@@ -78,6 +78,13 @@ const Playlist = objectType({
       description: "Api link to the playlist on the music streaming platform",
     });
     t.string("name", { description: "Name of the playlist" });
+    t.field("genre", {
+      description: "Genre of the playlist",
+      type: enumType({
+        name: "PlaylistGenre",
+        members: PlaylistGenreValues,
+      }),
+    });
     t.field("owner", {
       type: PlaylistOwner,
       description: "Owner profile of the playlist",
@@ -86,6 +93,47 @@ const Playlist = objectType({
       type: PlaylistSong,
       description: "Songs associated with the playlist",
     });
+  },
+});
+
+const CreatePlaylistPayload = objectType({
+  name: "CreatePlaylistPayload",
+  definition(t) {
+    t.boolean("success");
+    t.nullable.field("data", {
+      type: Playlist,
+    });
+    t.nullable.field("error", {
+      type: GraphQLError,
+    });
+  },
+});
+
+export const createPlaylist = mutationField("createPlaylist", {
+  type: CreatePlaylistPayload,
+  args: {
+    author: stringArg(),
+    playlistTitle: stringArg(),
+    playlistLink: stringArg(),
+    playlistGenre: stringArg(),
+    platform: stringArg(),
+  },
+  authorize(_parent, _args, ctx) {
+    return Boolean(ctx.accessToken);
+  },
+  async resolve(_parent, args, ctx) {
+    try {
+      const result = await ctx.playlistService.createPlaylist({
+        inputs: args,
+        accessToken: ctx.accessToken,
+      });
+
+      return { success: true, data: result };
+    } catch (error) {
+      const { name, message } = error as Error;
+
+      return { success: false, error: { name, message } };
+    }
   },
 });
 

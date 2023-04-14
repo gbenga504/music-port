@@ -11,12 +11,83 @@ type ConvertPlaylistPayload {
   success: Boolean!
 }
 
+type CreatePlaylistPayload {
+  data: Playlist
+  error: PlaylistError
+  success: Boolean!
+}
+
 type Mutation {
   convertPlaylistUsingAdminAuthToken(
     fromPlatform: String!
     link: String!
     toPlatform: String!
   ): ConvertPlaylistPayload!
+  createPlaylist(
+    author: String!
+    platform: String!
+    playlistGenre: String!
+    playlistLink: String!
+    playlistTitle: String!
+  ): CreatePlaylistPayload!
+}
+
+type Playlist {
+  """
+  Api link to the playlist on the music streaming platform
+  """
+  apiLink: String!
+
+  """
+  Unique Id used to export playlist
+  """
+  exportId: String!
+
+  """
+  Genre of the playlist
+  """
+  genre: PlaylistGenre!
+  id: String!
+
+  """
+  Images for the playlist
+  """
+  images: [PlaylistImage!]!
+
+  """
+  Link used to import playlist
+  """
+  importLink: String!
+
+  """
+  Playlist Id used on the music streaming platform
+  """
+  importPlaylistId: String!
+
+  """
+  Name of the playlist
+  """
+  name: String!
+
+  """
+  Owner profile of the playlist
+  """
+  owner: PlaylistOwner!
+
+  """
+  The platform for this playlist
+  """
+  platform: PlaylistPlatform!
+
+  """
+  If the playlist is public or not
+  """
+  public: Boolean!
+
+  """
+  Songs associated with the playlist
+  """
+  songs: [PlaylistSong!]!
 }
 
 type PlaylistError {
@@ -28,6 +99,53 @@ type PlaylistError {
   """
   Name of the error
   """
+  name: String!
+}
+
+enum PlaylistGenre {
+  Others
+  afro
+  hipPop
+}
+
+type PlaylistImage {
+  height: Int
+  url: String!
+  width: Int
+}
+
+type PlaylistOwner {
+  name: String!
+}
+
+enum PlaylistPlatform {
+  deezer
+  spotify
+}
+
+type PlaylistSong {
+  """
+  Artists who were involved in the song
+  """
+  artists: [PlaylistSongArtist!]!
+
+  """
+  Images associated with the song
+  """
+  images: [PlaylistImage!]!
+
+  """
+  Name of the song
+  """
+  name: String!
+
+  """
+  URL to preview the song
+  """
+  previewURL: String
+}
+
+type PlaylistSongArtist {
   name: String!
 }
 

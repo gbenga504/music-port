@@ -1,4 +1,5 @@
 import type { ObjectId } from "mongoose";
+import type { Platform, PlaylistGenre } from "../../utils/platform";
 
 export interface Image {
   url: string;
@@ -21,7 +22,7 @@ export interface IPlaylist {
   _id: ObjectId;
   importLink: string;
   public: boolean;
-  platform: "spotify" | "deezer";
+  platform: Platform;
   importPlaylistId: string;
   exportId: string;
   images: Image[];
@@ -31,17 +32,8 @@ export interface IPlaylist {
     name: string;
   };
   songs: [Song, ...Song[]];
+  genre: PlaylistGenre;
+  duration: number;
 }
 
-export type IRawPlaylist = Pick<
-  IPlaylist,
-  | "importLink"
-  | "images"
-  | "apiLink"
-  | "name"
-  | "owner"
-  | "songs"
-  | "importPlaylistId"
-  | "public"
-  | "platform"
->;
+export type IRawPlaylist = Omit<IPlaylist, "_id" | "exportId" | "genre">;

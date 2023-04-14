@@ -4,9 +4,10 @@ import * as validator from "./validator";
 import type { IPlaylist, IRawPlaylist } from "../models";
 import type { ObjectId } from "mongoose";
 import type { PlaylistRepository } from "./repository";
-import type { Platform } from "../utils/platform";
+import { Platform, PlaylistGenre } from "../utils/platform";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
 import type { ConversionService } from "../conversion/service";
+import { nanoid } from "nanoid";
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
@@ -63,6 +64,65 @@ export class PlaylistService {
     });
   }
 
+  async createPlaylist({
+    inputs,
+    accessToken,
+  }: {
+    inputs: {
+      author: string;
+      playlistTitle: string;
+      playlistLink: string;
+      playlistGenre: string;
+      platform: string;
+    };
+    accessToken: string;
+  }): Promise<IPlaylist> {
+    const validInputs = validator.createPlaylist(inputs);
+
+    // We don't want to send a request to the music streaming service neither
+    // do we want to save a playlist more than once. So we check if the import link
+    // already exists in our DB and we return early
+    const importPlaylistId = thirdPartyIntegrations.getImportPlaylistId(
+      validInputs.playlistLink,
+    );
+    const existingPlaylist =
+      await this.playlistRepository.findOneByImportPlaylistId(importPlaylistId);
+
+    if (existingPlaylist) {
+      return existingPlaylist;
+    }
+
+    const rawPlaylist = await this.importPlaylist({
+      accessToken,
+      link: validInputs.playlistLink,
+    });
+
+    const playlist = {
+      ...rawPlaylist,
+      exportId: this.generateExportId(),
+      genre: validInputs.playlistGenre ?? PlaylistGenre.Others,
+      name: validInputs.playlistTitle ?? rawPlaylist.name,
+      owner: {
+        ...rawPlaylist.owner,
+        name: validInputs.author ?? rawPlaylist.owner.name,
+      },
+    };
+
+    return this.playlistRepository.create(playlist);
+  }
+
+  async getById({ id }: { id: ObjectId | string }): Promise<IPlaylist | null> {
+    return this.playlistRepository.findById(id);
+  }
+
+  async getByExportId({
+    exportId,
+  }: {
+    exportId: string;
+  }): Promise<IPlaylist | null> {
+    return this.playlistRepository.findOneByExportId(exportId);
+  }
+
   private async importPlaylist({
     accessToken,
     link,
@@ -83,7 +143,11 @@ export class PlaylistService {
     return rawPlaylist;
   }
 
-  async exportPlaylist({
+  private generateExportId(): string {
+    return nanoid();
+  }
+
+  private async exportPlaylist({
     accessToken,
     userId,
     platform,
@@ -109,17 +173,5 @@ export class PlaylistService {
     });
 
     return result;
-  }
-
-  async getById({ id }: { id: ObjectId | string }): Promise<IPlaylist | null> {
-    return this.playlistRepository.findById(id);
-  }
-
-  async getByExportId({
-    exportId,
-  }: {
-    exportId: string;
-  }): Promise<IPlaylist | null> {
-    return this.playlistRepository.findOneByExportId(exportId);
   }
 }

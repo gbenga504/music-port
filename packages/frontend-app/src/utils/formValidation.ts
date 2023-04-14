@@ -1,7 +1,7 @@
 import { z, ZodError } from "zod";
 import { ResourceError } from "../errors/resource-error";
 
-import { PlatformValues } from "./platform";
+import { PlatformValues, PlaylistGenreValues } from "./platform";
 import { getPlatformNameOrThrow } from "./url";
 
 const formatError = (error: unknown): { [key: string]: string } => {
@@ -53,6 +53,42 @@ export const validateConvertPlaylistUsingLinkForm = (
 ): { [key: string]: string } => {
   try {
     convertPlaylistUsingLinkSchema.parse(input);
+
+    return {};
+  } catch (error) {
+    return formatError(error);
+  }
+};
+
+const createPlaylistSchema = z.object({
+  author: z.string(),
+  playlistTitle: z.string(),
+  playlistLink: z
+    .string()
+    .url()
+    .superRefine((value, ctx) => {
+      try {
+        getPlatformNameOrThrow(value);
+      } catch (error) {
+        if (error instanceof ResourceError) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: error.message,
+          });
+        }
+      }
+    }),
+  playlistGenre: z.enum(PlaylistGenreValues),
+  streamingService: z.enum(PlatformValues),
+});
+
+export type createPlaylistFormInputs = z.infer<typeof createPlaylistSchema>;
+
+export const validateCreatePlaylistForm = (
+  input: createPlaylistFormInputs,
+): { [key: string]: string } => {
+  try {
+    createPlaylistSchema.parse(input);
 
     return {};
   } catch (error) {

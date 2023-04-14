@@ -2,7 +2,7 @@ import type { RequestHandler } from "express";
 import type { AuthenticateOptions } from "passport";
 import type { Strategy as SpotifyStrategy } from "passport-spotify";
 import type { Strategy as DeezerStrategy } from "passport-deezer";
-import type { IPlaylist, IRawPlaylist } from "../models";
+import type { IRawPlaylist } from "../models";
 
 interface IPlatformTokens {
   accessToken: string;
@@ -10,6 +10,7 @@ interface IPlatformTokens {
   expiresIn: number | null;
   userId: string;
 }
+
 export interface IThirdPartyIntegrations {
   getIntegrationName: () => string;
   getPassportStrategy: () => DeezerStrategy | SpotifyStrategy;

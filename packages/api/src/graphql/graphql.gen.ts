@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import type { GraphQLContextType } from "./graphql-context-type";
+import type { IPlaylist } from "./../models";
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin";
 import type { core, connectionPluginCore } from "nexus";
 
@@ -24,7 +25,10 @@ declare global {
 
 export interface NexusGenInputs {}
 
-export interface NexusGenEnums {}
+export interface NexusGenEnums {
+  PlaylistGenre: "Others" | "afro" | "hipPop";
+  PlaylistPlatform: "deezer" | "spotify";
+}
 
 export interface NexusGenScalars {
   String: string;
@@ -45,10 +49,38 @@ export interface NexusGenObjects {
     error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
     success: boolean; // Boolean!
   };
+  CreatePlaylistPayload: {
+    // root type
+    data?: NexusGenRootTypes["Playlist"] | null; // Playlist
+    error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
   Mutation: {};
+  Playlist: IPlaylist;
   PlaylistError: {
     // root type
     message: string; // String!
+    name: string; // String!
+  };
+  PlaylistImage: {
+    // root type
+    height?: number | null; // Int
+    url: string; // String!
+    width?: number | null; // Int
+  };
+  PlaylistOwner: {
+    // root type
+    name: string; // String!
+  };
+  PlaylistSong: {
+    // root type
+    artists: NexusGenRootTypes["PlaylistSongArtist"][]; // [PlaylistSongArtist!]!
+    images: NexusGenRootTypes["PlaylistImage"][]; // [PlaylistImage!]!
+    name: string; // String!
+    previewURL?: string | null; // String
+  };
+  PlaylistSongArtist: {
+    // root type
     name: string; // String!
   };
   Query: {};
@@ -60,7 +92,9 @@ export interface NexusGenUnions {}
 
 export type NexusGenRootTypes = NexusGenObjects;
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars;
+export type NexusGenAllTypes = NexusGenRootTypes &
+  NexusGenScalars &
+  NexusGenEnums;
 
 export interface NexusGenFieldTypes {
   ConvertPlaylistData: {
@@ -73,13 +107,56 @@ export interface NexusGenFieldTypes {
     error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
     success: boolean; // Boolean!
   };
+  CreatePlaylistPayload: {
+    // field return type
+    data: NexusGenRootTypes["Playlist"] | null; // Playlist
+    error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
   Mutation: {
     // field return type
     convertPlaylistUsingAdminAuthToken: NexusGenRootTypes["ConvertPlaylistPayload"]; // ConvertPlaylistPayload!
+    createPlaylist: NexusGenRootTypes["CreatePlaylistPayload"]; // CreatePlaylistPayload!
+  };
+  Playlist: {
+    // field return type
+    apiLink: string; // String!
+    exportId: string; // String!
+    genre: NexusGenEnums["PlaylistGenre"]; // PlaylistGenre!
+    id: string; // String!
+    images: NexusGenRootTypes["PlaylistImage"][]; // [PlaylistImage!]!
+    importLink: string; // String!
+    importPlaylistId: string; // String!
+    name: string; // String!
+    owner: NexusGenRootTypes["PlaylistOwner"]; // PlaylistOwner!
+    platform: NexusGenEnums["PlaylistPlatform"]; // PlaylistPlatform!
+    public: boolean; // Boolean!
+    songs: NexusGenRootTypes["PlaylistSong"][]; // [PlaylistSong!]!
   };
   PlaylistError: {
     // field return type
     message: string; // String!
+    name: string; // String!
+  };
+  PlaylistImage: {
+    // field return type
+    height: number | null; // Int
+    url: string; // String!
+    width: number | null; // Int
+  };
+  PlaylistOwner: {
+    // field return type
+    name: string; // String!
+  };
+  PlaylistSong: {
+    // field return type
+    artists: NexusGenRootTypes["PlaylistSongArtist"][]; // [PlaylistSongArtist!]!
+    images: NexusGenRootTypes["PlaylistImage"][]; // [PlaylistImage!]!
+    name: string; // String!
+    previewURL: string | null; // String
+  };
+  PlaylistSongArtist: {
+    // field return type
     name: string; // String!
   };
   Query: {
@@ -99,13 +176,56 @@ export interface NexusGenFieldTypeNames {
     error: "PlaylistError";
     success: "Boolean";
   };
+  CreatePlaylistPayload: {
+    // field return type name
+    data: "Playlist";
+    error: "PlaylistError";
+    success: "Boolean";
+  };
   Mutation: {
     // field return type name
     convertPlaylistUsingAdminAuthToken: "ConvertPlaylistPayload";
+    createPlaylist: "CreatePlaylistPayload";
+  };
+  Playlist: {
+    // field return type name
+    apiLink: "String";
+    exportId: "String";
+    genre: "PlaylistGenre";
+    id: "String";
+    images: "PlaylistImage";
+    importLink: "String";
+    importPlaylistId: "String";
+    name: "String";
+    owner: "PlaylistOwner";
+    platform: "PlaylistPlatform";
+    public: "Boolean";
+    songs: "PlaylistSong";
   };
   PlaylistError: {
     // field return type name
     message: "String";
+    name: "String";
+  };
+  PlaylistImage: {
+    // field return type name
+    height: "Int";
+    url: "String";
+    width: "Int";
+  };
+  PlaylistOwner: {
+    // field return type name
+    name: "String";
+  };
+  PlaylistSong: {
+    // field return type name
+    artists: "PlaylistSongArtist";
+    images: "PlaylistImage";
+    name: "String";
+    previewURL: "String";
+  };
+  PlaylistSongArtist: {
+    // field return type name
     name: "String";
   };
   Query: {
@@ -122,6 +242,14 @@ export interface NexusGenArgTypes {
       link: string; // String!
       toPlatform: string; // String!
     };
+    createPlaylist: {
+      // args
+      author: string; // String!
+      platform: string; // String!
+      playlistGenre: string; // String!
+      playlistLink: string; // String!
+      playlistTitle: string; // String!
+    };
   };
 }
 
@@ -133,7 +261,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 
