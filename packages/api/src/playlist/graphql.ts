@@ -1,8 +1,21 @@
-import { enumType, mutationField, objectType, stringArg } from "nexus";
+import {
+  enumType,
+  mutationField,
+  intArg,
+  nullable,
+  objectType,
+  queryField,
+  stringArg,
+  list,
+} from "nexus";
 import path from "path";
 
 import { GraphQLError } from "../graphql/error-handling";
-import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
+import {
+  PlatformValues,
+  PlaylistGenre,
+  PlaylistGenreValues,
+} from "../utils/platform";
 
 const PlaylistImage = objectType({
   name: "PlaylistImage",
@@ -92,6 +105,32 @@ const Playlist = objectType({
     t.list.field("songs", {
       type: PlaylistSong,
       description: "Songs associated with the playlist",
+    });
+  },
+});
+
+export const Playlists = queryField("playlists", {
+  type: objectType({
+    name: "PlaylistLists",
+    definition(t) {
+      t.int("total");
+      t.int("pageSize");
+      t.int("currentPage");
+      t.list.field("data", {
+        type: Playlist,
+      });
+    },
+  }),
+  args: {
+    genre: nullable(stringArg()),
+    currentPage: intArg(),
+    pageSize: intArg(),
+  },
+  async resolve(_parent, args, ctx) {
+    return ctx.playlistService.getPlaylists({
+      query: { genre: args.genre },
+      currentPage: args.currentPage,
+      pageSize: args.pageSize,
     });
   },
 });

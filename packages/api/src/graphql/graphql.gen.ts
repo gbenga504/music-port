@@ -68,6 +68,13 @@ export interface NexusGenObjects {
     url: string; // String!
     width?: number | null; // Int
   };
+  PlaylistLists: {
+    // root type
+    currentPage: number; // Int!
+    data: NexusGenRootTypes["Playlist"][]; // [Playlist!]!
+    pageSize: number; // Int!
+    total: number; // Int!
+  };
   PlaylistOwner: {
     // root type
     name: string; // String!
@@ -144,6 +151,13 @@ export interface NexusGenFieldTypes {
     url: string; // String!
     width: number | null; // Int
   };
+  PlaylistLists: {
+    // field return type
+    currentPage: number; // Int!
+    data: NexusGenRootTypes["Playlist"][]; // [Playlist!]!
+    pageSize: number; // Int!
+    total: number; // Int!
+  };
   PlaylistOwner: {
     // field return type
     name: string; // String!
@@ -161,7 +175,7 @@ export interface NexusGenFieldTypes {
   };
   Query: {
     // field return type
-    ok: boolean; // Boolean!
+    playlists: NexusGenRootTypes["PlaylistLists"]; // PlaylistLists!
   };
 }
 
@@ -213,6 +227,13 @@ export interface NexusGenFieldTypeNames {
     url: "String";
     width: "Int";
   };
+  PlaylistLists: {
+    // field return type name
+    currentPage: "Int";
+    data: "Playlist";
+    pageSize: "Int";
+    total: "Int";
+  };
   PlaylistOwner: {
     // field return type name
     name: "String";
@@ -230,7 +251,7 @@ export interface NexusGenFieldTypeNames {
   };
   Query: {
     // field return type name
-    ok: "Boolean";
+    playlists: "PlaylistLists";
   };
 }
 
@@ -249,6 +270,14 @@ export interface NexusGenArgTypes {
       playlistGenre: string; // String!
       playlistLink: string; // String!
       playlistTitle: string; // String!
+    };
+  };
+  Query: {
+    playlists: {
+      // args
+      currentPage: number; // Int!
+      genre?: string | null; // String
+      pageSize: number; // Int!
     };
   };
 }

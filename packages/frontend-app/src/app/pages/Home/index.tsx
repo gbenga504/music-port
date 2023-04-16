@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
 import { Field, Form } from "react-final-form";
 import omit from "lodash/omit";
@@ -35,12 +35,17 @@ const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
   const [playlistURL, setPlaylistURL] = useState<string | null>(null);
   const toast = useToast();
   const navigate = useNavigate();
+  const requestSentToConvertPlaylist = useRef(false);
 
   useEffect(() => {
     (async function () {
       const { link, fromPlatform, toPlatform, isAuthTokenAvailable } = query;
 
-      if (isAuthTokenAvailable === "true") {
+      if (
+        isAuthTokenAvailable === "true" &&
+        !requestSentToConvertPlaylist.current
+      ) {
+        requestSentToConvertPlaylist.current = true;
         setIsConvertingPlaylist(true);
 
         const result = await api.playlist.convertPlaylistUsingAdminAuthToken({

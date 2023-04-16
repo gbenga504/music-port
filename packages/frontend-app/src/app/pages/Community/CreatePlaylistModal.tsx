@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Field, Form } from "react-final-form";
 import omit from "lodash/omit";
 import { useNavigate } from "react-router-dom";
@@ -40,6 +40,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const api = useApi();
   const [query] = useParsedQueryParams();
   const navigate = useNavigate();
+  const requestSent = useRef(false);
 
   useEffect(() => {
     (async function () {
@@ -52,7 +53,11 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
         isAuthTokenAvailableForCreatingPlaylist,
       } = query;
 
-      if (isAuthTokenAvailableForCreatingPlaylist === "true") {
+      if (
+        isAuthTokenAvailableForCreatingPlaylist === "true" &&
+        !requestSent.current
+      ) {
+        requestSent.current = true;
         setIsCreatingPlaylist(true);
 
         const result = await api.playlist.createPlaylist({

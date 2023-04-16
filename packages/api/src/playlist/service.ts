@@ -123,6 +123,22 @@ export class PlaylistService {
     return this.playlistRepository.findOneByExportId(exportId);
   }
 
+  async getPlaylists({
+    query,
+    currentPage,
+    pageSize,
+  }: {
+    query: { genre?: string | null };
+    currentPage: number;
+    pageSize: number;
+  }): Promise<ReturnType<PlaylistRepository["findManyPlaylist"]>> {
+    return this.playlistRepository.findManyPlaylist(
+      query,
+      currentPage,
+      pageSize,
+    );
+  }
+
   private async importPlaylist({
     accessToken,
     link,

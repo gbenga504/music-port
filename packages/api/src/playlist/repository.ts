@@ -1,4 +1,8 @@
-import { IFindOneOptions, Repository } from "../framework/repository";
+import {
+  IFindMany,
+  IFindOneOptions,
+  Repository,
+} from "../framework/repository";
 import * as Models from "../models";
 
 import type { ObjectId } from "mongoose";
@@ -32,5 +36,23 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     options?: IFindOneOptions,
   ): Promise<IPlaylist | null> {
     return this.findOne({ importPlaylistId }, options);
+  }
+
+  public async findManyPlaylist(
+    query: { genre?: string | null },
+    currentPage: number,
+    pageSize: number,
+  ): Promise<IFindMany<IPlaylist>> {
+    const finalQuery: Partial<typeof query> = {};
+
+    if (query.genre) {
+      finalQuery["genre"] = query.genre;
+    }
+
+    return this.findMany({
+      query: finalQuery,
+      sort: { createdAt: -1 },
+      paginationParams: { currentPage, limit: pageSize },
+    });
   }
 }
