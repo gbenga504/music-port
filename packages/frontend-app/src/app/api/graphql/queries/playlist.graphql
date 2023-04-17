@@ -70,3 +70,25 @@ mutation createPlaylist(
     }
   }
 }
+
+query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
+  playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
+    total
+    currentPage
+    pageSize
+    data {
+      id
+      platform
+      exportId
+      apiLink
+      name
+      owner {
+        name
+      }
+      genre
+      totalNumberOfSongs
+      duration
+      coverImage
+    }
+  }
+}

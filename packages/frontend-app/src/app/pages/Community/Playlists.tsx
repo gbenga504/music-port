@@ -125,7 +125,11 @@ export const Playlists: React.FC<{}> = () => {
     return (
       <Table
         stickyHeader
-        classes={{ container: "border-none text-sm", table: "min-w-0" }}
+        classes={{
+          container: "border-none text-sm",
+          table: "min-w-0",
+          loadingContainer: "!bg-secondaryAlpha200",
+        }}
       >
         <TableHead>
           <TableRow>

@@ -6,16 +6,12 @@ import {
   objectType,
   queryField,
   stringArg,
-  list,
+  idArg,
 } from "nexus";
 import path from "path";
 
 import { GraphQLError } from "../graphql/error-handling";
-import {
-  PlatformValues,
-  PlaylistGenre,
-  PlaylistGenreValues,
-} from "../utils/platform";
+import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
 
 const PlaylistImage = objectType({
   name: "PlaylistImage",
@@ -51,10 +47,20 @@ const PlaylistSong = objectType({
       type: PlaylistImage,
       description: "Images associated with the song",
     });
-    t.string("name", { description: "Name of the song" }),
-      t.nullable.string("previewURL", {
-        description: "URL to preview the song",
-      });
+    t.string("name", { description: "Name of the song" });
+    t.nullable.string("previewURL", {
+      description: "URL to preview the song",
+    });
+    t.int("duration");
+    t.nullable.string("coverImage", {
+      resolve(parent) {
+        const coverImage = parent.images.find(
+          (image) => (image.width || 0) >= 50 && (image.width || 0) <= 70,
+        );
+
+        return coverImage?.url ?? null;
+      },
+    });
   },
 });
 
@@ -106,6 +112,21 @@ const Playlist = objectType({
       type: PlaylistSong,
       description: "Songs associated with the playlist",
     });
+    t.int("totalNumberOfSongs", {
+      resolve(parent) {
+        return parent.songs.length;
+      },
+    });
+    t.int("duration");
+    t.nullable.string("coverImage", {
+      resolve(parent) {
+        const coverImage = parent.images.find(
+          (image) => (image.width || 0) >= 50 && (image.width || 0) <= 70,
+        );
+
+        return coverImage?.url ?? null;
+      },
+    });
   },
 });
 
@@ -132,6 +153,44 @@ export const Playlists = queryField("playlists", {
       currentPage: args.currentPage,
       pageSize: args.pageSize,
     });
+  },
+});
+
+export const PlaylistSongs = queryField("playlistSongs", {
+  type: objectType({
+    name: "PlaylistSongLists",
+    definition(t) {
+      t.int("total");
+      t.int("pageSize");
+      t.int("currentPage");
+      t.list.field("data", {
+        type: PlaylistSong,
+      });
+    },
+  }),
+  args: {
+    playlistById: stringArg(),
+    currentPage: intArg(),
+    pageSize: intArg(),
+  },
+  async resolve(_parent, args, ctx) {
+    return ctx.playlistService.getPlaylistSongs({
+      playlistId: args.playlistById,
+      currentPage: args.currentPage,
+      pageSize: args.pageSize,
+    });
+  },
+});
+
+export const playlistById = queryField("playlistById", {
+  type: nullable(Playlist),
+  args: {
+    id: idArg(),
+  },
+  async resolve(_parent, args, ctx) {
+    const result = await ctx.playlistService.getById({ id: args.id });
+
+    return result;
   },
 });
 

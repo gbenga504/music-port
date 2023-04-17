@@ -275,6 +275,7 @@ class Deezer implements IThirdPartyIntegrations {
           ],
           name: item.title,
           previewURL: item.preview,
+          duration: item.duration * 1000, // converted to Milliseconds
         };
       }),
     };

@@ -16,6 +16,7 @@ export interface Song {
   images: Image[];
   name: string;
   previewURL?: string;
+  duration: number;
 }
 
 export interface IPlaylist {

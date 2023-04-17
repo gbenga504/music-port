@@ -27,6 +27,7 @@ const SongSchema = new Schema<Song>({
   images: [{ type: ImageSchema, required: true }],
   name: { type: String, required: true },
   previewURL: String,
+  duration: { type: Number, required: true },
 });
 
 const PlaylistSchema = new Schema<IPlaylist>(

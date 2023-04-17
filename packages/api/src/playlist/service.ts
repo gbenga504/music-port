@@ -139,6 +139,22 @@ export class PlaylistService {
     );
   }
 
+  async getPlaylistSongs({
+    playlistId,
+    currentPage,
+    pageSize,
+  }: {
+    playlistId: string;
+    currentPage: number;
+    pageSize: number;
+  }): Promise<ReturnType<PlaylistRepository["findManyPlaylistSongs"]>> {
+    return this.playlistRepository.findManyPlaylistSongs(
+      playlistId,
+      currentPage,
+      pageSize,
+    );
+  }
+
   private async importPlaylist({
     accessToken,
     link,

@@ -24,6 +24,8 @@ module.exports = {
         primaryAlpha: "#C9F6F7",
         secondary: "#06062D",
         secondaryAlpha: "#181835",
+        secondaryAlpha200: "rgba(24, 24, 53, 0.8)",
+        secondaryAlpha300: "rgba(6, 6, 45, 0.8)",
         blackAlpha45: "rgba(0,0,0,.45)",
 
         // These are special colors, hence have them here

@@ -247,6 +247,7 @@ class Spotify implements IThirdPartyIntegrations {
         images,
         name: track.name,
         previewURL: track.preview_url,
+        duration: track.duration_ms,
       };
     });
 
