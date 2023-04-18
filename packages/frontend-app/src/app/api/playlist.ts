@@ -49,4 +49,40 @@ export class Playlist {
 
     return createPlaylist;
   }
+
+  async getPlaylists({
+    genre,
+    currentPage,
+    pageSize,
+  }: {
+    genre: string | null;
+    currentPage: number;
+    pageSize: number;
+  }) {
+    const { playlists } = await this.graphQLClient.playlists({
+      genre,
+      currentPage,
+      pageSize,
+    });
+
+    return playlists;
+  }
+
+  async getPlaylistSongs({
+    playlistId,
+    currentPage,
+    pageSize,
+  }: {
+    playlistId: string;
+    currentPage: number;
+    pageSize: number;
+  }) {
+    const { playlistSongs } = await this.graphQLClient.playlistSongs({
+      playlistId,
+      currentPage,
+      pageSize,
+    });
+
+    return playlistSongs;
+  }
 }

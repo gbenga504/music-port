@@ -169,13 +169,13 @@ export const PlaylistSongs = queryField("playlistSongs", {
     },
   }),
   args: {
-    playlistById: stringArg(),
+    playlistId: stringArg(),
     currentPage: intArg(),
     pageSize: intArg(),
   },
   async resolve(_parent, args, ctx) {
     return ctx.playlistService.getPlaylistSongs({
-      playlistId: args.playlistById,
+      playlistId: args.playlistId,
       currentPage: args.currentPage,
       pageSize: args.pageSize,
     });

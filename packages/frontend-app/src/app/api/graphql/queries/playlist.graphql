@@ -92,3 +92,24 @@ query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
     }
   }
 }
+
+query playlistSongs($playlistId: String!, $currentPage: Int!, $pageSize: Int!) {
+  playlistSongs(
+    playlistId: $playlistId
+    currentPage: $currentPage
+    pageSize: $pageSize
+  ) {
+    total
+    currentPage
+    pageSize
+    data {
+      previewURL
+      name
+      duration
+      coverImage
+      artists {
+        name
+      }
+    }
+  }
+}

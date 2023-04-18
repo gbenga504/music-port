@@ -6,7 +6,7 @@ import { Button } from "../Button";
 
 import "./Pagination.scss";
 
-interface IOnChangeParams {
+export interface IPaginationOpts {
   current: number;
   pageSize: number;
 }
@@ -16,7 +16,7 @@ interface IProps {
   current?: number;
   pageSize?: number;
   pageSizeOptions?: number[];
-  onChange?: (val: IOnChangeParams) => void;
+  onChange?: (val: IPaginationOpts) => void;
   fullWidth?: boolean;
   classes?: { pageSizeOptionsSelect?: string };
 }
@@ -32,12 +32,12 @@ export const Pagination: React.FC<IProps> = ({
 }) => {
   const paginationItems = useMemo(() => {
     let results: { type: "seperator" | "number"; value?: number }[] = [];
-    const totalNumberOfPages = total / pageSize;
+    const totalNumberOfPages = Math.ceil(total / pageSize);
 
-    if (totalNumberOfPages === 5) {
+    if (totalNumberOfPages <= 5) {
       // If the total number of pages is just 5, then we want to show
       // all the 5 pages since its not a lot
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= totalNumberOfPages; i++) {
         results.push({ type: "number", value: i });
       }
     } else {
@@ -139,13 +139,13 @@ export const Pagination: React.FC<IProps> = ({
       <li
         tabIndex={0}
         className={classNames("pagination-list-item", {
-          disabled: current === total / pageSize,
+          disabled: current === Math.ceil(total / pageSize) || total === 0,
         })}
       >
         <Button
           variant="transparent"
           tabIndex={-1}
-          disabled={current === total / pageSize}
+          disabled={current === Math.ceil(total / pageSize) || total === 0}
           onClick={handleChange({ current: current + 1 })}
         >
           <ArrowDownIcon className="-rotate-90" />
@@ -160,6 +160,7 @@ export const Pagination: React.FC<IProps> = ({
           onChange={(evt) =>
             handleChange({ pageSize: Number(evt.target.value), current: 1 })()
           }
+          value={pageSize}
         >
           {pageSizeOptions.map((pageSizeOption) => (
             <option value={pageSizeOption} key={pageSizeOption}>

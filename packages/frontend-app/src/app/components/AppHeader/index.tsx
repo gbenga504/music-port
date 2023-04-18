@@ -48,7 +48,10 @@ export const AppHeader: React.FC<IProps> = () => {
             variant="text"
             size="medium"
             focused={doesPathMatch({ routeId: routeIds.community, pathname })}
-            to={constructURL({ routeId: routeIds.community })}
+            to={constructURL({
+              routeId: routeIds.community,
+              query: { currentPage: "1", pageSize: "10" },
+            })}
           >
             Community playlist
           </Button>

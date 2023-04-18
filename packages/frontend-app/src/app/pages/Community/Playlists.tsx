@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
+import omit from "lodash/omit";
 
 import type { IRenderLabel } from "../../components/Select";
+import type { ICreateApiClient } from "../../api";
+import type { IPaginationOpts } from "../../components/Table/Pagination";
 
 import {
   AppleMusicIcon,
   ArrowDownIcon,
-  AudiomackIcon,
-  BoomplayIcon,
   DeezerIcon,
   SpotifyIcon,
 } from "../../components/icons";
@@ -26,68 +28,76 @@ import { Button } from "../../components/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { Platform } from "../../../utils/platform";
+import {
+  Platform,
+  PlatformValues,
+  PlaylistGenre,
+  PlaylistGenreValues,
+} from "../../../utils/platform";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
+import { constructURL } from "../../../utils/url";
+import { routeIds } from "../../routes";
 
-export const Playlists: React.FC<{}> = () => {
+interface IProps {
+  playlists: Awaited<ReturnType<ICreateApiClient["playlist"]["getPlaylists"]>>;
+}
+
+export const Playlists: React.FC<IProps> = ({ playlists }) => {
+  const [query] = useParsedQueryParams<{
+    currentPage: string;
+    pageSize: string;
+    genre: string;
+  }>();
+  const navigate = useNavigate();
   const matches = useMediaQuery(`(max-width: ${screens.lg})`);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
   const [isMobileConverterOpen, setIsMobileConverterOpen] = useState(false);
 
-  const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
-    const getIcon = () => {
-      switch (opts.value) {
-        case Platform.Spotify:
-          return <SpotifyIcon key="spotify" />;
-        case Platform.Deezer:
-          return <DeezerIcon key="deezer" />;
-        default:
-          return <BoomplayIcon key="boomplay" />;
-      }
-    };
+  const getPlatformIcon = (platform: Platform) => {
+    switch (platform) {
+      case Platform.Spotify:
+        return <SpotifyIcon />;
+      case Platform.Deezer:
+        return <DeezerIcon />;
+      default:
+        return <AppleMusicIcon />;
+    }
+  };
 
+  const handlePlaylistsFilterChange = (
+    changeset: IPaginationOpts & { genre?: PlaylistGenre }
+  ) => {
+    navigate(
+      constructURL({
+        routeId: routeIds.community,
+        query: {
+          ...query,
+          ...omit(changeset, "current"),
+          pageSize: changeset.pageSize.toString(),
+          currentPage: changeset.current.toString(),
+        },
+      }),
+      { replace: true }
+    );
+  };
+
+  const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     return (
       <Space>
-        {getIcon()}
+        {getPlatformIcon(opts.value)}
         <span>{opts.label}</span>
       </Space>
     );
   };
 
   const renderOptions = () => {
-    return (
-      <>
-        <Option value="spotify" label="Spotify">
-          <Space>
-            <SpotifyIcon />
-            <span>Spotify</span>
-          </Space>
-        </Option>
-        <Option value="appleMusic" label="Apple Music">
-          <Space>
-            <AppleMusicIcon />
-            <span>Apple Music</span>
-          </Space>
-        </Option>
-        <Option value="audiomack" label="Audiomack">
-          <Space>
-            <AudiomackIcon />
-            <span>Audiomack</span>
-          </Space>
-        </Option>
-        <Option value="deezer" label="Deezer">
-          <Space>
-            <DeezerIcon />
-            <span>Deezer</span>
-          </Space>
-        </Option>
-        <Option value="boomplay" label="Boomplay">
-          <Space>
-            <BoomplayIcon />
-            <span>Boomplay</span>
-          </Space>
-        </Option>
-      </>
-    );
+    return PlatformValues.map((platform) => (
+      <Option key={platform} value={platform} label={platform}>
+        <Space>
+          {getPlatformIcon(platform)}
+          <span>{platform}</span>
+        </Space>
+      </Option>
+    ));
   };
 
   const renderConverterHeader = () => {
@@ -106,8 +116,8 @@ export const Playlists: React.FC<{}> = () => {
           <div className="w-36 h-36 bg-secondary mr-4" />
           <div className="grid grid-cols-1 grid-rows-4 gap-y-2">
             <div className="flex items-center">
-              <AppleMusicIcon />
-              <span className="ml-2 text-sm">Apple music</span>
+              {getPlatformIcon(Platform.Deezer)}
+              <span className="ml-2 text-sm">Deezer</span>
             </div>
             <div>
               <span className="text-primaryGray">Posted by :</span>
@@ -219,10 +229,20 @@ export const Playlists: React.FC<{}> = () => {
             size="small"
             theme="dark"
             classes={{ select: "!w-[16ch]" }}
+            onChange={(value) =>
+              handlePlaylistsFilterChange({
+                genre: value as PlaylistGenre,
+                current: 1,
+                pageSize: 10,
+              })
+            }
+            value={query.genre}
           >
-            <Option value="general">General</Option>
-            <Option value="hippop">Hip pop</Option>
-            <Option value="afro">Afro pop</Option>
+            {PlaylistGenreValues.map((genre) => (
+              <Option value={genre} key={genre}>
+                {genre}
+              </Option>
+            ))}
           </Select>
         </div>
         <Table
@@ -238,32 +258,44 @@ export const Playlists: React.FC<{}> = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow onClick={() => setIsMobileConverterOpen(true)}>
-              <TableCell>
-                <div className="flex items-center">
-                  <div className="w-10 h-10 bg-secondaryAlpha rounded-sm mr-2" />
-                  <span>Drip or down</span>
-                </div>
-              </TableCell>
-              <TableCell>Skull face</TableCell>
-              <TableCell>General</TableCell>
-              <TableCell>
-                <div className="flex items-center">
-                  <AppleMusicIcon />
-                  <span className="ml-2">Apple music</span>
-                </div>
-              </TableCell>
-            </TableRow>
+            {playlists.data.map((playlist) => (
+              <TableRow
+                key={playlist.id}
+                onClick={() => setIsMobileConverterOpen(true)}
+              >
+                <TableCell>
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-secondaryAlpha rounded-sm mr-2">
+                      {playlist.coverImage && (
+                        <img
+                          src={playlist.coverImage}
+                          className="w-full h-full rounded-sm"
+                        />
+                      )}
+                    </div>
+                    <span>{playlist.name}</span>
+                  </div>
+                </TableCell>
+                <TableCell>{playlist.owner.name}</TableCell>
+                <TableCell className="capitalize">{playlist.genre}</TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    {getPlatformIcon(playlist.platform as unknown as Platform)}
+                    <span className="ml-2 capitalize">{playlist.platform}</span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
           <TableFooter>
             <TableRow>
               <TableCell className="p-0" colSpan={4}>
                 <div className="min-h-[54px] relative flex justify-start md:justify-end pl-6 pr-3 items-center">
                   <Pagination
-                    total={500}
-                    current={pagination.current}
-                    pageSize={pagination.pageSize}
-                    onChange={(value) => setPagination(value)}
+                    total={playlists.total || 0}
+                    current={Number(query.currentPage)}
+                    pageSize={Number(query.pageSize)}
+                    onChange={(value) => handlePlaylistsFilterChange(value)}
                   />
                 </div>
               </TableCell>

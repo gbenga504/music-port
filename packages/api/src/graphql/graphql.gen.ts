@@ -317,7 +317,7 @@ export interface NexusGenArgTypes {
       // args
       currentPage: number; // Int!
       pageSize: number; // Int!
-      playlistById: string; // String!
+      playlistId: string; // String!
     };
     playlists: {
       // args

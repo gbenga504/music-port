@@ -173,7 +173,7 @@ type Query {
   playlistSongs(
     currentPage: Int!
     pageSize: Int!
-    playlistById: String!
+    playlistId: String!
   ): PlaylistSongLists!
   playlists(currentPage: Int!, genre: String, pageSize: Int!): PlaylistLists!
 }

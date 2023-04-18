@@ -10,7 +10,7 @@ import { Playlists } from "./Playlists";
 import { CreatePlaylistModal } from "./CreatePlaylistModal";
 import { HeadMarkup } from "../../components/HeadMarkup";
 
-const Community: React.FC<ILoadableComponentProps> = ({ query }) => {
+const Community: React.FC<ILoadableComponentProps> = ({ query, pageData }) => {
   const { isAuthTokenAvailableForCreatingPlaylist } = query;
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] = useState(
     isAuthTokenAvailableForCreatingPlaylist === "true"
@@ -57,7 +57,7 @@ const Community: React.FC<ILoadableComponentProps> = ({ query }) => {
           </Button>
         </div>
       </div>
-      <Playlists />
+      <Playlists playlists={pageData.playlists} />
       <CreatePlaylistModal
         open={isCreatePlaylistModalOpen}
         onClose={() => setIsCreatePlaylistModalOpen(false)}

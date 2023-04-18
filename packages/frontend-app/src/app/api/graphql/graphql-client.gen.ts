@@ -64,6 +64,8 @@ export type Playlist = {
   __typename?: "Playlist";
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
+  coverImage?: Maybe<Scalars["String"]>;
+  duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
   /** Genre of the playlist */
@@ -85,6 +87,7 @@ export type Playlist = {
   public: Scalars["Boolean"];
   /** Songs associated with the playlist */
   songs: Array<PlaylistSong>;
+  totalNumberOfSongs: Scalars["Int"];
 };
 
 export type PlaylistError = {
@@ -108,6 +111,14 @@ export type PlaylistImage = {
   width?: Maybe<Scalars["Int"]>;
 };
 
+export type PlaylistLists = {
+  __typename?: "PlaylistLists";
+  currentPage: Scalars["Int"];
+  data: Array<Playlist>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
+
 export type PlaylistOwner = {
   __typename?: "PlaylistOwner";
   name: Scalars["String"];
@@ -122,6 +133,8 @@ export type PlaylistSong = {
   __typename?: "PlaylistSong";
   /** Artists who were involved in the song */
   artists: Array<PlaylistSongArtist>;
+  coverImage?: Maybe<Scalars["String"]>;
+  duration: Scalars["Int"];
   /** Images associated with the song */
   images: Array<PlaylistImage>;
   /** Name of the song */
@@ -135,9 +148,35 @@ export type PlaylistSongArtist = {
   name: Scalars["String"];
 };
 
+export type PlaylistSongLists = {
+  __typename?: "PlaylistSongLists";
+  currentPage: Scalars["Int"];
+  data: Array<PlaylistSong>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
+
 export type Query = {
   __typename?: "Query";
-  ok: Scalars["Boolean"];
+  playlistById?: Maybe<Playlist>;
+  playlistSongs: PlaylistSongLists;
+  playlists: PlaylistLists;
+};
+
+export type QueryPlaylistByIdArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryPlaylistSongsArgs = {
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+  playlistId: Scalars["String"];
+};
+
+export type QueryPlaylistsArgs = {
+  currentPage: Scalars["Int"];
+  genre?: InputMaybe<Scalars["String"]>;
+  pageSize: Scalars["Int"];
 };
 
 export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
@@ -208,6 +247,59 @@ export type CreatePlaylistMutation = {
       name: string;
       message: string;
     } | null;
+  };
+};
+
+export type PlaylistsQueryVariables = Exact<{
+  genre?: InputMaybe<Scalars["String"]>;
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+}>;
+
+export type PlaylistsQuery = {
+  __typename?: "Query";
+  playlists: {
+    __typename?: "PlaylistLists";
+    total: number;
+    currentPage: number;
+    pageSize: number;
+    data: Array<{
+      __typename?: "Playlist";
+      id: string;
+      platform: PlaylistPlatform;
+      exportId: string;
+      apiLink: string;
+      name: string;
+      genre: PlaylistGenre;
+      totalNumberOfSongs: number;
+      duration: number;
+      coverImage?: string | null;
+      owner: { __typename?: "PlaylistOwner"; name: string };
+    }>;
+  };
+};
+
+export type PlaylistSongsQueryVariables = Exact<{
+  playlistId: Scalars["String"];
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+}>;
+
+export type PlaylistSongsQuery = {
+  __typename?: "Query";
+  playlistSongs: {
+    __typename?: "PlaylistSongLists";
+    total: number;
+    currentPage: number;
+    pageSize: number;
+    data: Array<{
+      __typename?: "PlaylistSong";
+      previewURL?: string | null;
+      name: string;
+      duration: number;
+      coverImage?: string | null;
+      artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
+    }>;
   };
 };
 
@@ -286,6 +378,55 @@ export const CreatePlaylistDocument = gql`
     }
   }
 `;
+export const PlaylistsDocument = gql`
+  query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
+    playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
+      total
+      currentPage
+      pageSize
+      data {
+        id
+        platform
+        exportId
+        apiLink
+        name
+        owner {
+          name
+        }
+        genre
+        totalNumberOfSongs
+        duration
+        coverImage
+      }
+    }
+  }
+`;
+export const PlaylistSongsDocument = gql`
+  query playlistSongs(
+    $playlistId: String!
+    $currentPage: Int!
+    $pageSize: Int!
+  ) {
+    playlistSongs(
+      playlistId: $playlistId
+      currentPage: $currentPage
+      pageSize: $pageSize
+    ) {
+      total
+      currentPage
+      pageSize
+      data {
+        previewURL
+        name
+        duration
+        coverImage
+        artists {
+          name
+        }
+      }
+    }
+  }
+`;
 
 export type SdkFunctionWrapper = <T>(
   action: (requestHeaders?: Record<string, string>) => Promise<T>,
@@ -332,6 +473,34 @@ export function getSdk(
           ),
         "createPlaylist",
         "mutation",
+      );
+    },
+    playlists(
+      variables: PlaylistsQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<PlaylistsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaylistsQuery>(PlaylistsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        "playlists",
+        "query",
+      );
+    },
+    playlistSongs(
+      variables: PlaylistSongsQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<PlaylistSongsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaylistSongsQuery>(PlaylistSongsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        "playlistSongs",
+        "query",
       );
     },
   };
