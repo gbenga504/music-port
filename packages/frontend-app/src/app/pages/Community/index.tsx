@@ -33,12 +33,19 @@ import { routeIds } from "../../routes";
 import { Pagination } from "../../components/Table/Pagination";
 import { loadData, PageQuery } from "./loadData";
 
+type Playlist = Awaited<
+  ReturnType<typeof loadData>
+>["playlists"]["data"][number];
+
 const Community: React.FC<
   ILoadableComponentProps<Awaited<ReturnType<typeof loadData>>, PageQuery>
 > = ({ query, pageData }) => {
   const { isAuthTokenAvailableForCreatingPlaylist } = query;
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] = useState(
     isAuthTokenAvailableForCreatingPlaylist === "true"
+  );
+  const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(
+    null
   );
   const navigate = useNavigate();
 
@@ -97,13 +104,15 @@ const Community: React.FC<
             size="small"
             theme="dark"
             classes={{ select: "!w-[16ch]" }}
-            onChange={(value) =>
+            onChange={(value) => {
+              setSelectedPlaylist(null);
+
               handlePlaylistsFilterChange({
                 genre: value as PlaylistGenre,
                 current: 1,
                 pageSize: 10,
-              })
-            }
+              });
+            }}
             value={query.genre}
           >
             {PlaylistGenreValues.map((genre) => (
@@ -127,7 +136,10 @@ const Community: React.FC<
           </TableHead>
           <TableBody>
             {pageData.playlists.data.map((playlist) => (
-              <TableRow key={playlist.id} onClick={() => {}}>
+              <TableRow
+                key={playlist.id}
+                onClick={() => setSelectedPlaylist(playlist)}
+              >
                 <TableCell>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-secondaryAlpha rounded-sm mr-2">
@@ -196,7 +208,10 @@ const Community: React.FC<
       </div>
       <div className="mt-12 xl:mt-14 grid grid-cols-1 lg:grid-cols-[2fr_1fr] lg:gap-x-4">
         {renderPlaylists()}
-        <ConvertPlaylist />
+        <ConvertPlaylist
+          playlist={selectedPlaylist}
+          onResetPlaylist={() => setSelectedPlaylist(null)}
+        />
       </div>
       <CreatePlaylistModal
         open={isCreatePlaylistModalOpen}

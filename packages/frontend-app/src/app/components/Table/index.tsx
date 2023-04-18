@@ -90,7 +90,8 @@ interface ITableBodyProps {
   className?: string;
   children:
     | ReactElement<any, typeof TableRow>
-    | ReactElement<any, typeof TableRow>[];
+    | ReactElement<any, typeof TableRow>[]
+    | null;
 }
 
 const TableBody: React.FC<ITableBodyProps> = ({ className, children }) => {

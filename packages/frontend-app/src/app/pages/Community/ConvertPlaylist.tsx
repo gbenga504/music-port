@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
 import type { IRenderLabel } from "../../components/Select";
@@ -19,16 +19,56 @@ import {
   TableHead,
   TableRow,
 } from "../../components/Table";
-import { Pagination } from "../../components/Table/Pagination";
+import { IPaginationOpts, Pagination } from "../../components/Table/Pagination";
 import { Button } from "../../components/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { Platform, PlatformValues } from "../../../utils/platform";
+import { loadData } from "./loadData";
+import { useApi } from "../../context/ApiContext";
+import { ICreateApiClient } from "../../api";
 
-export const ConvertPlaylist: React.FC<{}> = () => {
+interface IProps {
+  playlist:
+    | Awaited<ReturnType<typeof loadData>>["playlists"]["data"][number]
+    | null;
+  onResetPlaylist: () => void;
+}
+
+type Songs = Awaited<
+  ReturnType<ICreateApiClient["playlist"]["getPlaylistSongs"]>
+>;
+
+export const ConvertPlaylist: React.FC<IProps> = ({
+  playlist,
+  onResetPlaylist,
+}) => {
   const matches = useMediaQuery(`(max-width: ${screens.lg})`);
-  const [isMobileConverterOpen, setIsMobileConverterOpen] = useState(false);
+  const api = useApi();
+  const [songs, setSongs] = useState<Songs | null>(null);
+  const [isSongsLoading, setIsSongsLoading] = useState(false);
+
+  useEffect(() => {
+    (async function () {
+      if (playlist) {
+        loadSongs({ current: 1, pageSize: 5 });
+      }
+    })();
+  }, [playlist]);
+
+  async function loadSongs(paginationOpts: IPaginationOpts) {
+    setIsSongsLoading(true);
+
+    const result = await api.playlist.getPlaylistSongs({
+      playlistId: playlist!.id,
+      currentPage: paginationOpts.current,
+      pageSize: paginationOpts.pageSize,
+    });
+
+    setIsSongsLoading(false);
+    setSongs(result);
+  }
 
   const getPlatformIcon = (platform: Platform) => {
     switch (platform) {
@@ -39,6 +79,28 @@ export const ConvertPlaylist: React.FC<{}> = () => {
       default:
         return <AppleMusicIcon />;
     }
+  };
+
+  const composeArtistsNames = (
+    artists: Songs["data"][number]["artists"]
+  ): string => {
+    return artists.reduce((acc, artist) => {
+      if (acc.length !== 0) {
+        acc += ",";
+      }
+
+      acc += artist.name;
+
+      return acc;
+    }, "");
+  };
+
+  const calculateDuration = (duration: number): string => {
+    const oneMinute = 1000 * 60;
+    const minute = Math.floor(duration / oneMinute);
+    const seconds = Math.floor((duration % oneMinute) / 1000);
+
+    return `${minute}:${seconds}`;
   };
 
   const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
@@ -63,32 +125,43 @@ export const ConvertPlaylist: React.FC<{}> = () => {
 
   const renderConverterHeader = () => {
     return (
-      <div>
-        <div className="flex items-center lg:hidden">
-          <Button
-            variant="transparent"
-            onClick={() => setIsMobileConverterOpen(false)}
-          >
-            <ArrowDownIcon className="rotate-90" color="#ABA6A6" />
-            <span className="ml-2 text-primaryGray">Back</span>
-          </Button>
-        </div>
-        <div className="flex items-center text-sm">
-          <div className="w-36 h-36 bg-secondary mr-4" />
-          <div className="grid grid-cols-1 grid-rows-4 gap-y-2">
-            <div className="flex items-center">
-              {getPlatformIcon(Platform.Deezer)}
-              <span className="ml-2 text-sm">Deezer</span>
+      playlist && (
+        <div>
+          <div className="flex items-center lg:hidden">
+            <Button variant="transparent" onClick={() => onResetPlaylist()}>
+              <ArrowDownIcon className="rotate-90" color="#ABA6A6" />
+              <span className="ml-2 text-primaryGray">Back</span>
+            </Button>
+          </div>
+          <div className="flex items-center text-sm">
+            <div className="w-36 h-36 bg-secondary mr-4 rounded-sm">
+              {playlist.coverImage && (
+                <img
+                  src={playlist.coverImage}
+                  className="w-full h-full rounded-sm"
+                />
+              )}
             </div>
-            <div>
-              <span className="text-primaryGray">Posted by :</span>
-              <span>Skull face</span>
+            <div className="grid grid-cols-1 grid-rows-4 gap-y-2">
+              <div className="flex items-center">
+                {getPlatformIcon(playlist.platform as unknown as Platform)}
+                <span className="ml-2 text-sm capitalize">
+                  {playlist.platform}
+                </span>
+              </div>
+              <div>
+                <span className="text-primaryGray">Posted by: </span>
+                <span>{playlist.owner.name}</span>
+              </div>
+              <span>{playlist.name}</span>
+              <span className="text-primaryGray">
+                {playlist.totalNumberOfSongs} songs, ~
+                {Math.ceil(playlist.duration / 3600000)} hours
+              </span>
             </div>
-            <span>Drip or Drown</span>
-            <span className="text-primaryGray">30 songs, 4 hours</span>
           </div>
         </div>
-      </div>
+      )
     );
   };
 
@@ -101,6 +174,7 @@ export const ConvertPlaylist: React.FC<{}> = () => {
           table: "min-w-0",
           loadingContainer: "!bg-secondaryAlpha200",
         }}
+        loading={isSongsLoading}
       >
         <TableHead>
           <TableRow>
@@ -111,28 +185,46 @@ export const ConvertPlaylist: React.FC<{}> = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell className="px-0">
-              <div className="flex items-center">
-                <span>1</span>
-                <div className="w-10 h-10 bg-secondary rounded-sm mx-3" />
-                <div>
-                  <h5>Hate the game</h5>
-                  <p className="mt-1 text-primaryGray">Young thug</p>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell className="px-0" align="right">
-              4:20
-            </TableCell>
-          </TableRow>
+          {songs &&
+            songs.data.map((song, index) => (
+              <TableRow key={`${song.name}${index}`}>
+                <TableCell className="px-0">
+                  <div className="flex items-center">
+                    <span>
+                      {(songs.currentPage - 1) * songs.pageSize + index + 1}
+                    </span>
+                    <div className="w-10 h-10 bg-secondary rounded-sm mx-3">
+                      {song.coverImage && (
+                        <img
+                          src={song.coverImage}
+                          className="rounded-sm w-full h-full"
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <h5>{song.name}</h5>
+                      <p className="mt-1 text-primaryGray">
+                        {composeArtistsNames(song.artists)}
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell className="px-0" align="right">
+                  {calculateDuration(song.duration)}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell className="p-0" colSpan={4}>
               <div className="min-h-[54px] relative flex justify-start md:justify-end pl-6 items-center">
                 <Pagination
-                  total={50}
+                  total={songs?.total || 0}
+                  current={songs?.currentPage || 1}
+                  pageSize={songs?.pageSize || 5}
+                  pageSizeOptions={[5]}
+                  onChange={(value) => loadSongs(value)}
                   classes={{ pageSizeOptionsSelect: "!border-lightGray" }}
                 />
               </div>
@@ -169,13 +261,21 @@ export const ConvertPlaylist: React.FC<{}> = () => {
   };
 
   const renderConverter = () => {
+    if (playlist) {
+      return (
+        <div className="w-full">
+          {renderConverterHeader()}
+          <div className="border border-t-1 border-lightGray my-5 w-full" />
+          {renderConverterBody()}
+          <div className="border border-t-1 border-lightGray my-5 w-full" />
+          {renderConverterFooter()}
+        </div>
+      );
+    }
+
     return (
-      <div className="w-full">
-        {renderConverterHeader()}
-        <div className="border border-t-1 border-lightGray my-5 w-full" />
-        {renderConverterBody()}
-        <div className="border border-t-1 border-lightGray my-5 w-full" />
-        {renderConverterFooter()}
+      <div className="w-full h-full flex justify-center items-center">
+        <h3>Oops! You need to select a playlist</h3>
       </div>
     );
   };
@@ -199,12 +299,12 @@ export const ConvertPlaylist: React.FC<{}> = () => {
       </div>
       {matches && (
         <Drawer
-          open={isMobileConverterOpen}
+          open={Boolean(playlist)}
           placement="bottom"
           classes={{
             contentContainer: "!bg-secondary rounded-t-md p-4",
           }}
-          onClose={() => setIsMobileConverterOpen(false)}
+          onClose={() => onResetPlaylist()}
         >
           {renderConverter()}
         </Drawer>

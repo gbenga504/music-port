@@ -54,9 +54,13 @@ const PlaylistSong = objectType({
     t.int("duration");
     t.nullable.string("coverImage", {
       resolve(parent) {
-        const coverImage = parent.images.find(
-          (image) => (image.width || 0) >= 50 && (image.width || 0) <= 70,
-        );
+        const coverImage = parent.images.reduce((acc, image) => {
+          if (image.width! > acc.width! || image.height! > acc.height!) {
+            acc = image;
+          }
+
+          return acc;
+        }, parent.images[0]);
 
         return coverImage?.url ?? null;
       },
@@ -120,11 +124,15 @@ const Playlist = objectType({
     t.int("duration");
     t.nullable.string("coverImage", {
       resolve(parent) {
-        const coverImage = parent.images.find(
-          (image) => (image.width || 0) >= 50 && (image.width || 0) <= 70,
-        );
+        const coverImage = parent.images.reduce((acc, image) => {
+          if (image.width! > acc.width! || image.height! > acc.height!) {
+            acc = image;
+          }
 
-        return coverImage?.url ?? null;
+          return acc;
+        }, parent.images[0]);
+
+        return coverImage.url ?? null;
       },
     });
   },
