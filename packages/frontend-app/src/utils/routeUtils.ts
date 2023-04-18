@@ -10,10 +10,13 @@ export interface IPageDatas {
   [key: string]: any;
 }
 
-export interface ILoadableComponentProps {
-  pageData: { [key: string]: any };
+export interface ILoadableComponentProps<
+  P = Record<string, any>,
+  Q = Record<string, any>,
+> {
+  pageData: P;
   api: ICreateApiClient;
-  query: { [key: string]: string };
+  query: Q;
   params: { [key: string]: string };
 }
 
