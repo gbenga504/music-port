@@ -42,8 +42,14 @@ export type CreatePlaylistPayload = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  convertPlaylist: ConvertPlaylistPayload;
   convertPlaylistUsingAdminAuthToken: ConvertPlaylistPayload;
   createPlaylist: CreatePlaylistPayload;
+};
+
+export type MutationConvertPlaylistArgs = {
+  platform: Scalars["String"];
+  playlistExportId: Scalars["String"];
 };
 
 export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
@@ -199,6 +205,25 @@ export type ConvertPlaylistUsingAdminAuthTokenMutation = {
   };
 };
 
+export type ConvertPlaylistMutationVariables = Exact<{
+  platform: Scalars["String"];
+  playlistExportId: Scalars["String"];
+}>;
+
+export type ConvertPlaylistMutation = {
+  __typename?: "Mutation";
+  convertPlaylist: {
+    __typename?: "ConvertPlaylistPayload";
+    success: boolean;
+    data?: { __typename?: "ConvertPlaylistData"; url: string } | null;
+    error?: {
+      __typename?: "PlaylistError";
+      name: string;
+      message: string;
+    } | null;
+  };
+};
+
 export type CreatePlaylistMutationVariables = Exact<{
   author: Scalars["String"];
   playlistTitle: Scalars["String"];
@@ -314,6 +339,20 @@ export const ConvertPlaylistUsingAdminAuthTokenDocument = gql`
       toPlatform: $toPlatform
       link: $link
     ) {
+      success
+      data {
+        url
+      }
+      error {
+        name
+        message
+      }
+    }
+  }
+`;
+export const ConvertPlaylistDocument = gql`
+  mutation convertPlaylist($platform: String!, $playlistExportId: String!) {
+    convertPlaylist(platform: $platform, playlistExportId: $playlistExportId) {
       success
       data {
         url
@@ -457,6 +496,21 @@ export function getSdk(
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         "convertPlaylistUsingAdminAuthToken",
+        "mutation",
+      );
+    },
+    convertPlaylist(
+      variables: ConvertPlaylistMutationVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<ConvertPlaylistMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ConvertPlaylistMutation>(
+            ConvertPlaylistDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        "convertPlaylist",
         "mutation",
       );
     },

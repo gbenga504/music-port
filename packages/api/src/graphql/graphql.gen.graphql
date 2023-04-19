@@ -18,6 +18,10 @@ type CreatePlaylistPayload {
 }
 
 type Mutation {
+  convertPlaylist(
+    platform: String!
+    playlistExportId: String!
+  ): ConvertPlaylistPayload!
   convertPlaylistUsingAdminAuthToken(
     fromPlatform: String!
     link: String!

@@ -26,6 +26,21 @@ export class Playlist {
     return convertPlaylistUsingAdminAuthToken;
   }
 
+  async convertPlaylist({
+    platform,
+    exportId,
+  }: {
+    platform: string;
+    exportId: string;
+  }) {
+    const { convertPlaylist } = await this.graphQLClient.convertPlaylist({
+      platform,
+      playlistExportId: exportId,
+    });
+
+    return convertPlaylist;
+  }
+
   async createPlaylist({
     author,
     playlistTitle,

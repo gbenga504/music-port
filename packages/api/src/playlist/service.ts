@@ -8,6 +8,7 @@ import { Platform, PlaylistGenre } from "../utils/platform";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
 import type { ConversionService } from "../conversion/service";
 import { nanoid } from "nanoid";
+import { InvalidExportIdError } from "../errors/invalid-export-id-error";
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
@@ -61,6 +62,38 @@ export class PlaylistService {
       userId,
       platform: toPlatform as Platform,
       playlist: rawPlaylist,
+    });
+  }
+
+  async convertPlaylist({
+    inputs,
+    accessToken,
+    userId,
+  }: {
+    inputs: {
+      platform: string;
+      playlistExportId: string;
+    };
+    accessToken: string;
+    userId: string;
+  }): Promise<{ url: string }> {
+    const { platform, playlistExportId } = validator.convertPlaylist(inputs);
+
+    const playlist = await this.playlistRepository.findOneByExportId(
+      playlistExportId,
+    );
+
+    if (!playlist) {
+      throw new InvalidExportIdError({
+        message: "Export Id not found",
+      });
+    }
+
+    return this.exportPlaylist({
+      accessToken,
+      userId,
+      platform,
+      playlist,
     });
   }
 

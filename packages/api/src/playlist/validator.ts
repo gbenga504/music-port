@@ -37,6 +37,18 @@ export const convertPlaylistUsingAdminAuthToken = (
   return convertPlaylistUsingAdminAuthTokenSchema.parse(input);
 };
 
+const convertPlaylistSchema = z.object({
+  platform: z.enum(PlatformValues),
+  playlistExportId: z.string(),
+});
+
+export type convertPlaylistOutput = z.output<typeof convertPlaylistSchema>;
+
+export const convertPlaylist = (input: any): convertPlaylistOutput => {
+  // TODO: throw a proper validation error that can be sent back to the user
+  return convertPlaylistSchema.parse(input);
+};
+
 const createPlaylistSchema = z.object({
   author: z.string().max(50),
   playlistTitle: z.string().max(50),
