@@ -10,6 +10,9 @@ export type PageQuery = {
   pageSize: string;
   genre?: string;
   isAuthTokenAvailableForCreatingPlaylist?: string;
+  platform?: string;
+  isAuthTokenAvailableForConvertingPlaylist?: string;
+  selectedPlaylistId?: string;
 };
 
 export async function loadData({ api, query }: ILoadData): Promise<PageData> {

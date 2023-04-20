@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import { Form, Field } from "react-final-form";
+import { omit } from "lodash";
 
 import type { IRenderLabel } from "../../components/Select";
+import type { ICreateApiClient } from "../../api";
 
 import {
   AppleMusicIcon,
@@ -27,7 +30,13 @@ import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal"
 import { Platform, PlatformValues } from "../../../utils/platform";
 import { loadData } from "./loadData";
 import { useApi } from "../../context/ApiContext";
-import { ICreateApiClient } from "../../api";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
+import { useToast } from "../../components/Toast/ToastContext";
+import * as formValidation from "../../../utils/formValidation";
+import { constructURL } from "../../../utils/url";
+import { routeIds } from "../../routes";
+import { PageQuery } from "./loadData";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   playlist:
@@ -46,8 +55,14 @@ export const ConvertPlaylist: React.FC<IProps> = ({
 }) => {
   const matches = useMediaQuery(`(max-width: ${screens.lg})`);
   const api = useApi();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [query] = useParsedQueryParams<PageQuery>();
   const [songs, setSongs] = useState<Songs | null>(null);
+  const [isConvertingPlaylist, setIsConvertingPlaylist] = useState(false);
+  const [playlistURL, setPlaylistURL] = useState<string | null>(null);
   const [isSongsLoading, setIsSongsLoading] = useState(false);
+  const requestSent = useRef(false);
 
   useEffect(() => {
     (async function () {
@@ -56,6 +71,41 @@ export const ConvertPlaylist: React.FC<IProps> = ({
       }
     })();
   }, [playlist]);
+
+  useEffect(() => {
+    (async function () {
+      const { isAuthTokenAvailableForConvertingPlaylist, platform } = query;
+
+      if (
+        isAuthTokenAvailableForConvertingPlaylist === "true" &&
+        !requestSent.current &&
+        playlist &&
+        platform
+      ) {
+        requestSent.current = true;
+        setIsConvertingPlaylist(true);
+
+        const result = await api.playlist.convertPlaylist({
+          platform,
+          exportId: playlist.exportId,
+        });
+
+        setIsConvertingPlaylist(false);
+
+        if (result.error) {
+          toast({
+            title: result.error.name,
+            description: result.error.message,
+            status: "error",
+          });
+        }
+
+        if (result.data) {
+          setPlaylistURL(result.data.url);
+        }
+      }
+    })();
+  }, [query]);
 
   async function loadSongs(paginationOpts: IPaginationOpts) {
     setIsSongsLoading(true);
@@ -101,6 +151,35 @@ export const ConvertPlaylist: React.FC<IProps> = ({
     const seconds = Math.floor((duration % oneMinute) / 1000);
 
     return `${minute}:${seconds}`;
+  };
+
+  const handleSubmitFormValues = (
+    values: formValidation.convertPlaylistFormInputs
+  ) => {
+    const redirectURI = constructURL({
+      routeId: routeIds.community,
+      query: {
+        ...query,
+        ...values,
+        isAuthTokenAvailableForConvertingPlaylist: "true",
+        selectedPlaylistId: playlist?.id || "",
+      },
+    });
+
+    try {
+      location.href = `/api/auth/${
+        values.platform
+      }?redirect_uri=${encodeURIComponent(redirectURI)}`;
+    } catch (error) {
+      const { name, message } = error as Error;
+
+      toast({
+        title: name,
+        description: message,
+        status: "error",
+        position: "bottom-right",
+      });
+    }
   };
 
   const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
@@ -237,26 +316,62 @@ export const ConvertPlaylist: React.FC<IProps> = ({
 
   const renderConverterFooter = () => {
     return (
-      <div
-        className={classNames(
-          "grid grid-rows-2 gap-y-4 items-start",
-          "lg:grid-rows-1 lg:grid-cols-2 lg:gap-x-3 lg:gap-y-0 lg:items-end"
-        )}
-      >
-        <Select
-          theme="dark"
-          placeholder="select platform"
-          label="Convert playlist to"
-          renderLabel={renderLabel}
-          fullWidth
-          classes={{ label: "text-sm" }}
-        >
-          {renderOptions()}
-        </Select>
-        <Button variant="contained" color="primary" fullWidth>
-          Convert
-        </Button>
-      </div>
+      <Form
+        onSubmit={handleSubmitFormValues}
+        initialValues={{
+          platform: query.platform,
+        }}
+        validate={formValidation.validateConvertPlaylistForm}
+        subscription={{ dirty: true, invalid: true, error: true }}
+        render={({ handleSubmit, form }) => {
+          const { invalid, dirtyFieldsSinceLastSubmit } = form.getState();
+
+          const dirty = Object.values(dirtyFieldsSinceLastSubmit).reduce(
+            (acc, value) => acc && value,
+            true
+          );
+
+          return (
+            <form
+              onSubmit={handleSubmit}
+              className={classNames(
+                "grid grid-rows-2 gap-y-4 items-start",
+                "lg:grid-rows-1 lg:grid-cols-2 lg:gap-x-3 lg:gap-y-0 lg:items-end"
+              )}
+            >
+              <Field
+                name="platform"
+                render={({ input, meta }) => (
+                  <Select
+                    theme="dark"
+                    placeholder="select platform"
+                    label="Convert playlist to"
+                    renderLabel={renderLabel}
+                    fullWidth
+                    classes={{ label: "text-sm" }}
+                    helperText={meta.dirty && meta.error}
+                    error={Boolean(meta.error && meta.dirty)}
+                    {...input}
+                  >
+                    {renderOptions()}
+                  </Select>
+                )}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                htmlType="submit"
+                disabled={invalid || !dirty}
+                loading={isConvertingPlaylist}
+                loadingText="Converting..."
+              >
+                Convert
+              </Button>
+            </form>
+          );
+        }}
+      />
     );
   };
 
@@ -283,11 +398,23 @@ export const ConvertPlaylist: React.FC<IProps> = ({
   const renderPlaylistConvertedModal = () => {
     return (
       <PlaylistConvertedModal
-        open={false}
-        link="https://react.dev/learn/you-might-not-need-an-effect"
-        fromPlatform="Spotify"
-        toPlatform="Apple Music"
-        onClose={() => {}}
+        open={Boolean(playlistURL)}
+        link={playlistURL}
+        fromPlatform={playlist?.platform!}
+        toPlatform={query.platform!}
+        onClose={() => {
+          navigate(
+            constructURL({
+              routeId: routeIds.community,
+              query: {
+                ...omit(query, ["isAuthTokenAvailableForConvertingPlaylist"]),
+              },
+            }),
+            { replace: true }
+          );
+
+          setPlaylistURL(null);
+        }}
       />
     );
   };

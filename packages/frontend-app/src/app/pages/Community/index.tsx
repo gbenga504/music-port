@@ -45,9 +45,17 @@ const Community: React.FC<
     isAuthTokenAvailableForCreatingPlaylist === "true"
   );
   const [selectedPlaylist, setSelectedPlaylist] = useState<Playlist | null>(
-    null
+    getInitialSelectedPlaylist()
   );
   const navigate = useNavigate();
+
+  function getInitialSelectedPlaylist(): Playlist | null {
+    const playlist = pageData.playlists.data.find(
+      (playlist) => playlist.id === query.selectedPlaylistId
+    );
+
+    return playlist ?? null;
+  }
 
   const getPlatformIcon = (platform: Platform) => {
     switch (platform) {

@@ -95,3 +95,21 @@ export const validateCreatePlaylistForm = (
     return formatError(error);
   }
 };
+
+const convertPlaylistSchema = z.object({
+  platform: z.enum(PlatformValues),
+});
+
+export type convertPlaylistFormInputs = z.infer<typeof convertPlaylistSchema>;
+
+export const validateConvertPlaylistForm = (
+  input: convertPlaylistFormInputs,
+): { [key: string]: string } => {
+  try {
+    convertPlaylistSchema.parse(input);
+
+    return {};
+  } catch (error) {
+    return formatError(error);
+  }
+};
