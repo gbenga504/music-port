@@ -5,7 +5,7 @@ type PageData = {
   playlists: Awaited<ReturnType<ICreateApiClient["playlist"]["getPlaylists"]>>;
 };
 
-export type PageQuery = {
+export interface IPageQuery {
   currentPage: string;
   pageSize: string;
   genre?: string;
@@ -13,7 +13,7 @@ export type PageQuery = {
   platform?: string;
   isAuthTokenAvailableForConvertingPlaylist?: string;
   selectedPlaylistId?: string;
-};
+}
 
 export async function loadData({ api, query }: ILoadData): Promise<PageData> {
   const { genre, currentPage = "1", limit = "10" } = query;

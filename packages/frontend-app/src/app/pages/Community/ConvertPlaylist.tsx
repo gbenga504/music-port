@@ -5,6 +5,8 @@ import { omit } from "lodash";
 
 import type { IRenderLabel } from "../../components/Select";
 import type { ICreateApiClient } from "../../api";
+import type { IPaginationOpts } from "../../components/Table/Pagination";
+import type { IPageQuery } from "./loadData";
 
 import {
   AppleMusicIcon,
@@ -22,7 +24,7 @@ import {
   TableHead,
   TableRow,
 } from "../../components/Table";
-import { IPaginationOpts, Pagination } from "../../components/Table/Pagination";
+import { Pagination } from "../../components/Table/Pagination";
 import { Button } from "../../components/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
@@ -35,7 +37,6 @@ import { useToast } from "../../components/Toast/ToastContext";
 import * as formValidation from "../../../utils/formValidation";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
-import { PageQuery } from "./loadData";
 import { useNavigate } from "react-router-dom";
 
 interface IProps {
@@ -57,7 +58,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
   const api = useApi();
   const toast = useToast();
   const navigate = useNavigate();
-  const [query] = useParsedQueryParams<PageQuery>();
+  const [query] = useParsedQueryParams<IPageQuery>();
   const [songs, setSongs] = useState<Songs | null>(null);
   const [isConvertingPlaylist, setIsConvertingPlaylist] = useState(false);
   const [playlistURL, setPlaylistURL] = useState<string | null>(null);

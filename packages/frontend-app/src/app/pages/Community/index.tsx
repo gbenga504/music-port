@@ -6,6 +6,7 @@ import omit from "lodash/omit";
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { IPaginationOpts } from "../../components/Table/Pagination";
 import type { PlaylistGenre } from "../../../utils/platform";
+import type { IPageQuery } from "./loadData";
 
 import { AppHeader } from "../../components/AppHeader";
 import { Button } from "../../components/Button";
@@ -31,14 +32,14 @@ import {
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { Pagination } from "../../components/Table/Pagination";
-import { loadData, PageQuery } from "./loadData";
+import { loadData } from "./loadData";
 
 type Playlist = Awaited<
   ReturnType<typeof loadData>
 >["playlists"]["data"][number];
 
 const Community: React.FC<
-  ILoadableComponentProps<Awaited<ReturnType<typeof loadData>>, PageQuery>
+  ILoadableComponentProps<Awaited<ReturnType<typeof loadData>>, IPageQuery>
 > = ({ query, pageData }) => {
   const { isAuthTokenAvailableForCreatingPlaylist } = query;
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] = useState(

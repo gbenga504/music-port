@@ -7,6 +7,7 @@ import type { ChangeEventHandler } from "react";
 import type { FormRenderProps } from "react-final-form";
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { IRenderLabel } from "../../components/Select";
+import type { IPageQuery } from "./loadData";
 
 import { PageLayout } from "../../components/PageLayout";
 import { AppHeader } from "../../components/AppHeader";
@@ -30,7 +31,10 @@ import { useToast } from "../../components/Toast/ToastContext";
 import { useNavigate } from "react-router-dom";
 import { HeadMarkup } from "../../components/HeadMarkup";
 
-const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
+const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
+  query,
+  api,
+}) => {
   const [isConvertingPlaylist, setIsConvertingPlaylist] = useState(false);
   const [playlistURL, setPlaylistURL] = useState<string | null>(null);
   const toast = useToast();
@@ -43,7 +47,10 @@ const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
 
       if (
         isAuthTokenAvailable === "true" &&
-        !requestSentToConvertPlaylist.current
+        !requestSentToConvertPlaylist.current &&
+        toPlatform &&
+        fromPlatform &&
+        link
       ) {
         requestSentToConvertPlaylist.current = true;
         setIsConvertingPlaylist(true);
@@ -293,8 +300,8 @@ const Home: React.FC<ILoadableComponentProps> = ({ query, api }) => {
       <PlaylistConvertedModal
         open={Boolean(playlistURL)}
         link={playlistURL}
-        fromPlatform={query.fromPlatform}
-        toPlatform={query.toPlatform}
+        fromPlatform={query.fromPlatform!}
+        toPlatform={query.toPlatform!}
         onClose={() => {
           navigate(constructURL({ routeId: routeIds.home }), { replace: true });
           setPlaylistURL(null);
