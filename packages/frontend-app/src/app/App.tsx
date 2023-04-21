@@ -122,7 +122,7 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   return (
     <ErrorBoundary error={error}>
       {isPageLoading && (
-        <div className="absolute w-screen">
+        <div className="fixed w-screen">
           <ProgressBar variant="indeterminate" />
         </div>
       )}
