@@ -1,4 +1,10 @@
-import React, { useState, cloneElement, useMemo, useEffect } from "react";
+import React, {
+  useState,
+  cloneElement,
+  useMemo,
+  useEffect,
+  useRef,
+} from "react";
 import classNames from "classnames";
 
 import type { ReactNode } from "react";
@@ -8,6 +14,7 @@ import { sleep } from "../../../utils/sleep";
 import "./index.scss";
 import { Button } from "../Button";
 import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 export type IRenderLabel<T> = (opts: { label: string; value: T }) => ReactNode;
 
@@ -55,6 +62,11 @@ const Select: React.FC<IProps> = ({
   const [selectedOptionValue, setSelectedOptionValue] = useState(value);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOnScreen, setIsDropdownOnScreen] = useState(false);
+  const dropdownSelectableAreaRef = useRef(null);
+
+  useOnClickOutside(dropdownSelectableAreaRef, async () => {
+    await hideDropdown();
+  });
 
   useEffect(() => {
     setSelectedOptionValue(value);
@@ -74,6 +86,13 @@ const Select: React.FC<IProps> = ({
     return option?.label!;
   }, [selectedOptionValue]);
 
+  async function hideDropdown() {
+    setIsDropdownOpen(false);
+    await sleep(500);
+    setIsDropdownOnScreen(false);
+    onBlur?.();
+  }
+
   const toggleDropdownVisibility = async () => {
     if (disabled) return;
 
@@ -86,10 +105,7 @@ const Select: React.FC<IProps> = ({
       return;
     }
 
-    setIsDropdownOpen(false);
-    await sleep(500);
-    setIsDropdownOnScreen(false);
-    onBlur?.();
+    await hideDropdown();
   };
 
   const handleChange = (value: string | number) => {
@@ -161,39 +177,34 @@ const Select: React.FC<IProps> = ({
           )}
         </div>
       )}
-      <div
-        className={classNames("select-overlay", {
-          open: isDropdownOpen,
-          motion: isDropdownOnScreen,
-        })}
-        onClick={toggleDropdownVisibility}
-      />
-      <Button
-        variant="transparent"
-        htmlType="button"
-        className={classNames("select", {
-          fullWidth,
-          small: size === "small",
-          medium: size === "medium",
-          outlined: variant === "outlined",
-          dashed: variant === "dashed",
-          disabled,
-          error,
-          [`${classes.select}`]: !!classes.select,
-        })}
-        onClick={toggleDropdownVisibility}
-      >
-        {renderLabel()}
-        {!disabled && (
-          <ArrowDownIcon
-            color="#64748B"
-            size={25}
-            className="absolute right-0"
-          />
-        )}
-        <input name={name} value={selectedOptionValue} hidden readOnly />
-      </Button>
-      {renderDropdown()}
+      <div className="relative" ref={dropdownSelectableAreaRef}>
+        <Button
+          variant="transparent"
+          htmlType="button"
+          className={classNames("select", {
+            fullWidth,
+            small: size === "small",
+            medium: size === "medium",
+            outlined: variant === "outlined",
+            dashed: variant === "dashed",
+            disabled,
+            error,
+            [`${classes.select}`]: !!classes.select,
+          })}
+          onClick={toggleDropdownVisibility}
+        >
+          {renderLabel()}
+          {!disabled && (
+            <ArrowDownIcon
+              color="#64748B"
+              size={25}
+              className="absolute right-0"
+            />
+          )}
+          <input name={name} value={selectedOptionValue} hidden readOnly />
+        </Button>
+        {renderDropdown()}
+      </div>
       {helperText && (
         <p
           className={classNames("mt-2 text-xs absolute", {
