@@ -7,35 +7,97 @@ export class Playlist {
     this.graphQLClient = graphQLClient;
   }
 
-  async importPlaylist({ importLink }: { importLink: string }) {
-    const { importPlaylist } = await this.graphQLClient.importPlaylist({
-      link: importLink,
-    });
-
-    return importPlaylist;
-  }
-
-  async getPlaylistByExportId({ exportId }: { exportId: string }) {
-    const { playlistByExportId } =
-      await this.graphQLClient.getPlaylistByExportId({
-        exportId,
+  async convertPlaylistUsingAdminAuthToken({
+    fromPlatform,
+    toPlatform,
+    link,
+  }: {
+    fromPlatform: string;
+    toPlatform: string;
+    link: string;
+  }) {
+    const { convertPlaylistUsingAdminAuthToken } =
+      await this.graphQLClient.convertPlaylistUsingAdminAuthToken({
+        fromPlatform,
+        toPlatform,
+        link,
       });
 
-    return playlistByExportId;
+    return convertPlaylistUsingAdminAuthToken;
   }
 
-  async exportPlaylist({
+  async convertPlaylist({
     platform,
     exportId,
   }: {
     platform: string;
     exportId: string;
   }) {
-    const { exportPlaylist } = await this.graphQLClient.exportPlaylist({
-      exportId,
+    const { convertPlaylist } = await this.graphQLClient.convertPlaylist({
+      platform,
+      playlistExportId: exportId,
+    });
+
+    return convertPlaylist;
+  }
+
+  async createPlaylist({
+    author,
+    playlistTitle,
+    playlistLink,
+    playlistGenre,
+    platform,
+  }: {
+    author: string;
+    playlistTitle: string;
+    playlistLink: string;
+    playlistGenre: string;
+    platform: string;
+  }) {
+    const { createPlaylist } = await this.graphQLClient.createPlaylist({
+      author,
+      playlistTitle,
+      playlistLink,
+      playlistGenre,
       platform,
     });
 
-    return exportPlaylist;
+    return createPlaylist;
+  }
+
+  async getPlaylists({
+    genre,
+    currentPage,
+    pageSize,
+  }: {
+    genre: string | null;
+    currentPage: number;
+    pageSize: number;
+  }) {
+    const { playlists } = await this.graphQLClient.playlists({
+      genre,
+      currentPage,
+      pageSize,
+    });
+
+    return playlists;
+  }
+
+  async getPlaylistSongs({
+    playlistId,
+    currentPage,
+    pageSize,
+  }: {
+    playlistId: string;
+    currentPage: number;
+    pageSize: number;
+  }) {
+    const { playlistSongs } = await this.graphQLClient.playlistSongs({
+      playlistId,
+      currentPage,
+      pageSize,
+    });
+
+    return playlistSongs;
   }
 }

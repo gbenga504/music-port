@@ -3,7 +3,6 @@ import {
   useLocation,
   matchRoutes,
   renderMatches,
-  useSearchParams,
   matchPath,
 } from "react-router-dom";
 
@@ -23,6 +22,7 @@ import { ProgressBar } from "./components/ProgressBar";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import "./App.scss";
+import useParsedQueryParams from "./hooks/useParsedQueryParams";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -80,7 +80,7 @@ interface IProps {
 
 const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
   const location = useLocation();
-  const [searchParams] = useSearchParams();
+  const [query] = useParsedQueryParams();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const transformedMatchedRoutes = error
     ? []
@@ -90,7 +90,7 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
           location,
           pageDatas,
           api,
-          query: convertSearchParamsToObject(),
+          query,
         }) || []),
       ];
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>(
@@ -104,14 +104,14 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
       const pageDatas = await loadPageResources({
         matchedRoutes: matchRoutes(routes, location),
         api,
-        query: convertSearchParamsToObject(),
+        query,
       });
       const matchedRoutes = transformMatchedRoutes({
         routes,
         location,
         pageDatas,
         api,
-        query: convertSearchParamsToObject(),
+        query,
       });
 
       setIsPageLoading(false);
@@ -119,20 +119,10 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
     })();
   }, [location]);
 
-  function convertSearchParamsToObject() {
-    const obj: { [key: string]: string } = {};
-
-    for (const [key, value] of searchParams) {
-      obj[key] = value;
-    }
-
-    return obj;
-  }
-
   return (
     <ErrorBoundary error={error}>
       {isPageLoading && (
-        <div className="absolute w-screen">
+        <div className="fixed w-screen">
           <ProgressBar variant="indeterminate" />
         </div>
       )}

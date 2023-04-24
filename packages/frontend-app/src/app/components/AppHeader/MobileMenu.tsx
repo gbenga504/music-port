@@ -43,8 +43,14 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             variant="transparent"
             size="large"
             fullWidth
-            to={constructURL({ routeId: routeIds.community })}
-            focused={doesPathMatch({ routeId: routeIds.community, pathname })}
+            to={constructURL({
+              routeId: routeIds.community,
+              query: { currentPage: "1", pageSize: "10" },
+            })}
+            focused={doesPathMatch({
+              routeId: routeIds.community,
+              pathname,
+            })}
           >
             Community playlist
           </Button>

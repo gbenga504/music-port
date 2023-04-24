@@ -49,19 +49,6 @@
   }
 }
 
-.select-overlay {
-  @apply fixed w-full h-full bg-transparent top-0 left-0 opacity-0 hidden z-1000;
-  @apply transition-all duration-500 ease-in-out;
-
-  &.open {
-    @apply block;
-
-    &.motion {
-      @apply opacity-100;
-    }
-  }
-}
-
 .select-option {
   &.dark {
     @apply text-white;

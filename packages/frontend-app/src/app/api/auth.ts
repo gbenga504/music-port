@@ -10,18 +10,18 @@ export class Auth {
   async authenticateUser({
     platform,
     code,
-    fromTokenGenerator,
+    fromAdminAuthTokenGenerator,
   }: {
     platform: string;
     code: string;
-    fromTokenGenerator: boolean;
+    fromAdminAuthTokenGenerator: boolean;
   }): Promise<any> {
     const { data } = await this.httpClientForBackend.get(
       `auth/${platform}/callback`,
       {
         params: {
           code,
-          fromTokenGenerator,
+          fromAdminAuthTokenGenerator,
         },
       },
     );

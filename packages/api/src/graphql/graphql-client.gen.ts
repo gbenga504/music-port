@@ -21,20 +21,20 @@ export type Scalars = {
   Float: number;
 };
 
-export type ExportPlaylistPayload = {
-  __typename?: "ExportPlaylistPayload";
-  data?: Maybe<ExportPlaylistPayloadData>;
+export type ConvertPlaylistData = {
+  __typename?: "ConvertPlaylistData";
+  url: Scalars["String"];
+};
+
+export type ConvertPlaylistPayload = {
+  __typename?: "ConvertPlaylistPayload";
+  data?: Maybe<ConvertPlaylistData>;
   error?: Maybe<PlaylistError>;
   success: Scalars["Boolean"];
 };
 
-export type ExportPlaylistPayloadData = {
-  __typename?: "ExportPlaylistPayloadData";
-  url: Scalars["String"];
-};
-
-export type ImportPlaylistPayload = {
-  __typename?: "ImportPlaylistPayload";
+export type CreatePlaylistPayload = {
+  __typename?: "CreatePlaylistPayload";
   data?: Maybe<Playlist>;
   error?: Maybe<PlaylistError>;
   success: Scalars["Boolean"];
@@ -42,17 +42,22 @@ export type ImportPlaylistPayload = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  exportPlaylist: ExportPlaylistPayload;
-  importPlaylist: ImportPlaylistPayload;
+  convertPlaylistUsingAdminAuthToken: ConvertPlaylistPayload;
+  createPlaylist: CreatePlaylistPayload;
 };
 
-export type MutationExportPlaylistArgs = {
-  exportId: Scalars["String"];
-  platform: Scalars["String"];
-};
-
-export type MutationImportPlaylistArgs = {
+export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
+  fromPlatform: Scalars["String"];
   link: Scalars["String"];
+  toPlatform: Scalars["String"];
+};
+
+export type MutationCreatePlaylistArgs = {
+  author: Scalars["String"];
+  platform: Scalars["String"];
+  playlistGenre: Scalars["String"];
+  playlistLink: Scalars["String"];
+  playlistTitle: Scalars["String"];
 };
 
 export type Playlist = {
@@ -125,100 +130,47 @@ export type PlaylistSongArtist = {
 
 export type Query = {
   __typename?: "Query";
-  playlistByExportId?: Maybe<Playlist>;
-  playlistById?: Maybe<Playlist>;
+  ok: Scalars["Boolean"];
 };
 
-export type QueryPlaylistByExportIdArgs = {
-  exportId: Scalars["String"];
-};
-
-export type QueryPlaylistByIdArgs = {
-  id: Scalars["ID"];
-};
-
-export type ImportPlaylistMutationVariables = Exact<{
+export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
+  fromPlatform: Scalars["String"];
+  toPlatform: Scalars["String"];
   link: Scalars["String"];
 }>;
 
-export type ImportPlaylistMutation = {
+export type ConvertPlaylistUsingAdminAuthTokenMutation = {
   __typename?: "Mutation";
-  importPlaylist: {
-    __typename?: "ImportPlaylistPayload";
+  convertPlaylistUsingAdminAuthToken: {
+    __typename?: "ConvertPlaylistPayload";
     success: boolean;
+    data?: { __typename?: "ConvertPlaylistData"; url: string } | null;
     error?: {
       __typename?: "PlaylistError";
       name: string;
       message: string;
     } | null;
-    data?: {
-      __typename?: "Playlist";
-      id: string;
-      importLink: string;
-      public: boolean;
-      platform: PlaylistPlatform;
-      importPlaylistId: string;
-      exportId: string;
-      apiLink: string;
-      name: string;
-      images: Array<{
-        __typename?: "PlaylistImage";
-        url: string;
-        width?: number | null;
-        height?: number | null;
-      }>;
-      owner: { __typename?: "PlaylistOwner"; name: string };
-      songs: Array<{
-        __typename?: "PlaylistSong";
-        name: string;
-        artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
-        images: Array<{
-          __typename?: "PlaylistImage";
-          url: string;
-          width?: number | null;
-          height?: number | null;
-        }>;
-      }>;
-    } | null;
   };
 };
 
-export const ImportPlaylistDocument = gql`
-  mutation importPlaylist($link: String!) {
-    importPlaylist(link: $link) {
+export const ConvertPlaylistUsingAdminAuthTokenDocument = gql`
+  mutation convertPlaylistUsingAdminAuthToken(
+    $fromPlatform: String!
+    $toPlatform: String!
+    $link: String!
+  ) {
+    convertPlaylistUsingAdminAuthToken(
+      fromPlatform: $fromPlatform
+      toPlatform: $toPlatform
+      link: $link
+    ) {
       success
+      data {
+        url
+      }
       error {
         name
         message
-      }
-      data {
-        id
-        importLink
-        public
-        platform
-        importPlaylistId
-        exportId
-        images {
-          url
-          width
-          height
-        }
-        apiLink
-        name
-        owner {
-          name
-        }
-        songs {
-          artists {
-            name
-          }
-          images {
-            url
-            width
-            height
-          }
-          name
-        }
       }
     }
   }
@@ -241,18 +193,18 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
-    importPlaylist(
-      variables: ImportPlaylistMutationVariables,
+    convertPlaylistUsingAdminAuthToken(
+      variables: ConvertPlaylistUsingAdminAuthTokenMutationVariables,
       requestHeaders?: Dom.RequestInit["headers"],
-    ): Promise<ImportPlaylistMutation> {
+    ): Promise<ConvertPlaylistUsingAdminAuthTokenMutation> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<ImportPlaylistMutation>(
-            ImportPlaylistDocument,
+          client.request<ConvertPlaylistUsingAdminAuthTokenMutation>(
+            ConvertPlaylistUsingAdminAuthTokenDocument,
             variables,
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
-        "importPlaylist",
+        "convertPlaylistUsingAdminAuthToken",
         "mutation",
       );
     },

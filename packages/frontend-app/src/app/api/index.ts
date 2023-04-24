@@ -31,7 +31,7 @@ export const createApiClient = ({
   });
 
   const graphQLClient = createGraphQLClient({
-    url: backendApiBaseUrl,
+    url: `${backendApiBaseUrl}/graphql`,
     headers,
   });
 

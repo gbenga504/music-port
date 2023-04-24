@@ -3,7 +3,7 @@ import { Router } from "express";
 const routes = Router();
 
 routes.get(
-  "/token-generator/:platform(spotify|deezer)",
+  "/admin-auth-token-generator/:platform(spotify|deezer)",
   async (req, res, _next) => {
     // TODO: Verify a special token to prevent CSRF attacks
     // Also maybe generate a unique token that would be added to the query params

@@ -1,10 +1,52 @@
-mutation importPlaylist($link: String!) {
-  importPlaylist(link: $link) {
+mutation convertPlaylistUsingAdminAuthToken(
+  $fromPlatform: String!
+  $toPlatform: String!
+  $link: String!
+) {
+  convertPlaylistUsingAdminAuthToken(
+    fromPlatform: $fromPlatform
+    toPlatform: $toPlatform
+    link: $link
+  ) {
     success
+    data {
+      url
+    }
     error {
       name
       message
     }
+  }
+}
+
+mutation convertPlaylist($platform: String!, $playlistExportId: String!) {
+  convertPlaylist(platform: $platform, playlistExportId: $playlistExportId) {
+    success
+    data {
+      url
+    }
+    error {
+      name
+      message
+    }
+  }
+}
+
+mutation createPlaylist(
+  $author: String!
+  $playlistTitle: String!
+  $playlistLink: String!
+  $playlistGenre: String!
+  $platform: String!
+) {
+  createPlaylist(
+    author: $author
+    playlistTitle: $playlistTitle
+    playlistLink: $playlistLink
+    playlistGenre: $playlistGenre
+    platform: $platform
+  ) {
+    success
     data {
       id
       importLink
@@ -33,41 +75,54 @@ mutation importPlaylist($link: String!) {
         }
         name
       }
-    }
-  }
-}
-
-query getPlaylistByExportId($exportId: String!) {
-  playlistByExportId(exportId: $exportId) {
-    id
-    exportId
-    platform
-    public
-    importLink
-    images {
-      url
-      width
-      height
-    }
-    name
-    owner {
-      name
-    }
-    songs {
-      name
-    }
-  }
-}
-
-mutation exportPlaylist($exportId: String!, $platform: String!) {
-  exportPlaylist(exportId: $exportId, platform: $platform) {
-    success
-    data {
-      url
+      genre
     }
     error {
       name
       message
+    }
+  }
+}
+
+query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
+  playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
+    total
+    currentPage
+    pageSize
+    data {
+      id
+      platform
+      exportId
+      apiLink
+      name
+      owner {
+        name
+      }
+      genre
+      totalNumberOfSongs
+      duration
+      coverImage
+    }
+  }
+}
+
+query playlistSongs($playlistId: String!, $currentPage: Int!, $pageSize: Int!) {
+  playlistSongs(
+    playlistId: $playlistId
+    currentPage: $currentPage
+    pageSize: $pageSize
+  ) {
+    total
+    currentPage
+    pageSize
+    data {
+      previewURL
+      name
+      duration
+      coverImage
+      artists {
+        name
+      }
     }
   }
 }

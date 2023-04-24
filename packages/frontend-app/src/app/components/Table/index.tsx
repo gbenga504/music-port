@@ -3,26 +3,43 @@ import classNames from "classnames";
 
 import type { ReactElement, ReactNode } from "react";
 
+import { SpinnerIcon } from "../icons";
+
 interface ITableProps {
   children: ReactElement | ReactElement[];
   stickyHeader?: boolean;
-  classes?: { container?: string; table?: string };
+  classes?: { container?: string; table?: string; loadingContainer?: string };
+  loading?: boolean;
 }
 
 const Table: React.FC<ITableProps> = ({
   classes = {},
   children,
   stickyHeader = false,
+  loading = false,
 }) => {
   return (
     <div
       className={classNames(
-        "w-full overflow-x-auto border border-lightGray rounded-md",
+        "w-full overflow-x-auto border border-lightGray rounded-md relative",
         {
           [classes.container!]: !!classes.container,
         }
       )}
     >
+      {loading && (
+        <div
+          className={classNames(
+            "absolute left-0 w-full h-full top-0 flex items-center",
+            "justify-center bg-secondaryAlpha300 z-1000",
+            {
+              [classes.loadingContainer!]: !!classes.loadingContainer,
+            }
+          )}
+        >
+          <SpinnerIcon />
+        </div>
+      )}
       <table
         className={classNames("w-full table border-spacing-0 min-w-[750px]", {
           [classes.table!]: !!classes.table,
@@ -73,7 +90,8 @@ interface ITableBodyProps {
   className?: string;
   children:
     | ReactElement<any, typeof TableRow>
-    | ReactElement<any, typeof TableRow>[];
+    | ReactElement<any, typeof TableRow>[]
+    | null;
 }
 
 const TableBody: React.FC<ITableBodyProps> = ({ className, children }) => {

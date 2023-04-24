@@ -75,7 +75,7 @@ export const Toast: React.FC<IToastProps> = ({
 
   return (
     <div
-      className={classNames("absolute w-screen left-0 p-1 flex", {
+      className={classNames("absolute w-screen left-0 p-1 flex z-[10000]", {
         "top-0": shouldToastBePlacedInTopSection,
         "bottom-0": !shouldToastBePlacedInTopSection,
         "justify-center": position === "top" || position === "bottom",

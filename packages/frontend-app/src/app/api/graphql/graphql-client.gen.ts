@@ -21,20 +21,20 @@ export type Scalars = {
   Float: number;
 };
 
-export type ExportPlaylistPayload = {
-  __typename?: "ExportPlaylistPayload";
-  data?: Maybe<ExportPlaylistPayloadData>;
+export type ConvertPlaylistData = {
+  __typename?: "ConvertPlaylistData";
+  url: Scalars["String"];
+};
+
+export type ConvertPlaylistPayload = {
+  __typename?: "ConvertPlaylistPayload";
+  data?: Maybe<ConvertPlaylistData>;
   error?: Maybe<PlaylistError>;
   success: Scalars["Boolean"];
 };
 
-export type ExportPlaylistPayloadData = {
-  __typename?: "ExportPlaylistPayloadData";
-  url: Scalars["String"];
-};
-
-export type ImportPlaylistPayload = {
-  __typename?: "ImportPlaylistPayload";
+export type CreatePlaylistPayload = {
+  __typename?: "CreatePlaylistPayload";
   data?: Maybe<Playlist>;
   error?: Maybe<PlaylistError>;
   success: Scalars["Boolean"];
@@ -42,25 +42,40 @@ export type ImportPlaylistPayload = {
 
 export type Mutation = {
   __typename?: "Mutation";
-  exportPlaylist: ExportPlaylistPayload;
-  importPlaylist: ImportPlaylistPayload;
+  convertPlaylist: ConvertPlaylistPayload;
+  convertPlaylistUsingAdminAuthToken: ConvertPlaylistPayload;
+  createPlaylist: CreatePlaylistPayload;
 };
 
-export type MutationExportPlaylistArgs = {
-  exportId: Scalars["String"];
+export type MutationConvertPlaylistArgs = {
   platform: Scalars["String"];
+  playlistExportId: Scalars["String"];
 };
 
-export type MutationImportPlaylistArgs = {
+export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
+  fromPlatform: Scalars["String"];
   link: Scalars["String"];
+  toPlatform: Scalars["String"];
+};
+
+export type MutationCreatePlaylistArgs = {
+  author: Scalars["String"];
+  platform: Scalars["String"];
+  playlistGenre: Scalars["String"];
+  playlistLink: Scalars["String"];
+  playlistTitle: Scalars["String"];
 };
 
 export type Playlist = {
   __typename?: "Playlist";
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
+  coverImage?: Maybe<Scalars["String"]>;
+  duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
+  /** Genre of the playlist */
+  genre: PlaylistGenre;
   id: Scalars["String"];
   /** Images for the playlist */
   images: Array<PlaylistImage>;
@@ -78,6 +93,7 @@ export type Playlist = {
   public: Scalars["Boolean"];
   /** Songs associated with the playlist */
   songs: Array<PlaylistSong>;
+  totalNumberOfSongs: Scalars["Int"];
 };
 
 export type PlaylistError = {
@@ -88,6 +104,12 @@ export type PlaylistError = {
   name: Scalars["String"];
 };
 
+export enum PlaylistGenre {
+  Others = "Others",
+  Afro = "afro",
+  HipPop = "hipPop",
+}
+
 export type PlaylistImage = {
   __typename?: "PlaylistImage";
   height?: Maybe<Scalars["Int"]>;
@@ -95,12 +117,19 @@ export type PlaylistImage = {
   width?: Maybe<Scalars["Int"]>;
 };
 
+export type PlaylistLists = {
+  __typename?: "PlaylistLists";
+  currentPage: Scalars["Int"];
+  data: Array<Playlist>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
+
 export type PlaylistOwner = {
   __typename?: "PlaylistOwner";
   name: Scalars["String"];
 };
 
-/** The platform for this playlist */
 export enum PlaylistPlatform {
   Deezer = "deezer",
   Spotify = "spotify",
@@ -110,6 +139,8 @@ export type PlaylistSong = {
   __typename?: "PlaylistSong";
   /** Artists who were involved in the song */
   artists: Array<PlaylistSongArtist>;
+  coverImage?: Maybe<Scalars["String"]>;
+  duration: Scalars["Int"];
   /** Images associated with the song */
   images: Array<PlaylistImage>;
   /** Name of the song */
@@ -123,34 +154,89 @@ export type PlaylistSongArtist = {
   name: Scalars["String"];
 };
 
-export type Query = {
-  __typename?: "Query";
-  playlistByExportId?: Maybe<Playlist>;
-  playlistById?: Maybe<Playlist>;
+export type PlaylistSongLists = {
+  __typename?: "PlaylistSongLists";
+  currentPage: Scalars["Int"];
+  data: Array<PlaylistSong>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
 };
 
-export type QueryPlaylistByExportIdArgs = {
-  exportId: Scalars["String"];
+export type Query = {
+  __typename?: "Query";
+  playlistById?: Maybe<Playlist>;
+  playlistSongs: PlaylistSongLists;
+  playlists: PlaylistLists;
 };
 
 export type QueryPlaylistByIdArgs = {
   id: Scalars["ID"];
 };
 
-export type ImportPlaylistMutationVariables = Exact<{
+export type QueryPlaylistSongsArgs = {
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+  playlistId: Scalars["String"];
+};
+
+export type QueryPlaylistsArgs = {
+  currentPage: Scalars["Int"];
+  genre?: InputMaybe<Scalars["String"]>;
+  pageSize: Scalars["Int"];
+};
+
+export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
+  fromPlatform: Scalars["String"];
+  toPlatform: Scalars["String"];
   link: Scalars["String"];
 }>;
 
-export type ImportPlaylistMutation = {
+export type ConvertPlaylistUsingAdminAuthTokenMutation = {
   __typename?: "Mutation";
-  importPlaylist: {
-    __typename?: "ImportPlaylistPayload";
+  convertPlaylistUsingAdminAuthToken: {
+    __typename?: "ConvertPlaylistPayload";
     success: boolean;
+    data?: { __typename?: "ConvertPlaylistData"; url: string } | null;
     error?: {
       __typename?: "PlaylistError";
       name: string;
       message: string;
     } | null;
+  };
+};
+
+export type ConvertPlaylistMutationVariables = Exact<{
+  platform: Scalars["String"];
+  playlistExportId: Scalars["String"];
+}>;
+
+export type ConvertPlaylistMutation = {
+  __typename?: "Mutation";
+  convertPlaylist: {
+    __typename?: "ConvertPlaylistPayload";
+    success: boolean;
+    data?: { __typename?: "ConvertPlaylistData"; url: string } | null;
+    error?: {
+      __typename?: "PlaylistError";
+      name: string;
+      message: string;
+    } | null;
+  };
+};
+
+export type CreatePlaylistMutationVariables = Exact<{
+  author: Scalars["String"];
+  playlistTitle: Scalars["String"];
+  playlistLink: Scalars["String"];
+  playlistGenre: Scalars["String"];
+  platform: Scalars["String"];
+}>;
+
+export type CreatePlaylistMutation = {
+  __typename?: "Mutation";
+  createPlaylist: {
+    __typename?: "CreatePlaylistPayload";
+    success: boolean;
     data?: {
       __typename?: "Playlist";
       id: string;
@@ -161,6 +247,7 @@ export type ImportPlaylistMutation = {
       exportId: string;
       apiLink: string;
       name: string;
+      genre: PlaylistGenre;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -180,45 +267,6 @@ export type ImportPlaylistMutation = {
         }>;
       }>;
     } | null;
-  };
-};
-
-export type GetPlaylistByExportIdQueryVariables = Exact<{
-  exportId: Scalars["String"];
-}>;
-
-export type GetPlaylistByExportIdQuery = {
-  __typename?: "Query";
-  playlistByExportId?: {
-    __typename?: "Playlist";
-    id: string;
-    exportId: string;
-    platform: PlaylistPlatform;
-    public: boolean;
-    importLink: string;
-    name: string;
-    images: Array<{
-      __typename?: "PlaylistImage";
-      url: string;
-      width?: number | null;
-      height?: number | null;
-    }>;
-    owner: { __typename?: "PlaylistOwner"; name: string };
-    songs: Array<{ __typename?: "PlaylistSong"; name: string }>;
-  } | null;
-};
-
-export type ExportPlaylistMutationVariables = Exact<{
-  exportId: Scalars["String"];
-  platform: Scalars["String"];
-}>;
-
-export type ExportPlaylistMutation = {
-  __typename?: "Mutation";
-  exportPlaylist: {
-    __typename?: "ExportPlaylistPayload";
-    success: boolean;
-    data?: { __typename?: "ExportPlaylistPayloadData"; url: string } | null;
     error?: {
       __typename?: "PlaylistError";
       name: string;
@@ -227,14 +275,111 @@ export type ExportPlaylistMutation = {
   };
 };
 
-export const ImportPlaylistDocument = gql`
-  mutation importPlaylist($link: String!) {
-    importPlaylist(link: $link) {
+export type PlaylistsQueryVariables = Exact<{
+  genre?: InputMaybe<Scalars["String"]>;
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+}>;
+
+export type PlaylistsQuery = {
+  __typename?: "Query";
+  playlists: {
+    __typename?: "PlaylistLists";
+    total: number;
+    currentPage: number;
+    pageSize: number;
+    data: Array<{
+      __typename?: "Playlist";
+      id: string;
+      platform: PlaylistPlatform;
+      exportId: string;
+      apiLink: string;
+      name: string;
+      genre: PlaylistGenre;
+      totalNumberOfSongs: number;
+      duration: number;
+      coverImage?: string | null;
+      owner: { __typename?: "PlaylistOwner"; name: string };
+    }>;
+  };
+};
+
+export type PlaylistSongsQueryVariables = Exact<{
+  playlistId: Scalars["String"];
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+}>;
+
+export type PlaylistSongsQuery = {
+  __typename?: "Query";
+  playlistSongs: {
+    __typename?: "PlaylistSongLists";
+    total: number;
+    currentPage: number;
+    pageSize: number;
+    data: Array<{
+      __typename?: "PlaylistSong";
+      previewURL?: string | null;
+      name: string;
+      duration: number;
+      coverImage?: string | null;
+      artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
+    }>;
+  };
+};
+
+export const ConvertPlaylistUsingAdminAuthTokenDocument = gql`
+  mutation convertPlaylistUsingAdminAuthToken(
+    $fromPlatform: String!
+    $toPlatform: String!
+    $link: String!
+  ) {
+    convertPlaylistUsingAdminAuthToken(
+      fromPlatform: $fromPlatform
+      toPlatform: $toPlatform
+      link: $link
+    ) {
       success
+      data {
+        url
+      }
       error {
         name
         message
       }
+    }
+  }
+`;
+export const ConvertPlaylistDocument = gql`
+  mutation convertPlaylist($platform: String!, $playlistExportId: String!) {
+    convertPlaylist(platform: $platform, playlistExportId: $playlistExportId) {
+      success
+      data {
+        url
+      }
+      error {
+        name
+        message
+      }
+    }
+  }
+`;
+export const CreatePlaylistDocument = gql`
+  mutation createPlaylist(
+    $author: String!
+    $playlistTitle: String!
+    $playlistLink: String!
+    $playlistGenre: String!
+    $platform: String!
+  ) {
+    createPlaylist(
+      author: $author
+      playlistTitle: $playlistTitle
+      playlistLink: $playlistLink
+      playlistGenre: $playlistGenre
+      platform: $platform
+    ) {
+      success
       data {
         id
         importLink
@@ -263,43 +408,60 @@ export const ImportPlaylistDocument = gql`
           }
           name
         }
-      }
-    }
-  }
-`;
-export const GetPlaylistByExportIdDocument = gql`
-  query getPlaylistByExportId($exportId: String!) {
-    playlistByExportId(exportId: $exportId) {
-      id
-      exportId
-      platform
-      public
-      importLink
-      images {
-        url
-        width
-        height
-      }
-      name
-      owner {
-        name
-      }
-      songs {
-        name
-      }
-    }
-  }
-`;
-export const ExportPlaylistDocument = gql`
-  mutation exportPlaylist($exportId: String!, $platform: String!) {
-    exportPlaylist(exportId: $exportId, platform: $platform) {
-      success
-      data {
-        url
+        genre
       }
       error {
         name
         message
+      }
+    }
+  }
+`;
+export const PlaylistsDocument = gql`
+  query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
+    playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
+      total
+      currentPage
+      pageSize
+      data {
+        id
+        platform
+        exportId
+        apiLink
+        name
+        owner {
+          name
+        }
+        genre
+        totalNumberOfSongs
+        duration
+        coverImage
+      }
+    }
+  }
+`;
+export const PlaylistSongsDocument = gql`
+  query playlistSongs(
+    $playlistId: String!
+    $currentPage: Int!
+    $pageSize: Int!
+  ) {
+    playlistSongs(
+      playlistId: $playlistId
+      currentPage: $currentPage
+      pageSize: $pageSize
+    ) {
+      total
+      currentPage
+      pageSize
+      data {
+        previewURL
+        name
+        duration
+        coverImage
+        artists {
+          name
+        }
       }
     }
   }
@@ -322,49 +484,77 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
-    importPlaylist(
-      variables: ImportPlaylistMutationVariables,
+    convertPlaylistUsingAdminAuthToken(
+      variables: ConvertPlaylistUsingAdminAuthTokenMutationVariables,
       requestHeaders?: Dom.RequestInit["headers"],
-    ): Promise<ImportPlaylistMutation> {
+    ): Promise<ConvertPlaylistUsingAdminAuthTokenMutation> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<ImportPlaylistMutation>(
-            ImportPlaylistDocument,
+          client.request<ConvertPlaylistUsingAdminAuthTokenMutation>(
+            ConvertPlaylistUsingAdminAuthTokenDocument,
             variables,
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
-        "importPlaylist",
+        "convertPlaylistUsingAdminAuthToken",
         "mutation",
       );
     },
-    getPlaylistByExportId(
-      variables: GetPlaylistByExportIdQueryVariables,
+    convertPlaylist(
+      variables: ConvertPlaylistMutationVariables,
       requestHeaders?: Dom.RequestInit["headers"],
-    ): Promise<GetPlaylistByExportIdQuery> {
+    ): Promise<ConvertPlaylistMutation> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<GetPlaylistByExportIdQuery>(
-            GetPlaylistByExportIdDocument,
+          client.request<ConvertPlaylistMutation>(
+            ConvertPlaylistDocument,
             variables,
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
-        "getPlaylistByExportId",
+        "convertPlaylist",
+        "mutation",
+      );
+    },
+    createPlaylist(
+      variables: CreatePlaylistMutationVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<CreatePlaylistMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<CreatePlaylistMutation>(
+            CreatePlaylistDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        "createPlaylist",
+        "mutation",
+      );
+    },
+    playlists(
+      variables: PlaylistsQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<PlaylistsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaylistsQuery>(PlaylistsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        "playlists",
         "query",
       );
     },
-    exportPlaylist(
-      variables: ExportPlaylistMutationVariables,
+    playlistSongs(
+      variables: PlaylistSongsQueryVariables,
       requestHeaders?: Dom.RequestInit["headers"],
-    ): Promise<ExportPlaylistMutation> {
+    ): Promise<PlaylistSongsQuery> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<ExportPlaylistMutation>(
-            ExportPlaylistDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        "exportPlaylist",
-        "mutation",
+          client.request<PlaylistSongsQuery>(PlaylistSongsDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        "playlistSongs",
+        "query",
       );
     },
   };
