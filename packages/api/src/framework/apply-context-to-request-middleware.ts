@@ -9,6 +9,8 @@ export default (function applyContextToRequestMiddleware(
 ): void {
   req.ctx = {
     ...createContext(),
+    userId: null,
+    accessToken: "",
   };
 
   next();
