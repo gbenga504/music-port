@@ -7,10 +7,15 @@ export default (function applyContextToRequestMiddleware(
   _res,
   next,
 ): void {
+  const accessToken =
+    req.cookies?.accessToken || req.headers["accesstoken"] || null;
+
+  const userId = req.cookies?.userId || req.headers["userid"] || null;
+
   req.ctx = {
     ...createContext(),
-    userId: null,
-    accessToken: "",
+    accessToken,
+    userId,
   };
 
   next();

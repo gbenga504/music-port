@@ -5,7 +5,7 @@ declare global {
     interface Request {
       ctx: ReturnType<typeof createContext> & {
         accessToken: string;
-        userId: string | null;
+        userId: string;
       };
     }
   }
