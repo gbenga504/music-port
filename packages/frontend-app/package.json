@@ -17,7 +17,8 @@
     "prod": "export $(cat .env) && node dist/server/index.js",
     "test:unit": "jest --testMatch '**/*.test.jest.ts' --passWithNoTests",
     "graphql:typegen": "graphql-codegen --config ./codegen.ts",
-    "test:e2e": "npx playwright test"
+    "playwright": "git ls-files -- '*.spec.ts' ':!:*.cron.spec.ts' | xargs npx playwright test",
+    "playwright:cron": "export $(cat .test.cron.env) && git ls-files -- '*.cron.spec.ts' | xargs npx playwright test"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",

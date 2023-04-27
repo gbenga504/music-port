@@ -90,11 +90,14 @@ export default defineConfig({
   // outputDir: 'test-results/',
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command:
-      "node -r ts-node/register/transpile-only ./test-setup/startup-server.ts",
-    url: frontendEnvs.SITE_ORIGIN,
-    timeout: 60000,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer:
+    process.env.ADMIN_AUTH_TOKEN === "true"
+      ? undefined
+      : {
+          command:
+            "node -r ts-node/register/transpile-only ./test-setup/startup-server.ts",
+          url: frontendEnvs.SITE_ORIGIN,
+          timeout: 60000,
+          reuseExistingServer: !process.env.CI,
+        },
 });

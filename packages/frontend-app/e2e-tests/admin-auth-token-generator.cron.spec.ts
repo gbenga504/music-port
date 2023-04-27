@@ -120,7 +120,9 @@ test("obtain auth token for spotify", async ({ browser }) => {
   await page.waitForURL(/spotify/);
 
   // Access the admin auth token generator route so we can save the token in DB
-  await page.goto("http://localhost:9999/admin-auth-token-generator/spotify");
+  await page.goto(
+    `${process.env.FRONTEND_BASE_URL}/admin-auth-token-generator/spotify`,
+  );
   const locator = page.locator("body");
   await expect(locator).toHaveText(/Token generated/);
 
@@ -139,7 +141,9 @@ test("obtain auth token for deezer", async ({ browser }) => {
   await page.waitForURL(/deezer/);
 
   // Provide necessary permissions when redirected to the deezer permissions page
-  await page.goto("http://localhost:9999/admin-auth-token-generator/deezer");
+  await page.goto(
+    `${process.env.FRONTEND_BASE_URL}/admin-auth-token-generator/deezer`,
+  );
   await page.waitForURL(/deezer/);
   await page.getByRole("button", { name: /Continue/i }).click();
 
