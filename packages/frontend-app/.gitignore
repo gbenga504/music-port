@@ -17,4 +17,3 @@ dist/
 /playwright-report/
 /playwright/.cache/
 /playwright/
-/e2e-tests/admin-auth-platform-cookies.json
