@@ -17,8 +17,9 @@
     "prod": "export $(cat .env) && node dist/server/index.js",
     "test:unit": "jest --testMatch '**/*.test.jest.ts' --passWithNoTests",
     "graphql:typegen": "graphql-codegen --config ./codegen.ts",
-    "playwright": "git ls-files -- '*.spec.ts' ':!:*.cron.spec.ts' | xargs npx playwright test",
-    "playwright:cron": "export $(cat .test.cron.env) && git ls-files -- '*.cron.spec.ts' | xargs npx playwright test"
+    "playwright": "git ls-files -- '*.spec.ts' | xargs npx playwright test",
+    "obtain-admin-auth-token": "export $(cat .auth.env) && node -r ts-node/register/transpile-only scripts/obtain-auth-tokens",
+    "obtain-platform-cookies": "export $(cat .autH.env) && node -r ts-node/register/transpile-only scripts/obtain-platform-cookies"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
@@ -79,6 +80,7 @@
     "graphql-request": "4.0.0",
     "http-proxy-middleware": "^2.0.6",
     "lodash": "^4.17.21",
+    "playwright": "^1.33.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-final-form": "^6.5.9",
