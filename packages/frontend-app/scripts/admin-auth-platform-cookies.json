@@ -2,10 +2,10 @@
   "spotify": [
     {
       "name": "_GRECAPTCHA",
-      "value": "09AJzkepSuudMH-DB1U9F77BclEGEljJQw7-gUxCuY-tYAnozw8CHY9tq9JbwmPlOEz9KYef4bTd3U9PXIowunqwM",
+      "value": "09AD_HUQmTUrtQeJ1PfFySXYiupXr_bfW-NFHMMTW-dgz1Wg2U8PeMYQmgZ8EljgQU6WhPYT9rU7iDAnLyvB9D_-A",
       "domain": "www.google.com",
       "path": "/recaptcha",
-      "expires": 1696549705.894758,
+      "expires": 1698562592.536013,
       "httpOnly": true,
       "secure": true,
       "sameSite": "None"
@@ -15,17 +15,17 @@
       "value": "de",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1715557701.944,
+      "expires": 1717570585.760455,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
     },
     {
       "name": "sp_t",
-      "value": "388e2d91-e312-4477-ba1b-203a8f43ad92",
+      "value": "8948f19e-3468-4d5f-80dc-b18b72c753bf",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1712533706.324473,
+      "expires": 1714546592.076686,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
@@ -35,7 +35,7 @@
       "value": "1",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1681084102.005818,
+      "expires": 1683096985.822093,
       "httpOnly": false,
       "secure": true,
       "sameSite": "Lax"
@@ -45,7 +45,7 @@
       "value": "https%3A%2F%2Fwww.spotify.com%2Fde%2F",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1681084102.005828,
+      "expires": 1683096985.822103,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
@@ -55,44 +55,44 @@
       "value": "2c2ccb58-8a92-4713-a1c0-8b43b3090b49",
       "domain": "open.spotify.com",
       "path": "/",
-      "expires": 1683589703,
+      "expires": 1685602589,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
     },
     {
       "name": "_gcl_au",
-      "value": "1.1.1455884654.1680997704",
+      "value": "1.1.76316204.1683010590",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1688773704,
+      "expires": 1690786589,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
     },
     {
       "name": "OptanonConsent",
-      "value": "isIABGlobal=false&datestamp=Sun+Apr+09+2023+01%3A48%3A24+GMT%2B0200+(Central+European+Summer+Time)&version=6.26.0&hosts=&consentId=076bae1c-9ae8-4a60-90d0-fd1153af35c5&interactionCount=1&landingPath=https%3A%2F%2Fopen.spotify.com%2F%3F&groups=s00%3A1%2Cf00%3A0%2Cm00%3A0%2Ct00%3A0%2Ci00%3A0%2CSTACK3%3A0%2CSTACK11%3A0%2CSTACK20%3A0%2Cf11%3A0%2CBG152%3A1",
+      "value": "isIABGlobal=false&datestamp=Tue+May+02+2023+08%3A56%3A30+GMT%2B0200+(Central+European+Summer+Time)&version=6.26.0&hosts=&consentId=c4656156-2547-49cd-b388-c60de089cf41&interactionCount=1&landingPath=https%3A%2F%2Fopen.spotify.com%2F%3F&groups=s00%3A1%2Cf00%3A0%2Cm00%3A0%2Ct00%3A0%2Ci00%3A0%2CSTACK3%3A0%2CSTACK11%3A0%2CSTACK20%3A0%2Cf11%3A0%2CBG152%3A1",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1712533704,
+      "expires": 1714546590,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
     },
     {
       "name": "__Host-device_id",
-      "value": "AQAfoOZJXwhZhNnfzFNgkKb48v9TKSjisvkUnHP0ogu6f2QuhO897PV3cvcmyQLMu-3TGcl-lduzAFdy0048YLT3bz2uh2nY8Ik",
+      "value": "AQBtoGy4DYSvqlWRxGtraAB-f7GRtKSIyyTOcDEMnNivWRcTTSXXyOfI2B4LZpjo7Gqhlz6pK5n2CB78HzfyDE2nbQ9RawpoMrA",
       "domain": "accounts.spotify.com",
       "path": "/",
-      "expires": 1715557705.074939,
+      "expires": 1717570590.486082,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
     },
     {
       "name": "__Secure-TPASESSION",
-      "value": "AQBU96hRTzMP0SbqFP7TWJNO0M4cvJv7EBmdNjK4vk9xiFuWduLu3NoOGyVM/nAyeB1oIYSc7bLHh5rAOlmoTT2P+RCQO+gVeME=",
+      "value": "AQAqd3ARRd5FV+i5gofoN+uICAOWJ3eM5/pV3IWuVOZCOh96kht0MrqSO3HSFXy/yrO6cXZcijLl4Dvkqcg8DeGsAuPqofRvV54=",
       "domain": ".accounts.spotify.com",
       "path": "/",
       "expires": -1,
@@ -122,17 +122,17 @@
     },
     {
       "name": "sp_dc",
-      "value": "AQB3SRA2hX_WYQop0nn8tMOWW5QIs4PLwcwcsrqk70jztfpAs3HXA_CIDOzHfFD4UckFE-AxtKdMKL2w3PgfCaxeyBFDAANyR6r8vF-kyy_JOTBSn48Z_H6gEL9Xb-TijsQNip7Yukr94g4fDsq59j_ucJI97us",
+      "value": "AQBKHG5l1__C3xGTTRMnHI3LR1dVwzzAk2qnLDP87L1CtwrWTBAemjRWSOD3-ZKG8PN_OOFrLD6ZrwiXCj6umkfGSORzOTryumgTehPglOiFKag8P6_3VZhVS3ocO6IjI7Kfv8AOFVk4PCG9ySedDMFwwzqIbgJ3",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1712533706.015015,
+      "expires": 1714546592.680352,
       "httpOnly": true,
       "secure": true,
       "sameSite": "None"
     },
     {
       "name": "sp_sso_csrf_token",
-      "value": "013acda71928295aa8698c7a3774d9cf1e961b423331363830393937373035393930",
+      "value": "013acda719c19c5daef0cceb038eb5a724b633fa1731363833303130353932363030",
       "domain": ".accounts.spotify.com",
       "path": "/",
       "expires": -1,
@@ -142,20 +142,20 @@
     },
     {
       "name": "sp_key",
-      "value": "0d0e868d-7e71-44dc-82bf-f03379d442ea",
+      "value": "38c543fa-a41f-4fa3-aa3b-c3a048219022",
       "domain": ".spotify.com",
       "path": "/",
-      "expires": 1712533706.015055,
+      "expires": 1714546592.680421,
       "httpOnly": false,
       "secure": true,
       "sameSite": "None"
     },
     {
       "name": "__Host-sp_csrf_sid",
-      "value": "23f792a2f236cbb9dd32b7de2c2268d5d0717df62f313315cfac7326bc7c8ec7",
+      "value": "fa0b9b3718e23aff5e7ae34317d33230017540521d104d3f5d70b1cd936a4452",
       "domain": "accounts.spotify.com",
       "path": "/",
-      "expires": 1681001306.01506,
+      "expires": 1683014192.680433,
       "httpOnly": true,
       "secure": true,
       "sameSite": "Lax"
