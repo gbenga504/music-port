@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, ComponentProps } from "react";
 import { Button } from "./Button";
 import {
   CopyIcon,
@@ -49,23 +49,59 @@ export const PlaylistConvertedModal: React.FC<IProps> = ({
   };
 
   const renderSocialShare = () => {
+    const encodedText = encodeURIComponent(
+      `You can access your ${toPlatform} playlist with this link`
+    );
+
     return (
       <div className="mt-16">
         <h6 className="text-primaryGray text-lg mb-6 text-center">Share via</h6>
         <Space size="small">
-          <Shareable className="border-whatsapp">
+          <Shareable
+            className="border-whatsapp"
+            buttonProps={{
+              href: `whatsapp://send?text=You can access your ${toPlatform} playlist here ${link}`,
+              target: "_blank",
+            }}
+          >
             <WhatsappIcon />
           </Shareable>
-          <Shareable className="border-twitter">
+          <Shareable
+            className="border-twitter"
+            buttonProps={{
+              href: `http://twitter.com/share?text=${encodedText}&url=${link}&hashtags=music,converter,musicport`,
+              target: "_blank",
+            }}
+          >
             <TwitterIcon />
           </Shareable>
-          <Shareable className="border-telegram">
+          <Shareable
+            className="border-telegram"
+            buttonProps={{
+              href: `https://t.me/share/url?url=${link}&text=You can access your ${toPlatform} playlist with this link`,
+              target: "_blank",
+            }}
+          >
             <TelegramIcon />
           </Shareable>
-          <Shareable className="border-linkedIn">
+          <Shareable
+            className="border-linkedIn"
+            buttonProps={{
+              href: `https://www.linkedin.com/shareArticle?mini=true&url=${link}&summary=${encodedText}&source=${encodeURIComponent(
+                process.env.SITE_ORIGIN!
+              )}`,
+              target: "_blank",
+            }}
+          >
             <LinkedInIcon />
           </Shareable>
-          <Shareable className="border-facebook">
+          <Shareable
+            className="border-facebook"
+            buttonProps={{
+              href: `https://www.facebook.com/dialog/share?app_id=${process.env.FACEBOOK_APP_ID}&display=popup&href=${link}&quote=You can access your ${toPlatform} playlist with this link`,
+              target: "_blank",
+            }}
+          >
             <FacebookIcon />
           </Shareable>
         </Space>
@@ -109,11 +145,16 @@ export const PlaylistConvertedModal: React.FC<IProps> = ({
 interface IShareable {
   children: ReactNode;
   className: string;
+  buttonProps?: ComponentProps<typeof Button>;
 }
 
-const Shareable: React.FC<IShareable> = ({ children, className }) => {
+const Shareable: React.FC<IShareable> = ({
+  children,
+  className,
+  buttonProps,
+}) => {
   return (
-    <Button variant="transparent">
+    <Button variant="transparent" {...buttonProps}>
       <div
         className={`w-12 h-12 rounded-full flex border items-center justify-center ${className}`}
       >
