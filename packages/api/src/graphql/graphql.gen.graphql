@@ -110,18 +110,18 @@ type PlaylistError {
 }
 
 enum PlaylistGenre {
+  Afro
   Blues
   Classical
   Country
   Dance
+  HipPop
   Jazz
   KPop
   Others
   Rap
   Reggae
   Rock
-  afro
-  hipPop
 }
 
 type PlaylistImage {

@@ -45,8 +45,8 @@ export const getPlatformNameOrThrow = (link: string): Platform => {
 };
 
 export enum PlaylistGenre {
-  Afro = "afro",
-  HipPop = "hipPop",
+  Afro = "Afro",
+  HipPop = "HipPop",
   Others = "Others",
   Rap = "Rap",
   Rock = "Rock",

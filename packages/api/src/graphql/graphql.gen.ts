@@ -27,18 +27,18 @@ export interface NexusGenInputs {}
 
 export interface NexusGenEnums {
   PlaylistGenre:
+    | "Afro"
     | "Blues"
     | "Classical"
     | "Country"
     | "Dance"
+    | "HipPop"
     | "Jazz"
     | "KPop"
     | "Others"
     | "Rap"
     | "Reggae"
-    | "Rock"
-    | "afro"
-    | "hipPop";
+    | "Rock";
   PlaylistPlatform: "deezer" | "spotify";
 }
 

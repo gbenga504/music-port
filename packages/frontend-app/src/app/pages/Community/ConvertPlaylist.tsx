@@ -390,8 +390,9 @@ export const ConvertPlaylist: React.FC<IProps> = ({
     }
 
     return (
-      <div className="w-full h-full flex justify-center items-center">
-        <h3>Oops! You need to select a playlist</h3>
+      <div className="w-full h-full flex flex-col justify-center items-center">
+        <img src="public/images/embarrased.png" width={64} height={64} />
+        <h3>You need to select a playlist</h3>
       </div>
     );
   };

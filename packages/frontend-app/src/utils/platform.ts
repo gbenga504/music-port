@@ -9,8 +9,9 @@ export const PlatformValues = Object.values(Platform) as [
 ];
 
 export enum PlaylistGenre {
-  Afro = "afro",
-  HipPop = "hipPop",
+  ALL = "All",
+  Afro = "Afro",
+  HipPop = "HipPop",
   Others = "Others",
   Rap = "Rap",
   Rock = "Rock",
@@ -21,7 +22,6 @@ export enum PlaylistGenre {
   DanceMusic = "Dance",
   Reggae = "Reggae",
   KPop = "KPop",
-  ALL = "all",
 }
 
 export const PlaylistGenreValues = Object.values(PlaylistGenre) as [
