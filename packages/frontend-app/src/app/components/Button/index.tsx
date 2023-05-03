@@ -25,11 +25,15 @@ export interface IProps {
   fullWidth?: boolean;
   focused?: boolean;
   tabIndex?: number;
+  rel?: string;
 }
 
 const NativeButtonProps = (
   props: IProps
-): Pick<IProps, "disabled" | "onClick" | "children" | "className"> => {
+): Pick<
+  IProps,
+  "disabled" | "onClick" | "children" | "className" | "tabIndex"
+> => {
   return pick(props, [
     "disabled",
     "onClick",
@@ -41,7 +45,10 @@ const NativeButtonProps = (
 
 const NativeAnchorProps = (
   props: IProps
-): Pick<IProps, "href" | "onClick" | "children" | "className" | "target"> => {
+): Pick<
+  IProps,
+  "href" | "onClick" | "children" | "className" | "target" | "tabIndex" | "rel"
+> => {
   return pick(props, [
     "href",
     "onClick",
@@ -49,12 +56,16 @@ const NativeAnchorProps = (
     "className",
     "target",
     "tabIndex",
+    "rel",
   ]);
 };
 
 const ClientSideLinkProps = (
   props: IProps
-): Pick<IProps, "to" | "onClick" | "children" | "className" | "target"> & {
+): Pick<
+  IProps,
+  "to" | "onClick" | "children" | "className" | "target" | "tabIndex" | "rel"
+> & {
   to: string;
 } => {
   return pick(props, [
@@ -64,6 +75,7 @@ const ClientSideLinkProps = (
     "className",
     "target",
     "tabIndex",
+    "rel",
   ]) as Pick<IProps, "to" | "onClick" | "children" | "className" | "target"> & {
     to: string;
   };
