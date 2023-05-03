@@ -24,6 +24,8 @@ interface IProps {
   textColor?: "black" | "white";
   className?: string;
   name?: string;
+  onBlur?: () => void;
+  onFocus?: () => void;
 }
 
 export const Input = forwardRef<HTMLInputElement, IProps>(
@@ -41,6 +43,8 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
       textColor = "black",
       name,
       className,
+      onFocus,
+      onBlur,
       ...rest
     },
     ref
@@ -85,8 +89,14 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
               textBlack: textColor === "black",
               textWhite: textColor === "white",
             })}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={() => {
+              onFocus?.();
+              setIsFocused(true);
+            }}
+            onBlur={() => {
+              onBlur?.();
+              setIsFocused(false);
+            }}
             {...rest}
             disabled={disabled}
             name={name}

@@ -192,6 +192,7 @@ const Select: React.FC<IProps> = ({
             [`${classes.select}`]: !!classes.select,
           })}
           onClick={toggleDropdownVisibility}
+          disabled={disabled}
         >
           {renderLabel()}
           {!disabled && (

@@ -19,6 +19,10 @@
     @apply px-4 py-[18px] h-16;
   }
 
+  &.disabled {
+    @apply hover:border-lightGray focus:border-lightGray;
+  }
+
   &.outlined {
     @apply border-solid;
   }
