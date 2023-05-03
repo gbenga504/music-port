@@ -214,9 +214,9 @@ class Deezer implements IThirdPartyIntegrations {
       return data?.data?.[0]?.id || null;
     }
 
-    if (playlist.songs.length > 25) {
+    if (playlist.songs.length > 50) {
       throw new MusicStreamingPlatformResourceFailureError({
-        message: "Can only export a maximum of 25 songs",
+        message: "Can only export a maximum of 50 songs",
       });
     }
 
@@ -239,9 +239,9 @@ class Deezer implements IThirdPartyIntegrations {
   transformPlaylistToInternalFormat(data: {
     [key: string]: any;
   }): IRawPlaylist {
-    if (data.tracks.data.length > 25) {
+    if (data.tracks.data.length > 50) {
       throw new MusicStreamingPlatformResourceFailureError({
-        message: "Can only import a maxium of 25 songs from a playlist",
+        message: "Can only import a maxium of 50 songs from a playlist",
       });
     }
 

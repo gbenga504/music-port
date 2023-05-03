@@ -186,9 +186,9 @@ class Spotify implements IThirdPartyIntegrations {
       return items?.[0].uri || null;
     }
 
-    if (playlist.songs.length > 25) {
+    if (playlist.songs.length > 50) {
       throw new MusicStreamingPlatformResourceFailureError({
-        message: "Can only export a maximum of 25 songs",
+        message: "Can only export a maximum of 50 songs",
       });
     }
 
@@ -214,9 +214,9 @@ class Spotify implements IThirdPartyIntegrations {
     type Image = IRawPlaylist["images"][number];
     type Song = IRawPlaylist["songs"][number];
 
-    if (data.tracks.items.length > 25) {
+    if (data.tracks.items.length > 50) {
       throw new MusicStreamingPlatformResourceFailureError({
-        message: "Can only import a maxium of 25 songs from a playlist",
+        message: "Can only import a maxium of 50 songs from a playlist",
       });
     }
 
