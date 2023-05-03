@@ -1,13 +1,9 @@
 import type { ILoadData } from "../../../utils/routeUtils";
-import type { ICreateApiClient } from "../../api";
-
-type PageData = {
-  playlists: Awaited<ReturnType<ICreateApiClient["playlist"]["getPlaylists"]>>;
-};
 
 export interface IPageQuery {
   currentPage: string;
   pageSize: string;
+  limit: string;
   genre?: string;
   isAuthTokenAvailableForCreatingPlaylist?: string;
   platform?: string;
@@ -15,7 +11,7 @@ export interface IPageQuery {
   selectedPlaylistId?: string;
 }
 
-export async function loadData({ api, query }: ILoadData): Promise<PageData> {
+export async function loadData({ api, query }: ILoadData<IPageQuery>) {
   const { genre, currentPage = "1", limit = "10" } = query;
 
   const playlists = await api.playlist.getPlaylists({

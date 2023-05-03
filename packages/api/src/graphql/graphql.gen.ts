@@ -26,7 +26,19 @@ declare global {
 export interface NexusGenInputs {}
 
 export interface NexusGenEnums {
-  PlaylistGenre: "Others" | "afro" | "hipPop";
+  PlaylistGenre:
+    | "Blues"
+    | "Classical"
+    | "Country"
+    | "Dance"
+    | "Jazz"
+    | "KPop"
+    | "Others"
+    | "Rap"
+    | "Reggae"
+    | "Rock"
+    | "afro"
+    | "hipPop";
   PlaylistPlatform: "deezer" | "spotify";
 }
 

@@ -110,7 +110,16 @@ type PlaylistError {
 }
 
 enum PlaylistGenre {
+  Blues
+  Classical
+  Country
+  Dance
+  Jazz
+  KPop
   Others
+  Rap
+  Reggae
+  Rock
   afro
   hipPop
 }

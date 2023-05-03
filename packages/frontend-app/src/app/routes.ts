@@ -3,10 +3,13 @@ import loadable from "@loadable/component";
 import type { RouteObjectWithLoadData } from "react-router-dom";
 import type { ILoadableComponentProps } from "../utils/routeUtils";
 
-import { loadData as homeLoadData } from "./pages/Home/loadData";
+import {
+  loadData as homeLoadData,
+  IPageQuery as IHomePageQuery,
+} from "./pages/Home/loadData";
 import {
   loadData as communityLoadData,
-  PageQuery as CommunityPageQuery,
+  IPageQuery as ICommunityPageQuery,
 } from "./pages/Community/loadData";
 
 export const routeIds = {
@@ -18,7 +21,9 @@ const routes: RouteObjectWithLoadData[] = [
   {
     id: routeIds.home,
     path: "/",
-    component: loadable<ILoadableComponentProps>(() => import("./pages/Home")),
+    component: loadable<ILoadableComponentProps<unknown, IHomePageQuery>>(
+      () => import("./pages/Home"),
+    ),
     loadData: homeLoadData,
   },
   {
@@ -27,7 +32,7 @@ const routes: RouteObjectWithLoadData[] = [
     component: loadable<
       ILoadableComponentProps<
         Awaited<ReturnType<typeof communityLoadData>>,
-        CommunityPageQuery
+        ICommunityPageQuery
       >
     >(() => import("./pages/Community")),
     loadData: communityLoadData,

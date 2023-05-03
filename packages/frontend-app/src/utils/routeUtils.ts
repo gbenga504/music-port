@@ -10,20 +10,17 @@ export interface IPageDatas {
   [key: string]: any;
 }
 
-export interface ILoadableComponentProps<
-  PageData = Record<string, any>,
-  Query = Record<string, any>,
-> {
+export interface ILoadableComponentProps<PageData = unknown, Query = unknown> {
   pageData: PageData;
   api: ICreateApiClient;
   query: Query;
   params: { [key: string]: string };
 }
 
-export interface ILoadData {
+export interface ILoadData<Query = unknown> {
   api: ICreateApiClient;
   params: { [key: string]: string };
-  query: { [key: string]: string };
+  query: Query;
 }
 
 export type IMacthedRoutes = ReturnType<
