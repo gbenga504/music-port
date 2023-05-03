@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 
 import type { ILoadableComponentProps } from "../../../utils/routeUtils";
 import type { IPaginationOpts } from "../../components/Table/Pagination";
-import type { PlaylistGenre } from "../../../utils/platform";
+import { PlaylistGenre } from "../../../utils/platform";
 import type { IPageQuery } from "./loadData";
 
 import { AppHeader } from "../../components/AppHeader";
@@ -78,6 +78,10 @@ const Community: React.FC<
         query: {
           ...query,
           ...omit(changeset, "current"),
+          genre:
+            changeset?.genre === PlaylistGenre.ALL
+              ? undefined
+              : changeset?.genre,
           pageSize: changeset.pageSize.toString(),
           currentPage: changeset.current.toString(),
         },

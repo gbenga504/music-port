@@ -11,7 +11,7 @@ export const constructURL = ({
   params,
 }: {
   routeId: string;
-  query?: { [key: string]: string };
+  query?: { [key: string]: string | undefined | null };
   params?: { [key: string]: string | number };
 }): string => {
   let path = getPath({ routes, routeId });
@@ -26,7 +26,9 @@ export const constructURL = ({
     const searchParams = new URLSearchParams();
 
     Object.keys(query).forEach((key) => {
-      searchParams.append(key, query[key]);
+      if (query[key]) {
+        searchParams.append(key, query[key]!);
+      }
     });
 
     path += `?${searchParams.toString()}`;
