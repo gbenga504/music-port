@@ -31,13 +31,6 @@ module.exports = {
           MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
-            options: {
-              url: {
-                filter: (url) => {
-                  return !url.startsWith("/");
-                },
-              },
-            },
           },
           {
             loader: "postcss-loader",
