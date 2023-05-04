@@ -7,7 +7,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: { client: "./src/app/client.tsx" },
-  mode: "development",
+  mode: process.env.NODE_ENV || "development",
   output: {
     publicPath: "/public/",
     filename: "[name].[contenthash].bundle.js",
