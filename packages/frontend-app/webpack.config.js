@@ -3,6 +3,7 @@ const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = {
   entry: { client: "./src/app/client.tsx" },
@@ -40,6 +41,9 @@ module.exports = {
         ],
       },
     ],
+  },
+  optimization: {
+    minimizer: ["...", new CssMinimizerPlugin()],
   },
   plugins: [
     new LoadableWebpackPlugin({ filename: "stats.json", writeToDisk: true }),
