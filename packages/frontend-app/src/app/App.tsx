@@ -23,6 +23,7 @@ import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import "./App.scss";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";
+import { CookieBanner } from "./components/CookieBanner";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
@@ -130,6 +131,7 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
         <ToastProvider>
           <div className="bg-secondary min-h-full h-fit">
             {renderMatches(matchedRoutes)}
+            <CookieBanner />
           </div>
         </ToastProvider>
       </ApiProvider>

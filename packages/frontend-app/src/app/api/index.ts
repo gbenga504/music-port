@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { Auth } from "./auth";
 import { Playlist } from "./playlist";
+import { CookieConsent } from "./cookie-consent";
 import { isDOM } from "../../utils/dom";
 import { createGraphQLClient } from "./graphql/graphql-client";
 
@@ -45,10 +46,16 @@ export const createApiClient = ({
     httpClientForFrontend,
     graphQLClient,
   });
+  const cookieConsent = new CookieConsent({
+    httpClientForBackend,
+    httpClientForFrontend,
+    graphQLClient,
+  });
 
   return {
     auth,
     playlist,
+    cookieConsent,
   };
 };
 
