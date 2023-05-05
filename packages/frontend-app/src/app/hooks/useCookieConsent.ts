@@ -6,6 +6,8 @@ import { useApi } from "../context/ApiContext";
 type CookieValue = { necessary: boolean } | null;
 type CookieConsentFn = () => Promise<CookieValue>;
 
+// TODO: We wanna add an event listener so other parts of the code can subscribe
+// to cookie change events
 function useCookieConsent(): [CookieValue, CookieConsentFn] {
   const api = useApi();
 
