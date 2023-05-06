@@ -44,7 +44,7 @@ export class AdminAuthTokenService {
     if (token === null) {
       throw new ResourceError({
         resource: "adminAuthToken",
-        message: "adminAuthToken is null",
+        message: "Couldn't retrieve credentials for this app",
       });
     }
 
