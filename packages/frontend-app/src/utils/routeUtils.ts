@@ -43,6 +43,8 @@ export const loadPageResources = async ({
   api,
   query,
 }: ILoadPageResourcesOptions): Promise<IPageDatas> => {
+  // TODO: Maybe this should not be here since we want this function
+  // to load only page resources
   if (!matchedRoutes) {
     throw new NotFoundError();
   }
@@ -59,20 +61,26 @@ export const loadPageResources = async ({
     }
 
     if (matchedRoute.route.loadData) {
-      return new Promise<ILoadPageDataPromise>(async (resolve) => {
-        let data = {};
+      return new Promise<ILoadPageDataPromise>(async (resolve, reject) => {
+        try {
+          let data = {};
 
-        await matchedRoute.route.component.load();
+          await matchedRoute.route.component.load();
 
-        if (matchedRoute.route.loadData) {
-          data = await matchedRoute.route.loadData({
-            api,
-            params: params as { [key: string]: string },
-            query,
-          });
+          if (matchedRoute.route.loadData) {
+            data = await matchedRoute.route.loadData({
+              api,
+              params: params as { [key: string]: string },
+              query,
+            });
+          }
+
+          resolve({ id: matchedRoute.route.id, data });
+        } catch (error) {
+          // We want the error to be propagated to the topmost catch block
+          // hence we reject here
+          reject(error);
         }
-
-        resolve({ id: matchedRoute.route.id, data });
       });
     }
 

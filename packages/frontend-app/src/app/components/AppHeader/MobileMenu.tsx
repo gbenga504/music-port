@@ -45,7 +45,6 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             fullWidth
             to={constructURL({
               routeId: routeIds.community,
-              query: { currentPage: "1", pageSize: "10" },
             })}
             focused={doesPathMatch({
               routeId: routeIds.community,

@@ -1,9 +1,11 @@
+import { constructURL } from "../../../utils/url";
+import { RedirectError } from "../../../errors/redirect-error";
 import type { ILoadData } from "../../../utils/routeUtils";
+import { routeIds } from "../../routes";
 
 export interface IPageQuery {
   currentPage: string;
   pageSize: string;
-  limit: string;
   genre?: string;
   isAuthTokenAvailableForCreatingPlaylist?: string;
   platform?: string;
@@ -12,12 +14,24 @@ export interface IPageQuery {
 }
 
 export async function loadData({ api, query }: ILoadData<IPageQuery>) {
-  const { genre, currentPage = "1", limit = "10" } = query;
+  const { genre, currentPage, pageSize } = query;
+
+  if (!currentPage || !pageSize) {
+    throw new RedirectError({
+      url: constructURL({
+        routeId: routeIds.community,
+        query: {
+          currentPage: "1",
+          pageSize: "10",
+        },
+      }),
+    });
+  }
 
   const playlists = await api.playlist.getPlaylists({
     genre: genre ?? null,
     currentPage: Number(currentPage),
-    pageSize: Number(limit),
+    pageSize: Number(pageSize),
   });
 
   return { playlists };

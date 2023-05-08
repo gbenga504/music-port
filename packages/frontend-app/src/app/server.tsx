@@ -12,12 +12,19 @@ import type { Request, Response } from "express";
 import App from "./App";
 import routes from "./routes";
 import { loadPageResources } from "../utils/routeUtils";
+import { RedirectError } from "../errors/redirect-error";
 
 export const renderer = async (
   req: Request,
-  _res: Response,
+  res: Response,
   error?: Error
-): Promise<{ status: number; content: string }> => {
+): Promise<{ status: number; content: string } | void> => {
+  // If a redirection error is received, then we want to perform
+  // the redirecion very early in the process
+  if (error instanceof RedirectError) {
+    return res.redirect(error.status, error.url);
+  }
+
   const statsFile = path.resolve(__dirname, "../../dist/public/stats.json");
   const chunkExtractor = new ChunkExtractor({
     statsFile,
