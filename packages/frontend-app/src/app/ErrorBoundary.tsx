@@ -2,6 +2,8 @@ import React from "react";
 
 import type { ReactNode } from "react";
 
+import { RedirectError } from "../errors/redirect-error";
+
 interface IProps {
   error?: Error;
   children: ReactNode;
@@ -17,16 +19,16 @@ export class ErrorBoundary extends React.Component<IProps, IState> {
     this.state = { error: props.error };
   }
 
-  static getDerivedStateFromError(error: Error) {
-    return { error };
-  }
+  componentDidCatch(error: Error): void {
+    if (error instanceof RedirectError) {
+      return window.location.replace(error.url);
+    }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // TODO: Log this to an error reporting service
     console.error(
       "-------------- Error caught in error boundary -------------------"
     );
-    console.error(errorInfo);
+    console.error(error);
 
     this.setState({
       error,

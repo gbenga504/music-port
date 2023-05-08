@@ -50,7 +50,6 @@ export const AppHeader: React.FC<IProps> = () => {
             focused={doesPathMatch({ routeId: routeIds.community, pathname })}
             to={constructURL({
               routeId: routeIds.community,
-              query: { currentPage: "1", pageSize: "10" },
             })}
           >
             Community playlist

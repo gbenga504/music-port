@@ -37,14 +37,23 @@ app.use(
 app.get("/*", async (req, res) => {
   try {
     if (req.url === "/favicon.ico") {
-      return res.status(200).json({ status: "ok" });
+      res.status(200).json({ status: "ok" });
+      return;
     }
 
-    const { content, status } = await renderer(req, res);
-    return res.status(status).send(content);
+    const result = await renderer(req, res);
+
+    if (result) {
+      const { content, status } = result;
+      res.status(status).send(content);
+    }
   } catch (error) {
-    const { content, status } = await renderer(req, res, error as Error);
-    return res.status(status).send(content);
+    const result = await renderer(req, res, error as Error);
+
+    if (result) {
+      const { content, status } = result;
+      res.status(status).send(content);
+    }
   }
 });
 
