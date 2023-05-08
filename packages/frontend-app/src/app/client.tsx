@@ -5,12 +5,16 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import { getApiClient } from "./api";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 import type { IPageDatas } from "../utils/routeUtils";
 import type { ICreateApiClient } from "./api";
 
 interface ICallbackProps {
-  appData: { pageDatas: IPageDatas };
+  // TODO: Type error properly. Error is a stringified object
+  // on client side and an actual error object on server side
+  // so there is a type mismatch during rehydration
+  appData: { pageDatas: IPageDatas; error?: any };
   api: ICreateApiClient;
 }
 
@@ -27,7 +31,9 @@ setupClient(({ appData, api }) => {
     hydrateRoot(
       document.getElementById("root")!,
       <BrowserRouter>
-        <App {...appData} api={api} />
+        <ErrorBoundary error={appData.error}>
+          <App {...appData} api={api} />
+        </ErrorBoundary>
       </BrowserRouter>
     );
   });

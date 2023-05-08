@@ -13,6 +13,7 @@ import App from "./App";
 import routes from "./routes";
 import { loadPageResources } from "../utils/routeUtils";
 import { RedirectError } from "../errors/redirect-error";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 export const renderer = async (
   req: Request,
@@ -49,7 +50,9 @@ export const renderer = async (
 
   const jsx = chunkExtractor.collectChunks(
     <StaticRouter location={req.url}>
-      <App {...data} api={req.api} />
+      <ErrorBoundary error={error}>
+        <App {...data} api={req.api} />
+      </ErrorBoundary>
     </StaticRouter>
   );
 

@@ -15,7 +15,6 @@ import type {
 } from "../utils/routeUtils";
 import type { ICreateApiClient } from "./api";
 
-import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 import { loadPageResources } from "../utils/routeUtils";
 import { ProgressBar } from "./components/ProgressBar";
@@ -75,25 +74,24 @@ const transformMatchedRoutes = ({
 
 interface IProps {
   pageDatas: IPageDatas;
-  error?: Error;
   api: ICreateApiClient;
 }
 
-const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
+const App: React.FC<IProps> = ({ pageDatas, api }) => {
   const location = useLocation();
   const [query] = useParsedQueryParams();
   const [isPageLoading, setIsPageLoading] = useState(false);
-  const transformedMatchedRoutes = error
-    ? []
-    : [
-        ...(transformMatchedRoutes({
-          routes,
-          location,
-          pageDatas,
-          api,
-          query,
-        }) || []),
-      ];
+  const [error, setError] = useState<Error | undefined>();
+
+  const transformedMatchedRoutes = [
+    ...(transformMatchedRoutes({
+      routes,
+      location,
+      pageDatas,
+      api,
+      query,
+    }) || []),
+  ];
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>(
     transformedMatchedRoutes
   );
@@ -117,11 +115,21 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
 
       setIsPageLoading(false);
       setMatchedRoutes(matchedRoutes);
-    })();
+    })().catch((error) => setError(error));
   }, [location]);
 
+  useEffect(() => {
+    // We need to rethrow any error that occurs during the async
+    // process so that it can be caught by the error boundary.
+    // Also we throw error because error boundary does not catch errors
+    // that occur from async operations hence this hack
+    if (error) {
+      throw error;
+    }
+  }, [error]);
+
   return (
-    <ErrorBoundary error={error}>
+    <>
       {isPageLoading && (
         <div className="fixed w-screen">
           <ProgressBar variant="indeterminate" />
@@ -135,7 +143,7 @@ const App: React.FC<IProps> = ({ pageDatas, error, api }) => {
           </div>
         </ToastProvider>
       </ApiProvider>
-    </ErrorBoundary>
+    </>
   );
 };
 
