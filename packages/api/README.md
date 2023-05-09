@@ -4,8 +4,6 @@ The api server is a GraphQL and REST server. We use [nexus](https://nexusjs.org/
 
 ## Quick Start
 
----
-
 To run the app, you need to run the following command:
 
 1. Download docker [here](https://www.docker.com/products/docker-desktop/)
@@ -16,15 +14,11 @@ To run the app, you need to run the following command:
 
 ## Architecture
 
----
-
 This image explains the architecture of the frontend app. It explains how various component play and work with each other
 
 <img src="./files/architecture.png" alt="architecture" />
 
 ## Major technologies
-
----
 
 - Typescript
 - Express

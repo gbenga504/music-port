@@ -7,8 +7,6 @@ The frontend app is a server rendered app with rehydration. It is built from scr
 
 ## Quick Start
 
----
-
 To run the app, you need to run the following command:
 
 1. Run `git clone https://github.com/gbenga504/music-port.git`
@@ -20,15 +18,11 @@ PS: You also need to start the api server. Check the api [README](../api/README.
 
 ## Architecture
 
----
-
 This image explains the architecture of the frontend app. It explains how various component play and work with each other
 
 <img src="./files/architecture.png" alt="architecture" />
 
 ## Major technologies
-
----
 
 - Typescript
 - ReactJs
