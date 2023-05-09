@@ -324,7 +324,6 @@ export interface NexusGenArgTypes {
       platform: string; // String!
       playlistGenre: string; // String!
       playlistLink: string; // String!
-      playlistTitle: string; // String!
     };
   };
   Query: {

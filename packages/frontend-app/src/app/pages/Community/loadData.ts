@@ -4,10 +4,19 @@ import type { ILoadData } from "../../../utils/routeUtils";
 import { routeIds } from "../../routes";
 
 export interface IPageQuery {
+  // General
   currentPage: string;
   pageSize: string;
+
+  // Create playlist
   genre?: string;
   isAuthTokenAvailableForCreatingPlaylist?: string;
+  author?: string;
+  playlistLink?: string;
+  playlistGenre?: string;
+  streamingService?: string;
+
+  // Convert playlist
   platform?: string;
   isAuthTokenAvailableForConvertingPlaylist?: string;
   selectedPlaylistId?: string;

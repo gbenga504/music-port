@@ -32,7 +32,6 @@ type Mutation {
     platform: String!
     playlistGenre: String!
     playlistLink: String!
-    playlistTitle: String!
   ): CreatePlaylistPayload!
 }
 

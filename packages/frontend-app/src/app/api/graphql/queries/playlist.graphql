@@ -34,14 +34,12 @@ mutation convertPlaylist($platform: String!, $playlistExportId: String!) {
 
 mutation createPlaylist(
   $author: String!
-  $playlistTitle: String!
   $playlistLink: String!
   $playlistGenre: String!
   $platform: String!
 ) {
   createPlaylist(
     author: $author
-    playlistTitle: $playlistTitle
     playlistLink: $playlistLink
     playlistGenre: $playlistGenre
     platform: $platform

@@ -63,7 +63,6 @@ export type MutationCreatePlaylistArgs = {
   platform: Scalars["String"];
   playlistGenre: Scalars["String"];
   playlistLink: Scalars["String"];
-  playlistTitle: Scalars["String"];
 };
 
 export type Playlist = {
@@ -105,9 +104,18 @@ export type PlaylistError = {
 };
 
 export enum PlaylistGenre {
+  Afro = "Afro",
+  Blues = "Blues",
+  Classical = "Classical",
+  Country = "Country",
+  Dance = "Dance",
+  HipPop = "HipPop",
+  Jazz = "Jazz",
+  KPop = "KPop",
   Others = "Others",
-  Afro = "afro",
-  HipPop = "hipPop",
+  Rap = "Rap",
+  Reggae = "Reggae",
+  Rock = "Rock",
 }
 
 export type PlaylistImage = {
@@ -226,7 +234,6 @@ export type ConvertPlaylistMutation = {
 
 export type CreatePlaylistMutationVariables = Exact<{
   author: Scalars["String"];
-  playlistTitle: Scalars["String"];
   playlistLink: Scalars["String"];
   playlistGenre: Scalars["String"];
   platform: Scalars["String"];
@@ -367,14 +374,12 @@ export const ConvertPlaylistDocument = gql`
 export const CreatePlaylistDocument = gql`
   mutation createPlaylist(
     $author: String!
-    $playlistTitle: String!
     $playlistLink: String!
     $playlistGenre: String!
     $platform: String!
   ) {
     createPlaylist(
       author: $author
-      playlistTitle: $playlistTitle
       playlistLink: $playlistLink
       playlistGenre: $playlistGenre
       platform: $platform
