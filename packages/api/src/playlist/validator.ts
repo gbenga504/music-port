@@ -51,7 +51,6 @@ export const convertPlaylist = (input: any): convertPlaylistOutput => {
 
 const createPlaylistSchema = z.object({
   author: z.string().max(50),
-  playlistTitle: z.string().max(50),
   playlistLink: z
     .string()
     .url()

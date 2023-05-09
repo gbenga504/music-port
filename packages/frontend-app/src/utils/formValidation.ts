@@ -62,7 +62,6 @@ export const validateConvertPlaylistUsingLinkForm = (
 
 const createPlaylistSchema = z.object({
   author: z.string(),
-  playlistTitle: z.string(),
   playlistLink: z
     .string()
     .url()

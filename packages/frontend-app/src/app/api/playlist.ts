@@ -43,20 +43,17 @@ export class Playlist {
 
   async createPlaylist({
     author,
-    playlistTitle,
     playlistLink,
     playlistGenre,
     platform,
   }: {
     author: string;
-    playlistTitle: string;
     playlistLink: string;
     playlistGenre: string;
     platform: string;
   }) {
     const { createPlaylist } = await this.graphQLClient.createPlaylist({
       author,
-      playlistTitle,
       playlistLink,
       playlistGenre,
       platform,

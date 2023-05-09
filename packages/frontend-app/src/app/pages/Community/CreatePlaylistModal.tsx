@@ -28,6 +28,8 @@ import { constructURL, getPlatformName } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
 import { useApi } from "../../context/ApiContext";
+import { IPageQuery } from "./loadData";
+import { sleep } from "../../../utils/sleep";
 
 interface IProps {
   open: boolean;
@@ -38,7 +40,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
   const toast = useToast();
   const api = useApi();
-  const [query] = useParsedQueryParams();
+  const [query] = useParsedQueryParams<IPageQuery>();
   const navigate = useNavigate();
   const requestSent = useRef(false);
 
@@ -46,7 +48,6 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     (async function () {
       const {
         author,
-        playlistTitle,
         playlistLink,
         playlistGenre,
         streamingService,
@@ -61,11 +62,10 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
         setIsCreatingPlaylist(true);
 
         const result = await api.playlist.createPlaylist({
-          author,
-          playlistTitle,
-          playlistLink,
-          playlistGenre,
-          platform: streamingService,
+          author: author!,
+          playlistLink: playlistLink!,
+          playlistGenre: playlistGenre!,
+          platform: streamingService!,
         });
 
         setIsCreatingPlaylist(false);
@@ -85,6 +85,8 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
             status: "success",
             duration: 4000,
           });
+
+          await sleep(4000);
 
           onClose();
 
@@ -117,6 +119,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
       routeId: routeIds.community,
       query: {
         ...values,
+        ...query,
         playlistLink: encodeURIComponent(values.playlistLink),
         isAuthTokenAvailableForCreatingPlaylist: "true",
       },
@@ -177,8 +180,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
       <Form
         onSubmit={handleSubmitFormValues}
         initialValues={{
-          author: query.link,
-          playlistTitle: query.playlistTitle,
+          author: query.author,
           playlistLink: query.playlistLink,
           playlistGenre: query.playlistGenre,
           streamingService: query.streamingService,
@@ -195,7 +197,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
 
           return (
             <form onSubmit={handleSubmit}>
-              <div className="my-14 grid grid-rows-5 gap-y-8">
+              <div className="my-8 grid grid-rows-4 gap-y-8">
                 <Field
                   name="author"
                   render={({ input, meta }) => (
@@ -203,20 +205,6 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       fullWidth
                       label="Your Name"
                       placeholder="E.g John Doe"
-                      required
-                      helperText={meta.dirty && meta.error}
-                      error={Boolean(meta.error && meta.dirty)}
-                      {...input}
-                    />
-                  )}
-                />
-                <Field
-                  name="playlistTitle"
-                  render={({ input, meta }) => (
-                    <Input
-                      fullWidth
-                      label="Title of playlist"
-                      placeholder="E.g Best of Afro"
                       required
                       helperText={meta.dirty && meta.error}
                       error={Boolean(meta.error && meta.dirty)}
