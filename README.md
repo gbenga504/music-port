@@ -29,3 +29,9 @@ See the documentation of each package to understand its underlining architecture
 ## Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for more information.
+
+
+## Issues
+
+You can check out our issues [here](https://github.com/gbenga504/music-port/issues)
+
