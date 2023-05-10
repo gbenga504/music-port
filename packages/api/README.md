@@ -2,6 +2,8 @@
 
 The api server is a GraphQL and REST server. We use [nexus](https://nexusjs.org/) for handling GraphQL. Also the framework that powers the api is built from scratch.
 
+<br />
+
 ## Quick Start
 
 To run the app, you need to run the following command:
@@ -12,11 +14,24 @@ To run the app, you need to run the following command:
 4. Run `cd packages/api`
 5. Run `docker-compose up` to start the dev server (You can attach the `-d` option to run in detached mode)
 
+<br />
+
 ## Architecture
 
 This image explains the architecture of the frontend app. It explains how various component play and work with each other
 
-<img src="./files/architecture.png" alt="architecture" />
+<div align="center">
+  <figure>
+ <img src="./files/architecture.png" alt="architecture" />
+    <figcaption>
+      <p align="center">
+        Backend Architectural Diagram
+      </p>
+    </figcaption>
+  </figure>
+</div>
+
+<br />
 
 ## Major technologies
 

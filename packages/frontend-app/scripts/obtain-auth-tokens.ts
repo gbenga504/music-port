@@ -72,7 +72,7 @@ async function obtainDeezerAuthToken() {
   await page.waitForURL(/deezer/);
   await page.getByRole("button", { name: /Continue/i }).click();
 
-  await page.waitForURL(/musicport.io/);
+  await page.waitForURL(/auth\/deezer/);
   const locator = page.locator("body");
   assert(
     (await locator.textContent()) === "Token generated",

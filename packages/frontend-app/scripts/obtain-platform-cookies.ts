@@ -59,20 +59,20 @@ async function obtainSpotifyCookies() {
   // Go to main page and click on the login button
   await page.goto("http://spotify.com");
   await page.getByTestId("login-button").click();
-  await page.waitForURL(/accounts\.spotify\.com\/de\/login/);
+  await page.waitForURL(/accounts\.spotify\.com\/[a-z]{2,3}\/login/);
 
   // Fill the login form
-  await page.getByTestId("login-username").fill("daveanifowoshe@gmail.com");
-  await page.getByTestId("login-password").fill("ajf7utu0DBR*pza0mqt");
+  await page.getByTestId("login-username").fill(process.env.SPOTIFY_USERNAME!);
+  await page.getByTestId("login-password").fill(process.env.SPOTIFY_PASSWORD!);
   await page.getByTestId("login-button").click();
 
   // After log in, we get redirected to the main page
   // hence we extract the cookies here
-  await sleep();
-  assert.doesNotMatch(page.url(), /accounts\.spotify\.com\/de\/login/);
+  await sleep(2000);
+  assert.doesNotMatch(page.url(), /accounts\.spotify\.com\/[a-z]{2,3}\/login/);
   await page.reload();
   await sleep(300);
-  assert.doesNotMatch(page.url(), /accounts\.spotify\.com\/de\/login/);
+  assert.doesNotMatch(page.url(), /accounts\.spotify\.com\/[a-z]{2,3}\/login/);
   const cookies = await context.cookies();
   setCookies(Platform.Spotify, cookies);
 
@@ -93,12 +93,13 @@ async function obtainDeezerCookies() {
   await page.getByTestId("gdpr-btn-accept-all").click();
 
   // Fill the login form
-  await page.getByLabel("Email address").fill("daveanifowoshe@gmail.com");
-  await page.getByLabel("Password").fill("wrj8krv3RDW!pmy-kxg");
+  await page.getByLabel("Email address").fill(process.env.DEEZER_USERNAME!);
+  await page.getByLabel("Password").fill(process.env.DEEZER_PASSWORD!);
   await page.getByRole("button", { name: /Log in/i }).click();
 
   // After log in, we get redirected to the main page
   // hence we extract the cookies here
+  await sleep(2000);
   await page.waitForURL(/deezer\.com\/us\/$/);
   const cookies = await context.cookies();
   setCookies(Platform.Deezer, cookies);
