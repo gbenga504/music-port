@@ -5,6 +5,8 @@ The frontend app is a server rendered app with rehydration. It is built from scr
 - ReactJs
 - Express
 
+<br />
+
 ## Quick Start
 
 To run the app, you need to run the following command:
@@ -16,11 +18,24 @@ To run the app, you need to run the following command:
 
 PS: You also need to start the api server. Check the api [README](../api/README.md) on how this can be done.
 
+<br />
+
 ## Architecture
 
 This image explains the architecture of the frontend app. It explains how various component play and work with each other
 
-<img src="./files/architecture.png" alt="architecture" />
+<div align="center">
+  <figure>
+ <img src="./files/architecture.png" alt="architecture" />
+    <figcaption>
+      <p align="center">
+        Frontend Architectural Diagram
+      </p>
+    </figcaption>
+  </figure>
+</div>
+
+<br />
 
 ## Major technologies
 

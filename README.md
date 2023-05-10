@@ -1,8 +1,22 @@
-# music-port
+<div align="center">
+  <h2>
+  A music app that allows porting music from one streaming platform to another.</br>
 
-A music app that allows porting music from one streaming platform to another.
+  </h2>
+</div>
 
-https://musicport.io
+<div align="center">
+  <figure>
+    <a href="https://musicport.io" target="_blank" rel="noopener">
+        <img src="./files/app.png" alt="App" />
+    </a>
+    <figcaption>
+      <p align="center">
+       Port playlist made easily from one music platform to another.
+      </p>
+    </figcaption>
+  </figure>
+</div>
 
 This is a lerna monorepo containing 2 packages; a frontend app and a backend app. We intend to expand it sometime in the future with other packages.
 
