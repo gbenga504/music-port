@@ -9,7 +9,7 @@ interface IProps {
 export const HeadMarkup: React.FC<IProps> = ({ title, description }) => {
   return (
     <Helmet>
-      <title>{`${title} | Music Port`}</title>
+      <title>{title ?? `Music Port`}</title>
       {description && <meta name="description" content={description} />}
     </Helmet>
   );
