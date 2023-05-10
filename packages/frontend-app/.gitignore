@@ -4,6 +4,7 @@
 node_modules/
 *.env
 yarn-error.log
+scripts/admin-auth-platform-cookies.json
 
 # -----------
 # BUILDS
