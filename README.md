@@ -12,7 +12,7 @@
     </a>
     <figcaption>
       <p align="center">
-       Port playlist made easily from one music platform to another.
+       Port playlist made easy from one music platform to another.
       </p>
     </figcaption>
   </figure>
