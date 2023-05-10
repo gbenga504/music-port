@@ -68,7 +68,7 @@ async function obtainSpotifyCookies() {
 
   // After log in, we get redirected to the main page
   // hence we extract the cookies here
-  await sleep(1000);
+  await sleep(2000);
   assert.doesNotMatch(page.url(), /accounts\.spotify\.com\/[a-z]{2,3}\/login/);
   await page.reload();
   await sleep(300);
@@ -99,7 +99,7 @@ async function obtainDeezerCookies() {
 
   // After log in, we get redirected to the main page
   // hence we extract the cookies here
-  await sleep(1000);
+  await sleep(2000);
   await page.waitForURL(/deezer\.com\/us\/$/);
   const cookies = await context.cookies();
   setCookies(Platform.Deezer, cookies);
