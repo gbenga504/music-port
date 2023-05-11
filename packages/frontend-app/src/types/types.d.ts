@@ -3,7 +3,7 @@ import type { LoadableComponent } from "@loadable/component";
 
 import type { ICreateApiClient } from "../app/api";
 import type { IPageDatas } from "../app/utils/routeUtils";
-import type { ILoadData } from "../utils/routeUtils";
+import type { ILoadData } from "../utils/route-utils";
 
 declare module "react-router-dom" {
   interface IndexRouteObject {

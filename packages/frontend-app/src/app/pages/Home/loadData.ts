@@ -1,4 +1,4 @@
-import type { ILoadData } from "../../../utils/routeUtils";
+import type { ILoadData } from "../../../utils/route-utils";
 
 export interface IPageQuery {
   link?: string;
