@@ -2,7 +2,8 @@
 # APP AND NODE FILES
 # -----------
 node_modules/
-*.env
+.auth.env
+.prod.env
 yarn-error.log
 scripts/admin-auth-platform-cookies.json
 

@@ -8,9 +8,9 @@
   "main": "src/server.js",
   "scripts": {
     "build": "tsc",
-    "dev": "export $(cat .env) && concurrently --kill-others 'yarn dev:server'",
+    "dev": "export $(cat .dev.env) && concurrently --kill-others 'yarn dev:server'",
     "dev:server": "nodemon --watch src --ext 'js json ts' -r ts-node/register/transpile-only src/server",
-    "prod": "export $(cat .env) && node dist/server.js",
+    "prod": "export $(cat .prod.env) && node dist/server.js",
     "format": "yarn prettier --write .",
     "format:check": "yarn prettier --check .",
     "test": "jest --passWithNoTests",

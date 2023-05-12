@@ -6,7 +6,7 @@ services:
     hostname: mongodb
     image: mongo:latest
     restart: unless-stopped
-    env_file: packages/api/.env
+    env_file: packages/api/.prod.env
     ports:
       - 27018:27017
     volumes:
@@ -21,7 +21,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.api.prod
     restart: unless-stopped
-    env_file: packages/api/.env
+    env_file: packages/api/.prod.env
     expose:
       - 8888
     stdin_open: true
@@ -34,7 +34,7 @@ services:
       context: .
       dockerfile: ./Dockerfile.frontend.prod
     restart: unless-stopped
-    env_file: packages/frontend-app/.env
+    env_file: packages/frontend-app/.prod.env
     expose:
       - 9999
     stdin_open: true

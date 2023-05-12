@@ -1,6 +1,13 @@
+# -----------
+# APP AND NODE FILES
+# -----------
 node_modules/
-*.env
 yarn-error.log
 db
 data
+.prod.env
+
+# -----------
+# BUILDS
+# -----------
 dist
