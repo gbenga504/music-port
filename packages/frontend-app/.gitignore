@@ -6,6 +6,7 @@ node_modules/
 .prod.env
 yarn-error.log
 scripts/admin-auth-platform-cookies.json
+package-lock.json
 
 # -----------
 # BUILDS

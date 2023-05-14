@@ -6,6 +6,7 @@ yarn-error.log
 db
 data
 .prod.env
+package-lock.json
 
 # -----------
 # BUILDS
