@@ -5,6 +5,12 @@ The frontend app is a server rendered app with rehydration. It is built from scr
 - ReactJs
 - Express
 
+## Credit
+
+Thanks to this [playlist](https://www.youtube.com/watch?v=X0SFO2LEB2M&list=PLMhLdUN2ZKJ2f-QDFBP1iphsmPd81MQOO), I was able to setup server rendering for the frontend app while making a few tweaks. Please watch the video, it gives you an overview of how the frontend app works under the hood.
+
+Additionally, the frontend app is code splitted and built with TS. File an issue if you feel some improvements can be made.
+
 <br />
 
 ## Quick Start
