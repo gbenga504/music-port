@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 
 import type { ChangeEventHandler } from "react";
 import type { FormRenderProps } from "react-final-form";
-import type { ILoadableComponentProps } from "../../../utils/routeUtils";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
 import type { IRenderLabel } from "../../components/Select";
 import type { IPageQuery } from "./loadData";
 
@@ -25,7 +25,7 @@ import { Button } from "../../components/Button";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { Platform, PlatformValues } from "../../../utils/platform";
-import * as formValidation from "../../../utils/formValidation";
+import * as formValidation from "../../../utils/form-validation";
 import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
 import { useNavigate } from "react-router-dom";

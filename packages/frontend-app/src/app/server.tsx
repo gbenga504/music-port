@@ -11,7 +11,7 @@ import type { Request, Response } from "express";
 
 import App from "./App";
 import routes from "./routes";
-import { loadPageResources } from "../utils/routeUtils";
+import { loadPageResources } from "../utils/route-utils";
 import { RedirectError } from "../errors/redirect-error";
 import { ErrorBoundary } from "./ErrorBoundary";
 

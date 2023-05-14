@@ -23,7 +23,7 @@ import {
   PlaylistGenreValues,
 } from "../../../utils/platform";
 import useParsedQueryParams from "../../hooks/useParsedQueryParams";
-import * as formValidation from "../../../utils/formValidation";
+import * as formValidation from "../../../utils/form-validation";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";

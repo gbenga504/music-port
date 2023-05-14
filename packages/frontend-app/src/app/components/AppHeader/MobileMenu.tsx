@@ -6,7 +6,7 @@ import { AnimatedHamburgerIcon } from "../icons";
 import { Button } from "../Button";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
-import { doesPathMatch } from "../../../utils/routeUtils";
+import { doesPathMatch } from "../../../utils/route-utils";
 
 interface IProps {
   open: boolean;

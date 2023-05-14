@@ -1,7 +1,7 @@
 import { generatePath } from "react-router-dom";
 
 import routes from "../app/routes";
-import { getPath } from "./routeUtils";
+import { getPath } from "./route-utils";
 import { ResourceError } from "../errors/resource-error";
 import { Platform } from "./platform";
 

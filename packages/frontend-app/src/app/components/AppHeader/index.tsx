@@ -6,7 +6,7 @@ import { Space } from "../../components/Space";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { LogoIcon } from "../icons";
-import { doesPathMatch } from "../../../utils/routeUtils";
+import { doesPathMatch } from "../../../utils/route-utils";
 import { MobileMenu } from "./MobileMenu";
 import { AnimatedHamburgerIcon } from "../icons";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";

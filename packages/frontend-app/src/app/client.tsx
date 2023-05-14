@@ -7,7 +7,7 @@ import App from "./App";
 import { getApiClient } from "./api";
 import { ErrorBoundary } from "./ErrorBoundary";
 
-import type { IPageDatas } from "../utils/routeUtils";
+import type { IPageDatas } from "../utils/route-utils";
 import type { ICreateApiClient } from "./api";
 
 interface ICallbackProps {

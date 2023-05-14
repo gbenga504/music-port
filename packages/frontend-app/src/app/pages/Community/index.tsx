@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useNavigate } from "react-router-dom";
 import omit from "lodash/omit";
 
-import type { ILoadableComponentProps } from "../../../utils/routeUtils";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
 import type { IPaginationOpts } from "../../components/Table/Pagination";
 import { PlaylistGenre } from "../../../utils/platform";
 import type { IPageQuery } from "./loadData";

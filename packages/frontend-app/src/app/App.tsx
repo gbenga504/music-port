@@ -12,11 +12,11 @@ import type {
   IPageDatas,
   ILoadableComponentProps,
   IMacthedRoutes,
-} from "../utils/routeUtils";
+} from "../utils/route-utils";
 import type { ICreateApiClient } from "./api";
 
 import routes from "./routes";
-import { loadPageResources } from "../utils/routeUtils";
+import { loadPageResources } from "../utils/route-utils";
 import { ProgressBar } from "./components/ProgressBar";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
