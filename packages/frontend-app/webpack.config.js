@@ -5,6 +5,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
+const isProductionBuild = process.env.NODE_ENV === "production";
+
 module.exports = {
   entry: { client: "./src/app/client.tsx" },
   mode: process.env.NODE_ENV || "development",
@@ -17,8 +19,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", "..."],
   },
-  devtool:
-    process.env.NODE_ENV === "production" ? "source-map" : "eval-source-map",
+  devtool: isProductionBuild ? "source-map" : "eval-source-map",
   module: {
     rules: [
       {
@@ -47,7 +48,8 @@ module.exports = {
   },
   plugins: [
     new LoadableWebpackPlugin({ filename: "stats.json", writeToDisk: true }),
-    new Dotenv(),
+    // We use this to expose envs that are explicitly referenced in our code so we don't expose sensitive info.
+    new Dotenv({ path: isProductionBuild ? "./.prod.env" : "./.dev.env" }),
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].bundle.css",
       chunkFilename: "[name].[contenthash].bundle.css",
