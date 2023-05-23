@@ -1,4 +1,4 @@
-declare module "passport-deezer" {
+declare module "passport-youtube-v3" {
   import { Request } from "express";
 
   type VerifyCallback = (

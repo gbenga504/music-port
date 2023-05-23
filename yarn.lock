@@ -8797,6 +8797,16 @@ passport-oauth1@1.x.x:
     passport-strategy "1.x.x"
     utils-merge "1.x.x"
 
+passport-oauth2@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/passport-oauth2/-/passport-oauth2-1.4.0.tgz#f62f81583cbe12609be7ce6f160b9395a27b86ad"
+  integrity sha512-aFrjWoTSFLob+JNvmPxCc+zyv/W7VpBx8WS4vZ8Snm6sm25BbRgobIcmSjpaRt4ciyS5ldEIdC+WFbd8zP8ggA==
+  dependencies:
+    oauth "0.9.x"
+    passport-strategy "1.x.x"
+    uid2 "0.0.x"
+    utils-merge "1.x.x"
+
 passport-oauth2@1.x.x, passport-oauth2@^1.1.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/passport-oauth2/-/passport-oauth2-1.6.1.tgz#c5aee8f849ce8bd436c7f81d904a3cd1666f181b"
@@ -8829,6 +8839,13 @@ passport-strategy@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==
+
+passport-youtube-v3@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/passport-youtube-v3/-/passport-youtube-v3-2.1.0.tgz#b08976d255b8e6d5e2e0d8b15500b212462c7e50"
+  integrity sha512-mM1BNDIQP/KorDN11iDH0nq2EyVson0inci8NC83ZRaWPH9SQAppGITiLghH4GYLIRNRYPDUMfPcBsbHLFqABQ==
+  dependencies:
+    passport-oauth2 "1.4.0"
 
 passport@^0.6.0:
   version "0.6.0"

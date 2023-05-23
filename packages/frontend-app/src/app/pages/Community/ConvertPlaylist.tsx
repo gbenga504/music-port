@@ -8,12 +8,7 @@ import type { ICreateApiClient } from "../../api";
 import type { IPaginationOpts } from "../../components/Table/Pagination";
 import type { IPageQuery } from "./loadData";
 
-import {
-  AppleMusicIcon,
-  ArrowDownIcon,
-  DeezerIcon,
-  SpotifyIcon,
-} from "../../components/icons";
+import { ArrowDownIcon } from "../../components/icons";
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
 import {
@@ -38,6 +33,7 @@ import * as formValidation from "../../../utils/form-validation";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { useNavigate } from "react-router-dom";
+import { PlatformIcon } from "../../components/PlatformIcon";
 
 interface IProps {
   playlist:
@@ -121,17 +117,6 @@ export const ConvertPlaylist: React.FC<IProps> = ({
     setSongs(result);
   }
 
-  const getPlatformIcon = (platform: Platform) => {
-    switch (platform) {
-      case Platform.Spotify:
-        return <SpotifyIcon />;
-      case Platform.Deezer:
-        return <DeezerIcon />;
-      default:
-        return <AppleMusicIcon />;
-    }
-  };
-
   const composeArtistsNames = (
     artists: Songs["data"][number]["artists"]
   ): string => {
@@ -186,7 +171,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
   const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     return (
       <Space>
-        {getPlatformIcon(opts.value)}
+        <PlatformIcon platform={opts.value} />
         <span>{opts.label}</span>
       </Space>
     );
@@ -196,7 +181,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
     return PlatformValues.map((platform) => (
       <Option key={platform} value={platform} label={platform}>
         <Space>
-          {getPlatformIcon(platform)}
+          <PlatformIcon platform={platform} />
           <span>{platform}</span>
         </Space>
       </Option>
@@ -218,13 +203,15 @@ export const ConvertPlaylist: React.FC<IProps> = ({
               {playlist.coverImage && (
                 <img
                   src={playlist.coverImage}
-                  className="w-full h-full rounded-sm"
+                  className="w-full h-full rounded-sm object-cover"
                 />
               )}
             </div>
             <div className="grid grid-cols-1 grid-rows-4 gap-y-2">
               <div className="flex items-center">
-                {getPlatformIcon(playlist.platform as unknown as Platform)}
+                <PlatformIcon
+                  platform={playlist.platform as unknown as Platform}
+                />
                 <span className="ml-2 text-sm capitalize">
                   {playlist.platform}
                 </span>
@@ -277,7 +264,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
                       {song.coverImage && (
                         <img
                           src={song.coverImage}
-                          className="rounded-sm w-full h-full"
+                          className="rounded-sm w-full h-full object-cover"
                         />
                       )}
                     </div>

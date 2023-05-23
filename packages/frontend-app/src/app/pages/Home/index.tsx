@@ -12,13 +12,7 @@ import type { IPageQuery } from "./loadData";
 import { PageLayout } from "../../components/PageLayout";
 import { AppHeader } from "../../components/AppHeader";
 import { Input } from "../../components/Input";
-import {
-  AppleMusicIcon,
-  DeezerIcon,
-  LinkIcon,
-  SpotifyIcon,
-  ArrowSwapIcon,
-} from "../../components/icons";
+import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
@@ -30,6 +24,7 @@ import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
 import { useNavigate } from "react-router-dom";
 import { HeadMarkup } from "../../components/HeadMarkup";
+import { PlatformIcon } from "../../components/PlatformIcon";
 
 const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
   query,
@@ -132,17 +127,6 @@ const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
     }
   };
 
-  const getPlatformIcon = (platform: Platform) => {
-    switch (platform) {
-      case Platform.Spotify:
-        return <SpotifyIcon />;
-      case Platform.Deezer:
-        return <DeezerIcon />;
-      default:
-        return <AppleMusicIcon />;
-    }
-  };
-
   const renderHeadline = () => {
     return (
       <h3 className="font-bold text-2xl md:text-4xl">
@@ -169,7 +153,7 @@ const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
     return PlatformValues.map((platform) => (
       <Option key={platform} value={platform} label={platform}>
         <Space>
-          {getPlatformIcon(platform)}
+          <PlatformIcon platform={platform} />
           <span>{platform}</span>
         </Space>
       </Option>
@@ -179,7 +163,7 @@ const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
   const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     return (
       <Space>
-        {getPlatformIcon(opts.value)}
+        <PlatformIcon platform={opts.value} />
         <span>{opts.label}</span>
       </Space>
     );

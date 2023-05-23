@@ -55,6 +55,10 @@ export const getPlatformName = (link: string): Platform | null => {
     return Platform.Deezer;
   }
 
+  if (origin.indexOf("youtube.com") !== -1) {
+    return Platform.YoutubeMusic;
+  }
+
   return null;
 };
 

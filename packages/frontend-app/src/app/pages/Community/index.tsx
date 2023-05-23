@@ -24,15 +24,11 @@ import {
   TableHead,
   TableRow,
 } from "../../components/Table";
-import {
-  AppleMusicIcon,
-  DeezerIcon,
-  SpotifyIcon,
-} from "../../components/icons";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { Pagination } from "../../components/Table/Pagination";
 import { loadData } from "./loadData";
+import { PlatformIcon } from "../../components/PlatformIcon";
 
 type Playlist = Awaited<
   ReturnType<typeof loadData>
@@ -57,17 +53,6 @@ const Community: React.FC<
 
     return playlist ?? null;
   }
-
-  const getPlatformIcon = (platform: Platform) => {
-    switch (platform) {
-      case Platform.Spotify:
-        return <SpotifyIcon />;
-      case Platform.Deezer:
-        return <DeezerIcon />;
-      default:
-        return <AppleMusicIcon />;
-    }
-  };
 
   const handlePlaylistsFilterChange = (
     changeset: IPaginationOpts & { genre?: PlaylistGenre }
@@ -159,7 +144,7 @@ const Community: React.FC<
                       {playlist.coverImage && (
                         <img
                           src={playlist.coverImage}
-                          className="w-full h-full rounded-sm"
+                          className="w-full h-full rounded-sm object-cover"
                         />
                       )}
                     </div>
@@ -170,7 +155,9 @@ const Community: React.FC<
                 <TableCell className="capitalize">{playlist.genre}</TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    {getPlatformIcon(playlist.platform as unknown as Platform)}
+                    <PlatformIcon
+                      platform={playlist.platform as unknown as Platform}
+                    />
                     <span className="ml-2 capitalize">{playlist.platform}</span>
                   </div>
                 </TableCell>
