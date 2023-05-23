@@ -26,6 +26,7 @@ import { useApi } from "../../context/ApiContext";
 import { IPageQuery } from "./loadData";
 import { sleep } from "../../../utils/sleep";
 import { PlatformIcon } from "../../components/PlatformIcon";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 interface IProps {
   open: boolean;
@@ -159,10 +160,14 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
 
   const renderOptions = () => {
     return PlatformValues.map((platform) => (
-      <Option value={platform} label={platform} key={platform}>
+      <Option
+        value={platform}
+        label={convertCamelCaseToCapitalize(platform)}
+        key={platform}
+      >
         <Space>
           <PlatformIcon platform={platform} />
-          <span>{platform}</span>
+          <span>{convertCamelCaseToCapitalize(platform)}</span>
         </Space>
       </Option>
     ));

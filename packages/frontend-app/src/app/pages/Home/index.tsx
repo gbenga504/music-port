@@ -25,6 +25,7 @@ import { useToast } from "../../components/Toast/ToastContext";
 import { useNavigate } from "react-router-dom";
 import { HeadMarkup } from "../../components/HeadMarkup";
 import { PlatformIcon } from "../../components/PlatformIcon";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
   query,
@@ -151,10 +152,14 @@ const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
 
   const renderOptions = () => {
     return PlatformValues.map((platform) => (
-      <Option key={platform} value={platform} label={platform}>
+      <Option
+        key={platform}
+        value={platform}
+        label={convertCamelCaseToCapitalize(platform)}
+      >
         <Space>
           <PlatformIcon platform={platform} />
-          <span>{platform}</span>
+          <span>{convertCamelCaseToCapitalize(platform)}</span>
         </Space>
       </Option>
     ));

@@ -34,6 +34,7 @@ import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { useNavigate } from "react-router-dom";
 import { PlatformIcon } from "../../components/PlatformIcon";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 interface IProps {
   playlist:
@@ -179,10 +180,14 @@ export const ConvertPlaylist: React.FC<IProps> = ({
 
   const renderOptions = () => {
     return PlatformValues.map((platform) => (
-      <Option key={platform} value={platform} label={platform}>
+      <Option
+        key={platform}
+        value={platform}
+        label={convertCamelCaseToCapitalize(platform)}
+      >
         <Space>
           <PlatformIcon platform={platform} />
-          <span>{platform}</span>
+          <span>{convertCamelCaseToCapitalize(platform)}</span>
         </Space>
       </Option>
     ));
@@ -213,7 +218,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
                   platform={playlist.platform as unknown as Platform}
                 />
                 <span className="ml-2 text-sm capitalize">
-                  {playlist.platform}
+                  {convertCamelCaseToCapitalize(playlist.platform)}
                 </span>
               </div>
               <div>

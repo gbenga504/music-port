@@ -29,6 +29,7 @@ import { routeIds } from "../../routes";
 import { Pagination } from "../../components/Table/Pagination";
 import { loadData } from "./loadData";
 import { PlatformIcon } from "../../components/PlatformIcon";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 type Playlist = Awaited<
   ReturnType<typeof loadData>
@@ -158,7 +159,9 @@ const Community: React.FC<
                     <PlatformIcon
                       platform={playlist.platform as unknown as Platform}
                     />
-                    <span className="ml-2 capitalize">{playlist.platform}</span>
+                    <span className="ml-2 capitalize">
+                      {convertCamelCaseToCapitalize(playlist.platform)}
+                    </span>
                   </div>
                 </TableCell>
               </TableRow>
