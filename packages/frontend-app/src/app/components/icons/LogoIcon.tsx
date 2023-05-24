@@ -3,5 +3,5 @@ import React from "react";
 interface IProps {}
 
 export const LogoIcon: React.FC<IProps> = () => {
-  return <span className="font-bold text-xl">Conplay</span>;
+  return <span className="font-bold text-xl">MusicPort</span>;
 };

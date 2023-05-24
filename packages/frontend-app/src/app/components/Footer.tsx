@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
         className="flex flex-col-reverse w-full !items-start md:inline-flex md:flex-row md:w-auto md:items-center"
       >
         <span>
-          &copy; {new Date().getFullYear()} Conplay | All Rights Reserved
+          &copy; {new Date().getFullYear()} MusicPort | All Rights Reserved
         </span>
         <Button variant="transparent" size="small" to="#">
           Terms and privacy
