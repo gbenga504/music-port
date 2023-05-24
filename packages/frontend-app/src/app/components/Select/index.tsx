@@ -128,9 +128,12 @@ const Select: React.FC<IProps> = ({
 
     return (
       <span
-        className={classNames(`label ${theme}`, {
-          placeholderMode: !selectedOptionValue,
-        })}
+        className={classNames(
+          `label ${theme} whitespace-nowrap overflow-hidden`,
+          {
+            placeholderMode: !selectedOptionValue,
+          }
+        )}
       >
         {selectedOptionValue ? getLabel() : placeholder}
       </span>

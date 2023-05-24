@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 
 interface IProps {
   size?: number;
 }
 
 export const YoutubeMusicIcon: React.FC<IProps> = ({ size = 20 }) => {
+  const [id, setId] = useState<undefined | string>();
+
+  useEffect(() => {
+    setId(nanoid());
+  }, []);
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +22,7 @@ export const YoutubeMusicIcon: React.FC<IProps> = ({ size = 20 }) => {
       viewBox="0 0 48 48"
     >
       <linearGradient
-        id="PgB_UHa29h0TpFV_moJI9a"
+        id={id}
         x1="9.816"
         x2="41.246"
         y1="9.871"
@@ -27,7 +34,7 @@ export const YoutubeMusicIcon: React.FC<IProps> = ({ size = 20 }) => {
         <stop offset="1" stopColor="#e52030" />
       </linearGradient>
       <path
-        fill="url(#PgB_UHa29h0TpFV_moJI9a)"
+        fill={`url(#${id})`}
         d="M45.012,34.56c-0.439,2.24-2.304,3.947-4.608,4.267C36.783,39.36,30.748,40,23.945,40	c-6.693,0-12.728-0.64-16.459-1.173c-2.304-0.32-4.17-2.027-4.608-4.267C2.439,32.107,2,28.48,2,24s0.439-8.107,0.878-10.56	c0.439-2.24,2.304-3.947,4.608-4.267C11.107,8.64,17.142,8,23.945,8s12.728,0.64,16.459,1.173c2.304,0.32,4.17,2.027,4.608,4.267	C45.451,15.893,46,19.52,46,24C45.89,28.48,45.451,32.107,45.012,34.56z"
       />
       <path
