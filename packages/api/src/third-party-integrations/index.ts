@@ -2,13 +2,17 @@ import { URL } from "node:url";
 
 import spotify from "./spotify";
 import deezer from "./deezer";
+import youtubeMusic from "./youtube";
 import { InvalidMusicStreamingPlatformError } from "../errors/invalid-music-streaming-platform-error";
+import { ResourceError } from "../errors/resource-error";
 
 import type { IThirdPartyIntegrations } from "./types";
+import { Platform } from "../utils/platform";
 
 export const getPassportStrategies = {
   spotify: spotify.getPassportStrategy(),
   deezer: deezer.getPassportStrategy(),
+  youtubeMusic: youtubeMusic.getPassportStrategy(),
 };
 
 export function authenticate(
@@ -26,6 +30,10 @@ export function authenticate(
     case "deezer":
       authenticationMethodForPlatform = deezer.authenticate;
       that = deezer;
+      break;
+    case "youtubeMusic":
+      authenticationMethodForPlatform = youtubeMusic.authenticate;
+      that = youtubeMusic;
       break;
     default:
       throw new InvalidMusicStreamingPlatformError({
@@ -52,6 +60,10 @@ export function getPlaylistByLink(
       getPlaylistMethod = deezer.getPlaylistByLink;
       that = deezer;
       break;
+    case "youtubeMusic":
+      getPlaylistMethod = youtubeMusic.getPlaylistByLink;
+      that = youtubeMusic;
+      break;
     default:
       throw new InvalidMusicStreamingPlatformError({
         message: `No get playlist method available for ${platform}`,
@@ -77,6 +89,10 @@ export function createPlaylist(
       createPlaylistMethod = deezer.createPlaylist;
       that = deezer;
       break;
+    case "youtubeMusic":
+      createPlaylistMethod = youtubeMusic.createPlaylist;
+      that = youtubeMusic;
+      break;
     default:
       throw new InvalidMusicStreamingPlatformError({
         message: `No create playlist method available for ${platform}`,
@@ -86,20 +102,37 @@ export function createPlaylist(
   return createPlaylistMethod.bind(that)(...rest);
 }
 
-export function getPlatformName(link: string): string | null {
+export function getPlatformName(link: string): Platform | null {
   const url = new URL(link);
   const origin = url.origin;
 
   if (origin.indexOf("spotify.com") !== -1) {
-    return "spotify";
+    return Platform.Spotify;
   }
 
   if (origin.indexOf("deezer.com") !== -1) {
-    return "deezer";
+    return Platform.Deezer;
+  }
+
+  if (origin.indexOf("youtube.com") !== -1) {
+    return Platform.YoutubeMusic;
   }
 
   return null;
 }
+
+export const getPlatformNameOrThrow = (link: string): Platform => {
+  const platformName = getPlatformName(link);
+
+  if (!platformName) {
+    throw new ResourceError({
+      resource: "Playlist",
+      message: "Playlists not currently supported",
+    });
+  }
+
+  return platformName;
+};
 
 export function getImportPlaylistId(link: string): string {
   // We have a generic function here since all our music streaming platforms
@@ -108,6 +141,12 @@ export function getImportPlaylistId(link: string): string {
   // should be handled by each class and this function should only act as an adapter
   const url = new URL(link);
   const paths = url.pathname.split("/");
+  const platform = getPlatformName(link);
+
+  // Youtube's playlist id is a bit constructed different from others
+  if (platform === Platform.YoutubeMusic) {
+    return url.searchParams.get("list")!;
+  }
 
   return paths[paths.length - 1];
 }

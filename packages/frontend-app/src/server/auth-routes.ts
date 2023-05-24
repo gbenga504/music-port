@@ -4,7 +4,7 @@ import { Router } from "express";
 const routes = Router();
 
 routes.get(
-  "/auth/:platform(spotify|deezer)/callback",
+  "/auth/:platform(spotify|deezer|youtubeMusic)/callback",
   async (req, res, _next) => {
     const { state, code } = req.query as { code: string; state: string };
     const { platform } = req.params;

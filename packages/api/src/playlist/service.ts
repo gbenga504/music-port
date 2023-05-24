@@ -117,6 +117,7 @@ export class PlaylistService {
     const importPlaylistId = thirdPartyIntegrations.getImportPlaylistId(
       validInputs.playlistLink,
     );
+
     const existingPlaylist =
       await this.playlistRepository.findOneByImportPlaylistId(importPlaylistId);
 

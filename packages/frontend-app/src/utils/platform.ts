@@ -1,6 +1,7 @@
 export enum Platform {
   Spotify = "spotify",
   Deezer = "deezer",
+  YoutubeMusic = "youtubeMusic",
 }
 
 export const PlatformValues = Object.values(Platform) as [

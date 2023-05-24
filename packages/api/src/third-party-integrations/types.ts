@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import type { AuthenticateOptions } from "passport";
 import type { Strategy as SpotifyStrategy } from "passport-spotify";
 import type { Strategy as DeezerStrategy } from "passport-deezer";
+import type { Strategy as YoutubeStrategy } from "passport-youtube-v3";
 import type { IRawPlaylist } from "../models";
 
 interface IPlatformTokens {
@@ -12,8 +13,8 @@ interface IPlatformTokens {
 }
 
 export interface IThirdPartyIntegrations {
-  getIntegrationName: () => string;
-  getPassportStrategy: () => DeezerStrategy | SpotifyStrategy;
+  getIntegrationName: () => "spotify" | "deezer" | "youtubeMusic";
+  getPassportStrategy: () => DeezerStrategy | SpotifyStrategy | YoutubeStrategy;
   authenticate: (
     authOptions: AuthenticateOptions,
     callback?: (error: null | Error, platformTokens: IPlatformTokens) => void,
@@ -35,5 +36,5 @@ export interface IThirdPartyIntegrations {
   searchForItems: (options: {
     accessToken: string;
     playlist: IRawPlaylist;
-  }) => Promise<(string | null)[]>;
+  }) => Promise<any>;
 }

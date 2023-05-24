@@ -39,7 +39,7 @@ export interface NexusGenEnums {
     | "Rap"
     | "Reggae"
     | "Rock";
-  PlaylistPlatform: "deezer" | "spotify";
+  PlaylistPlatform: "deezer" | "spotify" | "youtubeMusic";
 }
 
 export interface NexusGenScalars {

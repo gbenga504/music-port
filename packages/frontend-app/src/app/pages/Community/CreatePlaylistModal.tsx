@@ -9,11 +9,6 @@ import type { ChangeEventHandler } from "react";
 
 import { Modal } from "../../components/Modal";
 import { Option, Select } from "../../components/Select";
-import {
-  AppleMusicIcon,
-  DeezerIcon,
-  SpotifyIcon,
-} from "../../components/icons";
 import { Space } from "../../components/Space";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
@@ -30,6 +25,8 @@ import { useToast } from "../../components/Toast/ToastContext";
 import { useApi } from "../../context/ApiContext";
 import { IPageQuery } from "./loadData";
 import { sleep } from "../../../utils/sleep";
+import { PlatformIcon } from "../../components/PlatformIcon";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 interface IProps {
   open: boolean;
@@ -88,27 +85,24 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
 
           await sleep(4000);
 
-          onClose();
-
-          navigate(
-            constructURL({
-              routeId: routeIds.community,
-            }),
-            { replace: true }
-          );
+          handleClose();
         }
       }
     })();
   }, [query]);
 
-  const getPlatformIcon = (platform: Platform) => {
-    switch (platform) {
-      case Platform.Spotify:
-        return <SpotifyIcon />;
-      case Platform.Deezer:
-        return <DeezerIcon />;
-      default:
-        return <AppleMusicIcon />;
+  const handleClose = () => {
+    onClose();
+
+    const { author } = query;
+
+    if (author) {
+      navigate(
+        constructURL({
+          routeId: routeIds.community,
+        }),
+        { replace: true }
+      );
     }
   };
 
@@ -158,7 +152,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
     return (
       <Space>
-        {getPlatformIcon(opts.value)}
+        <PlatformIcon platform={opts.value} />
         <span>{opts.label}</span>
       </Space>
     );
@@ -166,17 +160,21 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
 
   const renderOptions = () => {
     return PlatformValues.map((platform) => (
-      <Option value={platform} label={platform} key={platform}>
+      <Option
+        value={platform}
+        label={convertCamelCaseToCapitalize(platform)}
+        key={platform}
+      >
         <Space>
-          {getPlatformIcon(platform)}
-          <span>{platform}</span>
+          <PlatformIcon platform={platform} />
+          <span>{convertCamelCaseToCapitalize(platform)}</span>
         </Space>
       </Option>
     ));
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Post a playlist">
+    <Modal open={open} onClose={handleClose} title="Post a playlist">
       <Form
         onSubmit={handleSubmitFormValues}
         initialValues={{

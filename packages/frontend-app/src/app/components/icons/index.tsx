@@ -22,3 +22,4 @@ export { SuccessCelebrationIcon } from "./SuccessCelebrationIcon";
 export { CopyIcon } from "./CopyIcon";
 export { TelegramIcon } from "./TelegramIcon";
 export { WhatsappIcon } from "./WhatsappIcon";
+export { YoutubeMusicIcon } from "./YoutubeMusicIcon";

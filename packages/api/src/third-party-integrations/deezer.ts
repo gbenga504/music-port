@@ -3,19 +3,18 @@ import passport from "passport";
 import { Strategy } from "passport-deezer";
 import { AxiosError } from "axios";
 
-import type { StrategyOptions } from "passport-deezer";
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
-import { Platform } from "../utils/platform";
+import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 const clientID = process.env.DEEZER_CLIENTID;
 const clientSecret = process.env.DEEZER_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_DEEZER_AUTH_CALLBACK_URL;
 
 class Deezer implements IThirdPartyIntegrations {
-  private readonly integrationName: string = "deezer";
+  private readonly integrationName = "deezer";
 
   getIntegrationName(): ReturnType<
     IThirdPartyIntegrations["getIntegrationName"]
@@ -28,17 +27,17 @@ class Deezer implements IThirdPartyIntegrations {
   > {
     return new Strategy(
       {
-        clientID,
-        clientSecret,
-        callbackURL,
+        clientID: clientID!,
+        clientSecret: clientSecret!,
+        callbackURL: callbackURL!,
         scope: ["basic_access", "manage_library"],
-      } as StrategyOptions,
+      },
       function (accessToken, refreshToken, profile, done) {
         return done(null, {
           accessToken,
           refreshToken,
           expiresIn: null,
-          ownerId: profile.id,
+          userId: profile.id,
         });
       },
     );
@@ -214,7 +213,7 @@ class Deezer implements IThirdPartyIntegrations {
       return data?.data?.[0]?.id || null;
     }
 
-    if (playlist.songs.length > 50) {
+    if (playlist.songs.length > MAX_SONGS_PER_PLAYLIST) {
       throw new MusicStreamingPlatformResourceFailureError({
         message: "Can only export a maximum of 50 songs",
       });
@@ -239,7 +238,7 @@ class Deezer implements IThirdPartyIntegrations {
   transformPlaylistToInternalFormat(data: {
     [key: string]: any;
   }): IRawPlaylist {
-    if (data.tracks.data.length > 50) {
+    if (data.tracks.data.length > MAX_SONGS_PER_PLAYLIST) {
       throw new MusicStreamingPlatformResourceFailureError({
         message: "Can only import a maxium of 50 songs from a playlist",
       });

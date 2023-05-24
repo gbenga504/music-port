@@ -3,19 +3,18 @@ import passport from "passport";
 import { Strategy } from "passport-spotify";
 import { AxiosError } from "axios";
 
-import type { StrategyOptions } from "passport-spotify";
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
-import { Platform } from "../utils/platform";
+import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_SPOTIFY_AUTH_CALLBACK_URL;
 
 class Spotify implements IThirdPartyIntegrations {
-  private readonly integrationName: string = "spotify";
+  private readonly integrationName = "spotify";
 
   getIntegrationName(): ReturnType<
     IThirdPartyIntegrations["getIntegrationName"]
@@ -28,10 +27,10 @@ class Spotify implements IThirdPartyIntegrations {
   > {
     return new Strategy(
       {
-        clientID,
-        clientSecret,
-        callbackURL,
-      } as StrategyOptions,
+        clientID: clientID!,
+        clientSecret: clientSecret!,
+        callbackURL: callbackURL!,
+      },
       function (accessToken, refreshToken, expiresIn, profile, done) {
         return done(null, {
           accessToken,
@@ -186,7 +185,7 @@ class Spotify implements IThirdPartyIntegrations {
       return items?.[0].uri || null;
     }
 
-    if (playlist.songs.length > 50) {
+    if (playlist.songs.length > MAX_SONGS_PER_PLAYLIST) {
       throw new MusicStreamingPlatformResourceFailureError({
         message: "Can only export a maximum of 50 songs",
       });
@@ -214,7 +213,7 @@ class Spotify implements IThirdPartyIntegrations {
     type Image = IRawPlaylist["images"][number];
     type Song = IRawPlaylist["songs"][number];
 
-    if (data.tracks.items.length > 50) {
+    if (data.tracks.items.length > MAX_SONGS_PER_PLAYLIST) {
       throw new MusicStreamingPlatformResourceFailureError({
         message: "Can only import a maxium of 50 songs from a playlist",
       });

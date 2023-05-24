@@ -143,6 +143,7 @@ type PlaylistOwner {
 enum PlaylistPlatform {
   deezer
   spotify
+  youtubeMusic
 }
 
 type PlaylistSong {
