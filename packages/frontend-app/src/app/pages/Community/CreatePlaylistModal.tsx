@@ -83,7 +83,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
             duration: 4000,
           });
 
-          await sleep(4000);
+          await sleep(2000);
 
           handleClose();
         }
