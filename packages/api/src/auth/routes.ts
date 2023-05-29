@@ -23,7 +23,7 @@ routes.get(
       "base64",
     );
 
-    passportAuthenticate(platform, { state })(req, res, next);
+    passportAuthenticate(platform as Platform, { state })(req, res, next);
   },
 );
 
@@ -34,7 +34,7 @@ routes.get(
     const { fromAdminAuthTokenGenerator } = req.query;
 
     passportAuthenticate(
-      platform,
+      platform as Platform,
       { session: false },
       async (error, tokens) => {
         if (fromAdminAuthTokenGenerator === "true") {

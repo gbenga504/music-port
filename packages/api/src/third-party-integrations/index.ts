@@ -5,18 +5,19 @@ import deezer from "./deezer";
 import youtubeMusic from "./youtube";
 import { InvalidMusicStreamingPlatformError } from "../errors/invalid-music-streaming-platform-error";
 import { ResourceError } from "../errors/resource-error";
-
-import type { IThirdPartyIntegrations } from "./types";
 import { Platform } from "../utils/platform";
 
-export const getPassportStrategies = {
+import type { IThirdPartyIntegrations } from "./types";
+import type { Strategy } from "passport";
+
+export const getPassportStrategies: { [key in Platform]: Strategy } = {
   spotify: spotify.getPassportStrategy(),
   deezer: deezer.getPassportStrategy(),
   youtubeMusic: youtubeMusic.getPassportStrategy(),
 };
 
 export function authenticate(
-  platform: string | null,
+  platform: Platform | null,
   ...rest: Parameters<IThirdPartyIntegrations["authenticate"]>
 ): ReturnType<IThirdPartyIntegrations["authenticate"]> {
   let authenticationMethodForPlatform = null;
@@ -45,7 +46,7 @@ export function authenticate(
 }
 
 export function getPlaylistByLink(
-  platform: string | null,
+  platform: Platform | null,
   ...rest: Parameters<IThirdPartyIntegrations["getPlaylistByLink"]>
 ): ReturnType<IThirdPartyIntegrations["getPlaylistByLink"]> {
   let getPlaylistMethod = null;
@@ -74,7 +75,7 @@ export function getPlaylistByLink(
 }
 
 export function createPlaylist(
-  platform: string | null,
+  platform: Platform | null,
   ...rest: Parameters<IThirdPartyIntegrations["createPlaylist"]>
 ): ReturnType<IThirdPartyIntegrations["createPlaylist"]> {
   let createPlaylistMethod = null;
