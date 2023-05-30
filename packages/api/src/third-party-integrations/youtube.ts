@@ -481,7 +481,11 @@ class YoutubeMusic implements IThirdPartyIntegrations {
       return {
         artists: [
           {
-            name: item.snippet.videoOwnerChannelTitle,
+            // We have an ' - Topic' attached to some titles so we take this off
+            name: item.snippet.videoOwnerChannelTitle.replace(
+              /\s?-?\s?Topic/gi,
+              "",
+            ),
           },
         ],
         images,
@@ -504,7 +508,8 @@ class YoutubeMusic implements IThirdPartyIntegrations {
         height: Number(image.height),
       })),
       apiLink: this.getPlaylistLink({ playlistId: data.id }),
-      name: data.snippet.title,
+      // We have an 'Album - ' attached to some titles so we take this off
+      name: data.snippet.title.replace(/Album\s?-?\s?/gi, ""),
       owner: {
         name: "",
       },
