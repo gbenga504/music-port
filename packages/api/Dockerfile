@@ -17,8 +17,8 @@ COPY ./packages/api/package.json /app/packages/api/
 
 WORKDIR /app
 
-RUN yarn install
 COPY ./packages/api /app/packages/api/
+RUN yarn install
 
 WORKDIR /app/packages/api
 CMD yarn dev
