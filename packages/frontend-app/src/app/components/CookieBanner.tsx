@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import { Button } from "./Button";
@@ -6,13 +6,7 @@ import useCookieConsent from "../hooks/useCookieConsent";
 
 export const CookieBanner = () => {
   const [value, consentToCookie] = useCookieConsent();
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (!value) {
-      setIsVisible(false);
-    }
-  }, [value]);
+  const [isVisible, setIsVisible] = useState(!!value);
 
   const handleConsent = async () => {
     setIsVisible(false);
