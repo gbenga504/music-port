@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import { Button } from "./Button";
@@ -6,8 +6,14 @@ import useCookieConsent from "../hooks/useCookieConsent";
 
 export const CookieBanner = () => {
   const [value, consentToCookie] = useCookieConsent();
+  const [isVisible, setIsVisible] = useState(!!value);
 
-  return !value ? (
+  const handleConsent = async () => {
+    setIsVisible(false);
+    await consentToCookie();
+  };
+
+  return isVisible ? (
     <div
       className={classNames(
         "bg-white p-3 flex flex-col md:flex-row justify-between items-center",
@@ -22,7 +28,7 @@ export const CookieBanner = () => {
           variant="contained"
           color="primary"
           size="small"
-          onClick={consentToCookie}
+          onClick={handleConsent}
         >
           Ok
         </Button>
