@@ -5,6 +5,7 @@ node_modules/
 .auth.env
 .prod.env
 yarn-error.log
+storybook.log
 scripts/admin-auth-platform-cookies.json
 package-lock.json
 
