@@ -1,0 +1,16 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+.overlay {
+  @apply absolute bottom-0 left-0 w-full h-full grid content-end;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.overlay-content {
+  @apply flex justify-between px-4 pb-4;
+}
+
+button {
+  @apply hover:text-primary;
+}
