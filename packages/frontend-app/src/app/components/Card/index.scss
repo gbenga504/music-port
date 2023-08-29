@@ -14,3 +14,11 @@
 button {
   @apply hover:text-primary;
 }
+
+.coverWidth {
+  @apply w-[144px] lg:w-[156px] xl:w-[214px] 2xl:w-[250px];
+}
+
+.coverHeight {
+  @apply h-[144px]  lg:h-[156px] xl:h-[214px] 2xl:h-[250px];
+}
