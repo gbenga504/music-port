@@ -34,6 +34,11 @@ module.exports = {
         telegram: "#85B6FF",
         linkedIn: "#0A66C2",
         facebook: "#0000FF",
+
+        // These are colors used in card component
+        title: "#ffffffeb",
+        artist: "#ffffffa3",
+        play: "#252526",
       },
 
       transformOrigin: {
@@ -49,8 +54,20 @@ module.exports = {
         mediumGray: "#ABA6A6",
       },
 
+      borderRadius: {
+        50: "50%",
+      },
+
       zIndex: {
         1000: "1000",
+      },
+
+      spacing: {
+        9: "9px",
+        144: "144px",
+        156: "156px",
+        214: "214px",
+        250: "250px",
       },
 
       gridTemplateRows: {

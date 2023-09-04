@@ -3,6 +3,7 @@
 @import "tailwindcss/utilities";
 
 .scrollbar {
+  padding: 15px;
   &::-webkit-scrollbar {
     width: 0.5em;
   }
@@ -20,6 +21,14 @@
   scroll-behavior: smooth;
 }
 
+.scrollable__container {
+  @apply px-10 relative z-[1];
+}
+
+.scrollable__container:hover .arrowButton {
+  opacity: 1;
+}
+
 .arrowButton {
   align-items: center;
   background: transparent;
@@ -32,6 +41,7 @@
   position: absolute;
   width: 40px;
   z-index: 1;
+  opacity: 0;
 }
 
 .arrowTransition {
