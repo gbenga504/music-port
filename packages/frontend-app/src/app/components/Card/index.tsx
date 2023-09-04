@@ -3,7 +3,6 @@ import React from "react";
 import "./index.scss";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import { AppleMusicIcon } from "../icons";
 
 interface IProps {
   src: string;
@@ -25,7 +24,7 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
                 size="small"
                 className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
               >
-                <AppleMusicIcon />
+                P
               </Button>
               <Button
                 size="small"
