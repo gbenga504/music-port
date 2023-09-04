@@ -8,6 +8,7 @@ yarn-error.log
 storybook.log
 scripts/admin-auth-platform-cookies.json
 package-lock.json
+**/.DS_Store
 
 # -----------
 # BUILDS
