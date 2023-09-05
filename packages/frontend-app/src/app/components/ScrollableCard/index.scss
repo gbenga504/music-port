@@ -2,6 +2,16 @@
 @import "tailwindcss/base";
 @import "tailwindcss/utilities";
 
+.scrollable__section {
+  @apply px-10 relative z-[1];
+}
+
+.scrollable__container {
+  @apply list-none grid grid-flow-col gap-5 overflow-x-auto overflow-y-hidden;
+  scroll-timeline: --scrollable-container x;
+  scroll-timeline: --scrollable-container horizontal;
+}
+
 .scrollbar {
   padding: 15px;
   &::-webkit-scrollbar {
@@ -21,14 +31,6 @@
   scroll-behavior: smooth;
 }
 
-.scrollable__container {
-  @apply px-10 relative z-[1];
-}
-
-.scrollable__container:hover .arrowButton {
-  opacity: 1;
-}
-
 .arrowButton {
   align-items: center;
   background: transparent;
@@ -37,11 +39,31 @@
   display: flex;
   height: 100%;
   justify-content: center;
-  overflow: hidden;
   position: absolute;
   width: 40px;
   z-index: 1;
-  opacity: 0;
+  animation-name: reveal;
+  animation-duration: 1ms;
+  animation-timeline: --scrollable-container;
+  // opacity: 0;
+}
+
+.leftArrow {
+  @apply pb-8 left-0 top-0;
+}
+
+.rightArrow {
+  @apply pb-8 right-0 top-0;
+  animation-direction: reverse;
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
 }
 
 .arrowTransition {

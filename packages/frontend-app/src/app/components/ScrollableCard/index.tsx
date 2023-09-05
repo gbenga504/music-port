@@ -7,13 +7,7 @@ export const ScrollableCard = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollContainerRef = useRef<HTMLUListElement | null>(null);
 
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      setScrollPosition(scrollContainerRef.current.scrollLeft);
-    }
-  };
-
-  const cardArray = Array.from({ length: 10 }, (_, index) => (
+  const cardArray = Array.from({ length: 20 }, (_, index) => (
     <Card key={index} link="" src="" title="" artist="" />
   ));
 
@@ -36,12 +30,11 @@ export const ScrollableCard = () => {
   };
 
   return (
-    <section className="scrollable__container">
+    <section className="scrollable__section">
       <div>
         <ul
           ref={scrollContainerRef}
-          className="list-none grid grid-flow-col gap-5 overflow-x-auto overflow-y-hidden scrollbar"
-          onScroll={handleScroll}
+          className="scrollable__container scrollbar"
         >
           {cardArray}
         </ul>
@@ -51,14 +44,14 @@ export const ScrollableCard = () => {
         <ul className="list-none">
           <button
             type="button"
-            className="arrowButton pb-8 right-0 top-0"
+            className="arrowButton rightArrow"
             onClick={navigateRight}
           >
             R
           </button>
           <button
             type="button"
-            className="arrowButton pb-8 left-0 top-0"
+            className="arrowButton leftArrow"
             onClick={navigateLeft}
           >
             L
