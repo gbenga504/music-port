@@ -4,27 +4,31 @@ import type { RouteObjectWithLoadData } from "react-router-dom";
 import type { ILoadableComponentProps } from "../utils/route-utils";
 
 import {
-  loadData as homeLoadData,
-  IPageQuery as IHomePageQuery,
-} from "./pages/Home/loadData";
+  loadData as discoverLoadData,
+  IPageQuery as IDiscoverPageQuery,
+} from "./pages/v2/Discover/loadData";
 import {
   loadData as communityLoadData,
   IPageQuery as ICommunityPageQuery,
 } from "./pages/Community/loadData";
 
 export const routeIds = {
+  // TODO: Old routes Ids, should be deleted
   home: "home",
   community: "community",
+
+  // New routes Ids
+  discover: "discover",
 };
 
 const routes: RouteObjectWithLoadData[] = [
   {
-    id: routeIds.home,
+    id: routeIds.discover,
     path: "/",
-    component: loadable<ILoadableComponentProps<unknown, IHomePageQuery>>(
-      () => import("./pages/Home"),
+    component: loadable<ILoadableComponentProps<unknown, IDiscoverPageQuery>>(
+      () => import("./pages/v2/Discover"),
     ),
-    loadData: homeLoadData,
+    loadData: discoverLoadData,
   },
   {
     id: routeIds.community,

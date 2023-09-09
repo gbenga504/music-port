@@ -137,7 +137,7 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
       )}
       <ApiProvider api={api}>
         <ToastProvider>
-          <div className="bg-secondary min-h-full h-fit">
+          <div className="bg-secondary400 min-h-full h-fit">
             {renderMatches(matchedRoutes)}
             <CookieBanner />
           </div>
