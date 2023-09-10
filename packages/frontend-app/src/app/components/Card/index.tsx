@@ -13,26 +13,24 @@ interface IProps {
 
 export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
   return (
-    <Link to={link}>
+    <Link to={link} className="w-full">
       <div className="card__container">
         <div className="relative">
           <img src={src} alt={title} className="cover__image" />
 
           <div className="overlay">
-            <div className="overlay-content">
-              <Button
-                size="small"
-                className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
-              >
-                P
-              </Button>
-              <Button
-                size="small"
-                className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
-              >
-                Op
-              </Button>
-            </div>
+            <Button
+              size="small"
+              className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
+            >
+              P
+            </Button>
+            <Button
+              size="small"
+              className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
+            >
+              Op
+            </Button>
           </div>
         </div>
         <div className="mt-1">
