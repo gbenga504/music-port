@@ -3,18 +3,12 @@
 @import "tailwindcss/utilities";
 
 .card__container {
-  @apply flex flex-col cursor-pointer w-144 lg:w-156 xl:w-214 2xl:w-250;
+  @apply flex flex-col cursor-pointer w-full;
+  & .overlay {
+    @apply absolute bottom-0 left-0 w-full h-full bg-blackAlpha30 flex items-end justify-between p-4 opacity-0 hover:opacity-100 ease-in duration-300;
+  }
 }
 
 .cover__image {
-  @apply rounded-md w-full max-h-144 lg:max-h-156 xl:max-h-214 2xl:max-h-250;
-}
-
-.overlay {
-  @apply absolute bottom-0 left-0 w-full h-full grid content-end  opacity-0 hover:opacity-100 hover:ease-in hover:duration-300;
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.overlay-content {
-  @apply flex justify-between px-4 pb-4;
+  @apply rounded-md w-full max-h-36 lg:max-h-40 xl:max-h-52 object-cover;
 }

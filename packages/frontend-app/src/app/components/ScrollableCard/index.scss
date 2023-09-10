@@ -4,71 +4,64 @@
 
 .scrollable__section {
   @apply px-10 relative z-[1];
-}
 
-.scrollable__container {
-  @apply list-none grid grid-flow-col gap-5 overflow-x-auto overflow-y-hidden;
-  scroll-timeline: --scrollable-container x;
-  scroll-timeline: --scrollable-container horizontal;
-}
-
-.scrollbar {
-  padding: 15px;
-  &::-webkit-scrollbar {
-    width: 0.5em;
+  & .scrollable__container {
+    @apply list-none grid grid-flow-col gap-5 overflow-x-auto overflow-y-hidden;
+    scroll-timeline: --scrollable-container x;
+    scroll-timeline: --scrollable-container horizontal;
   }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: transparent;
+  & .scrollbar {
+    padding: 15px;
+    &::-webkit-scrollbar {
+      width: 0.5em;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
   }
 
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
+  & .arrowButton {
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    z-index: 1;
+    animation-name: reveal;
+    animation-duration: 1ms;
+    animation-timeline: --scrollable-container;
+    // opacity: 0;
   }
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  scroll-behavior: smooth;
-}
-
-.arrowButton {
-  align-items: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  position: absolute;
-  width: 40px;
-  z-index: 1;
-  animation-name: reveal;
-  animation-duration: 1ms;
-  animation-timeline: --scrollable-container;
-  // opacity: 0;
-}
-
-.leftArrow {
-  @apply pb-8 left-0 top-0;
-}
-
-.rightArrow {
-  @apply pb-8 right-0 top-0;
-  animation-direction: reverse;
-}
-
-@keyframes reveal {
-  0% {
-    opacity: 0;
+  & .leftArrow {
+    @apply pb-8 left-0 top-0;
   }
-  2% {
-    opacity: 1;
-  }
-}
 
-.arrowTransition {
-  opacity: 1;
-  transition: background-color 0.25s linear, color 0.25s linear,
-    opacity 0.25s linear;
-  will-change: opacity;
+  & .rightArrow {
+    @apply pb-8 right-0 top-0;
+    animation-direction: reverse;
+  }
+
+  @keyframes reveal {
+    0% {
+      opacity: 0;
+    }
+    2% {
+      opacity: 1;
+    }
+  }
 }
