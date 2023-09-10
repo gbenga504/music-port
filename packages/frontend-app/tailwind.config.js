@@ -22,11 +22,11 @@ module.exports = {
       colors: {
         primary: "#0BB4B5",
         primaryAlpha: "#C9F6F7",
-        secondary: "#06062D",
-        secondaryAlpha: "#181835",
-        secondaryAlpha200: "rgba(24, 24, 53, 0.8)",
-        secondaryAlpha300: "rgba(6, 6, 45, 0.8)",
-        blackAlpha45: "rgba(0,0,0,.45)",
+        secondary50: "#EDEDED",
+        secondary100: "#4D4D4D",
+        secondary200: "#2C2C2C",
+        secondary300: "#252526",
+        secondary400: "#1F1F1F",
 
         // These are special colors, hence have them here
         whatsapp: "#1ED760",
@@ -34,6 +34,13 @@ module.exports = {
         telegram: "#85B6FF",
         linkedIn: "#0A66C2",
         facebook: "#0000FF",
+
+        // TODO: Old colors, should be deleted
+        secondary: "#06062D",
+        secondaryAlpha: "#181835",
+        secondaryAlpha200: "rgba(24, 24, 53, 0.8)",
+        secondaryAlpha300: "rgba(6, 6, 45, 0.8)",
+        blackAlpha45: "rgba(0,0,0,.45)",
       },
 
       transformOrigin: {

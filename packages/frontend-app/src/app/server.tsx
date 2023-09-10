@@ -71,9 +71,11 @@ export const renderer = async (
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <link rel="icon" type="image/x-icon" href="public/images/logo.svg">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.cdnfonts.com/css/circular-std?styles=17909,17911,17907,17905" rel="stylesheet">
+        <style>
+          * {
+            font-family: -apple-system,BlinkMacSystemFont,Apple Color Emoji,SF Pro,SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif
+          }
+        </style>
 
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
@@ -81,7 +83,7 @@ export const renderer = async (
         ${helmet.script.toString()}
         ${chunkExtractor.getStyleTags()}
       </head>
-      <body style="height: 100%; overflow-x: hidden; background: #06062D">
+      <body style="height: 100%; overflow-x: hidden; background: #1F1F1F">
         <div style="height: 100%" id="root">${jsxHTML}</div>
         ${chunkExtractor.getScriptTags()}
         <script id="app-data" type="application/json">${serialize(data, {
