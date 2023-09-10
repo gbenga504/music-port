@@ -35,9 +35,9 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
         </div>
         <div className="mt-1">
           <div className="flex items-center justify-between">
-            <p className="text-title text-xs">{title}</p>
+            <p className="text-secondary50 text-xs">{title}</p>
           </div>
-          <p className="mt-px text-xs text-artist">{artist}</p>
+          <p className="mt-px text-xs text-secondary100">{artist}</p>
         </div>
       </div>
     </Link>
