@@ -23,3 +23,5 @@ export { CopyIcon } from "./CopyIcon";
 export { TelegramIcon } from "./TelegramIcon";
 export { WhatsappIcon } from "./WhatsappIcon";
 export { YoutubeMusicIcon } from "./YoutubeMusicIcon";
+export { DiscoverIcon } from "./DiscoverIcon";
+export { ConvertIcon } from "./ConvertIcon";
