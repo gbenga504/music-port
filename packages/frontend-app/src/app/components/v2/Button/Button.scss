@@ -1,0 +1,120 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+@layer components {
+  .button {
+    @apply inline-flex items-center;
+  }
+
+  .button-contained {
+    @apply justify-center items-center;
+
+    &.button-primary {
+      @apply bg-primary text-white;
+
+      &:hover,
+      &:active,
+      &:focus {
+        @apply bg-teal-600 outline-none;
+      }
+    }
+
+    &.button-secondary {
+      @apply bg-white text-black;
+
+      &:hover,
+      &:active,
+      &:focus {
+        @apply bg-gray-200 outline-none;
+      }
+    }
+
+    &.button-large {
+      @apply rounded-md px-5 text-lg h-11 font-light;
+    }
+
+    &.button-medium {
+      @apply rounded-md px-4 text-base h-9 font-light;
+    }
+
+    &.button-small {
+      @apply rounded-md px-3 text-[13px] h-7 font-normal;
+    }
+
+    &.button-fullWidth {
+      @apply w-full;
+    }
+
+    &.button-disabled {
+      @apply bg-teal-600;
+    }
+  }
+
+  .button-text {
+    @apply block outline-none text-white;
+
+    &a:hover,
+    &a:active,
+    &a:focus-visible,
+    &a:focus {
+      @apply outline-none;
+    }
+
+    &:hover span.button-text-decorator,
+    &:active span.button-text-decorator,
+    &:focus span.button-text-decorator {
+      @apply opacity-100 w-4/5;
+    }
+
+    & span.button-text-decorator {
+      @apply block w-0 border-t-2 border-solid border-primary opacity-0 transition-all;
+    }
+
+    &.button-large {
+      @apply text-lg font-light;
+    }
+
+    &.button-medium {
+      @apply text-base font-light;
+    }
+
+    &.button-small {
+      @apply text-[13px] font-normal;
+    }
+
+    &.button-focused {
+      & .button-text-decorator {
+        @apply opacity-100 w-4/5;
+      }
+    }
+  }
+
+  .button-transparent {
+    @apply outline-none font-light text-secondary50;
+
+    &:focus {
+      @apply border-4 border-primary;
+    }
+
+    &.button-large {
+      @apply rounded-md px-5 text-lg h-11;
+    }
+
+    &.button-medium {
+      @apply rounded-md px-4 text-base h-9;
+    }
+
+    &.button-small {
+      @apply rounded-md px-3 text-[13px] h-7;
+    }
+
+    &.button-fullWidth {
+      @apply w-full;
+    }
+
+    &.button-focused {
+      @apply bg-secondary100 font-normal;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { DiscoverIcon, LogoIcon, ConvertIcon } from "../icons";
-import { Button } from "../Button";
+import { Button } from "./Button/Button";
 import { routeIds } from "../../routes";
 import { constructURL } from "../../../utils/url";
 
@@ -15,21 +15,20 @@ export const DesktopSidebar: React.FC = () => {
             variant="transparent"
             to={constructURL({ routeId: routeIds.discover })}
             fullWidth
+            icon={<DiscoverIcon size={20} />}
+            focused
           >
-            <span className="flex gap-2 items-center">
-              <DiscoverIcon size={20} /> Discover
-            </span>
+            Discover
           </Button>
         </li>
         <li>
           <Button
             variant="transparent"
             to={constructURL({ routeId: routeIds.discover })}
+            icon={<ConvertIcon size={20} />}
             fullWidth
           >
-            <span className="flex gap-2 items-center">
-              <ConvertIcon size={20} /> Convert
-            </span>
+            Convert
           </Button>
         </li>
       </ul>

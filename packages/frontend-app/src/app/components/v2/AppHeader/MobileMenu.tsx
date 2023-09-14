@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { Drawer } from "../../Drawer";
 import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../../icons";
-import { Button } from "../../Button";
+import { Button } from "../Button/Button";
 import { constructURL } from "../../../../utils/url";
 import { routeIds } from "../../../routes";
 import { doesPathMatch } from "../../../../utils/route-utils";
