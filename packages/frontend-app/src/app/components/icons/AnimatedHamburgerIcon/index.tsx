@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import type { MouseEventHandler } from "react";
 import "./index.scss";
-import { Button } from "../../Button";
+import { Button } from "../../v2/Button/Button";
 
 interface IProps {
   open?: boolean;
