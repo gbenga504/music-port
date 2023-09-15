@@ -1,8 +1,8 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
-
-import { Card } from "./index";
 import { BrowserRouter as Router } from "react-router-dom";
+
+import { Card } from "./Card";
 
 const meta: Meta<typeof Card> = {
   title: "Card",
@@ -19,13 +19,13 @@ const meta: Meta<typeof Card> = {
     ),
   ],
 };
-export default meta;
 
+export default meta;
 type Story = StoryObj<typeof Card>;
 
 export const BaseCard: Story = {
   args: {
-    src: "",
+    src: "https://images.prismic.io/wunderflatscontent/ef754f0d-5903-40b7-a1d6-ea143f480f37_Balcony-M.jpg?auto=compress,format",
     title: "My God Is Still The Same",
     artist: "Sanctus Real",
   },
