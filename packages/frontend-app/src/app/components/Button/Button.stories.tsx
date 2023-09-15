@@ -3,7 +3,7 @@ import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Button } from "./Button";
-import { DiscoverIcon } from "../../icons";
+import { DiscoverIcon } from "../icons";
 
 const meta: Meta<typeof Button> = {
   title: "Button",

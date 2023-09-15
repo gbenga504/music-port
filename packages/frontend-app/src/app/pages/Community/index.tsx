@@ -9,7 +9,7 @@ import { PlaylistGenre } from "../../../utils/platform";
 import type { IPageQuery } from "./loadData";
 
 import { AppHeader } from "../../components/AppHeader";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { PageLayout } from "../../components/PageLayout";
 import { ConvertPlaylist } from "./ConvertPlaylist";
 import { CreatePlaylistModal } from "./CreatePlaylistModal";
@@ -187,7 +187,7 @@ const Community: React.FC<
   };
 
   return (
-    <PageLayout>
+    <PageLayout title="Hey">
       <HeadMarkup title="Community | Discover a world of music" />
       <AppHeader />
       <div

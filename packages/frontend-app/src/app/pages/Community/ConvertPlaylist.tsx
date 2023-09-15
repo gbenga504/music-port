@@ -20,7 +20,7 @@ import {
   TableRow,
 } from "../../components/Table";
 import { Pagination } from "../../components/Table/Pagination";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";

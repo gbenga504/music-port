@@ -3,9 +3,9 @@ import { createPortal } from "react-dom";
 import classNames from "classnames";
 
 import type { ReactNode } from "react";
-import type { IProps as IButtonProps } from "../Button";
+import type { IProps as IButtonProps } from "../Button/Button";
 
-import { Button } from "../Button";
+import { Button } from "../Button/Button";
 import { sleep } from "../../../utils/sleep";
 import { CancelIcon } from "../icons";
 

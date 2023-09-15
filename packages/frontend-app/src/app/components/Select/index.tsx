@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
 import { RedStarIcon, ArrowDownIcon } from "../icons";
 import { sleep } from "../../../utils/sleep";
 import "./index.scss";
-import { Button } from "../Button";
+import { Button } from "../Button/Button";
 import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 

@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useMemo } from "react";
 
 import { ArrowDownIcon } from "../icons";
-import { Button } from "../Button";
+import { Button } from "../Button/Button";
 
 import "./Pagination.scss";
 

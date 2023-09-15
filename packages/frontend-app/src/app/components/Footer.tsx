@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 
 import { Space } from "./Space";
-import { Button } from "./Button";
+import { Button } from "./Button/Button";
 import { FacebookIcon, LinkedInIcon, TwitterIcon } from "./icons";
 
 export const Footer: React.FC = () => {

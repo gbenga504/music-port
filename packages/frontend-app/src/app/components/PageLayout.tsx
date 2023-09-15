@@ -2,17 +2,26 @@ import React from "react";
 
 import type { ReactNode } from "react";
 
-import { Footer } from "./Footer";
+import { HeadMarkup } from "./HeadMarkup";
+import { DesktopSidebar } from "./DesktopSidebar";
+import { AppHeader } from "./AppHeader";
 
 interface IProps {
-  children: ReactNode;
+  title: string;
+  description?: string;
+  children?: ReactNode;
 }
 
-export const PageLayout: React.FC<IProps> = ({ children }) => {
+export const PageLayout: React.FC<IProps> = ({ title, description }) => {
   return (
-    <div className="mx-4 md:mx-8 xl:max-w-screen-xl xl:mx-auto">
-      <div>{children}</div>
-      <Footer />
+    <div className={"mx-0 h-screen grid grid-cols-1 lg:grid-cols-[260px_4fr]"}>
+      <HeadMarkup title={title} description={description} />
+      <div className="hidden lg:block">
+        <DesktopSidebar />
+      </div>
+      <div>
+        <AppHeader />
+      </div>
     </div>
   );
 };
