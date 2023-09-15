@@ -1,9 +1,9 @@
 import React from "react";
 
-import { DiscoverIcon, LogoIcon, ConvertIcon } from "../icons";
+import { DiscoverIcon, LogoIcon, ConvertIcon } from "./icons";
 import { Button } from "./Button/Button";
-import { routeIds } from "../../routes";
-import { constructURL } from "../../../utils/url";
+import { routeIds } from "../routes";
+import { constructURL } from "../../utils/url";
 
 export const DesktopSidebar: React.FC = () => {
   return (

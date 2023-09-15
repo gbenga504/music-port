@@ -35,7 +35,7 @@
     }
 
     &.button-medium {
-      @apply rounded-md px-4 text-base h-9 font-light;
+      @apply rounded-md px-4 text-[15px] h-9 font-light;
     }
 
     &.button-small {
@@ -76,7 +76,7 @@
     }
 
     &.button-medium {
-      @apply text-base font-light;
+      @apply text-[15px] font-light;
     }
 
     &.button-small {
@@ -94,7 +94,7 @@
     @apply outline-none font-light text-secondary50;
 
     &:focus {
-      @apply border-4 border-primary;
+      @apply border border-primary;
     }
 
     &.button-large {
@@ -102,7 +102,7 @@
     }
 
     &.button-medium {
-      @apply rounded-md px-4 text-base h-9;
+      @apply rounded-md px-4 text-[15px] h-9;
     }
 
     &.button-small {

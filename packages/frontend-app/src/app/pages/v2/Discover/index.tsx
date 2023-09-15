@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PageLayout } from "../../../components/v2/PageLayout";
+import { PageLayout } from "../../../components/PageLayout";
 
 import type { ILoadableComponentProps } from "../../../../utils/route-utils";
 import type { IPageQuery } from "./loadData";

@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import pick from "lodash/pick";
 import classNames from "classnames";
 
-import "./index.scss";
+import "./Button.scss";
 import { SpinnerIcon } from "../icons";
 
-import type { ReactNode, MouseEventHandler } from "react";
+import type { ReactNode, MouseEventHandler, ReactElement } from "react";
 
 export interface IProps {
   variant?: "contained" | "text" | "transparent";
-  size?: "small" | "medium" | "large" | "x-large";
+  size?: "small" | "medium" | "large";
   htmlType?: "submit" | "button" | "reset";
   href?: string;
   to?: string;
@@ -20,12 +20,13 @@ export interface IProps {
   onClick?: MouseEventHandler<HTMLElement>;
   children?: ReactNode;
   className?: string;
-  color?: "primary";
+  color?: "primary" | "secondary";
   loadingText?: string;
   fullWidth?: boolean;
   focused?: boolean;
   tabIndex?: number;
   rel?: string;
+  icon?: ReactElement;
 }
 
 const NativeButtonProps = (
@@ -96,6 +97,7 @@ export const Button: React.FC<IProps> = (props) => {
     loadingText,
     fullWidth,
     focused,
+    icon,
   } = props;
   const isButton = !href && !to;
 
@@ -104,19 +106,28 @@ export const Button: React.FC<IProps> = (props) => {
     "button-text": variant === "text",
     "button-transparent": variant === "transparent",
     "button-large": size === "large",
-    "button-xlarge": size === "x-large",
     "button-medium": size === "medium",
     "button-small": size === "small",
     "button-primary": color === "primary",
+    "button-secondary": color === "secondary",
     "button-fullWidth": fullWidth === true,
     "button-disabled": disabled === true && isButton,
     "cursor-not-allowed": disabled === true && isButton,
     "button-focused": focused === true,
   });
 
+  const renderIcon = () => {
+    if (icon) {
+      return <span className="mr-2">{icon}</span>;
+    }
+
+    return null;
+  };
+
   if (href) {
     return (
       <a className={classNames(buttonClassName)} {...NativeAnchorProps(props)}>
+        {renderIcon()}
         <span>{children}</span>
         {variant === "text" && <span className="button-text-decorator" />}
       </a>
@@ -127,6 +138,7 @@ export const Button: React.FC<IProps> = (props) => {
         className={classNames(buttonClassName)}
         {...ClientSideLinkProps(props)}
       >
+        {renderIcon()}
         <span>{children}</span>
         {variant === "text" && <span className="button-text-decorator" />}
       </Link>
@@ -146,7 +158,10 @@ export const Button: React.FC<IProps> = (props) => {
           <span className="ml-2">{loadingText || "Loading"}</span>
         </>
       ) : (
-        children
+        <>
+          {renderIcon()}
+          {children}
+        </>
       )}
       {variant === "text" && <span className="button-text-decorator" />}
     </button>

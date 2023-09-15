@@ -15,7 +15,7 @@ import { Input } from "../../components/Input";
 import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { Platform, PlatformValues } from "../../../utils/platform";
@@ -300,7 +300,7 @@ const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
   };
 
   return (
-    <PageLayout>
+    <PageLayout title="Hey">
       <HeadMarkup title="Home | Convert playlists easily" />
       <AppHeader />
       <div

@@ -10,7 +10,7 @@ import type { ChangeEventHandler } from "react";
 import { Modal } from "../../components/Modal";
 import { Option, Select } from "../../components/Select";
 import { Space } from "../../components/Space";
-import { Button } from "../../components/Button";
+import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input";
 import {
   Platform,
