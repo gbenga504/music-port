@@ -1,7 +1,7 @@
 import React from "react";
 
 import "./index.scss";
-import { Button } from "../Button";
+import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
 
 interface IProps {
@@ -14,7 +14,7 @@ interface IProps {
 export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
   return (
     <Link to={link} className="w-full">
-      <div className="card__container">
+      <div className="card">
         <div className="relative">
           <img src={src} alt={title} className="cover__image" />
 
