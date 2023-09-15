@@ -1,8 +1,8 @@
 import React from "react";
-
-import "./index.scss";
-import { Button } from "../Button/Button";
 import { Link } from "react-router-dom";
+
+import "./Card.scss";
+import { Button } from "../Button/Button";
 
 interface IProps {
   src: string;

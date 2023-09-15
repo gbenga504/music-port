@@ -2,7 +2,7 @@ import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { Card } from "./index";
+import { Card } from "./Card";
 
 const meta: Meta<typeof Card> = {
   title: "Card",
