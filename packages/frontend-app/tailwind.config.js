@@ -40,6 +40,7 @@ module.exports = {
         secondaryAlpha: "#181835",
         secondaryAlpha200: "rgba(24, 24, 53, 0.8)",
         secondaryAlpha300: "rgba(6, 6, 45, 0.8)",
+        blackAlpha30: "rgba(0,0,0,.30)",
         blackAlpha45: "rgba(0,0,0,.45)",
       },
 
