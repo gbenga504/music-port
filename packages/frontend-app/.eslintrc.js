@@ -93,7 +93,14 @@ module.exports = {
     {
       files: "src/app/hooks/*.ts",
       rules: {
-        "unicorn/filename-case": "off",
+        "unicorn/filename-case": [
+          "error",
+          {
+            cases: {
+              camelCase: true,
+            },
+          },
+        ],
       },
     },
   ],
