@@ -20,6 +20,7 @@ const formatError = (error: unknown): { [key: string]: string } => {
       if (field && field !== "_errors") {
         acc[field] = formattedError[field]._errors[0];
       }
+
       return acc;
     },
     {},

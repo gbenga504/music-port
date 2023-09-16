@@ -60,6 +60,7 @@ export const Modal: React.FC<IProps> = ({
         await sleep(100);
 
         setIsModalOnScreen(true);
+
         return;
       }
 

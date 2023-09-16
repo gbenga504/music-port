@@ -104,6 +104,7 @@ const Select: React.FC<IProps> = ({
 
       setIsDropdownOnScreen(true);
       onFocus?.();
+
       return;
     }
 

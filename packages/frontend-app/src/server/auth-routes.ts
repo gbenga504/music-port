@@ -23,6 +23,7 @@ routes.get(
 
       if (redirect_uri === "null") {
         res.status(200).send("Token generated");
+
         return;
       }
 

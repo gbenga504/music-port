@@ -39,6 +39,7 @@ app.get("/*", async (req, res) => {
   try {
     if (req.url === "/favicon.ico") {
       res.status(200).json({ status: "ok" });
+
       return;
     }
 

@@ -162,6 +162,7 @@ export const Drawer: React.FC<IProps> = ({
         await sleep(100);
 
         setIsDrawerOnScreen(true);
+
         return;
       }
 
