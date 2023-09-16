@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./Card.scss";
 import { IconButton } from "../IconButton/IconButton";
-import { PlayIcon, ShareIcon } from "../icons";
+import { CopyIcon, PlayIcon } from "../icons";
 
 interface IProps {
   src: string;
@@ -24,7 +24,7 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
               <PlayIcon size={13} className="ml-1" />
             </IconButton>
             <IconButton>
-              <ShareIcon size={18} className="ml-1" />
+              <CopyIcon size={13} />
             </IconButton>
           </div>
         </div>
