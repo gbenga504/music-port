@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
 import classNames from "classnames";
+import React from "react";
+import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 
-import type { ReactNode } from "react";
-import type { IProps as IButtonProps } from "../Button/Button";
-
-import { Button } from "../Button/Button";
 import { sleep } from "../../../utils/sleep";
-import { CancelIcon } from "../icons";
-
 import "./index.scss";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
-import { Drawer } from "../Drawer";
 import useSsr from "../../hooks/useSsr";
+import { Button } from "../Button/Button";
+import { Drawer } from "../Drawer";
+import { CancelIcon } from "../icons";
+
+import type { IProps as IButtonProps } from "../Button/Button";
+import type { ReactNode } from "react";
 
 interface IProps {
   title?: string;
@@ -42,12 +42,12 @@ export const Modal: React.FC<IProps> = ({
   const portalRef = useRef(isBrowser ? document.createElement("div") : null);
 
   useEffect(() => {
-    document.body.appendChild(portalRef.current!);
+    document.body.append(portalRef.current!);
     setHasModalBeenAppendedToBody(true);
 
     return () => {
       document.getElementsByTagName("body")[0].style.overflowY = "";
-      document.body.removeChild(portalRef.current!);
+      portalRef.current!.remove();
     };
   }, []);
 
@@ -60,6 +60,7 @@ export const Modal: React.FC<IProps> = ({
         await sleep(100);
 
         setIsModalOnScreen(true);
+
         return;
       }
 

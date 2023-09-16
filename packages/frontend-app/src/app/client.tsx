@@ -1,14 +1,14 @@
+import { loadableReady } from "@loadable/component";
 import React from "react";
 import { hydrateRoot } from "react-dom/client";
-import { loadableReady } from "@loadable/component";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
-import { getApiClient } from "./api";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { getApiClient } from "./api";
 
-import type { IPageDatas } from "../utils/route-utils";
 import type { ICreateApiClient } from "./api";
+import type { IPageDatas } from "../utils/route-utils";
 
 interface ICallbackProps {
   // TODO: Type error properly. Error is a stringified object

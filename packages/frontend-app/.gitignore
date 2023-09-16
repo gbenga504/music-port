@@ -1,6 +1,7 @@
 # -----------
 # APP AND NODE FILES
 # -----------
+.eslintcache
 node_modules/
 .auth.env
 .prod.env

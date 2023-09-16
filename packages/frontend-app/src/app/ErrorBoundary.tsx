@@ -1,8 +1,9 @@
 import React from "react";
 
+import { RedirectError } from "../errors/redirect-error";
+
 import type { ReactNode } from "react";
 
-import { RedirectError } from "../errors/redirect-error";
 
 interface IProps {
   error?: Error;

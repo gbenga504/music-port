@@ -1,12 +1,13 @@
-import express from "express";
 import cookieParser from "cookie-parser";
+import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
-import { renderer } from "../app/server";
+import adminAuthTokenGeneratorRoutes from "./admin-auth-token-generator-routes";
 import authRoutes from "./auth-routes";
 import cookieConsentRoutes from "./cookie-consent-routes";
-import adminAuthTokenGeneratorRoutes from "./admin-auth-token-generator-routes";
+
 import { getApiClient } from "../app/api";
+import { renderer } from "../app/server";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.get("/*", async (req, res) => {
   try {
     if (req.url === "/favicon.ico") {
       res.status(200).json({ status: "ok" });
+
       return;
     }
 

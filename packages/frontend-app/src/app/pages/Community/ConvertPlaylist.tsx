@@ -1,14 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { Form, Field } from "react-final-form";
 import { omit } from "lodash";
+import { useEffect, useRef, useState } from "react";
+import React from "react";
+import { Form, Field } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
-import type { IRenderLabel } from "../../components/Select";
-import type { ICreateApiClient } from "../../api";
-import type { IPaginationOpts } from "../../components/Table/Pagination";
-import type { IPageQuery } from "./loadData";
-
-import { ArrowDownIcon } from "../../components/icons";
+import * as formValidation from "../../../utils/form-validation";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+import { PlatformValues } from "../../../utils/platform";
+import { constructURL } from "../../../utils/url";
+import { Button } from "../../components/Button/Button";
+import { Drawer } from "../../components/Drawer";
+import { PlatformIcon } from "../../components/PlatformIcon";
+import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
 import {
@@ -20,21 +24,19 @@ import {
   TableRow,
 } from "../../components/Table";
 import { Pagination } from "../../components/Table/Pagination";
-import { Button } from "../../components/Button/Button";
-import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
-import { Drawer } from "../../components/Drawer";
-import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { Platform, PlatformValues } from "../../../utils/platform";
-import { loadData } from "./loadData";
-import { useApi } from "../../context/ApiContext";
-import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import { useToast } from "../../components/Toast/ToastContext";
-import * as formValidation from "../../../utils/form-validation";
-import { constructURL } from "../../../utils/url";
+import { ArrowDownIcon } from "../../components/icons";
+import { useApi } from "../../context/ApiContext";
+import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import { routeIds } from "../../routes";
-import { useNavigate } from "react-router-dom";
-import { PlatformIcon } from "../../components/PlatformIcon";
-import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+
+import type { IPageQuery } from "./load-data";
+import type { loadData } from "./load-data";
+import type { Platform } from "../../../utils/platform";
+import type { ICreateApiClient } from "../../api";
+import type { IRenderLabel } from "../../components/Select";
+import type { IPaginationOpts } from "../../components/Table/Pagination";
 
 interface IProps {
   playlist:
@@ -122,7 +124,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
     artists: Songs["data"][number]["artists"]
   ): string => {
     return artists.reduce((acc, artist) => {
-      if (acc.length !== 0) {
+      if (acc.length > 0) {
         acc += ",";
       }
 
@@ -228,7 +230,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
               <span>{playlist.name}</span>
               <span className="text-primaryGray">
                 {playlist.totalNumberOfSongs} songs, ~
-                {Math.ceil(playlist.duration / 3600000)} hours
+                {Math.ceil(playlist.duration / 3_600_000)} hours
               </span>
             </div>
           </div>
@@ -394,6 +396,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
       <PlaylistConvertedModal
         open={Boolean(playlistURL)}
         link={playlistURL}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         fromPlatform={playlist?.platform!}
         toPlatform={query.platform!}
         onClose={() => {

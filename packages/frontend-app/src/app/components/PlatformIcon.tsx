@@ -1,12 +1,15 @@
+
 import React from "react";
 
-import { Platform } from "../../utils/platform";
 import {
   AppleMusicIcon,
   DeezerIcon,
   SpotifyIcon,
   YoutubeMusicIcon,
 } from "./icons";
+
+import { Platform } from "../../utils/platform";
+
 
 interface IProps {
   platform: Platform;

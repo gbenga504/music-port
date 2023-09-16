@@ -1,9 +1,11 @@
-import React from "react";
 import classNames from "classnames";
+import React from "react";
+
+import { Button } from "../../Button/Button";
 
 import type { MouseEventHandler } from "react";
+
 import "./index.scss";
-import { Button } from "../../Button/Button";
 
 interface IProps {
   open?: boolean;

@@ -1,12 +1,13 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-import { Drawer } from "../Drawer";
-import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../icons";
-import { Button } from "../Button/Button";
+import { doesPathMatch } from "../../../utils/route-utils";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
-import { doesPathMatch } from "../../../utils/route-utils";
+import { Button } from "../Button/Button";
+import { Drawer } from "../Drawer";
+import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../icons";
+
 
 interface IProps {
   open: boolean;

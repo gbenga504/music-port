@@ -1,7 +1,7 @@
+import classNames from "classnames";
+import pick from "lodash/pick";
 import React from "react";
 import { Link } from "react-router-dom";
-import pick from "lodash/pick";
-import classNames from "classnames";
 
 import "./Button.scss";
 import { SpinnerIcon } from "../icons";

@@ -1,4 +1,6 @@
-import React, { ReactElement } from "react";
+import React from "react";
+
+import type { ReactElement } from "react";
 
 interface IGetOptionsFromChildren {
   options?: IGetOptionsFromChildren[];
@@ -10,7 +12,7 @@ interface IGetOptionsFromChildren {
 export function getOptionsFromChildren(
   children: React.ReactNode,
 ): IGetOptionsFromChildren[] {
-  if (children == null) {
+  if (children === null) {
     return [];
   }
 
@@ -63,17 +65,18 @@ export function flattenOptionGroups(
 ): IFlattenOptionGroups[] {
   let flatOptions: IFlattenOptionGroups[] = [];
 
-  groupedOptions.forEach((optionOrGroup) => {
+  for (const optionOrGroup of groupedOptions) {
     if (isOptionGroup(optionOrGroup)) {
-      flatOptions = flatOptions.concat(
-        flattenOptionGroups(optionOrGroup.options!),
-      );
+      flatOptions = [
+        ...flatOptions,
+        ...flattenOptionGroups(optionOrGroup.options!),
+      ];
     } else {
       flatOptions.push({
         ...(optionOrGroup as IFlattenOptionGroups),
       });
     }
-  });
+  }
 
   return flatOptions;
 }

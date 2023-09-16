@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
+import React from "react";
 
+import { sleep } from "../../../utils/sleep";
 import {
   CircularCheckedIcon,
   CircularInfoIcon,
   CircularWarningIcon,
   CloseIcon,
 } from "../icons";
-import { sleep } from "../../../utils/sleep";
+
 
 export interface IToastSettings {
   title?: string;

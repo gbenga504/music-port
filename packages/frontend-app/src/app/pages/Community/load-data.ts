@@ -1,7 +1,9 @@
-import { constructURL } from "../../../utils/url";
 import { RedirectError } from "../../../errors/redirect-error";
-import type { ILoadData } from "../../../utils/route-utils";
+import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
+
+import type { ILoadData } from "../../../utils/route-utils";
+
 
 export interface IPageQuery {
   // General

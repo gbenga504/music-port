@@ -1,9 +1,11 @@
 import React from "react";
 
-import type { Meta, StoryObj } from "@storybook/react";
 
 import { IconButton } from "./IconButton";
+
 import { PlayIcon } from "../icons";
+
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof IconButton> = {
   title: "IconButton",

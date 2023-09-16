@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, {
   useState,
   cloneElement,
@@ -5,16 +6,16 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import classNames from "classnames";
+
+import "./index.scss";
+import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
+
+import { sleep } from "../../../utils/sleep";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { Button } from "../Button/Button";
+import { RedStarIcon, ArrowDownIcon } from "../icons";
 
 import type { ReactNode } from "react";
-
-import { RedStarIcon, ArrowDownIcon } from "../icons";
-import { sleep } from "../../../utils/sleep";
-import "./index.scss";
-import { Button } from "../Button/Button";
-import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
-import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 export type IRenderLabel<T> = (opts: { label: string; value: T }) => ReactNode;
 
@@ -83,6 +84,7 @@ const Select: React.FC<IProps> = ({
       (option) => option.value === selectedOptionValue
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     return option?.label!;
   }, [selectedOptionValue]);
 
@@ -102,6 +104,7 @@ const Select: React.FC<IProps> = ({
 
       setIsDropdownOnScreen(true);
       onFocus?.();
+
       return;
     }
 

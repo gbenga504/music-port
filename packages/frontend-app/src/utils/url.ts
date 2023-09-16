@@ -1,9 +1,10 @@
 import { generatePath } from "react-router-dom";
 
-import routes from "../app/routes";
-import { getPath } from "./route-utils";
-import { ResourceError } from "../errors/resource-error";
 import { Platform } from "./platform";
+import { getPath } from "./route-utils";
+
+import routes from "../app/routes";
+import { ResourceError } from "../errors/resource-error";
 
 export const constructURL = ({
   routeId,
@@ -43,19 +44,19 @@ export const getPlatformName = (link: string): Platform | null => {
   try {
     const url = new URL(link);
     origin = url.origin;
-  } catch (error) {
+  } catch {
     origin = "";
   }
 
-  if (origin.indexOf("spotify.com") !== -1) {
+  if (origin.includes("spotify.com")) {
     return Platform.Spotify;
   }
 
-  if (origin.indexOf("deezer.com") !== -1) {
+  if (origin.includes("deezer.com")) {
     return Platform.Deezer;
   }
 
-  if (origin.indexOf("youtube.com") !== -1) {
+  if (origin.includes("youtube.com")) {
     return Platform.YoutubeMusic;
   }
 

@@ -1,31 +1,33 @@
-import React, { useEffect, useState, useRef } from "react";
 import classNames from "classnames";
-import { Field, Form } from "react-final-form";
 import omit from "lodash/omit";
+import { useEffect, useState, useRef } from "react";
+import React from "react";
+import { Field, Form } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
-import type { ChangeEventHandler } from "react";
-import type { FormRenderProps } from "react-final-form";
-import type { ILoadableComponentProps } from "../../../utils/route-utils";
-import type { IRenderLabel } from "../../components/Select";
-import type { IPageQuery } from "./loadData";
-
-import { PageLayout } from "../../components/PageLayout";
+import * as formValidation from "../../../utils/form-validation";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+import { PlatformValues } from "../../../utils/platform";
+import { constructURL, getPlatformName } from "../../../utils/url";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
+import { Button } from "../../components/Button/Button";
+import { HeadMarkup } from "../../components/HeadMarkup";
 import { Input } from "../../components/Input";
-import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
+import { PageLayout } from "../../components/PageLayout";
+import { PlatformIcon } from "../../components/PlatformIcon";
+import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
-import { Button } from "../../components/Button/Button";
-import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { constructURL, getPlatformName } from "../../../utils/url";
-import { Platform, PlatformValues } from "../../../utils/platform";
-import * as formValidation from "../../../utils/form-validation";
-import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
-import { useNavigate } from "react-router-dom";
-import { HeadMarkup } from "../../components/HeadMarkup";
-import { PlatformIcon } from "../../components/PlatformIcon";
-import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
+import { routeIds } from "../../routes";
+
+import type { IPageQuery } from "./load-data";
+import type { Platform } from "../../../utils/platform";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
+import type { IRenderLabel } from "../../components/Select";
+import type { ChangeEventHandler } from "react";
+import type { FormRenderProps } from "react-final-form";
 
 const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
   query,

@@ -1,10 +1,10 @@
-import { matchPath, matchRoutes } from "react-router-dom";
-
-import type { RouteObjectWithLoadData } from "react-router-dom";
-import type { ICreateApiClient } from "../app/api";
+import { matchPath } from "react-router-dom";
 
 import routes from "../app/routes";
 import { NotFoundError } from "../errors/not-found-error";
+
+import type { ICreateApiClient } from "../app/api";
+import type { RouteObjectWithLoadData, matchRoutes } from "react-router-dom";
 
 export interface IPageDatas {
   [key: string]: any;
@@ -61,6 +61,7 @@ export const loadPageResources = async ({
     }
 
     if (matchedRoute.route.loadData) {
+      // eslint-disable-next-line no-async-promise-executor
       return new Promise<ILoadPageDataPromise>(async (resolve, reject) => {
         try {
           let data = {};

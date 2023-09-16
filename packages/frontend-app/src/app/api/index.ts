@@ -1,10 +1,12 @@
 import axios from "axios";
 
 import { Auth } from "./auth";
-import { Playlist } from "./playlist";
 import { CookieConsent } from "./cookie-consent";
-import { isDOM } from "../../utils/dom";
 import { createGraphQLClient } from "./graphql/graphql-client";
+import { Playlist } from "./playlist";
+
+import { isDOM } from "../../utils/dom";
+
 
 interface ICreateApiClientParams {
   backendApiBaseUrl: string;

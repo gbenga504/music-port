@@ -1,10 +1,12 @@
+
 import React from "react";
+
+import { AppHeader } from "./AppHeader/AppHeader";
+import { DesktopSidebar } from "./DesktopSidebar";
+import { HeadMarkup } from "./HeadMarkup";
 
 import type { ReactNode } from "react";
 
-import { HeadMarkup } from "./HeadMarkup";
-import { DesktopSidebar } from "./DesktopSidebar";
-import { AppHeader } from "./AppHeader/AppHeader";
 
 interface IProps {
   title: string;

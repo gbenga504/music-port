@@ -1,7 +1,8 @@
-import { spawn } from "child_process";
-import path from "node:path";
-import dotenv from "dotenv";
+import { spawn } from "node:child_process";
 import fs from "node:fs";
+import path from "node:path";
+
+import dotenv from "dotenv";
 import waitOn from "wait-on";
 
 const backendEnvs = {
@@ -37,7 +38,7 @@ function startBackendServer(): Promise<NodeJS.Process> {
     waitOn(
       {
         resources: [`tcp:localhost:${backendEnvs.NODE_LOCAL_PORT}`],
-        timeout: 45000,
+        timeout: 45_000,
         interval: 10,
       },
       (error: unknown) =>
@@ -58,7 +59,7 @@ function startFrontendServer(): Promise<NodeJS.Process> {
     waitOn(
       {
         resources: [`tcp:localhost:${frontendEnvs.PORT}`],
-        timeout: 45000,
+        timeout: 45_000,
         interval: 10,
       },
       (error: unknown) =>
