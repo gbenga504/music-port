@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "./Card.scss";
-import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
+import { PlayIcon, ShareIcon } from "../icons";
 
 interface IProps {
   src: string;
@@ -19,23 +20,17 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
           <img src={src} alt={title} className="cover__image" />
 
           <div className="overlay">
-            <Button
-              size="small"
-              className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
-            >
-              P
-            </Button>
-            <Button
-              size="small"
-              className="text-white bg-play hover:bg-primary rounded-50 p-2.5"
-            >
-              Op
-            </Button>
+            <IconButton>
+              <PlayIcon size={13} className="ml-1" />
+            </IconButton>
+            <IconButton>
+              <ShareIcon size={18} className="ml-1" />
+            </IconButton>
           </div>
         </div>
         <div className="mt-1">
           <div className="flex items-center justify-between">
-            <p className="text-secondary50 text-xs">{title}</p>
+            <p className="text-secondary50 text-xs font-light">{title}</p>
           </div>
           <p className="mt-px text-xs text-secondary100">{artist}</p>
         </div>

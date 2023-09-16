@@ -14,7 +14,13 @@ export interface IProps {
 }
 
 export const IconButton: React.FC<IProps> = (props) => {
-  const { size, color, children, onClick, className } = props;
+  const {
+    size = "small",
+    color = "primary",
+    children,
+    onClick,
+    className,
+  } = props;
 
   const buttonClassName = classNames(className, "iconButton", {
     "button-small": size === "small",
