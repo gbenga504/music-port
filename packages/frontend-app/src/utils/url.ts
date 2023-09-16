@@ -26,11 +26,11 @@ export const constructURL = ({
   if (query) {
     const searchParams = new URLSearchParams();
 
-    for (const key of Object.keys(query)) {
+    Object.keys(query).forEach((key) => {
       if (query[key]) {
         searchParams.append(key, query[key]!);
       }
-    }
+    });
 
     path += `?${searchParams.toString()}`;
   }

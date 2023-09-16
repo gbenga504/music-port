@@ -12,7 +12,7 @@ interface IGetOptionsFromChildren {
 export function getOptionsFromChildren(
   children: React.ReactNode,
 ): IGetOptionsFromChildren[] {
-  if (children == undefined) {
+  if (children === null) {
     return [];
   }
 

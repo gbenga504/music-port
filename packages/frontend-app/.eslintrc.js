@@ -61,6 +61,7 @@ module.exports = {
     "unicorn/prefer-query-selector": "off",
     "unicorn/no-null": "off",
     "unicorn/prefer-top-level-await": "off",
+    "unicorn/no-array-for-each": "off",
     "unicorn/filename-case": [
       "error",
       {
@@ -86,6 +87,7 @@ module.exports = {
       rules: {
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/consistent-type-imports": "off",
+        "no-var": "off",
       },
     },
 
