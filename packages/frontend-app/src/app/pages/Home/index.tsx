@@ -10,7 +10,7 @@ import type { IRenderLabel } from "../../components/Select";
 import type { IPageQuery } from "./loadData";
 
 import { PageLayout } from "../../components/PageLayout";
-import { AppHeader } from "../../components/AppHeader";
+import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Input } from "../../components/Input";
 import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
 import { Select, Option } from "../../components/Select";

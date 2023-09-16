@@ -8,7 +8,7 @@ import type { IPaginationOpts } from "../../components/Table/Pagination";
 import { PlaylistGenre } from "../../../utils/platform";
 import type { IPageQuery } from "./loadData";
 
-import { AppHeader } from "../../components/AppHeader";
+import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Button } from "../../components/Button/Button";
 import { PageLayout } from "../../components/PageLayout";
 import { ConvertPlaylist } from "./ConvertPlaylist";
