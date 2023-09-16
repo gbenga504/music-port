@@ -18,7 +18,7 @@ import type { Cookie } from "playwright";
 function getCookies(platform: Platform): Cookie[] {
   const cookies = JSON.parse(
     fs.readFileSync(`${__dirname}/admin-auth-platform-cookies.json`, {
-      encoding: "utf-8",
+      encoding: "utf8",
     }),
   );
 

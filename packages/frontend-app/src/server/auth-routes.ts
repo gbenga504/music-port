@@ -1,5 +1,6 @@
-import { AxiosError } from "axios";
 import { Router } from "express";
+
+import type { AxiosError } from "axios";
 
 const routes = Router();
 

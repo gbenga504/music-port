@@ -1,21 +1,20 @@
 import classNames from "classnames";
 import omit from "lodash/omit";
-import React, { useState } from "react";
+import { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-
 
 import { ConvertPlaylist } from "./ConvertPlaylist";
 import { CreatePlaylistModal } from "./CreatePlaylistModal";
-import { loadData } from "./loadData";
 
 import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
-import { PlaylistGenreValues, Platform } from "../../../utils/platform";
+import { PlaylistGenreValues } from "../../../utils/platform";
+import { PlaylistGenre } from "../../../utils/platform";
 import { constructURL } from "../../../utils/url";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Button } from "../../components/Button/Button";
-import { PageLayout } from "../../components/PageLayout";
-
 import { HeadMarkup } from "../../components/HeadMarkup";
+import { PageLayout } from "../../components/PageLayout";
 import { PlatformIcon } from "../../components/PlatformIcon";
 import { Option, Select } from "../../components/Select";
 import {
@@ -28,9 +27,10 @@ import {
 } from "../../components/Table";
 import { Pagination } from "../../components/Table/Pagination";
 import { routeIds } from "../../routes";
-import { PlaylistGenre } from "../../../utils/platform";
 
-import type { IPageQuery } from "./loadData";
+import type { loadData } from "./load-data";
+import type { IPageQuery } from "./load-data";
+import type { Platform } from "../../../utils/platform";
 import type { ILoadableComponentProps } from "../../../utils/route-utils";
 import type { IPaginationOpts } from "../../components/Table/Pagination";
 
@@ -41,7 +41,13 @@ type Playlist = Awaited<
 const Community: React.FC<
   ILoadableComponentProps<Awaited<ReturnType<typeof loadData>>, IPageQuery>
 > = ({ query, pageData }) => {
-  const { isAuthTokenAvailableForCreatingPlaylist } = query;
+  const {
+    isAuthTokenAvailableForCreatingPlaylist,
+    selectedPlaylistId,
+    genre,
+    currentPage,
+    pageSize,
+  } = query;
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] = useState(
     isAuthTokenAvailableForCreatingPlaylist === "true"
   );
@@ -52,7 +58,7 @@ const Community: React.FC<
 
   function getInitialSelectedPlaylist(): Playlist | null {
     const playlist = pageData.playlists.data.find(
-      (playlist) => playlist.id === query.selectedPlaylistId
+      (playlist) => playlist.id === selectedPlaylistId
     );
 
     return playlist ?? null;
@@ -115,7 +121,7 @@ const Community: React.FC<
                 pageSize: 10,
               });
             }}
-            value={query.genre}
+            value={genre}
           >
             {PlaylistGenreValues.map((genre) => (
               <Option value={genre} key={genre}>
@@ -176,8 +182,8 @@ const Community: React.FC<
                 <div className="min-h-[54px] relative flex justify-start md:justify-end pl-6 pr-3 items-center">
                   <Pagination
                     total={pageData.playlists.total || 0}
-                    current={Number(query.currentPage)}
-                    pageSize={Number(query.pageSize)}
+                    current={Number(currentPage)}
+                    pageSize={Number(pageSize)}
                     onChange={(value) => handlePlaylistsFilterChange(value)}
                   />
                 </div>

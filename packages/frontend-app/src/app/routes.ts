@@ -1,17 +1,12 @@
 import loadable from "@loadable/component";
 
-import {
-  loadData as communityLoadData,
-  IPageQuery as ICommunityPageQuery,
-} from "./pages/Community/loadData";
-import {
-  loadData as discoverLoadData,
-  IPageQuery as IDiscoverPageQuery,
-} from "./pages/v2/Discover/loadData";
+import { loadData as communityLoadData } from "./pages/Community/load-data";
+import { loadData as discoverLoadData } from "./pages/v2/Discover/load-data";
 
+import type { IPageQuery as ICommunityPageQuery } from "./pages/Community/load-data";
+import type { IPageQuery as IDiscoverPageQuery } from "./pages/v2/Discover/load-data";
 import type { ILoadableComponentProps } from "../utils/route-utils";
 import type { RouteObjectWithLoadData } from "react-router-dom";
-
 
 export const routeIds = {
   // TODO: Old routes Ids, should be deleted

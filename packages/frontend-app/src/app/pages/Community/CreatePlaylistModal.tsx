@@ -1,34 +1,30 @@
 import omit from "lodash/omit";
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import React from "react";
 import { Field, Form } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 
-import { IPageQuery } from "./loadData";
-
 import * as formValidation from "../../../utils/form-validation";
 import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
-import {
-  Platform,
-  PlatformValues,
-  PlaylistGenreValues,
-} from "../../../utils/platform";
+import { PlatformValues, PlaylistGenreValues } from "../../../utils/platform";
 import { sleep } from "../../../utils/sleep";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input";
 import { Modal } from "../../components/Modal";
-
+import { PlatformIcon } from "../../components/PlatformIcon";
 import { Option, Select } from "../../components/Select";
-import type { IRenderLabel } from "../../components/Select";
-import type { FormRenderProps } from "react-final-form";
-import type { ChangeEventHandler } from "react";
-
 import { Space } from "../../components/Space";
-import useParsedQueryParams from "../../hooks/useParsedQueryParams";
-import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
 import { useApi } from "../../context/ApiContext";
-import { PlatformIcon } from "../../components/PlatformIcon";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
+import { routeIds } from "../../routes";
+
+import type { IPageQuery } from "./load-data";
+import type { Platform } from "../../../utils/platform";
+import type { IRenderLabel } from "../../components/Select";
+import type { ChangeEventHandler } from "react";
+import type { FormRenderProps } from "react-final-form";
 
 interface IProps {
   open: boolean;

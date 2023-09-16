@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { RefObject } from "react";
+
+import type { RefObject } from "react";
 
 type Handler = (event: MouseEvent) => void;
 

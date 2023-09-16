@@ -1,4 +1,5 @@
-import React, { ReactNode, ComponentProps } from "react";
+
+import React from "react";
 
 import { Button } from "./Button/Button";
 import { Input } from "./Input";
@@ -17,6 +18,8 @@ import {
 
 
 import useCopyToClipboard from "../hooks/useCopyToClipboard";
+
+import type { ReactNode, ComponentProps } from "react";
 
 
 interface IProps {

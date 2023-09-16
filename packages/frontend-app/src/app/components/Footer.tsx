@@ -5,6 +5,7 @@ import { Button } from "./Button/Button";
 import { Space } from "./Space";
 import { FacebookIcon, LinkedInIcon, TwitterIcon } from "./icons";
 
+
 export const Footer: React.FC = () => {
   return (
     <footer

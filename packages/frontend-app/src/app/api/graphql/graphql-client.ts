@@ -1,6 +1,8 @@
 import { GraphQLClient as GraphQLClientFromGraphQLRequest } from "graphql-request";
 
-import { getSdk, Sdk } from "./graphql-client.gen";
+import { getSdk } from "./graphql-client.gen";
+
+import type { Sdk } from "./graphql-client.gen";
 
 export function createGraphQLClient(configuration: {
   url: string;

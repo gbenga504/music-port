@@ -1,4 +1,6 @@
-import React, { ReactElement } from "react";
+import React from "react";
+
+import type { ReactElement } from "react";
 
 interface IGetOptionsFromChildren {
   options?: IGetOptionsFromChildren[];
@@ -65,9 +67,10 @@ export function flattenOptionGroups(
 
   for (const optionOrGroup of groupedOptions) {
     if (isOptionGroup(optionOrGroup)) {
-      flatOptions = flatOptions.concat(
-        flattenOptionGroups(optionOrGroup.options!),
-      );
+      flatOptions = [
+        ...flatOptions,
+        ...flattenOptionGroups(optionOrGroup.options!),
+      ];
     } else {
       flatOptions.push({
         ...(optionOrGroup as IFlattenOptionGroups),

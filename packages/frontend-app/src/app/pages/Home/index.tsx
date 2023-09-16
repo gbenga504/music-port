@@ -1,31 +1,33 @@
 import classNames from "classnames";
 import omit from "lodash/omit";
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import React from "react";
 import { Field, Form } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 
 import * as formValidation from "../../../utils/form-validation";
 import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
-import { Platform, PlatformValues } from "../../../utils/platform";
+import { PlatformValues } from "../../../utils/platform";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
+import { Button } from "../../components/Button/Button";
+import { HeadMarkup } from "../../components/HeadMarkup";
 import { Input } from "../../components/Input";
 import { PageLayout } from "../../components/PageLayout";
-import type { IPageQuery } from "./loadData";
-import type { ILoadableComponentProps } from "../../../utils/route-utils";
-import type { ChangeEventHandler } from "react";
-import type { FormRenderProps } from "react-final-form";
-import type { IRenderLabel } from "../../components/Select";
-
-import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
+import { PlatformIcon } from "../../components/PlatformIcon";
+import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { Select, Option } from "../../components/Select";
 import { Space } from "../../components/Space";
-import { Button } from "../../components/Button/Button";
-import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
-import { HeadMarkup } from "../../components/HeadMarkup";
-import { PlatformIcon } from "../../components/PlatformIcon";
+import { LinkIcon, ArrowSwapIcon } from "../../components/icons";
+import { routeIds } from "../../routes";
+
+import type { IPageQuery } from "./load-data";
+import type { Platform } from "../../../utils/platform";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
+import type { IRenderLabel } from "../../components/Select";
+import type { ChangeEventHandler } from "react";
+import type { FormRenderProps } from "react-final-form";
 
 const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
   query,

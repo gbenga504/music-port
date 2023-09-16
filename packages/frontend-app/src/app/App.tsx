@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 import {
   useLocation,
   matchRoutes,
@@ -14,6 +15,7 @@ import useParsedQueryParams from "./hooks/useParsedQueryParams";
 import routes from "./routes";
 
 import { loadPageResources } from "../utils/route-utils";
+
 import type { ICreateApiClient } from "./api";
 import type {
   IPageDatas,

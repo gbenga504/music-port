@@ -2,7 +2,7 @@ import React from "react";
 
 import { PageLayout } from "../../../components/PageLayout";
 
-import type { IPageQuery } from "./loadData";
+import type { IPageQuery } from "./load-data";
 import type { ILoadableComponentProps } from "../../../../utils/route-utils";
 
 const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = () => {

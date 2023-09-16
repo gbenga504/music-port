@@ -6,7 +6,6 @@ import { getPath } from "./route-utils";
 import routes from "../app/routes";
 import { ResourceError } from "../errors/resource-error";
 
-
 export const constructURL = ({
   routeId,
   query,

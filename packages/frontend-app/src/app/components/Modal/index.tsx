@@ -1,16 +1,15 @@
 import classNames from "classnames";
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
+import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
-
-import { Button } from "../Button/Button";
 import { sleep } from "../../../utils/sleep";
-import { CancelIcon } from "../icons";
-
 import "./index.scss";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import useSsr from "../../hooks/useSsr";
+import { Button } from "../Button/Button";
 import { Drawer } from "../Drawer";
+import { CancelIcon } from "../icons";
 
 import type { IProps as IButtonProps } from "../Button/Button";
 import type { ReactNode } from "react";
@@ -48,7 +47,7 @@ export const Modal: React.FC<IProps> = ({
 
     return () => {
       document.getElementsByTagName("body")[0].style.overflowY = "";
-      (portalRef.current!).remove();
+      portalRef.current!.remove();
     };
   }, []);
 

@@ -1,13 +1,14 @@
 import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSwipeable } from "react-swipeable";
-
-import type { ReactNode, TouchEvent } from "react";
 
 import "./index.scss";
 import { sleep } from "../../../utils/sleep";
 import useSsr from "../../hooks/useSsr";
+
+import type { TouchEvent, ReactNode } from "react";
 
 interface IProps {
   open: boolean;
@@ -148,7 +149,7 @@ export const Drawer: React.FC<IProps> = ({
 
     return () => {
       document.getElementsByTagName("body")[0].style.overflowY = "";
-      (portalRef.current!).remove();
+      portalRef.current!.remove();
     };
   }, []);
 
@@ -189,7 +190,8 @@ export const Drawer: React.FC<IProps> = ({
     const scrollable =
       !!scrollNode && drawerSwipeableContainerRef.current!.contains(scrollNode);
 
-    isSwipeableRef.current = scrollable && scrollNode.scrollTop !== 0 ? false : true;
+    isSwipeableRef.current =
+      scrollable && scrollNode.scrollTop !== 0 ? false : true;
   };
 
   const renderDrawer = () => {

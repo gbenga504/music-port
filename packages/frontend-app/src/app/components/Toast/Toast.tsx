@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 
 import { sleep } from "../../../utils/sleep";
 import {
@@ -8,6 +9,7 @@ import {
   CircularWarningIcon,
   CloseIcon,
 } from "../icons";
+
 
 export interface IToastSettings {
   title?: string;

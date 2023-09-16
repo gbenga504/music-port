@@ -7,16 +7,15 @@ import React, {
   useRef,
 } from "react";
 
-import type { ReactNode } from "react";
-
-import { RedStarIcon, ArrowDownIcon } from "../icons";
-import { sleep } from "../../../utils/sleep";
-
 import "./index.scss";
 import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
 
+import { sleep } from "../../../utils/sleep";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { Button } from "../Button/Button";
+import { RedStarIcon, ArrowDownIcon } from "../icons";
+
+import type { ReactNode } from "react";
 
 export type IRenderLabel<T> = (opts: { label: string; value: T }) => ReactNode;
 
@@ -85,6 +84,7 @@ const Select: React.FC<IProps> = ({
       (option) => option.value === selectedOptionValue
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     return option?.label!;
   }, [selectedOptionValue]);
 

@@ -18,6 +18,8 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    jsxPragma: "React",
+    jsxFragmentName: null,
   },
   rules: {
     // This should be enabled when the project compiles fully to ES modules
@@ -25,6 +27,7 @@ module.exports = {
 
     // Look into this again sometime in future
     "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-array-reduce": "off",
 
     "import/order": [
       "error",
@@ -48,6 +51,8 @@ module.exports = {
     "unicorn/prevent-abbreviations": "off",
     "unicorn/switch-case-braces": "off",
     "unicorn/prefer-query-selector": "off",
+    "unicorn/no-null": "off",
+    "unicorn/prefer-top-level-await": "off",
     "unicorn/filename-case": [
       "error",
       {
@@ -58,5 +63,30 @@ module.exports = {
       },
     ],
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/consistent-type-imports": "error",
   },
+  overrides: [
+    // Config files
+    {
+      files: [
+        "webpack.config.js",
+        "test-setup/jest-custom-environment.js",
+        "tailwind.config.js",
+        "test-setup/jest.d.ts",
+      ],
+      rules: {
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/consistent-type-imports": "off",
+      },
+    },
+
+    // Hooks
+    {
+      files: "src/app/hooks/*.ts",
+      rules: {
+        "unicorn/filename-case": "off",
+      },
+    },
+  ],
 };

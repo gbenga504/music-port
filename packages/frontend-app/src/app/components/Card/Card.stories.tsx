@@ -1,8 +1,9 @@
-import { Meta, StoryObj } from "@storybook/react";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { Card } from "./Card";
+
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Card> = {
   title: "Card",

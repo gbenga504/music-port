@@ -1,22 +1,19 @@
 import classNames from "classnames";
 import { omit } from "lodash";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import React from "react";
 import { Form, Field } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 
-import { loadData } from "./loadData";
-
 import * as formValidation from "../../../utils/form-validation";
 import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
-import { Platform, PlatformValues } from "../../../utils/platform";
+import { PlatformValues } from "../../../utils/platform";
+import { constructURL } from "../../../utils/url";
 import { Button } from "../../components/Button/Button";
+import { Drawer } from "../../components/Drawer";
+import { PlatformIcon } from "../../components/PlatformIcon";
+import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { Select, Option } from "../../components/Select";
-import { ArrowDownIcon } from "../../components/icons";
-import type { IPageQuery } from "./loadData";
-import type { ICreateApiClient } from "../../api";
-import type { IRenderLabel } from "../../components/Select";
-import type { IPaginationOpts } from "../../components/Table/Pagination";
-
 import { Space } from "../../components/Space";
 import {
   Table,
@@ -27,17 +24,19 @@ import {
   TableRow,
 } from "../../components/Table";
 import { Pagination } from "../../components/Table/Pagination";
-import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
-import { Drawer } from "../../components/Drawer";
-import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-
-
-import { useApi } from "../../context/ApiContext";
-import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import { useToast } from "../../components/Toast/ToastContext";
-import { constructURL } from "../../../utils/url";
+import { ArrowDownIcon } from "../../components/icons";
+import { useApi } from "../../context/ApiContext";
+import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import { routeIds } from "../../routes";
-import { PlatformIcon } from "../../components/PlatformIcon";
+
+import type { IPageQuery } from "./load-data";
+import type { loadData } from "./load-data";
+import type { Platform } from "../../../utils/platform";
+import type { ICreateApiClient } from "../../api";
+import type { IRenderLabel } from "../../components/Select";
+import type { IPaginationOpts } from "../../components/Table/Pagination";
 
 interface IProps {
   playlist:
@@ -397,6 +396,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
       <PlaylistConvertedModal
         open={Boolean(playlistURL)}
         link={playlistURL}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
         fromPlatform={playlist?.platform!}
         toPlatform={query.platform!}
         onClose={() => {

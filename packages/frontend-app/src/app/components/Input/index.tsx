@@ -116,3 +116,5 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
     );
   }
 );
+
+Input.displayName = "Input";

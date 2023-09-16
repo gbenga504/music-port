@@ -1,8 +1,10 @@
 import classNames from "classnames";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
+import React from "react";
 
 import { Button } from "../Button/Button";
 import { ArrowDownIcon } from "../icons";
+
 
 import "./Pagination.scss";
 
