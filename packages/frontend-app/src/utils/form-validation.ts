@@ -1,8 +1,10 @@
 import { z, ZodError } from "zod";
-import { ResourceError } from "../errors/resource-error";
+
 
 import { PlatformValues, PlaylistGenreValues } from "./platform";
 import { getPlatformNameOrThrow } from "./url";
+
+import { ResourceError } from "../errors/resource-error";
 
 const formatError = (error: unknown): { [key: string]: string } => {
   let formattedError: { [key: string]: { _errors: string[] } } = {};

@@ -1,7 +1,8 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
-import path from "node:path";
-import fs from "node:fs";
 
 /**
  * Read environment variables from file.
@@ -94,7 +95,7 @@ export default defineConfig({
     command:
       "node -r ts-node/register/transpile-only ./test-setup/startup-server.ts",
     url: frontendEnvs.SITE_ORIGIN,
-    timeout: 60000,
+    timeout: 60_000,
     reuseExistingServer: !process.env.CI,
   },
 });

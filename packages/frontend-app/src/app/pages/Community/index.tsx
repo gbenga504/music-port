@@ -1,21 +1,23 @@
-import React, { useState } from "react";
 import classNames from "classnames";
-import { useNavigate } from "react-router-dom";
 import omit from "lodash/omit";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import type { ILoadableComponentProps } from "../../../utils/route-utils";
-import type { IPaginationOpts } from "../../components/Table/Pagination";
-import { PlaylistGenre } from "../../../utils/platform";
-import type { IPageQuery } from "./loadData";
 
+import { ConvertPlaylist } from "./ConvertPlaylist";
+import { CreatePlaylistModal } from "./CreatePlaylistModal";
+import { loadData } from "./loadData";
+
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+import { PlaylistGenreValues, Platform } from "../../../utils/platform";
+import { constructURL } from "../../../utils/url";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Button } from "../../components/Button/Button";
 import { PageLayout } from "../../components/PageLayout";
-import { ConvertPlaylist } from "./ConvertPlaylist";
-import { CreatePlaylistModal } from "./CreatePlaylistModal";
+
 import { HeadMarkup } from "../../components/HeadMarkup";
+import { PlatformIcon } from "../../components/PlatformIcon";
 import { Option, Select } from "../../components/Select";
-import { PlaylistGenreValues, Platform } from "../../../utils/platform";
 import {
   Table,
   TableBody,
@@ -24,12 +26,13 @@ import {
   TableHead,
   TableRow,
 } from "../../components/Table";
-import { constructURL } from "../../../utils/url";
-import { routeIds } from "../../routes";
 import { Pagination } from "../../components/Table/Pagination";
-import { loadData } from "./loadData";
-import { PlatformIcon } from "../../components/PlatformIcon";
-import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+import { routeIds } from "../../routes";
+import { PlaylistGenre } from "../../../utils/platform";
+
+import type { IPageQuery } from "./loadData";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
+import type { IPaginationOpts } from "../../components/Table/Pagination";
 
 type Playlist = Awaited<
   ReturnType<typeof loadData>

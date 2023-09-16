@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
-import { Form, Field } from "react-final-form";
 import { omit } from "lodash";
+import React, { useEffect, useRef, useState } from "react";
+import { Form, Field } from "react-final-form";
+import { useNavigate } from "react-router-dom";
 
-import type { IRenderLabel } from "../../components/Select";
-import type { ICreateApiClient } from "../../api";
-import type { IPaginationOpts } from "../../components/Table/Pagination";
-import type { IPageQuery } from "./loadData";
+import { loadData } from "./loadData";
 
-import { ArrowDownIcon } from "../../components/icons";
+import * as formValidation from "../../../utils/form-validation";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
+import { Platform, PlatformValues } from "../../../utils/platform";
+import { Button } from "../../components/Button/Button";
 import { Select, Option } from "../../components/Select";
+import { ArrowDownIcon } from "../../components/icons";
+import type { IPageQuery } from "./loadData";
+import type { ICreateApiClient } from "../../api";
+import type { IRenderLabel } from "../../components/Select";
+import type { IPaginationOpts } from "../../components/Table/Pagination";
+
 import { Space } from "../../components/Space";
 import {
   Table,
@@ -20,21 +27,17 @@ import {
   TableRow,
 } from "../../components/Table";
 import { Pagination } from "../../components/Table/Pagination";
-import { Button } from "../../components/Button/Button";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Drawer } from "../../components/Drawer";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { Platform, PlatformValues } from "../../../utils/platform";
-import { loadData } from "./loadData";
+
+
 import { useApi } from "../../context/ApiContext";
 import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import { useToast } from "../../components/Toast/ToastContext";
-import * as formValidation from "../../../utils/form-validation";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
-import { useNavigate } from "react-router-dom";
 import { PlatformIcon } from "../../components/PlatformIcon";
-import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 interface IProps {
   playlist:
@@ -122,7 +125,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
     artists: Songs["data"][number]["artists"]
   ): string => {
     return artists.reduce((acc, artist) => {
-      if (acc.length !== 0) {
+      if (acc.length > 0) {
         acc += ",";
       }
 
@@ -228,7 +231,7 @@ export const ConvertPlaylist: React.FC<IProps> = ({
               <span>{playlist.name}</span>
               <span className="text-primaryGray">
                 {playlist.totalNumberOfSongs} songs, ~
-                {Math.ceil(playlist.duration / 3600000)} hours
+                {Math.ceil(playlist.duration / 3_600_000)} hours
               </span>
             </div>
           </div>

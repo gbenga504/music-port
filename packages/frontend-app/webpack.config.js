@@ -1,9 +1,10 @@
-const path = require("path");
+const path = require("node:path");
+
 const LoadableWebpackPlugin = require("@loadable/webpack-plugin");
-const Dotenv = require("dotenv-webpack");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const isProductionBuild = process.env.NODE_ENV === "production";
 

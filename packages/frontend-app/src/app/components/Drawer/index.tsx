@@ -1,6 +1,6 @@
+import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import classNames from "classnames";
 import { useSwipeable } from "react-swipeable";
 
 import type { ReactNode, TouchEvent } from "react";
@@ -22,7 +22,7 @@ const retrieveScrollableNode = (node: HTMLElement): HTMLElement | null => {
   // The idea is to run through the dom tree, get the scrollable node and default to the
   // Document node if no scrollable parent nodes are found in time
   // See comment on where this function is used to understand why we need it
-  if (node == null) {
+  if (node == undefined) {
     return null;
   }
 
@@ -143,12 +143,12 @@ export const Drawer: React.FC<IProps> = ({
   });
 
   useEffect(() => {
-    document.body.appendChild(portalRef.current!);
+    document.body.append(portalRef.current!);
     setHasDrawerBeenAppendedToBody(true);
 
     return () => {
       document.getElementsByTagName("body")[0].style.overflowY = "";
-      document.body.removeChild(portalRef.current!);
+      (portalRef.current!).remove();
     };
   }, []);
 
@@ -189,11 +189,7 @@ export const Drawer: React.FC<IProps> = ({
     const scrollable =
       !!scrollNode && drawerSwipeableContainerRef.current!.contains(scrollNode);
 
-    if (scrollable && scrollNode.scrollTop !== 0) {
-      isSwipeableRef.current = false;
-    } else {
-      isSwipeableRef.current = true;
-    }
+    isSwipeableRef.current = scrollable && scrollNode.scrollTop !== 0 ? false : true;
   };
 
   const renderDrawer = () => {

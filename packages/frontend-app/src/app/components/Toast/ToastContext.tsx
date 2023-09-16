@@ -1,10 +1,10 @@
+import { omit } from "lodash";
 import React, { useContext, createContext, useState, useMemo } from "react";
 
 import { Toast } from "./Toast";
 
-import type { ReactNode } from "react";
 import type { IToastSettings } from "./Toast";
-import { omit } from "lodash";
+import type { ReactNode } from "react";
 
 interface IContextValue extends IToastSettings {
   onChangeContextValue?: (value: IToastSettings) => void;

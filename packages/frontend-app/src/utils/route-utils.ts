@@ -1,10 +1,11 @@
 import { matchPath, matchRoutes } from "react-router-dom";
 
-import type { RouteObjectWithLoadData } from "react-router-dom";
-import type { ICreateApiClient } from "../app/api";
 
 import routes from "../app/routes";
 import { NotFoundError } from "../errors/not-found-error";
+
+import type { ICreateApiClient } from "../app/api";
+import type { RouteObjectWithLoadData } from "react-router-dom";
 
 export interface IPageDatas {
   [key: string]: any;

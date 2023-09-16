@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React, {
   useState,
   cloneElement,
@@ -5,16 +6,17 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import classNames from "classnames";
 
 import type { ReactNode } from "react";
 
 import { RedStarIcon, ArrowDownIcon } from "../icons";
 import { sleep } from "../../../utils/sleep";
+
 import "./index.scss";
-import { Button } from "../Button/Button";
 import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
+
 import useOnClickOutside from "../../hooks/useOnClickOutside";
+import { Button } from "../Button/Button";
 
 export type IRenderLabel<T> = (opts: { label: string; value: T }) => ReactNode;
 

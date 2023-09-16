@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 
-import { Button } from "../Button/Button";
-import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
-import { AnimatedHamburgerIcon } from "../icons";
 import { MobileMenu } from "./MobileMenu";
+
+import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
+import { Button } from "../Button/Button";
+import { AnimatedHamburgerIcon } from "../icons";
+
 
 interface IProps {}
 

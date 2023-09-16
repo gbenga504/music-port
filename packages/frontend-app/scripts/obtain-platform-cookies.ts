@@ -1,6 +1,7 @@
-import { chromium } from "playwright";
-import fs from "fs";
 import assert from "node:assert";
+import fs from "node:fs";
+
+import { chromium } from "playwright";
 
 import { Platform } from "../src/utils/platform";
 
@@ -31,7 +32,7 @@ function setCookies(platform: Platform, cookie: Cookie[]) {
         encoding: "utf-8",
       }),
     );
-  } catch (error) {
+  } catch {
     // Then its possible the file does not exist
     // We just assign empty object to oldCookie
     oldCookies = {};
@@ -95,7 +96,7 @@ async function obtainDeezerCookies() {
   // Fill the login form
   await page.getByLabel("Email address").fill(process.env.DEEZER_USERNAME!);
   await page.getByLabel("Password").fill(process.env.DEEZER_PASSWORD!);
-  await page.getByRole("button", { name: /Log in/i }).click();
+  await page.getByRole("button", { name: /log in/i }).click();
 
   // After log in, we get redirected to the main page
   // hence we extract the cookies here

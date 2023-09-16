@@ -1,6 +1,7 @@
-const { TestEnvironment } = require("jest-environment-node");
+const path = require("node:path");
+
 const dotenv = require("dotenv");
-const path = require("path");
+const { TestEnvironment } = require("jest-environment-node");
 
 dotenv.config({
   path: path.join(__dirname, "../.test.env"),

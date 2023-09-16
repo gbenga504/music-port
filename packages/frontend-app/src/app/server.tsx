@@ -1,19 +1,24 @@
-import path from "path";
+import path from "node:path";
+
+import { ChunkExtractor } from "@loadable/server";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { ChunkExtractor } from "@loadable/server";
-import { StaticRouter } from "react-router-dom/server";
-import { matchRoutes } from "react-router-dom";
-import serialize from "serialize-javascript";
 import { Helmet } from "react-helmet";
+import { matchRoutes } from "react-router-dom";
+import { StaticRouter } from "react-router-dom/server";
+import serialize from "serialize-javascript";
+
+import App from "./App";
+import { ErrorBoundary } from "./ErrorBoundary";
+import routes from "./routes";
+
+import { RedirectError } from "../errors/redirect-error";
+import { loadPageResources } from "../utils/route-utils";
 
 import type { Request, Response } from "express";
 
-import App from "./App";
-import routes from "./routes";
-import { loadPageResources } from "../utils/route-utils";
-import { RedirectError } from "../errors/redirect-error";
-import { ErrorBoundary } from "./ErrorBoundary";
+
+
 
 export const renderer = async (
   req: Request,

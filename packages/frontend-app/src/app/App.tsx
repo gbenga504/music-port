@@ -6,23 +6,26 @@ import {
   matchPath,
 } from "react-router-dom";
 
-import type { RouteObjectWithLoadData, Location } from "react-router-dom";
-import type { LoadableComponent } from "@loadable/component";
+import { CookieBanner } from "./components/CookieBanner";
+import { ProgressBar } from "./components/ProgressBar";
+import { ToastProvider } from "./components/Toast/ToastContext";
+import { ApiProvider } from "./context/ApiContext";
+import useParsedQueryParams from "./hooks/useParsedQueryParams";
+import routes from "./routes";
+
+import { loadPageResources } from "../utils/route-utils";
+import type { ICreateApiClient } from "./api";
 import type {
   IPageDatas,
   ILoadableComponentProps,
   IMacthedRoutes,
 } from "../utils/route-utils";
-import type { ICreateApiClient } from "./api";
+import type { LoadableComponent } from "@loadable/component";
+import type { RouteObjectWithLoadData, Location } from "react-router-dom";
 
-import routes from "./routes";
-import { loadPageResources } from "../utils/route-utils";
-import { ProgressBar } from "./components/ProgressBar";
-import { ToastProvider } from "./components/Toast/ToastContext";
-import { ApiProvider } from "./context/ApiContext";
+
+
 import "./App.scss";
-import useParsedQueryParams from "./hooks/useParsedQueryParams";
-import { CookieBanner } from "./components/CookieBanner";
 
 interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];

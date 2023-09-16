@@ -1,9 +1,10 @@
-import React, { Children, cloneElement } from "react";
 import classNames from "classnames";
+import React, { Children, cloneElement } from "react";
+
+import { SpinnerIcon } from "../icons";
 
 import type { ReactElement, ReactNode } from "react";
 
-import { SpinnerIcon } from "../icons";
 
 interface ITableProps {
   children: ReactElement | ReactElement[];

@@ -1,6 +1,7 @@
-import { chromium } from "playwright";
-import fs from "fs";
 import assert from "node:assert";
+import fs from "node:fs";
+
+import { chromium } from "playwright";
 
 import { Platform } from "../src/utils/platform";
 
@@ -70,7 +71,7 @@ async function obtainDeezerAuthToken() {
     `${process.env.FRONTEND_BASE_URL}/admin-auth-token-generator/deezer`,
   );
   await page.waitForURL(/deezer/);
-  await page.getByRole("button", { name: /Continue/i }).click();
+  await page.getByRole("button", { name: /continue/i }).click();
 
   await page.waitForURL(/auth\/deezer/);
   const locator = page.locator("body");

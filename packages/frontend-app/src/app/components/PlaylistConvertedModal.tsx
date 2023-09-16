@@ -1,5 +1,10 @@
 import React, { ReactNode, ComponentProps } from "react";
+
 import { Button } from "./Button/Button";
+import { Input } from "./Input";
+import { Modal } from "./Modal";
+import { Space } from "./Space";
+import { useToast } from "./Toast/ToastContext";
 import {
   CopyIcon,
   FacebookIcon,
@@ -10,11 +15,9 @@ import {
   WhatsappIcon,
 } from "./icons";
 
-import { Modal } from "./Modal";
-import { Space } from "./Space";
-import { Input } from "./Input";
+
 import useCopyToClipboard from "../hooks/useCopyToClipboard";
-import { useToast } from "./Toast/ToastContext";
+
 
 interface IProps {
   open: boolean;

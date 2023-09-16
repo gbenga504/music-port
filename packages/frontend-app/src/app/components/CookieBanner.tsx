@@ -1,7 +1,8 @@
-import React from "react";
 import classNames from "classnames";
+import React from "react";
 
 import { Button } from "./Button/Button";
+
 import useCookieConsent from "../hooks/useCookieConsent";
 
 export const CookieBanner = () => {

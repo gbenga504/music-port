@@ -10,7 +10,7 @@ interface IGetOptionsFromChildren {
 export function getOptionsFromChildren(
   children: React.ReactNode,
 ): IGetOptionsFromChildren[] {
-  if (children == null) {
+  if (children == undefined) {
     return [];
   }
 
@@ -63,7 +63,7 @@ export function flattenOptionGroups(
 ): IFlattenOptionGroups[] {
   let flatOptions: IFlattenOptionGroups[] = [];
 
-  groupedOptions.forEach((optionOrGroup) => {
+  for (const optionOrGroup of groupedOptions) {
     if (isOptionGroup(optionOrGroup)) {
       flatOptions = flatOptions.concat(
         flattenOptionGroups(optionOrGroup.options!),
@@ -73,7 +73,7 @@ export function flattenOptionGroups(
         ...(optionOrGroup as IFlattenOptionGroups),
       });
     }
-  });
+  }
 
   return flatOptions;
 }

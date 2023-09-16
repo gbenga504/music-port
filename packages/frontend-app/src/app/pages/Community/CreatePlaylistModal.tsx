@@ -1,32 +1,34 @@
+import omit from "lodash/omit";
 import React, { useEffect, useState, useRef } from "react";
 import { Field, Form } from "react-final-form";
-import omit from "lodash/omit";
 import { useNavigate } from "react-router-dom";
 
-import type { IRenderLabel } from "../../components/Select";
-import type { FormRenderProps } from "react-final-form";
-import type { ChangeEventHandler } from "react";
+import { IPageQuery } from "./loadData";
 
-import { Modal } from "../../components/Modal";
-import { Option, Select } from "../../components/Select";
-import { Space } from "../../components/Space";
-import { Button } from "../../components/Button/Button";
-import { Input } from "../../components/Input";
+import * as formValidation from "../../../utils/form-validation";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 import {
   Platform,
   PlatformValues,
   PlaylistGenreValues,
 } from "../../../utils/platform";
-import useParsedQueryParams from "../../hooks/useParsedQueryParams";
-import * as formValidation from "../../../utils/form-validation";
+import { sleep } from "../../../utils/sleep";
 import { constructURL, getPlatformName } from "../../../utils/url";
+import { Button } from "../../components/Button/Button";
+import { Input } from "../../components/Input";
+import { Modal } from "../../components/Modal";
+
+import { Option, Select } from "../../components/Select";
+import type { IRenderLabel } from "../../components/Select";
+import type { FormRenderProps } from "react-final-form";
+import type { ChangeEventHandler } from "react";
+
+import { Space } from "../../components/Space";
+import useParsedQueryParams from "../../hooks/useParsedQueryParams";
 import { routeIds } from "../../routes";
 import { useToast } from "../../components/Toast/ToastContext";
 import { useApi } from "../../context/ApiContext";
-import { IPageQuery } from "./loadData";
-import { sleep } from "../../../utils/sleep";
 import { PlatformIcon } from "../../components/PlatformIcon";
-import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 
 interface IProps {
   open: boolean;

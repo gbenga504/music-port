@@ -2,8 +2,8 @@ import React, { createContext, useContext } from "react";
 
 import { getApiClient } from "../api";
 
-import type { ReactNode } from "react";
 import type { ICreateApiClient } from "../api";
+import type { ReactNode } from "react";
 
 const ApiContext = createContext<ICreateApiClient>(getApiClient());
 

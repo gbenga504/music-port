@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import React, { useMemo } from "react";
 
-import { ArrowDownIcon } from "../icons";
 import { Button } from "../Button/Button";
+import { ArrowDownIcon } from "../icons";
 
 import "./Pagination.scss";
 
@@ -31,7 +31,7 @@ export const Pagination: React.FC<IProps> = ({
   classes = {},
 }) => {
   const paginationItems = useMemo(() => {
-    let results: { type: "seperator" | "number"; value?: number }[] = [];
+    const results: { type: "seperator" | "number"; value?: number }[] = [];
     const totalNumberOfPages = Math.ceil(total / pageSize);
 
     if (totalNumberOfPages <= 5) {
@@ -68,11 +68,7 @@ export const Pagination: React.FC<IProps> = ({
             // else i becomes the last page
             results.push({ type: "seperator" });
 
-            if (i < current) {
-              i = maximumLeftNumber;
-            } else {
-              i = totalNumberOfPages;
-            }
+            i = i < current ? maximumLeftNumber : totalNumberOfPages;
           }
         }
       }
@@ -106,9 +102,9 @@ export const Pagination: React.FC<IProps> = ({
       {paginationItems.map((paginationItem, i) => {
         const { type, value } = paginationItem;
         const isSeperator = type === "seperator";
-        const title = !isSeperator
-          ? value?.toString()
-          : `page size separator ${i}`;
+        const title = isSeperator
+          ? `page size separator ${i}`
+          : value?.toString();
 
         return (
           <li
