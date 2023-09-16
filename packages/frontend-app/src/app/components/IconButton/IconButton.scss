@@ -1,0 +1,27 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+@layer components {
+  .iconButton {
+    @apply inline-flex items-center justify-center;
+    @apply rounded-full outline-none;
+
+    &.button-primary {
+      @apply bg-secondary100;
+
+      &:hover,
+      &:active {
+        @apply bg-primary;
+      }
+
+      &:focus {
+        @apply bg-teal-600;
+      }
+    }
+
+    &.button-small {
+      @apply w-[30px] h-[30px];
+    }
+  }
+}

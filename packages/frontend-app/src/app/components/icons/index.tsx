@@ -25,3 +25,5 @@ export { WhatsappIcon } from "./WhatsappIcon";
 export { YoutubeMusicIcon } from "./YoutubeMusicIcon";
 export { DiscoverIcon } from "./DiscoverIcon";
 export { ConvertIcon } from "./ConvertIcon";
+export { PlayIcon } from "./PlayIcon";
+export { ShareIcon } from "./ShareIcon";
