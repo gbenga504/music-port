@@ -22,7 +22,10 @@
     "obtain-platform-cookies": "export $(cat .auth.env) && node -r ts-node/register/transpile-only scripts/obtain-platform-cookies",
     "type:check": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "base:lint": "eslint --cache --ext js --ext ts --ext tsx",
+    "lint": "yarn base:lint .",
+    "lint:fix": "yarn base:lint --fix ."
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
@@ -60,6 +63,8 @@
     "@types/react-helmet": "^6.1.5",
     "@types/serialize-javascript": "^5.0.2",
     "@types/wait-on": "^5.3.1",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
     "babel-plugin-transform-require-ignore": "^0.1.1",
@@ -68,6 +73,10 @@
     "css-minimizer-webpack-plugin": "^5.0.0",
     "dotenv": "^16.0.2",
     "dotenv-webpack": "^8.0.1",
+    "eslint": "^8.49.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-unicorn": "^48.0.1",
     "express": "^4.18.1",
     "jest": "29.4.3",
     "mini-css-extract-plugin": "^2.6.1",
