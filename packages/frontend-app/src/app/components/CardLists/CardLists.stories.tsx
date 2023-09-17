@@ -1,9 +1,11 @@
 import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { CardLists } from "./CardLists";
+
 import { Card } from "../Card/Card";
+
+import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof CardLists> = {
   title: "Card Lists",
