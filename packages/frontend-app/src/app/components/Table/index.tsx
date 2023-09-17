@@ -5,7 +5,6 @@ import { SpinnerIcon } from "../icons";
 
 import type { ReactElement, ReactNode } from "react";
 
-
 interface ITableProps {
   children: ReactElement | ReactElement[];
   stickyHeader?: boolean;

@@ -7,7 +7,6 @@ import { Playlist } from "./playlist";
 
 import { isDOM } from "../../utils/dom";
 
-
 interface ICreateApiClientParams {
   backendApiBaseUrl: string;
   frontendApiBaseUrl: string;

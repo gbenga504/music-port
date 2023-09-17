@@ -1,4 +1,3 @@
-
 import type { ICreateApiClient } from "../app/api";
 import type { IPageDatas } from "../app/utils/routeUtils";
 import type { ILoadData } from "../utils/route-utils";

@@ -4,7 +4,6 @@ import { routeIds } from "../../routes";
 
 import type { ILoadData } from "../../../utils/route-utils";
 
-
 export interface IPageQuery {
   // General
   currentPage: string;

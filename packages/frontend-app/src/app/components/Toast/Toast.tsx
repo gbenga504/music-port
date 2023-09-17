@@ -10,7 +10,6 @@ import {
   CloseIcon,
 } from "../icons";
 
-
 export interface IToastSettings {
   title?: string;
   description?: string;
