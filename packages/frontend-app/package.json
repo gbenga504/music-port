@@ -25,7 +25,9 @@
     "build-storybook": "storybook build",
     "base:lint": "eslint --cache --ext js --ext ts --ext tsx",
     "lint": "yarn base:lint .",
-    "lint:fix": "yarn base:lint --fix ."
+    "lint:fix": "yarn base:lint --fix .",
+    "format": "yarn prettier --write .",
+    "format:check": "yarn prettier --check ."
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",

@@ -17,9 +17,6 @@ import { loadPageResources } from "../utils/route-utils";
 
 import type { Request, Response } from "express";
 
-
-
-
 export const renderer = async (
   req: Request,
   res: Response,

@@ -15,6 +15,4 @@ export function createGraphQLClient(configuration: {
   return getSdk(client);
 }
 
-
-
-export {type Sdk as GraphQLClient} from "./graphql-client.gen";
+export { type Sdk as GraphQLClient } from "./graphql-client.gen";

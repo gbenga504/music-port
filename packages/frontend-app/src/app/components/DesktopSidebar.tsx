@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import { Button } from "./Button/Button";
@@ -6,7 +5,6 @@ import { DiscoverIcon, LogoIcon, ConvertIcon } from "./icons";
 
 import { constructURL } from "../../utils/url";
 import { routeIds } from "../routes";
-
 
 export const DesktopSidebar: React.FC = () => {
   return (

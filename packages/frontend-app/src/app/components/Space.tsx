@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Children, cloneElement } from "react";
 import React from "react";
 
-import type { ReactNode, CSSProperties , ReactElement } from "react";
+import type { ReactNode, CSSProperties, ReactElement } from "react";
 
 interface IProps {
   size?: "large" | "medium" | "small";

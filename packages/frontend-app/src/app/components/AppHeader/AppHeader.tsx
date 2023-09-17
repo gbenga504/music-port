@@ -7,8 +7,6 @@ import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Button } from "../Button/Button";
 import { AnimatedHamburgerIcon } from "../icons";
 
-
-
 interface IProps {}
 
 export const AppHeader: React.FC<IProps> = () => {

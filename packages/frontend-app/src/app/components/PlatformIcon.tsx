@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import {
@@ -9,7 +8,6 @@ import {
 } from "./icons";
 
 import { Platform } from "../../utils/platform";
-
 
 interface IProps {
   platform: Platform;

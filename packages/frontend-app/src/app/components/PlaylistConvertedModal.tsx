@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import { Button } from "./Button/Button";
@@ -16,11 +15,9 @@ import {
   WhatsappIcon,
 } from "./icons";
 
-
 import useCopyToClipboard from "../hooks/useCopyToClipboard";
 
 import type { ReactNode, ComponentProps } from "react";
-
 
 interface IProps {
   open: boolean;

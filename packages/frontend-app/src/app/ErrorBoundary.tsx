@@ -4,7 +4,6 @@ import { RedirectError } from "../errors/redirect-error";
 
 import type { ReactNode } from "react";
 
-
 interface IProps {
   error?: Error;
   children: ReactNode;

@@ -25,8 +25,6 @@ import type {
 import type { LoadableComponent } from "@loadable/component";
 import type { RouteObjectWithLoadData, Location } from "react-router-dom";
 
-
-
 import "./App.scss";
 
 interface ITransformMatchedRoutesParams {

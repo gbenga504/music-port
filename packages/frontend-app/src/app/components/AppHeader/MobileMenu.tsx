@@ -8,7 +8,6 @@ import { Button } from "../Button/Button";
 import { Drawer } from "../Drawer";
 import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../icons";
 
-
 interface IProps {
   open: boolean;
   onClose: () => void;

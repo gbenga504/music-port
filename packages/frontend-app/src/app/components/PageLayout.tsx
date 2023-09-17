@@ -1,4 +1,3 @@
-
 import React from "react";
 
 import { AppHeader } from "./AppHeader/AppHeader";
@@ -6,7 +5,6 @@ import { DesktopSidebar } from "./DesktopSidebar";
 import { HeadMarkup } from "./HeadMarkup";
 
 import type { ReactNode } from "react";
-
 
 interface IProps {
   title: string;

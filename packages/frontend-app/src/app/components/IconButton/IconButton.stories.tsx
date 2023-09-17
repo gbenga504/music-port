@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { IconButton } from "./IconButton";
 
 import { PlayIcon } from "../icons";
