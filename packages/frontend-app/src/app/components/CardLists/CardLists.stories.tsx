@@ -26,7 +26,7 @@ type Story = StoryObj<typeof CardLists>;
 
 export const BaseContainer: Story = {
   render: () => (
-    <CardLists title="Gospel">
+    <CardLists title="Gospel" to="#">
       <li className="w-[350px]">
         <Card
           src="https://images.prismic.io/wunderflatscontent/ef754f0d-5903-40b7-a1d6-ea143f480f37_Balcony-M.jpg?auto=compress,format"

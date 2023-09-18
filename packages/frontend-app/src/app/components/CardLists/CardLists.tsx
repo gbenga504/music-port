@@ -1,16 +1,18 @@
 import React, { useState, useRef } from "react";
-
-import type { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 import "./CardLists.scss";
 import { ArrowDownIcon } from "../icons";
 
+import type { ReactNode } from "react";
+
 interface IProps {
   title: string;
+  to: string;
   children: ReactNode;
 }
 
-export const CardLists = ({ title, children }: IProps) => {
+export const CardLists = ({ title, to, children }: IProps) => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const scrollContainerRef = useRef<HTMLUListElement | null>(null);
 
@@ -34,11 +36,11 @@ export const CardLists = ({ title, children }: IProps) => {
 
   return (
     <section className="cardLists">
-      <div className="flex flex-row items-center mb-3">
+      <Link to={to} className="flex flex-row items-center mb-3">
         <h2 className="text-base font-bold text-white mr-1">{title}</h2>
         {/* Should be arrow right icon */}
         <ArrowDownIcon className="text-secondary50" />
-      </div>
+      </Link>
       <ul
         ref={scrollContainerRef}
         className="grid grid-flow-col gap-5 overflow-x-auto scroll-smooth no-scrollbar"
