@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./Card.scss";
 import { IconButton } from "../IconButton/IconButton";
 import { CopyIcon, PlayIcon } from "../icons";
+import useCopyToClipboard from "../../hooks/useCopyToClipboard";
+import { useToast } from "../Toast/ToastContext";
 
 interface IProps {
   src: string;
@@ -12,7 +14,15 @@ interface IProps {
   link: string;
 }
 
-export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
+export const Card: React.FC<IProps> = ({
+  src,
+  title,
+  artist,
+  link = "moyin",
+}) => {
+  const toast = useToast();
+  const [_, copy] = useCopyToClipboard();
+
   return (
     <Link to={link} className="w-full">
       <div className="card">
@@ -23,7 +33,16 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
             <IconButton>
               <PlayIcon size={13} className="ml-1" />
             </IconButton>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                copy(link as string);
+                toast({
+                  title: "Link copied to clipboard",
+                  status: "info",
+                  position: "top",
+                });
+              }}
+            >
               <CopyIcon size={13} />
             </IconButton>
           </div>
