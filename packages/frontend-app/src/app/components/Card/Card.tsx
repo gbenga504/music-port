@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "./Card.scss";
-import { IconButton } from "../IconButton/IconButton";
-import { CopyIcon, PlayIcon } from "../icons";
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
+import { IconButton } from "../IconButton/IconButton";
 import { useToast } from "../Toast/ToastContext";
+import { CopyIcon, PlayIcon } from "../icons";
 
 interface IProps {
   src: string;
@@ -14,12 +14,7 @@ interface IProps {
   link: string;
 }
 
-export const Card: React.FC<IProps> = ({
-  src,
-  title,
-  artist,
-  link = "moyin",
-}) => {
+export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
   const toast = useToast();
   const [_, copy] = useCopyToClipboard();
 
