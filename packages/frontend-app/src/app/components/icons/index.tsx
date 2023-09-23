@@ -27,3 +27,6 @@ export { DiscoverIcon } from "./DiscoverIcon";
 export { ConvertIcon } from "./ConvertIcon";
 export { PlayIcon } from "./PlayIcon";
 export { ShareIcon } from "./ShareIcon";
+export { FastForwardIcon } from "./FastForwardIcon";
+export { RewindIcon } from "./RewindIcon";
+export { VolumeIcon } from "./VolumeIcon";

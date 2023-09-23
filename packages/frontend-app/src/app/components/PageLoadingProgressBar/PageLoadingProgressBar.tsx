@@ -5,7 +5,7 @@ export interface IProps {
   variant?: "determinate" | "indeterminate";
 }
 
-export const ProgressBar: React.FC<IProps> = ({
+export const PageLoadingProgressBar: React.FC<IProps> = ({
   value = 0,
   variant = "determinate",
 }) => {

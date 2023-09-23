@@ -74,6 +74,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/ban-ts-comment": "off",
   },
   overrides: [
     // Config files

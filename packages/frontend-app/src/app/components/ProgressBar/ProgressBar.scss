@@ -1,0 +1,21 @@
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "tailwindcss/base";
+
+@layer components {
+  .progressBar {
+    & .main {
+      & .thumb {
+        @apply invisible;
+      }
+
+      &:hover .thumb {
+        @apply visible;
+      }
+
+      & .thumb.thumb-visible {
+        @apply visible;
+      }
+    }
+  }
+}
