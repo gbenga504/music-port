@@ -30,7 +30,7 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
             </IconButton>
             <IconButton
               onClick={() => {
-                copy(link as string);
+                copy(link);
                 toast({
                   title: "Link copied to clipboard",
                   status: "info",
