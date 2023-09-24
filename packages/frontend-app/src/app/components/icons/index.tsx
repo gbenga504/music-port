@@ -30,3 +30,5 @@ export { ShareIcon } from "./ShareIcon";
 export { FastForwardIcon } from "./FastForwardIcon";
 export { RewindIcon } from "./RewindIcon";
 export { VolumeIcon } from "./VolumeIcon";
+export { ArrowLeftIcon } from "./ArrowLeftIcon";
+export { ArrowRightIcon } from "./ArrowRightIcon";

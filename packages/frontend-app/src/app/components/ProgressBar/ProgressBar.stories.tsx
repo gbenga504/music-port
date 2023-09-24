@@ -14,7 +14,7 @@ type Story = StoryObj<typeof ProgressBar>;
 
 export const BaseProgressBar: Story = {
   render: () => {
-    const [value, setValue] = useState(0);
+    const [value, setValue] = useState(10);
 
     return (
       <ProgressBar
