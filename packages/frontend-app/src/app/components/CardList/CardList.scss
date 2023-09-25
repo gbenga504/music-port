@@ -1,0 +1,43 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+@layer components {
+  .cardList {
+    @apply px-10 relative w-full;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    & .arrowButton {
+      @apply text-white flex pointer-events-none opacity-0 transition-opacity duration-300;
+      @apply items-center justify-center h-full absolute w-10 z-10 top-0;
+
+      &.arrow-visible {
+        @apply pointer-events-auto opacity-100;
+      }
+    }
+
+    & .leftArrow {
+      @apply left-0;
+    }
+
+    & .rightArrow {
+      @apply right-0;
+    }
+
+    &:hover {
+      & .arrowButton.arrow-hover-visible {
+        @apply pointer-events-auto opacity-100;
+      }
+    }
+  }
+}

@@ -1,22 +1,48 @@
 @import "tailwindcss/components";
-@import "tailwindcss/base";
-@import "tailwindcss/utilities";
 
 @layer components {
   .iconButton {
     @apply inline-flex items-center justify-center;
     @apply rounded-full outline-none;
 
-    &.button-primary {
-      @apply bg-secondary100;
+    &.button-contained {
+      &.button-primary {
+        @apply bg-secondary100;
+
+        &:hover,
+        &:active {
+          @apply bg-primary;
+        }
+
+        &:focus {
+          @apply bg-teal-600;
+        }
+      }
+
+      &.button-white {
+        @apply bg-white;
+
+        &:hover,
+        &:active {
+          @apply bg-secondary50;
+        }
+
+        &:focus {
+          @apply bg-secondary50;
+        }
+      }
+    }
+
+    &.button-transparent {
+      @apply bg-transparent text-white;
 
       &:hover,
       &:active {
-        @apply bg-primary;
+        @apply text-secondary50;
       }
 
       &:focus {
-        @apply bg-teal-600;
+        @apply text-secondary50;
       }
     }
 

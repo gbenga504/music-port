@@ -21,7 +21,7 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
 
           <div className="overlay">
             <IconButton>
-              <PlayIcon size={13} className="ml-1" />
+              <PlayIcon size={13} className="text-white" />
             </IconButton>
             <IconButton>
               <CopyIcon size={13} />
@@ -30,9 +30,13 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
         </div>
         <div className="mt-1">
           <div className="flex items-center justify-between">
-            <p className="text-secondary50 text-xs font-light">{title}</p>
+            <p className="text-secondary50 text-xs font-light hover:underline">
+              {title}
+            </p>
           </div>
-          <p className="mt-px text-xs text-secondary100">{artist}</p>
+          <p className="mt-px text-xs text-secondary100 hover:underline">
+            {artist}
+          </p>
         </div>
       </div>
     </Link>

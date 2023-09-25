@@ -1,4 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
+const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -81,5 +82,20 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".visually-hidden": {
+          clip: "rect(0 0 0 0)",
+          border: 0,
+          height: 1,
+          margin: 0,
+          overflow: "hidden",
+          padding: 0,
+          position: "absolute",
+          width: 1,
+        },
+      });
+    }),
+  ],
 };
