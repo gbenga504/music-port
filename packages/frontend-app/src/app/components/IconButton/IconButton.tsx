@@ -7,7 +7,8 @@ import type { ReactNode } from "react";
 
 export interface IProps {
   size?: "small";
-  color?: "primary";
+  color?: "primary" | "white";
+  variant?: "contained" | "transparent";
   children: ReactNode;
   onClick?: () => void;
   className?: string;
@@ -17,6 +18,7 @@ export const IconButton: React.FC<IProps> = (props) => {
   const {
     size = "small",
     color = "primary",
+    variant = "contained",
     children,
     onClick,
     className,
@@ -25,6 +27,9 @@ export const IconButton: React.FC<IProps> = (props) => {
   const buttonClassName = classNames(className, "iconButton", {
     "button-small": size === "small",
     "button-primary": color === "primary",
+    "button-white": color === "white",
+    "button-contained": variant === "contained",
+    "button-transparent": variant === "transparent",
   });
 
   return (

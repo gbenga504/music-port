@@ -21,7 +21,7 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
 
           <div className="overlay">
             <IconButton>
-              <PlayIcon size={13} className="ml-1" />
+              <PlayIcon size={13} className="text-white" />
             </IconButton>
             <IconButton>
               <CopyIcon size={13} />

@@ -32,3 +32,4 @@ export { RewindIcon } from "./RewindIcon";
 export { VolumeIcon } from "./VolumeIcon";
 export { ArrowLeftIcon } from "./ArrowLeftIcon";
 export { ArrowRightIcon } from "./ArrowRightIcon";
+export { PauseIcon } from "./PauseIcon";
