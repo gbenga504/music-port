@@ -34,6 +34,7 @@ export const BaseToast: Story = {
         description,
       });
     };
+
     return <Button onClick={handleToast}>Show Toast</Button>;
   },
   args: {
