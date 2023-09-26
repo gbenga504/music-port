@@ -1,73 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
+
 import { Toast } from "./Toast";
+import { ToastProvider, useToast } from "./ToastContext";
+
+import { Button } from "../Button/Button";
 
 import type { Meta, StoryObj } from "@storybook/react";
-import { Button } from "../Button/Button";
 
 const meta: Meta<typeof Toast> = {
   title: "Toast",
   component: Toast,
+  decorators: [
+    (Story) => (
+      <ToastProvider>
+        <Story />
+      </ToastProvider>
+    ),
+  ],
 };
 
 export default meta;
 type Story = StoryObj<typeof Toast>;
 
-const ButtonWithHooks = () => {
-  const [open, setOpen] = useState(false);
-  const [status, setStatus] = useState<
-    "success" | "info" | "error" | "warning"
-  >();
-
-  return (
-    <>
-      <Button
-        onClick={() => {
-          setOpen(true);
-          setStatus("success");
-        }}
-        className="mr-3"
-      >
-        Success Toast
-      </Button>
-      <Button
-        onClick={() => {
-          setOpen(true);
-          setStatus("info");
-        }}
-        className="mr-3"
-      >
-        Info Toast
-      </Button>
-      <Button
-        onClick={() => {
-          setOpen(true);
-          setStatus("error");
-        }}
-        className="mr-3"
-      >
-        Error Toast
-      </Button>
-      <Button
-        onClick={() => {
-          setOpen(true);
-          setStatus("warning");
-        }}
-      >
-        Warning Toast
-      </Button>
-      {open && (
-        <Toast
-          title="Toast"
-          description="Toast me :)"
-          status={status}
-          position="top"
-          onClose={() => setOpen(false)}
-        />
-      )}
-    </>
-  );
-};
-
 export const BaseToast: Story = {
-  render: () => <ButtonWithHooks />,
+  render: ({ status, title, description, position }) => {
+    const toast = useToast();
+
+    const handleToast = () => {
+      toast({
+        title,
+        status,
+        position,
+        description,
+      });
+    };
+    return <Button onClick={handleToast}>Show Toast</Button>;
+  },
+  args: {
+    status: "info",
+    position: "top",
+    title: "Best notification",
+  },
 };
