@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { CookieBanner } from "./components/CookieBanner";
-import { ProgressBar } from "./components/ProgressBar";
+import { PageLoadingProgressBar } from "./components/PageLoadingProgressBar/PageLoadingProgressBar";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";
@@ -135,7 +135,7 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
     <>
       {isPageLoading && (
         <div className="fixed w-screen">
-          <ProgressBar variant="indeterminate" />
+          <PageLoadingProgressBar variant="indeterminate" />
         </div>
       )}
       <ApiProvider api={api}>

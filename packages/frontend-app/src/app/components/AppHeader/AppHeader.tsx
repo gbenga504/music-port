@@ -5,6 +5,7 @@ import { MobileMenu } from "./MobileMenu";
 
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Button } from "../Button/Button";
+import { Space } from "../Space";
 import { AnimatedHamburgerIcon } from "../icons";
 
 interface IProps {}
@@ -26,7 +27,10 @@ export const AppHeader: React.FC<IProps> = () => {
 
   return (
     <nav className="w-full p-3 bg-secondary200 flex justify-end">
-      <div className="hidden lg:block">
+      <Space size="small" className="hidden lg:inline-flex">
+        <Button variant="contained" size="small">
+          Create playlist
+        </Button>
         <Button
           variant="contained"
           size="small"
@@ -35,7 +39,7 @@ export const AppHeader: React.FC<IProps> = () => {
         >
           Github
         </Button>
-      </div>
+      </Space>
       {renderMobileMenuHamburger()}
       {matches && (
         <MobileMenu
