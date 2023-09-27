@@ -10,7 +10,7 @@ import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 import { PlatformValues } from "../../../utils/platform";
 import { constructURL } from "../../../utils/url";
 import { Button } from "../../components/Button/Button";
-import { Drawer } from "../../components/Drawer";
+import { Drawer } from "../../components/Drawer/Drawer";
 import { PlatformIcon } from "../../components/PlatformIcon";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
 import { Select, Option } from "../../components/Select";

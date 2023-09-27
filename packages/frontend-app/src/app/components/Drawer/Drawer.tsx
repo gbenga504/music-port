@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSwipeable } from "react-swipeable";
 
-import "./index.scss";
+import "./Drawer.scss";
 import { sleep } from "../../../utils/sleep";
 import useSsr from "../../hooks/useSsr";
 
