@@ -4,25 +4,26 @@ import React from "react";
 import { Field, Form } from "react-final-form";
 import { useNavigate } from "react-router-dom";
 
-import * as formValidation from "../../../utils/form-validation";
-import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
-import { PlatformValues, PlaylistGenreValues } from "../../../utils/platform";
-import { sleep } from "../../../utils/sleep";
-import { constructURL, getPlatformName } from "../../../utils/url";
-import { Button } from "../../components/Button/Button";
-import { Input } from "../../components/Input";
-import { Modal } from "../../components/Modal/Modal";
-import { PlatformIcon } from "../../components/PlatformIcon";
-import { Option, Select } from "../../components/Select";
-import { Space } from "../../components/Space";
-import { useToast } from "../../components/Toast/ToastContext";
-import { useApi } from "../../context/ApiContext";
-import useParsedQueryParams from "../../hooks/useParsedQueryParams";
-import { routeIds } from "../../routes";
+import { Button } from "./Button/Button";
+import { Input } from "./Input";
+import { Modal } from "./Modal/Modal";
+import { PlatformIcon } from "./PlatformIcon";
+import { Option, Select } from "./Select";
+import { Space } from "./Space";
+import { useToast } from "./Toast/ToastContext";
 
-import type { IPageQuery } from "./load-data";
-import type { Platform } from "../../../utils/platform";
-import type { IRenderLabel } from "../../components/Select";
+import * as formValidation from "../../utils/form-validation";
+import { convertCamelCaseToCapitalize } from "../../utils/formatter";
+import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
+import { sleep } from "../../utils/sleep";
+import { constructURL, getPlatformName } from "../../utils/url";
+import { useApi } from "../context/ApiContext";
+import useParsedQueryParams from "../hooks/useParsedQueryParams";
+import { routeIds } from "../routes";
+
+import type { IRenderLabel } from "./Select";
+import type { Platform } from "../../utils/platform";
+import type { IPageQuery } from "../pages/Community/load-data";
 import type { ChangeEventHandler } from "react";
 import type { FormRenderProps } from "react-final-form";
 
