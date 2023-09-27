@@ -11,7 +11,7 @@ import { sleep } from "../../../utils/sleep";
 import { constructURL, getPlatformName } from "../../../utils/url";
 import { Button } from "../../components/Button/Button";
 import { Input } from "../../components/Input";
-import { Modal } from "../../components/Modal";
+import { Modal } from "../../components/Modal/Modal";
 import { PlatformIcon } from "../../components/PlatformIcon";
 import { Option, Select } from "../../components/Select";
 import { Space } from "../../components/Space";

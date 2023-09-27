@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "./Button/Button";
 import { Input } from "./Input";
-import { Modal } from "./Modal";
+import { Modal } from "./Modal/Modal";
 import { Space } from "./Space";
 import { useToast } from "./Toast/ToastContext";
 import {
