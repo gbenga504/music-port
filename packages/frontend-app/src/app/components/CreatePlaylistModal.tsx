@@ -1,8 +1,6 @@
 import omit from "lodash/omit";
-import { useEffect, useState, useRef } from "react";
 import React from "react";
 import { Field, Form } from "react-final-form";
-import { useNavigate } from "react-router-dom";
 
 import { Button } from "./Button/Button";
 import { Input } from "./Input";
@@ -10,16 +8,12 @@ import { Modal } from "./Modal/Modal";
 import { PlatformIcon } from "./PlatformIcon";
 import { Option, Select } from "./Select";
 import { Space } from "./Space";
-import { useToast } from "./Toast/ToastContext";
 
 import * as formValidation from "../../utils/form-validation";
 import { convertCamelCaseToCapitalize } from "../../utils/formatter";
 import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
-import { sleep } from "../../utils/sleep";
-import { constructURL, getPlatformName } from "../../utils/url";
-import { useApi } from "../context/ApiContext";
+import { getPlatformName } from "../../utils/url";
 import useParsedQueryParams from "../hooks/useParsedQueryParams";
-import { routeIds } from "../routes";
 
 import type { IRenderLabel } from "./Select";
 import type { Platform } from "../../utils/platform";
@@ -33,106 +27,15 @@ interface IProps {
 }
 
 export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
-  const [isCreatingPlaylist, setIsCreatingPlaylist] = useState(false);
-  const toast = useToast();
-  const api = useApi();
   const [query] = useParsedQueryParams<IPageQuery>();
-  const navigate = useNavigate();
-  const requestSent = useRef(false);
-
-  useEffect(() => {
-    (async function () {
-      const {
-        author,
-        playlistLink,
-        playlistGenre,
-        streamingService,
-        isAuthTokenAvailableForCreatingPlaylist,
-      } = query;
-
-      if (
-        isAuthTokenAvailableForCreatingPlaylist === "true" &&
-        !requestSent.current
-      ) {
-        requestSent.current = true;
-        setIsCreatingPlaylist(true);
-
-        const result = await api.playlist.createPlaylist({
-          author: author!,
-          playlistLink: playlistLink!,
-          playlistGenre: playlistGenre!,
-          platform: streamingService!,
-        });
-
-        setIsCreatingPlaylist(false);
-
-        if (result.error) {
-          toast({
-            title: result.error.name,
-            description: result.error.message,
-            status: "error",
-          });
-        }
-
-        if (result.data) {
-          toast({
-            title: "Playlist created",
-            description: `Your playlist (${result.data.name}) has been created`,
-            status: "success",
-            duration: 4000,
-          });
-
-          await sleep(2000);
-
-          handleClose();
-        }
-      }
-    })();
-  }, [query]);
 
   const handleClose = () => {
     onClose();
-
-    const { author } = query;
-
-    if (author) {
-      navigate(
-        constructURL({
-          routeId: routeIds.community,
-        }),
-        { replace: true }
-      );
-    }
   };
 
-  const handleSubmitFormValues = (
-    values: formValidation.createPlaylistFormInputs
-  ) => {
-    const redirectURI = constructURL({
-      routeId: routeIds.community,
-      query: {
-        ...values,
-        ...query,
-        playlistLink: encodeURIComponent(values.playlistLink),
-        isAuthTokenAvailableForCreatingPlaylist: "true",
-      },
-    });
-
-    try {
-      location.href = `/api/auth/${
-        values.streamingService
-      }?redirect_uri=${encodeURIComponent(redirectURI)}`;
-    } catch (error) {
-      const { name, message } = error as Error;
-
-      toast({
-        title: name,
-        description: message,
-        status: "error",
-        position: "bottom-right",
-      });
-    }
-  };
+  const handleSubmitFormValues = () =>
+    // values: formValidation.createPlaylistFormInputs
+    {};
 
   const handlePlaylistLinkChange = (
     form: FormRenderProps<formValidation.createPlaylistFormInputs>["form"]
@@ -270,7 +173,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                 htmlType="submit"
                 disabled={invalid || !dirty}
                 loadingText="Posting..."
-                loading={isCreatingPlaylist}
+                // loading={isCreatingPlaylist}
               >
                 Post playlist
               </Button>
