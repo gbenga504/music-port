@@ -13,16 +13,19 @@ export default meta;
 type Story = StoryObj<typeof ProgressBar>;
 
 export const BaseProgressBar: Story = {
-  render: () => {
-    const [value, setValue] = useState(10);
+  render: ({ ...rest }) => {
+    const [value, setValue] = useState(rest.value);
 
     return (
       <ProgressBar
+        {...rest}
         value={value}
-        max={100}
-        granularity={5}
         onChange={(value) => setValue(value)}
       />
     );
+  },
+  args: {
+    max: 100,
+    value: 10,
   },
 };

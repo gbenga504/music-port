@@ -10,7 +10,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   decorators: [
     (Story) => (
-      <div className="bg-black w-screen h-screen fixed top-0 left-0 flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <Router>
           <div className="w-96">
             <Story />
