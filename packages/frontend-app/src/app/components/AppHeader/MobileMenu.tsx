@@ -5,7 +5,7 @@ import { doesPathMatch } from "../../../utils/route-utils";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { Button } from "../Button/Button";
-import { Drawer } from "../Drawer";
+import { Drawer } from "../Drawer/Drawer";
 import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../icons";
 
 interface IProps {

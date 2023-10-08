@@ -4,11 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import { sleep } from "../../../utils/sleep";
-import "./index.scss";
+import "./Modal.scss";
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import useSsr from "../../hooks/useSsr";
 import { Button } from "../Button/Button";
-import { Drawer } from "../Drawer";
+import { Drawer } from "../Drawer/Drawer";
 import { CancelIcon } from "../icons";
 
 import type { IProps as IButtonProps } from "../Button/Button";
