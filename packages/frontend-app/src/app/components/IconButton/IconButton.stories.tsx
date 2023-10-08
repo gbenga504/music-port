@@ -18,6 +18,6 @@ export const BaseIconButton: Story = {
   args: {
     size: "small",
     color: "primary",
-    children: <PlayIcon size={13} className="ml-1" />,
+    children: <PlayIcon size={13} />,
   },
 };

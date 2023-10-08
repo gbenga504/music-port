@@ -9,13 +9,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 const meta: Meta<typeof Button> = {
   title: "Button",
   component: Button,
-  decorators: [
-    (Story) => (
-      <div className="w-screen h-screen fixed top-0 left-0 flex justify-center items-center bg-secondary400">
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;
@@ -32,16 +25,15 @@ export const BaseButton: Story = {
 };
 
 export const ButtonWithIcon: Story = {
-  render: () => {
+  render: ({ ...rest }) => {
     return (
-      <Button
-        variant="transparent"
-        size="medium"
-        focused
-        icon={<DiscoverIcon />}
-      >
+      <Button {...rest} icon={<DiscoverIcon />}>
         Discover
       </Button>
     );
+  },
+  args: {
+    variant: "transparent",
+    size: "medium",
   },
 };

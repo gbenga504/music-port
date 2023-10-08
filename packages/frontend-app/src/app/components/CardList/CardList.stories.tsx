@@ -12,7 +12,7 @@ const meta: Meta<typeof CardList> = {
   component: CardList,
   decorators: [
     (Story) => (
-      <div className="bg-black w-screen h-screen fixed top-0 left-0 flex items-center justify-center">
+      <div className="flex items-center justify-center">
         <Router>
           <Story />
         </Router>
@@ -25,8 +25,8 @@ export default meta;
 type Story = StoryObj<typeof CardList>;
 
 export const BaseContainer: Story = {
-  render: () => (
-    <CardList title="Gospel" to="#">
+  render: ({ ...rest }) => (
+    <CardList {...rest}>
       <li className="w-[350px]">
         <Card
           src="https://images.prismic.io/wunderflatscontent/ef754f0d-5903-40b7-a1d6-ea143f480f37_Balcony-M.jpg?auto=compress,format"
@@ -125,4 +125,7 @@ export const BaseContainer: Story = {
       </li>
     </CardList>
   ),
+  args: {
+    title: "Gospel",
+  },
 };
