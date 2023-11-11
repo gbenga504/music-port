@@ -15,7 +15,7 @@ export default meta;
 type Story = StoryObj<typeof Drawer>;
 
 export const BaseDrawer: Story = {
-  render: () => {
+  render: ({ placement, classes }) => {
     const [open, setOpen] = useState(false);
 
     const handleDrawer = () => {
@@ -24,12 +24,21 @@ export const BaseDrawer: Story = {
 
     return (
       <>
-        <Drawer open={open} onClose={() => setOpen(false)}>
-          <h1>Drawer Opened</h1>
+        <Drawer
+          open={open}
+          onClose={() => setOpen(false)}
+          placement={placement}
+          classes={classes}
+        >
+          <h1 className="text-white">Drawer Opened</h1>
         </Drawer>
 
         <Button onClick={handleDrawer}>Open Drawer</Button>
       </>
     );
+  },
+  args: {
+    placement: "right",
+    classes: { contentContainer: "!bg-secondary400" },
   },
 };

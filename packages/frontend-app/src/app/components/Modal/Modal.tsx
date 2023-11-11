@@ -93,7 +93,11 @@ export const Modal: React.FC<IProps> = ({
   const renderFooter = () => {
     if (!okButton) return null;
 
-    return <Button {...okButton} />;
+    return (
+      <div className="w-full">
+        <Button {...okButton} />
+      </div>
+    );
   };
 
   const renderModal = () => {
