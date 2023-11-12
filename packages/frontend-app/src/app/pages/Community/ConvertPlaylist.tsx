@@ -13,7 +13,7 @@ import { Button } from "../../components/Button/Button";
 import { Drawer } from "../../components/Drawer/Drawer";
 import { PlatformIcon } from "../../components/PlatformIcon";
 import { PlaylistConvertedModal } from "../../components/PlaylistConvertedModal";
-import { Select, Option } from "../../components/Select";
+import { Select, Option } from "../../components/Select/Select";
 import { Space } from "../../components/Space";
 import {
   Table,
@@ -35,7 +35,7 @@ import type { IPageQuery } from "./load-data";
 import type { loadData } from "./load-data";
 import type { Platform } from "../../../utils/platform";
 import type { ICreateApiClient } from "../../api";
-import type { IRenderLabel } from "../../components/Select";
+import type { IRenderLabel } from "../../components/Select/Select";
 import type { IPaginationOpts } from "../../components/Table/Pagination";
 
 interface IProps {

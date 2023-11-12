@@ -7,7 +7,7 @@ import React, {
   useRef,
 } from "react";
 
-import "./index.scss";
+import "./Select.scss";
 import { flattenOptionGroups, getOptionsFromChildren } from "./utils";
 
 import { sleep } from "../../../utils/sleep";

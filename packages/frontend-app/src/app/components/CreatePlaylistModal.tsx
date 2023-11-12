@@ -3,10 +3,10 @@ import React from "react";
 import { Field, Form } from "react-final-form";
 
 import { Button } from "./Button/Button";
-import { Input } from "./Input";
+import { Input } from "./Input/Input";
 import { Modal } from "./Modal/Modal";
 import { PlatformIcon } from "./PlatformIcon";
-import { Option, Select } from "./Select";
+import { Option, Select } from "./Select/Select";
 import { Space } from "./Space";
 
 import * as formValidation from "../../utils/form-validation";
@@ -15,7 +15,7 @@ import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
 import { getPlatformName } from "../../utils/url";
 import useParsedQueryParams from "../hooks/useParsedQueryParams";
 
-import type { IRenderLabel } from "./Select";
+import type { IRenderLabel } from "./Select/Select";
 import type { Platform } from "../../utils/platform";
 import type { IPageQuery } from "../pages/Community/load-data";
 import type { ChangeEventHandler } from "react";

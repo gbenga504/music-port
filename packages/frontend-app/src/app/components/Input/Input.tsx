@@ -4,7 +4,7 @@ import React, { forwardRef, useState } from "react";
 import { RedStarIcon } from "../icons";
 
 import type { ChangeEventHandler, ReactNode } from "react";
-import "./index.scss";
+import "./Input.scss";
 
 interface IProps {
   size?: "medium" | "small";

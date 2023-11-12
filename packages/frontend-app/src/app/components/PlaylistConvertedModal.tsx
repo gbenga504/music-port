@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button } from "./Button/Button";
-import { Input } from "./Input";
+import { Input } from "./Input/Input";
 import { Modal } from "./Modal/Modal";
 import { Space } from "./Space";
 import { useToast } from "./Toast/ToastContext";
