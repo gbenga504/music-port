@@ -1,7 +1,7 @@
-declare var expect: typeof import("@jest/globals").expect;
-declare var describe: typeof import("@jest/globals").describe;
-declare var it: typeof import("@jest/globals").it;
-declare var beforeEach: typeof import("@jest/globals").beforeEach;
-declare var beforeAll: typeof import("@jest/globals").beforeAll;
-declare var afterEach: typeof import("@jest/globals").afterEach;
-declare var afterAll: typeof import("@jest/globals").afterAll;
+declare let expect: typeof import("@jest/globals").expect;
+declare let describe: typeof import("@jest/globals").describe;
+declare let it: typeof import("@jest/globals").it;
+declare let beforeEach: typeof import("@jest/globals").beforeEach;
+declare let beforeAll: typeof import("@jest/globals").beforeAll;
+declare let afterEach: typeof import("@jest/globals").afterEach;
+declare let afterAll: typeof import("@jest/globals").afterAll;

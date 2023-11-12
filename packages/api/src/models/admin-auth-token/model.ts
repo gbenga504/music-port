@@ -1,8 +1,9 @@
 import { Schema, model } from "mongoose";
 
-import { IAdminAuthToken } from "./type";
-
 import { PlatformValues } from "../../utils/platform";
+
+import type { IAdminAuthToken } from "./type";
+
 
 const AdminAuthTokenSchema = new Schema<IAdminAuthToken>(
   {

@@ -1,5 +1,5 @@
-import type { ObjectId } from "mongoose";
 import type { Platform, PlaylistGenre } from "../../utils/platform";
+import type { ObjectId } from "mongoose";
 
 export interface Image {
   url: string;

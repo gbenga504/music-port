@@ -1,13 +1,14 @@
 import axios from "axios";
+import { AxiosError } from "axios";
 import passport from "passport";
 import { Strategy } from "passport-youtube-v3";
-import { AxiosError } from "axios";
+
+import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
-import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
-import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 const clientID = process.env.YOUTUBE_MUSIC_CLIENTID;
 const clientSecret = process.env.YOUTUBE_MUSIC_CLIENT_SECRET;
@@ -212,10 +213,11 @@ class YoutubeMusic implements IThirdPartyIntegrations {
         items: Omit<IYoutubePlaylistItem, "songDetails">[];
       }): string {
         const songIds = items.splice(0, 50);
+
         return songIds.map((item) => item.contentDetails.videoId).join(",");
       }
 
-      let tempPlaylistItems = [...playlistItems];
+      const tempPlaylistItems = [...playlistItems];
       let results: IYoutubePlaylistItem[] = [];
 
       while (tempPlaylistItems.length > 0) {
@@ -231,6 +233,7 @@ class YoutubeMusic implements IThirdPartyIntegrations {
           );
 
           acc.push({ ...playlist, songDetails: song } as IYoutubePlaylistItem);
+
           return acc;
         }, results);
       }
@@ -465,7 +468,7 @@ class YoutubeMusic implements IThirdPartyIntegrations {
 
     let duration = 0;
 
-    let songs = data.playlistItems.map((item) => {
+    const songs = data.playlistItems.map((item) => {
       const images: Song["images"] = Object.values(
         item.songDetails.snippet.thumbnails,
       ).map((image) => ({
@@ -482,8 +485,8 @@ class YoutubeMusic implements IThirdPartyIntegrations {
         artists: [
           {
             // We have an ' - Topic' attached to some titles so we take this off
-            name: item.snippet.videoOwnerChannelTitle.replace(
-              /\s?-?\s?Topic/gi,
+            name: item.snippet.videoOwnerChannelTitle.replaceAll(
+              /\s?-?\s?topic/gi,
               "",
             ),
           },
@@ -509,7 +512,7 @@ class YoutubeMusic implements IThirdPartyIntegrations {
       })),
       apiLink: this.getPlaylistLink({ playlistId: data.id }),
       // We have an 'Album - ' attached to some titles so we take this off
-      name: data.snippet.title.replace(/Album\s?-?\s?/gi, ""),
+      name: data.snippet.title.replaceAll(/album\s?-?\s?/gi, ""),
       owner: {
         name: "",
       },

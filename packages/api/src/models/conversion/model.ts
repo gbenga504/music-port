@@ -1,9 +1,10 @@
-import { Schema, model } from "mongoose";
 import { ObjectId } from "mongodb";
-
-import { IConversion } from "./type";
+import { Schema, model } from "mongoose";
 
 import { PlatformValues } from "../../utils/platform";
+
+import type { IConversion } from "./type";
+
 
 const ConversionSchema = new Schema<IConversion>(
   {

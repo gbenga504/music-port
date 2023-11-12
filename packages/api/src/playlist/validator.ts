@@ -1,7 +1,8 @@
 import { z } from "zod";
+
 import { ResourceError } from "../errors/resource-error";
-import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
 import { getPlatformNameOrThrow } from "../third-party-integrations";
+import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
 
 const convertPlaylistUsingAdminAuthTokenSchema = z.object({
   fromPlatform: z.enum(PlatformValues),

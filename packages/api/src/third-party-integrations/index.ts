@@ -1,8 +1,9 @@
 import { URL } from "node:url";
 
-import spotify from "./spotify";
 import deezer from "./deezer";
+import spotify from "./spotify";
 import youtubeMusic from "./youtube";
+
 import { InvalidMusicStreamingPlatformError } from "../errors/invalid-music-streaming-platform-error";
 import { ResourceError } from "../errors/resource-error";
 import { Platform } from "../utils/platform";
@@ -107,15 +108,15 @@ export function getPlatformName(link: string): Platform | null {
   const url = new URL(link);
   const origin = url.origin;
 
-  if (origin.indexOf("spotify.com") !== -1) {
+  if (origin.includes("spotify.com")) {
     return Platform.Spotify;
   }
 
-  if (origin.indexOf("deezer.com") !== -1) {
+  if (origin.includes("deezer.com")) {
     return Platform.Deezer;
   }
 
-  if (origin.indexOf("youtube.com") !== -1) {
+  if (origin.includes("youtube.com")) {
     return Platform.YoutubeMusic;
   }
 
@@ -149,12 +150,12 @@ export function getImportPlaylistId(link: string): string {
     return url.searchParams.get("list")!;
   }
 
-  return paths[paths.length - 1];
+  return paths.at(-1);
 }
 
 export function getExportPlaylistId(link: string): string {
   const url = new URL(link);
   const paths = url.pathname.split("/");
 
-  return paths[paths.length - 1];
+  return paths.at(-1);
 }

@@ -1,10 +1,12 @@
-import defer from "p-defer";
 import axios from "axios";
+import defer from "p-defer";
+
+import * as dbHelpers from "./db";
+import { global } from "./test-globals";
 
 import app from "../src/app";
-import { global } from "./test-globals";
 import { createGraphQLClient } from "../src/graphql/graphql-client";
-import * as dbHelpers from "./db";
+
 
 const createRestClient = ({ url }: { url: string }) => {
   return axios.create({
@@ -37,7 +39,7 @@ export function init() {
     }
 
     if (typeof address !== "object") {
-      throw new Error("Server isn't listening properly on a socket");
+      throw new TypeError("Server isn't listening properly on a socket");
     }
 
     const port = address.port;

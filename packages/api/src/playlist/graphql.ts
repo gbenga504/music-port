@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import {
   enumType,
   mutationField,
@@ -8,7 +10,6 @@ import {
   stringArg,
   idArg,
 } from "nexus";
-import path from "path";
 
 import { GraphQLError } from "../graphql/error-handling";
 import { PlatformValues, PlaylistGenreValues } from "../utils/platform";

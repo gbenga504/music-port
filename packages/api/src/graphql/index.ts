@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import type { Request } from "express";
+
 import { graphqlHTTP } from "express-graphql";
 import {
   makeSchema,
@@ -7,12 +7,16 @@ import {
   connectionPlugin,
   nullabilityGuardPlugin,
 } from "nexus";
-import { createGraphQLContext } from "./create-graphql-context";
-import { UnauthorizedError } from "../errors/unauthorized-error";
 
-//@ts-ignore
+import { createGraphQLContext } from "./create-graphql-context";
+
+//@ts-expect-error prettier config is a JS file not TS but still we want use the import statement
 import prettierrc from "../../.prettierrc";
+import { UnauthorizedError } from "../errors/unauthorized-error";
+//@ts-ignore
 import * as Playlist from "../playlist/graphql";
+
+import type { Request } from "express";
 
 const schema = makeSchema({
   types: [Playlist],
