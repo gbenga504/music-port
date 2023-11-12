@@ -7,6 +7,13 @@ import type { Meta, StoryObj } from "@storybook/react";
 const meta: Meta<typeof Select> = {
   title: "Select",
   component: Select,
+  decorators: [
+    (Story) => (
+      <div className="flex justify-center items-center bg-white w-screen h-screen">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;

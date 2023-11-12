@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Input } from "./Input";
 
 import type { Meta, StoryObj } from "@storybook/react";
@@ -5,6 +7,13 @@ import type { Meta, StoryObj } from "@storybook/react";
 const meta: Meta<typeof Input> = {
   title: "Input",
   component: Input,
+  decorators: [
+    (Story) => (
+      <div className="flex justify-center items-center bg-white w-screen h-screen">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
