@@ -14,6 +14,7 @@
   "scripts": {
     "build": "lerna run build",
     "format": "lerna run --stream format",
-    "lint": "lerna run --stream lint"
+    "lint": "lerna run --stream lint",
+    "prepare": "husky install"
   }
 }
