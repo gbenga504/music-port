@@ -7,7 +7,7 @@ import type { ChangeEventHandler, ReactNode } from "react";
 import "./Input.scss";
 
 interface IProps {
-  size?: "medium" | "small";
+  size?: "medium" | "large";
   variant?: "dashed" | "outlined";
   onChange?: ChangeEventHandler<HTMLInputElement>;
   type?: string;
@@ -73,8 +73,8 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
         <div
           className={classNames("input", {
             fullWidth,
-            small: size === "small",
             medium: size === "medium",
+            large: size === "large",
             outlined: variant === "outlined",
             dashed: variant === "dashed",
             disabled,

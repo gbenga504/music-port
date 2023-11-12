@@ -14,12 +14,12 @@
     @apply w-full;
   }
 
-  &.small {
-    @apply px-4 py-[9px] h-8;
+  &.medium {
+    @apply px-4 h-9;
   }
 
-  &.medium {
-    @apply px-4 py-[18px] h-16;
+  &.large {
+    @apply px-5 h-11;
   }
 
   &.outlined {

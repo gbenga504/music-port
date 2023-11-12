@@ -109,7 +109,7 @@ const Community: React.FC<
           <span>Playlist overview</span>
           <Select
             placeholder="Filter by Genre"
-            size="small"
+            size="medium"
             theme="dark"
             classes={{ select: "!w-[16ch]" }}
             onChange={(value) => {
