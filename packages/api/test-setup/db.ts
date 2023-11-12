@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
+import { global } from "./test-globals";
+
 import type { Db } from "mongodb";
 
-import { global } from "./test-globals";
 
 const initDatabase = async () => {
   return new Promise((resolve) => {

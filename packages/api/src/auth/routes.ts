@@ -5,7 +5,8 @@ import {
   getPassportStrategies,
   authenticate as passportAuthenticate,
 } from "../third-party-integrations";
-import { Platform } from "../utils/platform";
+
+import type { Platform } from "../utils/platform";
 
 const routes = Router();
 

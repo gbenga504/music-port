@@ -1,13 +1,14 @@
 import axios from "axios";
+import { AxiosError } from "axios";
 import passport from "passport";
 import { Strategy } from "passport-spotify";
-import { AxiosError } from "axios";
+
+import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
-import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
-import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
@@ -94,7 +95,7 @@ class Spotify implements IThirdPartyIntegrations {
   }): Promise<IRawPlaylist> {
     const url = new URL(link);
     const paths = url.pathname.split("/");
-    const playlistId = paths[paths.length - 1];
+    const playlistId = paths.at(-1);
 
     return this.getPlaylistById({ accessToken, id: playlistId });
   }
@@ -221,7 +222,7 @@ class Spotify implements IThirdPartyIntegrations {
 
     let duration = 0;
 
-    let songs = data.tracks.items.map((item: any) => {
+    const songs = data.tracks.items.map((item: any) => {
       const {
         track,
         track: { album },

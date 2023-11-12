@@ -1,7 +1,8 @@
 import { ResourceError } from "../errors/resource-error";
+
+import type { AdminAuthTokenRepository } from "./repository";
 import type { IAdminAuthToken } from "../models";
 import type { Platform } from "../utils/platform";
-import type { AdminAuthTokenRepository } from "./repository";
 
 interface IConstructorOptions {
   adminAuthTokenRepository: AdminAuthTokenRepository;

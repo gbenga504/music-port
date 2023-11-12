@@ -1,6 +1,7 @@
-const { TestEnvironment } = require("jest-environment-node");
-const dotenv = require("dotenv");
-const path = require("path");
+import path from "node:path";
+
+import dotenv from "dotenv";
+import { TestEnvironment } from "jest-environment-node";
 
 dotenv.config({
   path: path.join(__dirname, "../.test.env"),
@@ -12,4 +13,4 @@ class CustomEnvironment extends TestEnvironment {
   }
 }
 
-module.exports = CustomEnvironment;
+export default CustomEnvironment;

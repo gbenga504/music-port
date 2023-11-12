@@ -1,5 +1,5 @@
-import type { IConversion } from "../models";
 import type { ConversionRepository } from "./repository";
+import type { IConversion } from "../models";
 
 interface IConstructorOptions {
   conversionRepository: ConversionRepository;

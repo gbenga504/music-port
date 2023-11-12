@@ -1,7 +1,7 @@
-import { IFindOneOptions, Repository } from "../framework/repository";
-
+import { Repository } from "../framework/repository";
 import * as Models from "../models";
 
+import type { IFindOneOptions} from "../framework/repository";
 import type { IAdminAuthToken } from "../models";
 import type { Platform } from "../utils/platform";
 

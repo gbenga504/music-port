@@ -1,6 +1,6 @@
-import type { ObjectId, Model, PipelineStage } from "mongoose";
-
 import { ResourceError } from "../errors/resource-error";
+
+import type { ObjectId, Model, PipelineStage } from "mongoose";
 
 interface IDocument {
   _id: ObjectId;
@@ -37,8 +37,10 @@ export class Repository<T extends IDocument> {
   protected async findOneAndUpdate(
     query: object,
     update: Partial<T>,
-    opt: { upsert: boolean } | undefined = { upsert: false },
+    opt: { upsert: boolean } | undefined,
   ): Promise<T> {
+    opt = { upsert: false, ...opt };
+
     const result = await this.model.findOneAndUpdate(query, update, {
       new: true,
       ...opt,

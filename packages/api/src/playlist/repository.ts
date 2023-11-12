@@ -1,12 +1,13 @@
 import { ObjectId as MongoObjectId } from "mongodb";
 
 import {
-  IFindMany,
-  IFindOneOptions,
   Repository,
 } from "../framework/repository";
 import * as Models from "../models";
 
+import type {
+  IFindMany,
+  IFindOneOptions} from "../framework/repository";
 import type { IPlaylist } from "../models";
 import type { ObjectId } from "mongoose";
 

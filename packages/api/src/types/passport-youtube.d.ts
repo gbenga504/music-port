@@ -1,5 +1,5 @@
 declare module "passport-youtube-v3" {
-  import { Request } from "express";
+  import type { Request } from "express";
 
   type VerifyCallback = (
     error?: Error | null,
