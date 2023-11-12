@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 
 import { ConvertPlaylist } from "./ConvertPlaylist";
 
-
 import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 import { PlaylistGenreValues } from "../../../utils/platform";
 import { PlaylistGenre } from "../../../utils/platform";
@@ -17,7 +16,7 @@ import { CreatePlaylistModal } from "../../components/CreatePlaylistModal";
 import { HeadMarkup } from "../../components/HeadMarkup";
 import { PageLayout } from "../../components/PageLayout";
 import { PlatformIcon } from "../../components/PlatformIcon";
-import { Option, Select } from "../../components/Select";
+import { Option, Select } from "../../components/Select/Select";
 import {
   Table,
   TableBody,
