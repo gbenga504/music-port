@@ -27,7 +27,8 @@
     "lint": "yarn base:lint .",
     "lint:fix": "yarn base:lint --fix .",
     "format": "yarn prettier --write .",
-    "format:check": "yarn prettier --check ."
+    "format:check": "yarn prettier --check .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
