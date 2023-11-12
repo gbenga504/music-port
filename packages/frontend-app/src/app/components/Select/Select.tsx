@@ -21,7 +21,7 @@ export type IRenderLabel<T> = (opts: { label: string; value: T }) => ReactNode;
 
 interface IProps {
   label?: string;
-  size?: "medium" | "small";
+  size?: "medium" | "large";
   variant?: "dashed" | "outlined";
   onChange?: (value: string | number) => void;
   value?: string | number;
@@ -189,8 +189,8 @@ const Select: React.FC<IProps> = ({
           htmlType="button"
           className={classNames("select", {
             fullWidth,
-            small: size === "small",
             medium: size === "medium",
+            large: size === "large",
             outlined: variant === "outlined",
             dashed: variant === "dashed",
             disabled,
