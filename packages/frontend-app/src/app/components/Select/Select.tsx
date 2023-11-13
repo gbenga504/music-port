@@ -184,10 +184,8 @@ const Select: React.FC<IProps> = ({
         </div>
       )}
       <div className="relative" ref={dropdownSelectableAreaRef}>
-        <Button
-          variant="transparent"
-          htmlType="button"
-          className={classNames("select", {
+        <button
+          className={classNames("select button-transparent", {
             fullWidth,
             medium: size === "medium",
             large: size === "large",
@@ -209,7 +207,7 @@ const Select: React.FC<IProps> = ({
             />
           )}
           <input name={name} value={selectedOptionValue} hidden readOnly />
-        </Button>
+        </button>
         {renderDropdown()}
       </div>
       {helperText && (
