@@ -22,17 +22,17 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
 
   const renderMusicInfo = () => {
     return (
-      <Space>
-        <div className="w-10 h-40 lg:w-14 lg:h-14 rounded-md bg-secondary100">
+      <Space size="small">
+        <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-md bg-secondary100">
           {playlist.coverImage && (
             <img
               src={playlist.coverImage}
-              className="w-10 h-40 lg:w-14 lg:h-14 rounded-md object-cover"
+              className="w-10 h-10 lg:w-14 lg:h-14 rounded-md object-cover"
             />
           )}
         </div>
         <div className="font-light flex flex-col">
-          <span className="text-white text-sm font-normal">
+          <span className="text-white text-xs lg:text-sm font-normal">
             {playlist.name}
           </span>
           <span className="text-secondary50 text-xxs">
@@ -66,7 +66,7 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
           <div className="w-full">
             <ProgressBar />
           </div>
-          <span className="text-xxs">5:00</span>
+          <span className="text-xxs">0:00</span>
         </div>
       </div>
     );
@@ -98,7 +98,22 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
   };
 
   const renderMobileView = () => {
-    return null;
+    return (
+      <div className="block lg:hidden relative p-1 pb-4">
+        <div className="flex justify-between items-center">
+          {renderMusicInfo()}
+          <IconButton
+            variant="transparent"
+            onClick={() => setIsPlaying(!isPlaying)}
+          >
+            {isPlaying ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
+          </IconButton>
+        </div>
+        <div className="absolute bottom-0 left-0 w-full">
+          <ProgressBar hideThumb={true} />
+        </div>
+      </div>
+    );
   };
 
   return (

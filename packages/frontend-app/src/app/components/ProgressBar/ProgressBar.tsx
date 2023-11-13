@@ -9,10 +9,18 @@ interface IProps {
   value?: number;
   valueText?: string;
   onChange?: (newValue: number) => void;
+  hideThumb?: boolean;
 }
 
 export const ProgressBar: React.FC<IProps> = (props) => {
-  const { max = 100, granularity = 0, value = 0, valueText, onChange } = props;
+  const {
+    max = 100,
+    granularity = 0,
+    value = 0,
+    valueText,
+    onChange,
+    hideThumb = false,
+  } = props;
   const [canMoveThumb, setCanMoveThumb] = useState(false);
   const thumbRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -87,14 +95,16 @@ export const ProgressBar: React.FC<IProps> = (props) => {
             }}
           />
         </div>
-        <div
-          className={classNames(
-            "thumb absolute z-50 bg-white border-none rounded-full h-3 w-3 -ml-[6px]",
-            { "thumb-visible": canMoveThumb }
-          )}
-          style={{ left: `${percentageProgress()}%` }}
-          ref={thumbRef}
-        />
+        {!hideThumb && (
+          <div
+            className={classNames(
+              "thumb absolute z-50 bg-white border-none rounded-full h-3 w-3 -ml-[6px]",
+              { "thumb-visible": canMoveThumb }
+            )}
+            style={{ left: `${percentageProgress()}%` }}
+            ref={thumbRef}
+          />
+        )}
       </div>
     );
   };
