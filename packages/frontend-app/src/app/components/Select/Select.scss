@@ -6,6 +6,7 @@
   @apply w-[25ch] border rounded-md border-lightGray;
   @apply hover:border-primary focus:border-primary;
   @apply relative flex items-center justify-between;
+  @apply outline-none font-light text-secondary50;
 
   &.fullWidth {
     @apply w-full;
