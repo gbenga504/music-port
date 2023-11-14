@@ -185,16 +185,19 @@ const Select: React.FC<IProps> = ({
       )}
       <div className="relative" ref={dropdownSelectableAreaRef}>
         <button
-          className={classNames("select button-transparent", {
-            fullWidth,
-            medium: size === "medium",
-            large: size === "large",
-            outlined: variant === "outlined",
-            dashed: variant === "dashed",
-            disabled,
-            error,
-            [`${classes.select}`]: !!classes.select,
-          })}
+          className={classNames(
+            "select outline-none font-light text-secondary50",
+            {
+              fullWidth,
+              medium: size === "medium",
+              large: size === "large",
+              outlined: variant === "outlined",
+              dashed: variant === "dashed",
+              disabled,
+              error,
+              [`${classes.select}`]: !!classes.select,
+            }
+          )}
           onClick={toggleDropdownVisibility}
           disabled={disabled}
         >
