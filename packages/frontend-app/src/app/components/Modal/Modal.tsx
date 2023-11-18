@@ -9,6 +9,7 @@ import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import useSsr from "../../hooks/useSsr";
 import { Button } from "../Button/Button";
 import { Drawer } from "../Drawer/Drawer";
+import { IconButton } from "../IconButton/IconButton";
 import { CancelIcon } from "../icons";
 
 import type { IProps as IButtonProps } from "../Button/Button";
@@ -77,14 +78,9 @@ export const Modal: React.FC<IProps> = ({
       <div className="grid grid-cols-autoRepeat2 justify-between">
         <h3 className="text-2xl text-black font-bold">{title ?? title}</h3>
         {closable && (
-          <Button variant="transparent" onClick={onClose}>
-            <div
-              className="h-8 w-8 rounded-full flex items-center justify-center bg-primaryAlpha"
-              onClick={onClose}
-            >
-              <CancelIcon size={12} />
-            </div>
-          </Button>
+          <IconButton color="brandAlpha" onClick={onClose}>
+            <CancelIcon size={12} />
+          </IconButton>
         )}
       </div>
     );

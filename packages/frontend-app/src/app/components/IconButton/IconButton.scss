@@ -24,11 +24,24 @@
 
         &:hover,
         &:active {
-          @apply bg-secondary50;
+          @apply bg-secondary50 border border-primary;
         }
 
         &:focus {
-          @apply bg-secondary50;
+          @apply bg-secondary50 border border-primary;
+        }
+      }
+
+      &.button-brandAlpha {
+        @apply bg-primaryAlpha;
+
+        &:hover,
+        &:active {
+          @apply bg-primaryAlpha border border-primary;
+        }
+
+        &:focus {
+          @apply bg-primaryAlpha border border-primary;
         }
       }
     }

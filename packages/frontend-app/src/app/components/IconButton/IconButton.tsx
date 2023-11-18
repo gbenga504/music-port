@@ -7,7 +7,7 @@ import type { ReactNode } from "react";
 
 export interface IProps {
   size?: "small";
-  color?: "primary" | "white";
+  color?: "primary" | "white" | "brandAlpha";
   variant?: "contained" | "transparent";
   children: ReactNode;
   onClick?: () => void;
@@ -28,6 +28,7 @@ export const IconButton: React.FC<IProps> = (props) => {
     "button-small": size === "small",
     "button-primary": color === "primary",
     "button-white": color === "white",
+    "button-brandAlpha": color === "brandAlpha",
     "button-contained": variant === "contained",
     "button-transparent": variant === "transparent",
   });
