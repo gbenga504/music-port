@@ -1,9 +1,9 @@
 // @ts-nocheck
 
-import type { IPlaylist } from "./../models";
 import type { GraphQLContextType } from "./graphql-context-type";
-import type { core, connectionPluginCore } from "nexus";
+import type { IPlaylist } from "./../models";
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin";
+import type { core, connectionPluginCore } from "nexus";
 
 declare global {
   interface NexusGenCustomOutputMethods<TypeName extends string> {
