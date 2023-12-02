@@ -1,13 +1,15 @@
 import classNames from "classnames";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import "./ProgressBar.scss";
+import { usePrevious } from "../../hooks/usePrevious";
 
 interface IProps {
   max?: number;
   granularity?: number;
   value?: number;
   valueText?: string;
+  onInput?: (newValue: number) => void;
   onChange?: (newValue: number) => void;
   hideThumb?: boolean;
 }
@@ -18,38 +20,23 @@ export const ProgressBar: React.FC<IProps> = (props) => {
     granularity = 0,
     value = 0,
     valueText,
+    onInput,
     onChange,
     hideThumb = false,
   } = props;
   const [canMoveThumb, setCanMoveThumb] = useState(false);
   const thumbRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
+  const previousValue = usePrevious(value);
 
-  useEffect(() => {
-    document.body.addEventListener("mousemove", handleMoveMove);
-    document.body.addEventListener("mousedown", handleMouseDown);
-    document.body.addEventListener("mouseup", handleMouseUp);
-
-    return () => {
-      document.body.removeEventListener("mousemove", handleMoveMove);
-      document.body.removeEventListener("mousedown", handleMouseDown);
-      document.body.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [canMoveThumb]);
-
-  const handleMoveMove = (event: MouseEvent) => {
-    if (canMoveThumb && progressBarRef.current && thumbRef.current) {
-      const { x: distannceXFromScreenEdge, width: widthOfProgressBar } =
-        progressBarRef.current.getBoundingClientRect();
-
-      const thumbXInParentContainer = event.clientX - distannceXFromScreenEdge;
-      const newValue = (thumbXInParentContainer / widthOfProgressBar) * max;
-
-      if (newValue > 0 && newValue <= max) {
-        return onChange?.(newValue);
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (canMoveThumb) {
+        return onInput?.(calculteProgressValue(event));
       }
-    }
-  };
+    },
+    [onInput, canMoveThumb]
+  );
 
   const handleMouseDown = (event: MouseEvent) => {
     if (event.target === thumbRef.current) {
@@ -57,8 +44,50 @@ export const ProgressBar: React.FC<IProps> = (props) => {
     }
   };
 
-  const handleMouseUp = () => {
-    setCanMoveThumb(false);
+  const handleMouseUp = useCallback(
+    (event: MouseEvent) => {
+      if (previousValue !== value && canMoveThumb) {
+        onChange?.(calculteProgressValue(event));
+      }
+
+      setCanMoveThumb(false);
+    },
+    [value, canMoveThumb, onChange]
+  );
+
+  useEffect(() => {
+    document.body.addEventListener("mousemove", handleMouseMove);
+    document.body.addEventListener("mousedown", handleMouseDown);
+    document.body.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.body.removeEventListener("mousemove", handleMouseMove);
+      document.body.removeEventListener("mousedown", handleMouseDown);
+      document.body.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [handleMouseMove, handleMouseUp]);
+
+  const calculteProgressValue = (event: MouseEvent): number => {
+    if (progressBarRef.current && thumbRef.current) {
+      const { x: distannceXFromScreenEdge, width: widthOfProgressBar } =
+        progressBarRef.current.getBoundingClientRect();
+
+      const thumbXInParentContainer = event.clientX - distannceXFromScreenEdge;
+
+      const newValue = (thumbXInParentContainer / widthOfProgressBar) * max;
+
+      if (newValue > max) {
+        return max;
+      }
+
+      if (newValue < 0) {
+        return 0;
+      }
+
+      return newValue;
+    }
+
+    return value;
   };
 
   const percentageProgress = () => {
@@ -76,6 +105,7 @@ export const ProgressBar: React.FC<IProps> = (props) => {
           step={granularity}
           aria-valuetext={valueText ?? `${value} of ${max}`}
           value={value}
+          readOnly
         />
       </label>
     );

@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import React from "react";
 
-import { Button } from "../../Button/Button";
+import { IconButton } from "../../IconButton/IconButton";
 
 import type { MouseEventHandler } from "react";
 
-import "./index.scss";
+import "./AnimatedHamburgerIcon.scss";
 
 interface IProps {
   open?: boolean;
@@ -17,7 +17,7 @@ export const AnimatedHamburgerIcon: React.FC<IProps> = ({
   onClick,
 }) => {
   return (
-    <Button variant="transparent" onClick={onClick}>
+    <IconButton variant="transparent" size="medium" onClick={onClick}>
       <div
         className={classNames("animated-hamburger-icon", {
           open,
@@ -27,6 +27,6 @@ export const AnimatedHamburgerIcon: React.FC<IProps> = ({
         <span />
         <span />
       </div>
-    </Button>
+    </IconButton>
   );
 };

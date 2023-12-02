@@ -9,6 +9,7 @@ import {
 
 import { CookieBanner } from "./components/CookieBanner";
 import { PageLoadingProgressBar } from "./components/PageLoadingProgressBar/PageLoadingProgressBar";
+import { PlayerProvider } from "./components/Player/PlayerContext";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";
@@ -140,10 +141,12 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
       )}
       <ApiProvider api={api}>
         <ToastProvider>
-          <div className="bg-secondary400 min-h-full h-fit">
-            {renderMatches(matchedRoutes)}
-            <CookieBanner />
-          </div>
+          <PlayerProvider>
+            <div className="bg-secondary400 min-h-full h-fit">
+              {renderMatches(matchedRoutes)}
+              <CookieBanner />
+            </div>
+          </PlayerProvider>
         </ToastProvider>
       </ApiProvider>
     </>

@@ -91,6 +91,12 @@ module.exports = {
         "no-var": "off",
       },
     },
+    {
+      files: ["src/graphql/graphql.gen.ts"],
+      rules: {
+        "import/order": "off",
+      },
+    },
 
     // Hooks
     {
