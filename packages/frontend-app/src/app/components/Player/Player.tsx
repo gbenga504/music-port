@@ -90,7 +90,7 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
       currentDuration !== 0 &&
       !isSongDurationSliderActiveRef.current
     ) {
-      handleChangeSong("forward");
+      handleFastForward();
     }
   }, [currentDuration, totalDuration]);
 
@@ -121,24 +121,36 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
     return `${minutes}:${returnedSeconds}`;
   };
 
-  const handleChangeSong = (action: "forward" | "backward") => {
+  const handleFastForward = () => {
     const currentSongIndex = playlist.findIndex(
       (song) => song.id === currentSong.id
     );
 
     let nextSongIndex = currentSongIndex;
 
-    if (action === "forward" && currentSongIndex + 1 <= playlist.length - 1) {
+    if (currentSongIndex + 1 <= playlist.length - 1) {
       nextSongIndex = currentSongIndex + 1;
-    }
-
-    if (action === "backward" && currentSongIndex !== 0) {
-      nextSongIndex = currentSongIndex - 1;
     }
 
     handlePause();
     audioRef.current!.currentTime = 0;
     setCurrentSong(playlist[nextSongIndex]);
+  };
+
+  const handleRewind = () => {
+    const currentSongIndex = playlist.findIndex(
+      (song) => song.id === currentSong.id
+    );
+
+    if (currentSongIndex !== 0 && currentDuration <= 2) {
+      handlePause();
+      audioRef.current!.currentTime = 0;
+      setCurrentSong(playlist[currentSongIndex - 1]);
+
+      return;
+    }
+
+    audioRef.current!.currentTime = 0;
   };
 
   const handlePlay = async () => {
@@ -249,18 +261,14 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
     return (
       <div className="flex flex-col w-full justify-center">
         <Space size="small" className="justify-center">
-          <IconButton
-            size="small"
-            variant="transparent"
-            onClick={() => handleChangeSong("backward")}
-          >
+          <IconButton size="small" variant="transparent" onClick={handleRewind}>
             <RewindIcon size={16} />
           </IconButton>
           {renderPlayButton({ isMobile: false })}
           <IconButton
             size="small"
             variant="transparent"
-            onClick={() => handleChangeSong("forward")}
+            onClick={handleFastForward}
           >
             <FastForwardIcon size={16} />
           </IconButton>
