@@ -33,13 +33,13 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
   const [currentDuration, setCurrentDuration] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [isLoadingSong, setIsLoadingSong] = useState(false);
-  const [volume, setVolume] = useState(50);
+  const [volume, setVolume] = useState(100);
 
   const isSongDurationSliderActiveRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    function playSong() {
+    function handleLoadedData() {
       setIsLoadingSong(false);
       setTotalDuration(Math.floor(audioRef.current?.duration || 0));
     }
@@ -60,12 +60,12 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
     if (currentSong) {
       setIsLoadingSong(true);
 
-      audioRef.current?.addEventListener("loadeddata", playSong);
+      audioRef.current?.addEventListener("loadeddata", handleLoadedData);
       audioRef.current?.addEventListener("timeupdate", updateCurrentDuration);
     }
 
     return () => {
-      audioRef.current?.removeEventListener("loadeddata", playSong);
+      audioRef.current?.removeEventListener("loadeddata", handleLoadedData);
       audioRef.current?.removeEventListener(
         "timeupdate",
         updateCurrentDuration
@@ -159,6 +159,39 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
     );
   };
 
+  const renderPlayButton = ({ isMobile }: { isMobile: boolean }) => {
+    return (
+      <div className="relative w-[40px] h-[40px] flex justify-center items-center">
+        {isLoadingSong && (
+          <div
+            className={classNames(
+              "w-full h-full absolute border-transparent rounded-full",
+              "border-2 border-t-white animate-spin"
+            )}
+          />
+        )}
+        <IconButton
+          size="small"
+          variant={isMobile ? "transparent" : "contained"}
+          color="white"
+          onClick={handleTogglePlayMode}
+        >
+          {isPlaying ? (
+            <PauseIcon
+              size={16}
+              className={isMobile ? "fill-white" : undefined}
+            />
+          ) : (
+            <PlayIcon
+              size={16}
+              className={isMobile ? "fill-white" : undefined}
+            />
+          )}
+        </IconButton>
+      </div>
+    );
+  };
+
   const renderPlayer = () => {
     return (
       <div className="flex flex-col w-full justify-center">
@@ -166,23 +199,7 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
           <IconButton size="small" variant="transparent">
             <RewindIcon size={16} />
           </IconButton>
-          <div className="relative w-[40px] h-[40px] flex justify-center items-center">
-            {isLoadingSong && (
-              <div
-                className={classNames(
-                  "w-full h-full absolute border-transparent rounded-full",
-                  "border-2 border-t-white animate-spin"
-                )}
-              />
-            )}
-            <IconButton
-              size="small"
-              color="white"
-              onClick={handleTogglePlayMode}
-            >
-              {isPlaying ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
-            </IconButton>
-          </div>
+          {renderPlayButton({ isMobile: false })}
           <IconButton size="small" variant="transparent">
             <FastForwardIcon size={16} />
           </IconButton>
@@ -235,9 +252,7 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
       <div className="block lg:hidden relative p-1 pb-4">
         <div className="flex justify-between items-center">
           {renderMusicInfo()}
-          <IconButton variant="transparent" onClick={handleTogglePlayMode}>
-            {isPlaying ? <PauseIcon size={16} /> : <PlayIcon size={16} />}
-          </IconButton>
+          {renderPlayButton({ isMobile: true })}
         </div>
         <div className="absolute bottom-0 left-0 w-full">
           {renderSongDurationSlider({ isMobile: true })}
