@@ -97,7 +97,10 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
   useEffect(() => {
     if (playlist) {
       // Stop the player before changing to the new playlist
-      handlePause();
+      if (isPlaying) {
+        handlePause();
+      }
+
       setCurrentSong(playlist[0]);
     }
   }, [playlist]);
