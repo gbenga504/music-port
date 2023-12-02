@@ -35,6 +35,15 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({
       coverImage:
         "https://images.prismic.io/wunderflatscontent/ef754f0d-5903-40b7-a1d6-ea143f480f37_Balcony-M.jpg?auto=compress,format",
     },
+    {
+      name: "Chop Life",
+      artists: ["Flavour", "Phyno"],
+      duration: 2000,
+      previewURL:
+        "https://github.com/rafaelreis-hotmart/Audio-Sample-files/raw/master/sample2.mp3",
+      coverImage:
+        "https://wunderflatsng.blob.core.windows.net/artefacts/city-images-webp/Munich_400.webp",
+    },
   ]);
 
   const handleChangePlaylist = (playlist: Playlist): void => {

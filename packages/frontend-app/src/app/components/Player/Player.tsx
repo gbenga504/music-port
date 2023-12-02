@@ -22,14 +22,12 @@ interface ISong {
 }
 
 export interface IProps {
-  playlist: ISong[] | null;
+  playlist: ISong[];
 }
 
 export const Player: React.FC<IProps> = ({ playlist }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong, setCurrentSong] = useState<ISong | null>(
-    playlist?.[0] ?? null
-  );
+  const [currentSong, setCurrentSong] = useState<ISong>(playlist[0]);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [isLoadingSong, setIsLoadingSong] = useState(false);
@@ -81,7 +79,7 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
   }, [playlist]);
 
   const getDisplayNameForArtists = (): string => {
-    const artists = currentSong?.artists || [];
+    const artists = currentSong.artists || [];
 
     return artists.reduce((acc, artist, currentIndex) => {
       const spacer = currentIndex === artists.length - 1 ? "" : ", ";
@@ -115,8 +113,6 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
   };
 
   const renderMusicInfo = () => {
-    if (!currentSong) return null;
-
     return (
       <Space size="small">
         <div className="w-10 h-10 lg:w-14 lg:h-14 rounded-md bg-secondary100">
@@ -263,7 +259,7 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
 
   return (
     <footer className="w-full">
-      {currentSong?.previewURL && (
+      {currentSong.previewURL && (
         <audio ref={audioRef} src={currentSong.previewURL} preload="auto" />
       )}
       {renderDesktopView()}
