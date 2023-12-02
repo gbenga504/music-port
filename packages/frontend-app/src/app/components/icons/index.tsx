@@ -5,7 +5,7 @@ export { CircularWarningIcon } from "./CircularWarningIcon";
 export { CloseIcon } from "./CloseIcon";
 export { ArrowDownIcon } from "./ArrowDownIcon";
 export { LogoIcon } from "./LogoIcon";
-export { AnimatedHamburgerIcon } from "./AnimatedHamburgerIcon";
+export { AnimatedHamburgerIcon } from "./AnimatedHamburgerIcon/AnimatedHamburgerIcon";
 export { RedStarIcon } from "./RedStarIcon";
 export { LinkIcon } from "./LinkIcon";
 export { SpotifyIcon } from "./SpotifyIcon";

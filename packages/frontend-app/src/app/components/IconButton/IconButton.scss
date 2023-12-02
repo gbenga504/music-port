@@ -62,5 +62,9 @@
     &.button-small {
       @apply w-[30px] h-[30px];
     }
+
+    &.button-medium {
+      @apply w-9 h-9;
+    }
   }
 }

@@ -1,7 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
-import { doesPathMatch } from "../../../utils/route-utils";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
 import { Button } from "../Button/Button";
@@ -14,11 +12,9 @@ interface IProps {
 }
 
 export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
-  const { pathname } = useLocation();
-
   const renderHeader = () => {
     return (
-      <div className="pb-6 border-b-2 border-solid border-secondary400">
+      <div className="pb-2 mb-2 border-b-2 border-solid border-secondary100">
         <AnimatedHamburgerIcon open={open} onClick={onClose} />
       </div>
     );
@@ -33,7 +29,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             size="large"
             fullWidth
             to={constructURL({ routeId: routeIds.discover })}
-            focused={doesPathMatch({ routeId: routeIds.discover, pathname })}
+            focused
           >
             <span className="flex gap-2 items-center">
               <DiscoverIcon size={20} /> Discover
@@ -47,10 +43,6 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             fullWidth
             to={constructURL({
               routeId: routeIds.discover,
-            })}
-            focused={doesPathMatch({
-              routeId: routeIds.discover,
-              pathname,
             })}
           >
             <span className="flex gap-2 items-center">
