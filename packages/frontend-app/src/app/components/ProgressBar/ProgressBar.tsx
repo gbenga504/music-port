@@ -105,6 +105,7 @@ export const ProgressBar: React.FC<IProps> = (props) => {
           step={granularity}
           aria-valuetext={valueText ?? `${value} of ${max}`}
           value={value}
+          readOnly
         />
       </label>
     );
