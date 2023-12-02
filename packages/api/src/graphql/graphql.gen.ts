@@ -14,7 +14,7 @@ declare global {
      */
     connectionField<FieldName extends string>(
       fieldName: FieldName,
-      config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName>
+      config: connectionPluginCore.ConnectionFieldConfig<TypeName, FieldName>,
     ): void;
   }
 }
@@ -415,7 +415,7 @@ declare global {
   interface NexusGenPluginInputTypeConfig<TypeName extends string> {}
   interface NexusGenPluginFieldConfig<
     TypeName extends string,
-    FieldName extends string
+    FieldName extends string,
   > {
     /**
      * Authorization for an individual field. Returning "true"
@@ -436,7 +436,7 @@ declare global {
   }
   interface NexusGenPluginInputFieldConfig<
     TypeName extends string,
-    FieldName extends string
+    FieldName extends string,
   > {}
   interface NexusGenPluginSchemaConfig {}
   interface NexusGenPluginArgConfig {}
