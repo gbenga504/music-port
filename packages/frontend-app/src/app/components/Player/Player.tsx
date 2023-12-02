@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { useEffect, useState, useRef } from "react";
 
+import { useAttachUniqueIdToListItems } from "../../hooks/useAttachUniqueIdToListItems";
 import { IconButton } from "../IconButton/IconButton";
 import { ProgressBar } from "../ProgressBar/ProgressBar";
 import { Space } from "../Space";
@@ -25,9 +26,10 @@ export interface IProps {
   playlist: ISong[];
 }
 
-export const Player: React.FC<IProps> = ({ playlist }) => {
+export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
+  const playlist = useAttachUniqueIdToListItems(playlistFromProps);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong, setCurrentSong] = useState<ISong>(playlist[0]);
+  const [currentSong, setCurrentSong] = useState(playlist[0]);
   const [currentDuration, setCurrentDuration] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [isLoadingSong, setIsLoadingSong] = useState(false);
@@ -40,6 +42,7 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
     function handleLoadedData() {
       setIsLoadingSong(false);
       setTotalDuration(Math.floor(audioRef.current?.duration || 0));
+      handlePlay();
     }
 
     function updateCurrentDuration() {
@@ -55,14 +58,24 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
       }
     }
 
-    if (currentSong) {
+    function handleLoadStart() {
       setIsLoadingSong(true);
+    }
 
+    if (currentSong) {
+      // we attempt to play the song when the song changes and fail silently
+      // if not possible. This way, the next song can start automatically
+      handlePlay();
+
+      setTotalDuration(Math.floor(audioRef.current?.duration || 0));
+
+      audioRef.current?.addEventListener("loadstart", handleLoadStart);
       audioRef.current?.addEventListener("loadeddata", handleLoadedData);
       audioRef.current?.addEventListener("timeupdate", updateCurrentDuration);
     }
 
     return () => {
+      audioRef.current?.removeEventListener("loadstart", handleLoadStart);
       audioRef.current?.removeEventListener("loadeddata", handleLoadedData);
       audioRef.current?.removeEventListener(
         "timeupdate",
@@ -72,8 +85,19 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
   }, [currentSong]);
 
   useEffect(() => {
+    if (
+      currentDuration === totalDuration &&
+      currentDuration !== 0 &&
+      !isSongDurationSliderActiveRef.current
+    ) {
+      handleChangeSong("forward");
+    }
+  }, [currentDuration, totalDuration]);
+
+  useEffect(() => {
     if (playlist) {
-      // @todo: Stop the player
+      // Stop the player before changing to the new playlist
+      handlePause();
       setCurrentSong(playlist[0]);
     }
   }, [playlist]);
@@ -97,19 +121,52 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
     return `${minutes}:${returnedSeconds}`;
   };
 
+  const handleChangeSong = (action: "forward" | "backward") => {
+    const currentSongIndex = playlist.findIndex(
+      (song) => song.id === currentSong.id
+    );
+
+    let nextSongIndex = currentSongIndex;
+
+    if (action === "forward" && currentSongIndex + 1 <= playlist.length - 1) {
+      nextSongIndex = currentSongIndex + 1;
+    }
+
+    if (action === "backward" && currentSongIndex !== 0) {
+      nextSongIndex = currentSongIndex - 1;
+    }
+
+    handlePause();
+    audioRef.current!.currentTime = 0;
+    setCurrentSong(playlist[nextSongIndex]);
+  };
+
+  const handlePlay = async () => {
+    try {
+      await audioRef.current?.play();
+
+      setIsPlaying(true);
+    } catch (error) {
+      // @todo: Find a better way to handle this
+      // so we don't mess up the logs
+      console.warn(error);
+    }
+  };
+
+  const handlePause = () => {
+    audioRef.current?.pause();
+    setIsPlaying(false);
+  };
+
   const handleTogglePlayMode = () => {
     // If the song is loading, we don't want to allow the user play or pause the song
     if (isLoadingSong) return;
 
     if (isPlaying) {
-      setIsPlaying(false);
-      audioRef.current?.pause();
-
-      return;
+      return handlePause();
     }
 
-    setIsPlaying(true);
-    audioRef.current?.play();
+    handlePlay();
   };
 
   const renderMusicInfo = () => {
@@ -192,11 +249,19 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
     return (
       <div className="flex flex-col w-full justify-center">
         <Space size="small" className="justify-center">
-          <IconButton size="small" variant="transparent">
+          <IconButton
+            size="small"
+            variant="transparent"
+            onClick={() => handleChangeSong("backward")}
+          >
             <RewindIcon size={16} />
           </IconButton>
           {renderPlayButton({ isMobile: false })}
-          <IconButton size="small" variant="transparent">
+          <IconButton
+            size="small"
+            variant="transparent"
+            onClick={() => handleChangeSong("forward")}
+          >
             <FastForwardIcon size={16} />
           </IconButton>
         </Space>
@@ -259,9 +324,14 @@ export const Player: React.FC<IProps> = ({ playlist }) => {
 
   return (
     <footer className="w-full">
-      {currentSong.previewURL && (
-        <audio ref={audioRef} src={currentSong.previewURL} preload="auto" />
-      )}
+      {playlist.map((song) => (
+        <audio
+          ref={song.id === currentSong.id ? audioRef : undefined}
+          key={song.id}
+          src={song.previewURL}
+          preload="auto"
+        />
+      ))}
       {renderDesktopView()}
       {renderMobileView()}
     </footer>
