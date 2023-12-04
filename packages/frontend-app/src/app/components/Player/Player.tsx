@@ -96,6 +96,18 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
     }
   }, [playlist]);
 
+  function handleSongDurationSliderMove(duration: number) {
+    setCurrentDuration(duration);
+    isSongDurationSliderActiveRef.current = true;
+  }
+
+  function handleSongDurationSliderRelease(duration: number) {
+    setCurrentDuration(duration);
+
+    isSongDurationSliderActiveRef.current = false;
+    audioRef.current!.currentTime = duration;
+  }
+
   return (
     <footer className="w-full">
       {playlist.map((song) => (
@@ -112,16 +124,8 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
         audio={audioRef.current!}
         onSetCurrentSong={setCurrentSong}
         onSetIsPlaying={setIsPlaying}
-        onSongDurationSliderMove={(duration) => {
-          setCurrentDuration(duration);
-          isSongDurationSliderActiveRef.current = true;
-        }}
-        onSongDurationSliderRelease={(duration) => {
-          setCurrentDuration(duration);
-
-          isSongDurationSliderActiveRef.current = false;
-          audioRef.current!.currentTime = duration;
-        }}
+        onSongDurationSliderMove={handleSongDurationSliderMove}
+        onSongDurationSliderRelease={handleSongDurationSliderRelease}
         isLoadingSong={isLoadingSong}
         isPlaying={isPlaying}
         currentDuration={currentDuration}
@@ -135,16 +139,8 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
         onSetIsPlaying={setIsPlaying}
         currentDuration={currentDuration}
         totalDuration={totalDuration}
-        onSongDurationSliderMove={(duration) => {
-          setCurrentDuration(duration);
-          isSongDurationSliderActiveRef.current = true;
-        }}
-        onSongDurationSliderRelease={(duration) => {
-          setCurrentDuration(duration);
-
-          isSongDurationSliderActiveRef.current = false;
-          audioRef.current!.currentTime = duration;
-        }}
+        onSongDurationSliderMove={handleSongDurationSliderMove}
+        onSongDurationSliderRelease={handleSongDurationSliderRelease}
       />
     </footer>
   );
