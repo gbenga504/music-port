@@ -1,11 +1,11 @@
 import { useState } from "react";
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { MobileMenu } from "./MobileMenu";
 
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Button } from "../Button/Button";
-import { CreatePlaylistModal } from "../CreatePlaylistModal";
 import { Space } from "../Space";
 import { AnimatedHamburgerIcon } from "../icons";
 
@@ -14,8 +14,8 @@ interface IProps {}
 export const AppHeader: React.FC<IProps> = () => {
   const matches = useMediaQuery(`(max-width: ${screens.lg})`);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
-    useState(false);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const renderMobileMenuHamburger = () => {
     return (
@@ -34,14 +34,11 @@ export const AppHeader: React.FC<IProps> = () => {
         <Button
           variant="contained"
           size="small"
-          onClick={() => setIsCreatePlaylistModalOpen(true)}
+          onClick={() => navigate(`${pathname}?createPlaylist=true`)}
         >
           Create playlist
         </Button>
-        <CreatePlaylistModal
-          open={isCreatePlaylistModalOpen}
-          onClose={() => setIsCreatePlaylistModalOpen(false)}
-        />
+
         <Button
           variant="contained"
           size="small"

@@ -22,7 +22,7 @@ const routes: RouteObjectWithLoadData[] = [
     id: routeIds.discover,
     path: "/",
     component: loadable<ILoadableComponentProps<unknown, IDiscoverPageQuery>>(
-      () => import("./pages/v2/Discover"),
+      () => import("./pages/v2/Discover/Discover"),
     ),
     loadData: discoverLoadData,
   },
