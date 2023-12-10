@@ -9,7 +9,6 @@ import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
 
-
 const clientID = process.env.SPOTIFY_CLIENTID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const callbackURL = process.env.FRONTEND_SPOTIFY_AUTH_CALLBACK_URL;
@@ -95,7 +94,7 @@ class Spotify implements IThirdPartyIntegrations {
   }): Promise<IRawPlaylist> {
     const url = new URL(link);
     const paths = url.pathname.split("/");
-    const playlistId = paths.at(-1);
+    const playlistId = paths.at(-1)!;
 
     return this.getPlaylistById({ accessToken, id: playlistId });
   }
