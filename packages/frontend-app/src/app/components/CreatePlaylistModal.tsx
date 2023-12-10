@@ -6,19 +6,21 @@ import { Button } from "./Button/Button";
 import { Input } from "./Input/Input";
 import { Modal } from "./Modal/Modal";
 import { PlatformIcon } from "./PlatformIcon";
+import { PlaylistAction } from "./ReviewPlaylistModal/types";
 import { Option, Select } from "./Select/Select";
 import { Space } from "./Space";
 
 import * as formValidation from "../../utils/form-validation";
 import { convertCamelCaseToCapitalize } from "../../utils/formatter";
 import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
-import { getPlatformName } from "../../utils/url";
+import { constructURL, getPlatformName } from "../../utils/url";
 import useParsedQueryParams from "../hooks/useParsedQueryParams";
+import { routeIds } from "../routes";
 
 import type { IRenderLabel } from "./Select/Select";
 import type { Platform } from "../../utils/platform";
 import type { IPageQuery } from "../pages/Community/load-data";
-import type { ChangeEventHandler } from "react";
+import type { ChangeEvent } from "react";
 import type { FormRenderProps } from "react-final-form";
 
 interface IProps {
@@ -33,14 +35,28 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     onClose();
   };
 
-  const handleSubmitFormValues = () =>
-    // values: formValidation.createPlaylistFormInputs
-    {};
+  const handleSubmitFormValues = (
+    values: formValidation.createPlaylistFormInputs
+  ) => {
+    const redirectURI = constructURL({
+      routeId: routeIds.discover,
+      query: {
+        ...values,
+        playlistLink: encodeURIComponent(values.playlistLink),
+        reviewPlaylist: "true",
+        action: PlaylistAction.CREATE_PLAYLIST,
+      },
+    });
+
+    location.href = `/api/auth/${
+      values.streamingService
+    }?redirect_uri=${encodeURIComponent(redirectURI)}`;
+  };
 
   const handlePlaylistLinkChange = (
     form: FormRenderProps<formValidation.createPlaylistFormInputs>["form"]
   ) => {
-    return function (evt) {
+    return function (evt: ChangeEvent<HTMLInputElement>) {
       const link = evt.target.value;
       const platformName = getPlatformName(link);
 
@@ -48,7 +64,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
         form.change("playlistLink", link);
         form.change("streamingService", platformName ?? undefined);
       });
-    } as ChangeEventHandler<HTMLInputElement>;
+    };
   };
 
   const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
@@ -172,8 +188,6 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                 fullWidth
                 htmlType="submit"
                 disabled={invalid || !dirty}
-                loadingText="Posting..."
-                // loading={isCreatingPlaylist}
               >
                 Post playlist
               </Button>

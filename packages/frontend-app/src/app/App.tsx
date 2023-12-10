@@ -5,11 +5,14 @@ import {
   matchRoutes,
   renderMatches,
   matchPath,
+  useNavigate,
 } from "react-router-dom";
 
 import { CookieBanner } from "./components/CookieBanner";
+import { CreatePlaylistModal } from "./components/CreatePlaylistModal";
 import { PageLoadingProgressBar } from "./components/PageLoadingProgressBar/PageLoadingProgressBar";
 import { PlayerProvider } from "./components/Player/PlayerContext";
+import { ReviewPlaylistModal } from "./components/ReviewPlaylistModal/ReviewPlaylistModal";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";
@@ -84,6 +87,7 @@ interface IProps {
 const App: React.FC<IProps> = ({ pageDatas, api }) => {
   const location = useLocation();
   const [query] = useParsedQueryParams();
+  const navigate = useNavigate();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>();
 
@@ -132,6 +136,18 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
     }
   }, [error]);
 
+  const renderModals = () => {
+    return (
+      <React.Fragment>
+        <CreatePlaylistModal
+          open={query["createPlaylist"] === "true"}
+          onClose={() => navigate(location.pathname)}
+        />
+        <ReviewPlaylistModal open={query["reviewPlaylist"] === "true"} />
+      </React.Fragment>
+    );
+  };
+
   return (
     <>
       {isPageLoading && (
@@ -145,6 +161,7 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
             <div className="bg-secondary400 min-h-full h-fit">
               {renderMatches(matchedRoutes)}
               <CookieBanner />
+              {renderModals()}
             </div>
           </PlayerProvider>
         </ToastProvider>
