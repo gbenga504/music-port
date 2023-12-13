@@ -1,7 +1,6 @@
+import { GraphQLClient } from "graphql-request";
+import * as Dom from "graphql-request/dist/types.dom";
 import gql from "graphql-tag";
-
-import type { GraphQLClient } from "graphql-request";
-import type * as Dom from "graphql-request/dist/types.dom";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -43,8 +42,14 @@ export type CreatePlaylistPayload = {
 
 export type Mutation = {
   __typename?: "Mutation";
+  convertPlaylist: ConvertPlaylistPayload;
   convertPlaylistUsingAdminAuthToken: ConvertPlaylistPayload;
   createPlaylist: CreatePlaylistPayload;
+};
+
+export type MutationConvertPlaylistArgs = {
+  platform: Scalars["String"];
+  playlistExportId: Scalars["String"];
 };
 
 export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
@@ -58,15 +63,18 @@ export type MutationCreatePlaylistArgs = {
   platform: Scalars["String"];
   playlistGenre: Scalars["String"];
   playlistLink: Scalars["String"];
-  playlistTitle: Scalars["String"];
 };
 
 export type Playlist = {
   __typename?: "Playlist";
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
+  coverImage?: Maybe<Scalars["String"]>;
+  duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
+  /** Genre of the playlist */
+  genre: PlaylistGenre;
   id: Scalars["String"];
   /** Images for the playlist */
   images: Array<PlaylistImage>;
@@ -84,6 +92,7 @@ export type Playlist = {
   public: Scalars["Boolean"];
   /** Songs associated with the playlist */
   songs: Array<PlaylistSong>;
+  totalNumberOfSongs: Scalars["Int"];
 };
 
 export type PlaylistError = {
@@ -93,6 +102,21 @@ export type PlaylistError = {
   /** Name of the error */
   name: Scalars["String"];
 };
+
+export enum PlaylistGenre {
+  Afro = "Afro",
+  Blues = "Blues",
+  Classical = "Classical",
+  Country = "Country",
+  Dance = "Dance",
+  HipPop = "HipPop",
+  Jazz = "Jazz",
+  KPop = "KPop",
+  Others = "Others",
+  Rap = "Rap",
+  Reggae = "Reggae",
+  Rock = "Rock",
+}
 
 export type PlaylistImage = {
   __typename?: "PlaylistImage";
@@ -106,16 +130,18 @@ export type PlaylistOwner = {
   name: Scalars["String"];
 };
 
-/** The platform for this playlist */
 export enum PlaylistPlatform {
   Deezer = "deezer",
   Spotify = "spotify",
+  YoutubeMusic = "youtubeMusic",
 }
 
 export type PlaylistSong = {
   __typename?: "PlaylistSong";
   /** Artists who were involved in the song */
   artists: Array<PlaylistSongArtist>;
+  coverImage?: Maybe<Scalars["String"]>;
+  duration: Scalars["Int"];
   /** Images associated with the song */
   images: Array<PlaylistImage>;
   /** Name of the song */
@@ -129,9 +155,28 @@ export type PlaylistSongArtist = {
   name: Scalars["String"];
 };
 
+export type PlaylistSongLists = {
+  __typename?: "PlaylistSongLists";
+  currentPage: Scalars["Int"];
+  data: Array<PlaylistSong>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
+
 export type Query = {
   __typename?: "Query";
-  ok: Scalars["Boolean"];
+  playlistById?: Maybe<Playlist>;
+  playlistSongs: PlaylistSongLists;
+};
+
+export type QueryPlaylistByIdArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryPlaylistSongsArgs = {
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+  playlistId: Scalars["String"];
 };
 
 export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{

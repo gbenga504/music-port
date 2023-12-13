@@ -76,6 +76,10 @@ export class Repository<T extends IDocument> {
     return this.findOne({ _id: id }, options);
   }
 
+  protected async aggregate(pipeline: PipelineStage[]) {
+    return this.model.aggregate(pipeline).exec();
+  }
+
   protected async findMany({
     query = {},
     sort,

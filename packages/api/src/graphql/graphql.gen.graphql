@@ -129,13 +129,6 @@ type PlaylistImage {
   width: Int
 }
 
-type PlaylistLists {
-  currentPage: Int!
-  data: [Playlist!]!
-  pageSize: Int!
-  total: Int!
-}
-
 type PlaylistOwner {
   name: String!
 }
@@ -188,5 +181,4 @@ type Query {
     pageSize: Int!
     playlistId: String!
   ): PlaylistSongLists!
-  playlists(currentPage: Int!, genre: String, pageSize: Int!): PlaylistLists!
 }

@@ -80,13 +80,6 @@ export interface NexusGenObjects {
     url: string; // String!
     width?: number | null; // Int
   };
-  PlaylistLists: {
-    // root type
-    currentPage: number; // Int!
-    data: NexusGenRootTypes["Playlist"][]; // [Playlist!]!
-    pageSize: number; // Int!
-    total: number; // Int!
-  };
   PlaylistOwner: {
     // root type
     name: string; // String!
@@ -175,13 +168,6 @@ export interface NexusGenFieldTypes {
     url: string; // String!
     width: number | null; // Int
   };
-  PlaylistLists: {
-    // field return type
-    currentPage: number; // Int!
-    data: NexusGenRootTypes["Playlist"][]; // [Playlist!]!
-    pageSize: number; // Int!
-    total: number; // Int!
-  };
   PlaylistOwner: {
     // field return type
     name: string; // String!
@@ -210,7 +196,6 @@ export interface NexusGenFieldTypes {
     // field return type
     playlistById: NexusGenRootTypes["Playlist"] | null; // Playlist
     playlistSongs: NexusGenRootTypes["PlaylistSongLists"]; // PlaylistSongLists!
-    playlists: NexusGenRootTypes["PlaylistLists"]; // PlaylistLists!
   };
 }
 
@@ -266,13 +251,6 @@ export interface NexusGenFieldTypeNames {
     url: "String";
     width: "Int";
   };
-  PlaylistLists: {
-    // field return type name
-    currentPage: "Int";
-    data: "Playlist";
-    pageSize: "Int";
-    total: "Int";
-  };
   PlaylistOwner: {
     // field return type name
     name: "String";
@@ -301,7 +279,6 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     playlistById: "Playlist";
     playlistSongs: "PlaylistSongLists";
-    playlists: "PlaylistLists";
   };
 }
 
@@ -336,12 +313,6 @@ export interface NexusGenArgTypes {
       currentPage: number; // Int!
       pageSize: number; // Int!
       playlistId: string; // String!
-    };
-    playlists: {
-      // args
-      currentPage: number; // Int!
-      genre?: string | null; // String
-      pageSize: number; // Int!
     };
   };
 }

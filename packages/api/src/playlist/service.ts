@@ -10,11 +10,8 @@ import type { PlaylistRepository } from "./repository";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
 import type { ConversionService } from "../conversion/service";
 import type { IPlaylist, IRawPlaylist } from "../models";
-import type { Platform} from "../utils/platform";
+import type { Platform } from "../utils/platform";
 import type { ObjectId } from "mongoose";
-
-
-
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
@@ -191,6 +188,12 @@ export class PlaylistService {
       currentPage,
       pageSize,
     );
+  }
+
+  async getFeaturedPlaylists(): Promise<
+    ReturnType<PlaylistRepository["groupPlaylistsByGenre"]>
+  > {
+    return this.playlistRepository.groupPlaylistsByGenre({ limit: 10 });
   }
 
   private async importPlaylist({
