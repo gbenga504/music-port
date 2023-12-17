@@ -103,6 +103,9 @@ export class PlaylistRepository extends Repository<IPlaylist> {
           items: "$items",
         },
       },
+      {
+        $sort: { genre: 1 },
+      },
     ]);
 
     return groupedPlaylists;
