@@ -12,15 +12,24 @@ interface IProps {
   children?: ReactNode;
 }
 
-export const PageLayout: React.FC<IProps> = ({ title, description }) => {
+export const PageLayout: React.FC<IProps> = ({
+  title,
+  description,
+  children,
+}) => {
   return (
-    <div className={"mx-0 h-screen grid grid-cols-1 lg:grid-cols-[260px_4fr]"}>
+    <div
+      className={
+        "mx-0 h-screen grid grid-cols-1 lg:grid-cols-[260px_calc(100vw-260px)]"
+      }
+    >
       <HeadMarkup title={title} description={description} />
       <div className="hidden lg:block">
         <DesktopSidebar />
       </div>
       <div>
         <AppHeader />
+        <div className="px-3">{children}</div>
       </div>
     </div>
   );

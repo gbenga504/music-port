@@ -113,7 +113,7 @@ const Playlist = objectType({
       },
     });
     t.int("duration");
-    t.nullable.string("coverImage", {
+    t.string("coverImage", {
       resolve(parent) {
         const coverImage = parent.images.reduce((acc, image) => {
           if (image.width! > acc.width! || image.height! > acc.height!) {
@@ -123,7 +123,7 @@ const Playlist = objectType({
           return acc;
         }, parent.images[0]);
 
-        return coverImage.url ?? null;
+        return coverImage.url;
       },
     });
   },

@@ -97,4 +97,10 @@ export class Playlist {
 
     return playlistSongs;
   }
+
+  async getFeaturedPlaylists() {
+    const { featuredPlaylists } = await this.graphQLClient.featuredPlaylists();
+
+    return featuredPlaylists;
+  }
 }

@@ -4,7 +4,10 @@ import { loadData as communityLoadData } from "./pages/Community/load-data";
 import { loadData as discoverLoadData } from "./pages/v2/Discover/load-data";
 
 import type { IPageQuery as ICommunityPageQuery } from "./pages/Community/load-data";
-import type { IPageQuery as IDiscoverPageQuery } from "./pages/v2/Discover/load-data";
+import type {
+  IPageQuery as IDiscoverPageQuery,
+  PageData,
+} from "./pages/v2/Discover/load-data";
 import type { ILoadableComponentProps } from "../utils/route-utils";
 import type { RouteObjectWithLoadData } from "react-router-dom";
 
@@ -21,7 +24,7 @@ const routes: RouteObjectWithLoadData[] = [
   {
     id: routeIds.discover,
     path: "/",
-    component: loadable<ILoadableComponentProps<unknown, IDiscoverPageQuery>>(
+    component: loadable<ILoadableComponentProps<PageData, IDiscoverPageQuery>>(
       () => import("./pages/v2/Discover/Discover"),
     ),
     loadData: discoverLoadData,

@@ -50,7 +50,10 @@ export const PlayButton: React.FC<IProps> = ({
             className={isMobile ? "fill-white" : undefined}
           />
         ) : (
-          <PlayIcon size={16} className={isMobile ? "fill-white" : undefined} />
+          <PlayIcon
+            size={16}
+            fillColorClassName={isMobile ? "fill-white" : undefined}
+          />
         )}
       </IconButton>
     </div>

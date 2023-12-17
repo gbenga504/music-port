@@ -1,7 +1,6 @@
+import { GraphQLClient } from "graphql-request";
+import * as Dom from "graphql-request/dist/types.dom";
 import gql from "graphql-tag";
-
-import type { GraphQLClient } from "graphql-request";
-import type * as Dom from "graphql-request/dist/types.dom";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -41,6 +40,13 @@ export type CreatePlaylistPayload = {
   success: Scalars["Boolean"];
 };
 
+export type FeaturedPlaylist = {
+  __typename?: "FeaturedPlaylist";
+  /** Genre of the playlist */
+  genre: PlaylistGenre;
+  items: Array<Playlist>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   convertPlaylist: ConvertPlaylistPayload;
@@ -70,7 +76,7 @@ export type Playlist = {
   __typename?: "Playlist";
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
-  coverImage?: Maybe<Scalars["String"]>;
+  coverImage: Scalars["String"];
   duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
@@ -126,14 +132,6 @@ export type PlaylistImage = {
   width?: Maybe<Scalars["Int"]>;
 };
 
-export type PlaylistLists = {
-  __typename?: "PlaylistLists";
-  currentPage: Scalars["Int"];
-  data: Array<Playlist>;
-  pageSize: Scalars["Int"];
-  total: Scalars["Int"];
-};
-
 export type PlaylistOwner = {
   __typename?: "PlaylistOwner";
   name: Scalars["String"];
@@ -142,6 +140,7 @@ export type PlaylistOwner = {
 export enum PlaylistPlatform {
   Deezer = "deezer",
   Spotify = "spotify",
+  YoutubeMusic = "youtubeMusic",
 }
 
 export type PlaylistSong = {
@@ -171,11 +170,20 @@ export type PlaylistSongLists = {
   total: Scalars["Int"];
 };
 
+export type Playlists = {
+  __typename?: "Playlists";
+  currentPage: Scalars["Int"];
+  data: Array<Playlist>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
+
 export type Query = {
   __typename?: "Query";
+  featuredPlaylists: Array<FeaturedPlaylist>;
   playlistById?: Maybe<Playlist>;
   playlistSongs: PlaylistSongLists;
-  playlists: PlaylistLists;
+  playlists: Playlists;
 };
 
 export type QueryPlaylistByIdArgs = {
@@ -192,6 +200,47 @@ export type QueryPlaylistsArgs = {
   currentPage: Scalars["Int"];
   genre?: InputMaybe<Scalars["String"]>;
   pageSize: Scalars["Int"];
+};
+
+export type FeaturedPlaylistsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type FeaturedPlaylistsQuery = {
+  __typename?: "Query";
+  featuredPlaylists: Array<{
+    __typename?: "FeaturedPlaylist";
+    genre: PlaylistGenre;
+    items: Array<{
+      __typename?: "Playlist";
+      id: string;
+      importLink: string;
+      public: boolean;
+      platform: PlaylistPlatform;
+      importPlaylistId: string;
+      coverImage: string;
+      exportId: string;
+      apiLink: string;
+      name: string;
+      genre: PlaylistGenre;
+      images: Array<{
+        __typename?: "PlaylistImage";
+        url: string;
+        width?: number | null;
+        height?: number | null;
+      }>;
+      owner: { __typename?: "PlaylistOwner"; name: string };
+      songs: Array<{
+        __typename?: "PlaylistSong";
+        name: string;
+        artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
+        images: Array<{
+          __typename?: "PlaylistImage";
+          url: string;
+          width?: number | null;
+          height?: number | null;
+        }>;
+      }>;
+    }>;
+  }>;
 };
 
 export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
@@ -292,7 +341,7 @@ export type PlaylistsQueryVariables = Exact<{
 export type PlaylistsQuery = {
   __typename?: "Query";
   playlists: {
-    __typename?: "PlaylistLists";
+    __typename?: "Playlists";
     total: number;
     currentPage: number;
     pageSize: number;
@@ -306,7 +355,7 @@ export type PlaylistsQuery = {
       genre: PlaylistGenre;
       totalNumberOfSongs: number;
       duration: number;
-      coverImage?: string | null;
+      coverImage: string;
       owner: { __typename?: "PlaylistOwner"; name: string };
     }>;
   };
@@ -336,6 +385,44 @@ export type PlaylistSongsQuery = {
   };
 };
 
+export const FeaturedPlaylistsDocument = gql`
+  query featuredPlaylists {
+    featuredPlaylists {
+      genre
+      items {
+        id
+        importLink
+        public
+        platform
+        importPlaylistId
+        coverImage
+        exportId
+        images {
+          url
+          width
+          height
+        }
+        apiLink
+        name
+        owner {
+          name
+        }
+        songs {
+          artists {
+            name
+          }
+          images {
+            url
+            width
+            height
+          }
+          name
+        }
+        genre
+      }
+    }
+  }
+`;
 export const ConvertPlaylistUsingAdminAuthTokenDocument = gql`
   mutation convertPlaylistUsingAdminAuthToken(
     $fromPlatform: String!
@@ -490,6 +577,21 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
+    featuredPlaylists(
+      variables?: FeaturedPlaylistsQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<FeaturedPlaylistsQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<FeaturedPlaylistsQuery>(
+            FeaturedPlaylistsDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        "featuredPlaylists",
+        "query",
+      );
+    },
     convertPlaylistUsingAdminAuthToken(
       variables: ConvertPlaylistUsingAdminAuthTokenMutationVariables,
       requestHeaders?: Dom.RequestInit["headers"],
