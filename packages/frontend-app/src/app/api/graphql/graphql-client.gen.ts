@@ -147,7 +147,7 @@ export type PlaylistSong = {
   __typename?: "PlaylistSong";
   /** Artists who were involved in the song */
   artists: Array<PlaylistSongArtist>;
-  coverImage?: Maybe<Scalars["String"]>;
+  coverImage: Scalars["String"];
   duration: Scalars["Int"];
   /** Images associated with the song */
   images: Array<PlaylistImage>;
@@ -231,6 +231,9 @@ export type FeaturedPlaylistsQuery = {
       songs: Array<{
         __typename?: "PlaylistSong";
         name: string;
+        coverImage: string;
+        duration: number;
+        previewURL?: string | null;
         artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
         images: Array<{
           __typename?: "PlaylistImage";
@@ -379,7 +382,7 @@ export type PlaylistSongsQuery = {
       previewURL?: string | null;
       name: string;
       duration: number;
-      coverImage?: string | null;
+      coverImage: string;
       artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
     }>;
   };
@@ -417,6 +420,9 @@ export const FeaturedPlaylistsDocument = gql`
             height
           }
           name
+          coverImage
+          duration
+          previewURL
         }
         genre
       }

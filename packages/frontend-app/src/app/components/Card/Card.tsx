@@ -13,9 +13,16 @@ interface IProps {
   title: string;
   owner: string;
   link: string;
+  onClickPlay?: () => void;
 }
 
-export const Card: React.FC<IProps> = ({ src, title, owner, link }) => {
+export const Card: React.FC<IProps> = ({
+  src,
+  title,
+  owner,
+  link,
+  onClickPlay,
+}) => {
   const toast = useToast();
   const [_, copy] = useCopyToClipboard();
 
@@ -26,7 +33,7 @@ export const Card: React.FC<IProps> = ({ src, title, owner, link }) => {
           <LazyImage src={src} alt={title} className="cover__image h-full" />
 
           <div className="overlay">
-            <IconButton>
+            <IconButton onClick={onClickPlay}>
               <PlayIcon size={13} fillColorClassName="fill-white" />
             </IconButton>
             <IconButton

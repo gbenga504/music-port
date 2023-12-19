@@ -117,12 +117,14 @@ export class PlaylistService {
     // We don't want to send a request to the music streaming service neither
     // do we want to save a playlist more than once. So we check if the import link
     // already exists in our DB and we return early
-    const importPlaylistId = thirdPartyIntegrations.getImportPlaylistId(
-      validInputs.playlistLink,
-    );
+    const playlistId =
+      thirdPartyIntegrations.getPlaylistIdUsingPlaylistLinkOrThrow(
+        validInputs.platform,
+        validInputs.playlistLink,
+      );
 
     const existingPlaylist =
-      await this.playlistRepository.findOneByImportPlaylistId(importPlaylistId);
+      await this.playlistRepository.findOneByImportPlaylistId(playlistId);
 
     if (existingPlaylist) {
       return existingPlaylist;

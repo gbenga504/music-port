@@ -1,5 +1,5 @@
 import omit from "lodash/omit";
-import React from "react";
+import React, { useState } from "react";
 import { Field, Form } from "react-final-form";
 
 import { Button } from "./Button/Button";
@@ -30,6 +30,7 @@ interface IProps {
 
 export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const [query] = useParsedQueryParams<IPageQuery>();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
     onClose();
@@ -48,6 +49,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
       },
     });
 
+    setIsLoading(true);
     location.href = `/api/auth/${
       values.streamingService
     }?redirect_uri=${encodeURIComponent(redirectURI)}`;
@@ -187,7 +189,8 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                 color="primary"
                 fullWidth
                 htmlType="submit"
-                disabled={invalid || !dirty}
+                disabled={invalid || !dirty || isLoading}
+                loading={isLoading}
               >
                 Post playlist
               </Button>

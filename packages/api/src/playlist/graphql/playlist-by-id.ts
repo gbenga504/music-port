@@ -43,7 +43,7 @@ const PlaylistSong = objectType({
       description: "URL to preview the song",
     });
     t.int("duration");
-    t.nullable.string("coverImage", {
+    t.string("coverImage", {
       resolve(parent) {
         const coverImage = parent.images.reduce((acc, image) => {
           if (image.width! > acc.width! || image.height! > acc.height!) {
@@ -53,7 +53,7 @@ const PlaylistSong = objectType({
           return acc;
         }, parent.images[0]);
 
-        return coverImage?.url ?? null;
+        return coverImage.url;
       },
     });
   },
@@ -62,7 +62,7 @@ const PlaylistSong = objectType({
 const Playlist = objectType({
   name: "Playlist",
   sourceType: {
-    module: path.join(__dirname, "../models"),
+    module: path.join(__dirname, "../../models"),
     export: "IPlaylist",
   },
   definition(t) {

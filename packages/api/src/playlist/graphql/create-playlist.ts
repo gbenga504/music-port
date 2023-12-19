@@ -1,6 +1,7 @@
-import { mutationField, objectType, stringArg } from "nexus";
+import { enumType, mutationField, objectType, stringArg } from "nexus";
 
 import { GraphQLError } from "../../graphql/error-handling";
+import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
 
 const CreatePlaylistPayload = objectType({
   name: "CreatePlaylistPayload",
@@ -20,8 +21,14 @@ export const createPlaylist = mutationField("createPlaylist", {
   args: {
     author: stringArg(),
     playlistLink: stringArg(),
-    playlistGenre: stringArg(),
-    platform: stringArg(),
+    playlistGenre: enumType({
+      name: "CreatePlaylistPlaylistGenre",
+      members: PlaylistGenreValues,
+    }),
+    platform: enumType({
+      name: "CreatePlaylistPlatform",
+      members: PlatformValues,
+    }),
   },
   authorize(_parent, _args, ctx) {
     return Boolean(ctx.accessToken);

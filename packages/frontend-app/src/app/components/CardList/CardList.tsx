@@ -69,7 +69,7 @@ export const CardList = ({ title, to, children }: IProps) => {
       </Link>
       <ul
         ref={scrollContainerRef}
-        className={`grid grid-flow-col gap-5 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory`}
+        className={`grid grid-flow-col grid-cols-[max-content] gap-5 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory`}
       >
         {children}
       </ul>

@@ -4,6 +4,7 @@ import passport from "passport";
 import { Strategy } from "passport-deezer";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { WrongMusicStreamingPlatformPlaylistLinkError } from "../errors/wrong-music-streaming-platform-playlist-link-error";
 import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 import type { IThirdPartyIntegrations } from "./types";
@@ -102,11 +103,21 @@ class Deezer implements IThirdPartyIntegrations {
     accessToken: string;
     link: string;
   }): Promise<IRawPlaylist> {
-    const url = new URL(link);
-    const paths = url.pathname.split("/");
-    const playlistId = paths.at(-1)!;
+    const playlistId = this.getPlaylistIdUsingPlaylistLinkOrThrow(link);
 
     return this.getPlaylistById({ accessToken, id: playlistId });
+  }
+
+  getPlaylistIdUsingPlaylistLinkOrThrow(link: string): string {
+    const url = new URL(link);
+    const paths = url.pathname.split("/");
+    const playlistId = paths.at(-1);
+
+    if (!playlistId) {
+      throw new WrongMusicStreamingPlatformPlaylistLinkError();
+    }
+
+    return playlistId;
   }
 
   async createPlaylist({

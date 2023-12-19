@@ -5,6 +5,7 @@ import { Strategy } from "passport-youtube-v3";
 import YTMusic from "ytmusic-api";
 
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
+import { WrongMusicStreamingPlatformPlaylistLinkError } from "../errors/wrong-music-streaming-platform-playlist-link-error";
 import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
 
 import type { IThirdPartyIntegrations } from "./types";
@@ -17,6 +18,10 @@ const callbackURL = process.env.FRONTEND_YOUTUBE_MUSIC_AUTH_CALLBACK_URL;
 class YoutubeMusic implements IThirdPartyIntegrations {
   private readonly integrationName = "youtubeMusic";
   private readonly ytMusic = new YTMusic();
+
+  constructor() {
+    this.ytMusic.initialize();
+  }
 
   getIntegrationName(): ReturnType<
     IThirdPartyIntegrations["getIntegrationName"]
@@ -95,10 +100,20 @@ class YoutubeMusic implements IThirdPartyIntegrations {
   }
 
   async getPlaylistByLink({ link }: { link: string }): Promise<IRawPlaylist> {
-    const url = new URL(link);
-    const playlistId = url.searchParams.get("list")!;
+    const playlistId = this.getPlaylistIdUsingPlaylistLinkOrThrow(link);
 
     return this.getPlaylistById({ id: playlistId });
+  }
+
+  getPlaylistIdUsingPlaylistLinkOrThrow(link: string): string {
+    const url = new URL(link);
+    const playlistId = url.searchParams.get("list");
+
+    if (!playlistId) {
+      throw new WrongMusicStreamingPlatformPlaylistLinkError();
+    }
+
+    return playlistId;
   }
 
   async createPlaylist({

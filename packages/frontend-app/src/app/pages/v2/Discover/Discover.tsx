@@ -1,8 +1,10 @@
 import React from "react";
 
+import { convertAPIPlaylistToPlayerPlaylist } from "../../../../utils/playlist";
 import { Card } from "../../../components/Card/Card";
 import { CardList } from "../../../components/CardList/CardList";
 import { PageLayout } from "../../../components/PageLayout";
+import { usePlayer } from "../../../components/Player/PlayerContext";
 
 import type { IPageQuery, PageData } from "./load-data";
 import type { ILoadableComponentProps } from "../../../../utils/route-utils";
@@ -10,6 +12,7 @@ import type { ILoadableComponentProps } from "../../../../utils/route-utils";
 const Discover: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
   pageData,
 }) => {
+  const { onChangePlaylist } = usePlayer();
   const { featuredPlaylists } = pageData;
 
   return (
@@ -27,6 +30,11 @@ const Discover: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
                   title={playlist.name}
                   owner={playlist.owner.name}
                   link=""
+                  onClickPlay={() =>
+                    onChangePlaylist(
+                      convertAPIPlaylistToPlayerPlaylist(playlist.songs)
+                    )
+                  }
                 />
               </li>
             ))}
