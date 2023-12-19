@@ -98,6 +98,16 @@ module.exports = {
       },
     },
 
+    // GraphQL gen
+    {
+      files: ["src/app/api/graphql/graphql-client.gen.ts"],
+      rules: {
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/consistent-type-imports": "off",
+        "import/order": "off",
+      },
+    },
+
     // Hooks
     {
       files: "src/app/hooks/*.ts",
