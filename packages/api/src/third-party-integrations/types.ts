@@ -37,4 +37,5 @@ export interface IThirdPartyIntegrations {
     accessToken: string;
     playlist: IRawPlaylist;
   }) => Promise<any>;
+  getPlaylistIdUsingPlaylistLinkOrThrow: (link: string) => string;
 }

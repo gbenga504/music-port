@@ -1,0 +1,39 @@
+query featuredPlaylists {
+  featuredPlaylists {
+    genre
+    items {
+      id
+      importLink
+      public
+      platform
+      importPlaylistId
+      coverImage
+      exportId
+      images {
+        url
+        width
+        height
+      }
+      apiLink
+      name
+      owner {
+        name
+      }
+      songs {
+        artists {
+          name
+        }
+        images {
+          url
+          width
+          height
+        }
+        name
+        coverImage
+        duration
+        previewURL
+      }
+      genre
+    }
+  }
+}

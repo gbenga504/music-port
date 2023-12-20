@@ -1,13 +1,9 @@
 import { ObjectId as MongoObjectId } from "mongodb";
 
-import {
-  Repository,
-} from "../framework/repository";
+import { Repository } from "../framework/repository";
 import * as Models from "../models";
 
-import type {
-  IFindMany,
-  IFindOneOptions} from "../framework/repository";
+import type { IFindMany, IFindOneOptions } from "../framework/repository";
 import type { IPlaylist } from "../models";
 import type { ObjectId } from "mongoose";
 
@@ -85,5 +81,33 @@ export class PlaylistRepository extends Repository<IPlaylist> {
       currentPage,
       data: playlist.data[0].songs.slice(skip, skip + pageSize),
     };
+  }
+
+  public async groupPlaylistsByGenre({
+    limit = 10,
+  }: {
+    limit?: number;
+  }): Promise<{ genre: IPlaylist["genre"]; items: IPlaylist[] }[]> {
+    const groupedPlaylists = await this.aggregate([
+      {
+        $group: {
+          _id: "$genre",
+          items: {
+            $topN: { n: limit, output: "$$ROOT", sortBy: { createdAt: 1 } },
+          },
+        },
+      },
+      {
+        $project: {
+          genre: "$_id",
+          items: "$items",
+        },
+      },
+      {
+        $sort: { genre: 1 },
+      },
+    ]);
+
+    return groupedPlaylists;
   }
 }

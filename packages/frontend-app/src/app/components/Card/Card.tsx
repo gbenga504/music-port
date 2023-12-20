@@ -4,29 +4,37 @@ import { Link } from "react-router-dom";
 import "./Card.scss";
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
 import { IconButton } from "../IconButton/IconButton";
+import { LazyImage } from "../LazyImage/LazyImage";
 import { useToast } from "../Toast/ToastContext";
 import { CopyIcon, PlayIcon } from "../icons";
 
 interface IProps {
   src: string;
   title: string;
-  artist: string;
+  owner: string;
   link: string;
+  onClickPlay?: () => void;
 }
 
-export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
+export const Card: React.FC<IProps> = ({
+  src,
+  title,
+  owner,
+  link,
+  onClickPlay,
+}) => {
   const toast = useToast();
   const [_, copy] = useCopyToClipboard();
 
   return (
-    <Link to={link} className="w-full">
-      <div className="card">
-        <div className="relative">
-          <img src={src} alt={title} className="cover__image" />
+    <Link to={link} className="w-full h-full">
+      <div className="card h-full">
+        <div className="relative flex-1 h-full">
+          <LazyImage src={src} alt={title} className="cover__image h-full" />
 
           <div className="overlay">
-            <IconButton>
-              <PlayIcon size={13} className="text-white" />
+            <IconButton onClick={onClickPlay}>
+              <PlayIcon size={13} fillColorClassName="fill-white" />
             </IconButton>
             <IconButton
               onClick={() => {
@@ -49,7 +57,7 @@ export const Card: React.FC<IProps> = ({ src, title, artist, link }) => {
             </p>
           </div>
           <p className="mt-px text-xs text-secondary100 hover:underline">
-            {artist}
+            {owner}
           </p>
         </div>
       </div>

@@ -62,12 +62,14 @@ export const CardList = ({ title, to, children }: IProps) => {
   return (
     <section className="cardList">
       <Link to={to} className="flex flex-row items-center mb-3">
-        <h2 className="text-base font-bold text-white mr-1">{title}</h2>
+        <h2 className="text-base capitalize font-bold text-white mr-1">
+          {title}
+        </h2>
         <ArrowRightIcon size={10} color="#EDEDED" />
       </Link>
       <ul
         ref={scrollContainerRef}
-        className="grid grid-flow-col gap-5 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory"
+        className={`grid grid-flow-col grid-cols-[max-content] gap-5 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory`}
       >
         {children}
       </ul>

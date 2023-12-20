@@ -114,7 +114,7 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
         <audio
           ref={song.id === currentSong.id ? audioRef : undefined}
           key={song.id}
-          src={song.previewURL}
+          src={song.previewURL ?? undefined}
           preload="auto"
         />
       ))}

@@ -28,6 +28,6 @@ export const BaseCard: Story = {
   args: {
     src: "https://images.prismic.io/wunderflatscontent/ef754f0d-5903-40b7-a1d6-ea143f480f37_Balcony-M.jpg?auto=compress,format",
     title: "My God Is Still The Same",
-    artist: "Sanctus Real",
+    owner: "Sanctus Real",
   },
 };

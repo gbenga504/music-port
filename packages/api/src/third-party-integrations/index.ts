@@ -104,6 +104,42 @@ export function createPlaylist(
   return createPlaylistMethod.bind(that)(...rest);
 }
 
+export function getPlaylistIdUsingPlaylistLinkOrThrow(
+  platform: Platform | null,
+  ...rest: Parameters<
+    IThirdPartyIntegrations["getPlaylistIdUsingPlaylistLinkOrThrow"]
+  >
+): ReturnType<
+  IThirdPartyIntegrations["getPlaylistIdUsingPlaylistLinkOrThrow"]
+> {
+  let getPlaylistIdUsingPlaylistLinkOrThrowMethod = null;
+  let that = null;
+
+  switch (platform) {
+    case "spotify":
+      getPlaylistIdUsingPlaylistLinkOrThrowMethod =
+        spotify.getPlaylistIdUsingPlaylistLinkOrThrow;
+      that = spotify;
+      break;
+    case "deezer":
+      getPlaylistIdUsingPlaylistLinkOrThrowMethod =
+        deezer.getPlaylistIdUsingPlaylistLinkOrThrow;
+      that = deezer;
+      break;
+    case "youtubeMusic":
+      getPlaylistIdUsingPlaylistLinkOrThrowMethod =
+        youtubeMusic.getPlaylistIdUsingPlaylistLinkOrThrow;
+      that = youtubeMusic;
+      break;
+    default:
+      throw new InvalidMusicStreamingPlatformError({
+        message: `No create playlist method available for ${platform}`,
+      });
+  }
+
+  return getPlaylistIdUsingPlaylistLinkOrThrowMethod.bind(that)(...rest);
+}
+
 export function getPlatformName(link: string): Platform | null {
   const url = new URL(link);
   const origin = url.origin;
@@ -136,26 +172,9 @@ export const getPlatformNameOrThrow = (link: string): Platform => {
   return platformName;
 };
 
-export function getImportPlaylistId(link: string): string {
-  // We have a generic function here since all our music streaming platforms
-  // all have the same pattern of adding the playlistId to the URL. i.e always the last path
-  // If a music streaming platform ever specifies differently, then this logic
-  // should be handled by each class and this function should only act as an adapter
-  const url = new URL(link);
-  const paths = url.pathname.split("/");
-  const platform = getPlatformName(link);
-
-  // Youtube's playlist id is a bit constructed different from others
-  if (platform === Platform.YoutubeMusic) {
-    return url.searchParams.get("list")!;
-  }
-
-  return paths.at(-1);
-}
-
 export function getExportPlaylistId(link: string): string {
   const url = new URL(link);
   const paths = url.pathname.split("/");
 
-  return paths.at(-1);
+  return paths.at(-1)!;
 }

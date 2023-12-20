@@ -3,14 +3,14 @@ export interface ISong {
   name: string;
   artists: string[];
   duration: number;
-  previewURL?: string;
+  previewURL?: string | null;
 }
 
 export interface ISongWithId extends ISong {
   id: string;
 }
 
-type IPlaylist = ISongWithId[];
+export type IPlaylist = ISongWithId[];
 type IOnSetCurrentSong = (currentSong: ISongWithId) => void;
 type IOnSetIsPlaying = (isPlaying: boolean) => void;
 

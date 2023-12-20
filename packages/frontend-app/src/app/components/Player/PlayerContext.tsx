@@ -3,6 +3,8 @@ import React from "react";
 
 import { Player } from "./Player";
 
+import { useToast } from "../Toast/ToastContext";
+
 import type { IProps as IPlayerProps } from "./Player";
 import type { ReactNode } from "react";
 
@@ -25,9 +27,25 @@ export const usePlayer = () => {
 export const PlayerProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const toast = useToast();
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
 
+  const removeSongsWithoutPreviewURL = (playlist: Playlist): Playlist => {
+    return playlist.filter((song) => {
+      return Boolean(song.previewURL);
+    });
+  };
+
   const handleChangePlaylist = (playlist: Playlist): void => {
+    const validPlaylist = removeSongsWithoutPreviewURL(playlist);
+
+    if (validPlaylist.length === 0) {
+      return toast({
+        description: "Cannot play playlist",
+        status: "warning",
+      });
+    }
+
     setPlaylist(playlist);
   };
 

@@ -17,6 +17,35 @@ type CreatePlaylistPayload {
   success: Boolean!
 }
 
+enum CreatePlaylistPlatform {
+  deezer
+  spotify
+  youtubeMusic
+}
+
+enum CreatePlaylistPlaylistGenre {
+  Afro
+  Blues
+  Classical
+  Country
+  Dance
+  HipPop
+  Jazz
+  KPop
+  Others
+  Rap
+  Reggae
+  Rock
+}
+
+type FeaturedPlaylist {
+  """
+  Genre of the playlist
+  """
+  genre: PlaylistGenre!
+  items: [Playlist!]!
+}
+
 type Mutation {
   convertPlaylist(
     platform: String!
@@ -29,8 +58,8 @@ type Mutation {
   ): ConvertPlaylistPayload!
   createPlaylist(
     author: String!
-    platform: String!
-    playlistGenre: String!
+    platform: CreatePlaylistPlatform!
+    playlistGenre: CreatePlaylistPlaylistGenre!
     playlistLink: String!
   ): CreatePlaylistPayload!
 }
@@ -40,7 +69,7 @@ type Playlist {
   Api link to the playlist on the music streaming platform
   """
   apiLink: String!
-  coverImage: String
+  coverImage: String!
   duration: Int!
 
   """
@@ -129,13 +158,6 @@ type PlaylistImage {
   width: Int
 }
 
-type PlaylistLists {
-  currentPage: Int!
-  data: [Playlist!]!
-  pageSize: Int!
-  total: Int!
-}
-
 type PlaylistOwner {
   name: String!
 }
@@ -151,7 +173,7 @@ type PlaylistSong {
   Artists who were involved in the song
   """
   artists: [PlaylistSongArtist!]!
-  coverImage: String
+  coverImage: String!
   duration: Int!
 
   """
@@ -181,12 +203,20 @@ type PlaylistSongLists {
   total: Int!
 }
 
+type Playlists {
+  currentPage: Int!
+  data: [Playlist!]!
+  pageSize: Int!
+  total: Int!
+}
+
 type Query {
+  featuredPlaylists: [FeaturedPlaylist!]!
   playlistById(id: ID!): Playlist
   playlistSongs(
     currentPage: Int!
     pageSize: Int!
     playlistId: String!
   ): PlaylistSongLists!
-  playlists(currentPage: Int!, genre: String, pageSize: Int!): PlaylistLists!
+  playlists(currentPage: Int!, genre: String, pageSize: Int!): Playlists!
 }

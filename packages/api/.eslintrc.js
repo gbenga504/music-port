@@ -72,7 +72,20 @@ module.exports = {
   overrides: [
     // Config files
     {
-      files: ["src/graphql/graphql.gen.ts", "test-setup/jest.d.ts"],
+      files: ["test-setup/jest.d.ts"],
+      rules: {
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/consistent-type-imports": "off",
+        "import/order": "off",
+      },
+    },
+
+    // GraphQL gen
+    {
+      files: [
+        "src/graphql/graphql.gen.ts",
+        "src/graphql/graphql-client.gen.ts",
+      ],
       rules: {
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/consistent-type-imports": "off",
