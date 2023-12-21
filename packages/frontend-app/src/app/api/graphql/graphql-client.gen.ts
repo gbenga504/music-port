@@ -50,19 +50,12 @@ export type FeaturedPlaylist = {
 export type Mutation = {
   __typename?: "Mutation";
   convertPlaylist: ConvertPlaylistPayload;
-  convertPlaylistUsingAdminAuthToken: ConvertPlaylistPayload;
   createPlaylist: CreatePlaylistPayload;
 };
 
 export type MutationConvertPlaylistArgs = {
-  platform: Scalars["String"];
+  platform: PlaylistPlatform;
   playlistExportId: Scalars["String"];
-};
-
-export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
-  fromPlatform: Scalars["String"];
-  link: Scalars["String"];
-  toPlatform: Scalars["String"];
 };
 
 export type MutationCreatePlaylistArgs = {
@@ -206,7 +199,7 @@ export type QueryPlaylistSongsArgs = {
 
 export type QueryPlaylistsArgs = {
   currentPage: Scalars["Int"];
-  genre?: InputMaybe<Scalars["String"]>;
+  genre?: InputMaybe<PlaylistGenre>;
   pageSize: Scalars["Int"];
 };
 
@@ -265,7 +258,7 @@ export type PlaylistFragmentFragment = {
 };
 
 export type PlaylistsQueryVariables = Exact<{
-  genre?: InputMaybe<Scalars["String"]>;
+  genre?: InputMaybe<PlaylistGenre>;
   currentPage: Scalars["Int"];
   pageSize: Scalars["Int"];
 }>;
@@ -434,28 +427,8 @@ export type PlaylistsByGenreQuery = {
   };
 };
 
-export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
-  fromPlatform: Scalars["String"];
-  toPlatform: Scalars["String"];
-  link: Scalars["String"];
-}>;
-
-export type ConvertPlaylistUsingAdminAuthTokenMutation = {
-  __typename?: "Mutation";
-  convertPlaylistUsingAdminAuthToken: {
-    __typename?: "ConvertPlaylistPayload";
-    success: boolean;
-    data?: { __typename?: "ConvertPlaylistData"; url: string } | null;
-    error?: {
-      __typename?: "PlaylistError";
-      name: string;
-      message: string;
-    } | null;
-  };
-};
-
 export type ConvertPlaylistMutationVariables = Exact<{
-  platform: Scalars["String"];
+  platform: PlaylistPlatform;
   playlistExportId: Scalars["String"];
 }>;
 
@@ -570,7 +543,7 @@ export const PlaylistFragmentFragmentDoc = gql`
   ${PlaylistSongFragmentFragmentDoc}
 `;
 export const PlaylistsDocument = gql`
-  query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
+  query playlists($genre: PlaylistGenre, $currentPage: Int!, $pageSize: Int!) {
     playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
       total
       currentPage
@@ -625,30 +598,11 @@ export const PlaylistsByGenreDocument = gql`
   }
   ${PlaylistFragmentFragmentDoc}
 `;
-export const ConvertPlaylistUsingAdminAuthTokenDocument = gql`
-  mutation convertPlaylistUsingAdminAuthToken(
-    $fromPlatform: String!
-    $toPlatform: String!
-    $link: String!
-  ) {
-    convertPlaylistUsingAdminAuthToken(
-      fromPlatform: $fromPlatform
-      toPlatform: $toPlatform
-      link: $link
-    ) {
-      success
-      data {
-        url
-      }
-      error {
-        name
-        message
-      }
-    }
-  }
-`;
 export const ConvertPlaylistDocument = gql`
-  mutation convertPlaylist($platform: String!, $playlistExportId: String!) {
+  mutation convertPlaylist(
+    $platform: PlaylistPlatform!
+    $playlistExportId: String!
+  ) {
     convertPlaylist(platform: $platform, playlistExportId: $playlistExportId) {
       success
       data {
@@ -760,21 +714,6 @@ export function getSdk(
           ),
         "playlistsByGenre",
         "query",
-      );
-    },
-    convertPlaylistUsingAdminAuthToken(
-      variables: ConvertPlaylistUsingAdminAuthTokenMutationVariables,
-      requestHeaders?: Dom.RequestInit["headers"],
-    ): Promise<ConvertPlaylistUsingAdminAuthTokenMutation> {
-      return withWrapper(
-        (wrappedRequestHeaders) =>
-          client.request<ConvertPlaylistUsingAdminAuthTokenMutation>(
-            ConvertPlaylistUsingAdminAuthTokenDocument,
-            variables,
-            { ...requestHeaders, ...wrappedRequestHeaders },
-          ),
-        "convertPlaylistUsingAdminAuthToken",
-        "mutation",
       );
     },
     convertPlaylist(

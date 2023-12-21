@@ -158,7 +158,6 @@ export interface NexusGenFieldTypes {
   Mutation: {
     // field return type
     convertPlaylist: NexusGenRootTypes["ConvertPlaylistPayload"]; // ConvertPlaylistPayload!
-    convertPlaylistUsingAdminAuthToken: NexusGenRootTypes["ConvertPlaylistPayload"]; // ConvertPlaylistPayload!
     createPlaylist: NexusGenRootTypes["CreatePlaylistPayload"]; // CreatePlaylistPayload!
   };
   Playlist: {
@@ -261,7 +260,6 @@ export interface NexusGenFieldTypeNames {
   Mutation: {
     // field return type name
     convertPlaylist: "ConvertPlaylistPayload";
-    convertPlaylistUsingAdminAuthToken: "ConvertPlaylistPayload";
     createPlaylist: "CreatePlaylistPayload";
   };
   Playlist: {
@@ -343,14 +341,8 @@ export interface NexusGenArgTypes {
   Mutation: {
     convertPlaylist: {
       // args
-      platform: string; // String!
+      platform: NexusGenEnums["PlaylistPlatform"]; // PlaylistPlatform!
       playlistExportId: string; // String!
-    };
-    convertPlaylistUsingAdminAuthToken: {
-      // args
-      fromPlatform: string; // String!
-      link: string; // String!
-      toPlatform: string; // String!
     };
     createPlaylist: {
       // args
@@ -374,7 +366,7 @@ export interface NexusGenArgTypes {
     playlists: {
       // args
       currentPage: number; // Int!
-      genre?: string | null; // String
+      genre?: NexusGenEnums["PlaylistGenre"] | null; // PlaylistGenre
       pageSize: number; // Int!
     };
     playlistsByGenre: {

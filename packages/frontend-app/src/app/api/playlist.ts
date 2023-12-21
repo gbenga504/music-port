@@ -11,30 +11,11 @@ export class Playlist {
     this.graphQLClient = graphQLClient;
   }
 
-  async convertPlaylistUsingAdminAuthToken({
-    fromPlatform,
-    toPlatform,
-    link,
-  }: {
-    fromPlatform: string;
-    toPlatform: string;
-    link: string;
-  }) {
-    const { convertPlaylistUsingAdminAuthToken } =
-      await this.graphQLClient.convertPlaylistUsingAdminAuthToken({
-        fromPlatform,
-        toPlatform,
-        link,
-      });
-
-    return convertPlaylistUsingAdminAuthToken;
-  }
-
   async convertPlaylist({
     platform,
     exportId,
   }: {
-    platform: string;
+    platform: PlaylistPlatform;
     exportId: string;
   }) {
     const { convertPlaylist } = await this.graphQLClient.convertPlaylist({
@@ -71,7 +52,7 @@ export class Playlist {
     currentPage,
     pageSize,
   }: {
-    genre: string | null;
+    genre: PlaylistGenre | null;
     currentPage: number;
     pageSize: number;
   }) {

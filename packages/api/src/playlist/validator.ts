@@ -4,9 +4,11 @@ import { ResourceError } from "../errors/resource-error";
 import { getPlatformNameOrThrow } from "../third-party-integrations";
 import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
 
+import type { PlatformType, PlaylistGenreType } from "../utils/platform";
+
 const convertPlaylistUsingAdminAuthTokenSchema = z.object({
-  fromPlatform: z.enum(PlatformValues),
-  toPlatform: z.enum(PlatformValues),
+  fromPlatform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
+  toPlatform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
   link: z
     .string()
     .url()
@@ -36,7 +38,7 @@ export const convertPlaylistUsingAdminAuthToken = (
 };
 
 const convertPlaylistSchema = z.object({
-  platform: z.enum(PlatformValues),
+  platform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
   playlistExportId: z.string(),
 });
 
@@ -64,8 +66,10 @@ const createPlaylistSchema = z.object({
         }
       }
     }),
-  playlistGenre: z.enum(PlaylistGenreValues),
-  platform: z.enum(PlatformValues),
+  playlistGenre: z.enum(
+    PlaylistGenreValues as [PlaylistGenreType, ...PlaylistGenreType[]],
+  ),
+  platform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
 });
 
 export type createPlaylistOutput = z.output<typeof createPlaylistSchema>;

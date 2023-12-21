@@ -9,16 +9,17 @@ import { ResourceError } from "../errors/resource-error";
 import { Platform } from "../utils/platform";
 
 import type { IThirdPartyIntegrations } from "./types";
+import type { PlatformType } from "../utils/platform";
 import type { Strategy } from "passport";
 
-export const getPassportStrategies: { [key in Platform]: Strategy } = {
+export const getPassportStrategies: { [key in PlatformType]: Strategy } = {
   spotify: spotify.getPassportStrategy(),
   deezer: deezer.getPassportStrategy(),
   youtubeMusic: youtubeMusic.getPassportStrategy(),
 };
 
 export function authenticate(
-  platform: Platform | null,
+  platform: PlatformType | null,
   ...rest: Parameters<IThirdPartyIntegrations["authenticate"]>
 ): ReturnType<IThirdPartyIntegrations["authenticate"]> {
   let authenticationMethodForPlatform = null;
@@ -47,7 +48,7 @@ export function authenticate(
 }
 
 export function getPlaylistByLink(
-  platform: Platform | null,
+  platform: PlatformType | null,
   ...rest: Parameters<IThirdPartyIntegrations["getPlaylistByLink"]>
 ): ReturnType<IThirdPartyIntegrations["getPlaylistByLink"]> {
   let getPlaylistMethod = null;
@@ -76,7 +77,7 @@ export function getPlaylistByLink(
 }
 
 export function createPlaylist(
-  platform: Platform | null,
+  platform: PlatformType | null,
   ...rest: Parameters<IThirdPartyIntegrations["createPlaylist"]>
 ): ReturnType<IThirdPartyIntegrations["createPlaylist"]> {
   let createPlaylistMethod = null;
@@ -105,7 +106,7 @@ export function createPlaylist(
 }
 
 export function getPlaylistIdUsingPlaylistLinkOrThrow(
-  platform: Platform | null,
+  platform: PlatformType | null,
   ...rest: Parameters<
     IThirdPartyIntegrations["getPlaylistIdUsingPlaylistLinkOrThrow"]
   >
@@ -140,7 +141,7 @@ export function getPlaylistIdUsingPlaylistLinkOrThrow(
   return getPlaylistIdUsingPlaylistLinkOrThrowMethod.bind(that)(...rest);
 }
 
-export function getPlatformName(link: string): Platform | null {
+export function getPlatformName(link: string): PlatformType | null {
   const url = new URL(link);
   const origin = url.origin;
 
@@ -159,7 +160,7 @@ export function getPlatformName(link: string): Platform | null {
   return null;
 }
 
-export const getPlatformNameOrThrow = (link: string): Platform => {
+export const getPlatformNameOrThrow = (link: string): PlatformType => {
   const platformName = getPlatformName(link);
 
   if (!platformName) {

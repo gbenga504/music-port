@@ -6,7 +6,7 @@ import {
   authenticate as passportAuthenticate,
 } from "../third-party-integrations";
 
-import type { Platform } from "../utils/platform";
+import type { PlatformType } from "../utils/platform";
 
 const routes = Router();
 
@@ -24,7 +24,7 @@ routes.get(
       "base64",
     );
 
-    passportAuthenticate(platform as Platform, { state })(req, res, next);
+    passportAuthenticate(platform as PlatformType, { state })(req, res, next);
   },
 );
 
@@ -35,14 +35,14 @@ routes.get(
     const { fromAdminAuthTokenGenerator } = req.query;
 
     passportAuthenticate(
-      platform as Platform,
+      platform as PlatformType,
       { session: false },
       async (error, tokens) => {
         if (fromAdminAuthTokenGenerator === "true") {
           await req.ctx.adminAuthTokenService.createToken({
             token: tokens.accessToken,
             userId: tokens.userId,
-            platform: platform as Platform,
+            platform: platform as PlatformType,
           });
         }
 

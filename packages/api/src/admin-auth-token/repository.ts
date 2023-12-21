@@ -1,9 +1,9 @@
 import { Repository } from "../framework/repository";
 import * as Models from "../models";
 
-import type { IFindOneOptions} from "../framework/repository";
+import type { IFindOneOptions } from "../framework/repository";
 import type { IAdminAuthToken } from "../models";
-import type { Platform } from "../utils/platform";
+import type { PlatformType } from "../utils/platform";
 
 export class AdminAuthTokenRepository extends Repository<IAdminAuthToken> {
   constructor() {
@@ -12,7 +12,7 @@ export class AdminAuthTokenRepository extends Repository<IAdminAuthToken> {
 
   public async create(
     adminAuthToken: Partial<Omit<IAdminAuthToken, "platform">> & {
-      platform: Platform;
+      platform: PlatformType;
     },
   ): Promise<IAdminAuthToken> {
     return this.findOneAndUpdate(

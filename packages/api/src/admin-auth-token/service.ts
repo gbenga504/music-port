@@ -2,7 +2,7 @@ import { ResourceError } from "../errors/resource-error";
 
 import type { AdminAuthTokenRepository } from "./repository";
 import type { IAdminAuthToken } from "../models";
-import type { Platform } from "../utils/platform";
+import type { PlatformType } from "../utils/platform";
 
 interface IConstructorOptions {
   adminAuthTokenRepository: AdminAuthTokenRepository;
@@ -21,7 +21,7 @@ export class AdminAuthTokenService {
     userId,
   }: {
     token: string;
-    platform: Platform;
+    platform: PlatformType;
     userId?: string;
   }): Promise<IAdminAuthToken> {
     const adminAuthToken = {
@@ -36,7 +36,7 @@ export class AdminAuthTokenService {
   async getTokenByPlatform({
     platform,
   }: {
-    platform: Platform;
+    platform: PlatformType;
   }): Promise<IAdminAuthToken> {
     const token = await this.adminAuthTokenRepository.findOneByPlatform(
       platform,

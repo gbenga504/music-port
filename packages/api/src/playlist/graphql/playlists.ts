@@ -1,4 +1,4 @@
-import { intArg, nullable, objectType, queryField, stringArg } from "nexus";
+import { intArg, nullable, objectType, queryField } from "nexus";
 
 export const playlists = queryField("playlists", {
   type: objectType({
@@ -13,7 +13,7 @@ export const playlists = queryField("playlists", {
     },
   }),
   args: {
-    genre: nullable(stringArg()),
+    genre: nullable("PlaylistGenre"),
     currentPage: intArg(),
     pageSize: intArg(),
   },

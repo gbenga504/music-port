@@ -1,4 +1,4 @@
-import type { Platform, PlaylistGenre } from "../../utils/platform";
+import type { PlatformType, PlaylistGenreType } from "../../utils/platform";
 import type { ObjectId } from "mongoose";
 
 export interface Image {
@@ -23,7 +23,7 @@ export interface IPlaylist {
   _id: ObjectId;
   importLink: string;
   public: boolean;
-  platform: Platform;
+  platform: PlatformType;
   importPlaylistId: string;
   exportId: string;
   images: Image[];
@@ -33,7 +33,7 @@ export interface IPlaylist {
     name: string;
   };
   songs: [Song, ...Song[]];
-  genre: PlaylistGenre;
+  genre: PlaylistGenreType;
   duration: number;
 }
 

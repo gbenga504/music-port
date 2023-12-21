@@ -55,12 +55,6 @@ const Home: React.FC<ILoadableComponentProps<unknown, IPageQuery>> = ({
         requestSentToConvertPlaylist.current = true;
         setIsConvertingPlaylist(true);
 
-        const result = await api.playlist.convertPlaylistUsingAdminAuthToken({
-          toPlatform,
-          fromPlatform,
-          link,
-        });
-
         setIsConvertingPlaylist(false);
 
         if (result.error) {
