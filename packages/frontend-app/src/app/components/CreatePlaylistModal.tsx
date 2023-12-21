@@ -40,7 +40,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     values: formValidation.createPlaylistFormInputs
   ) => {
     const redirectURI = constructURL({
-      routeId: routeIds.discover,
+      routeId: routeIds.discoverPage,
       query: {
         ...values,
         playlistLink: encodeURIComponent(values.playlistLink),

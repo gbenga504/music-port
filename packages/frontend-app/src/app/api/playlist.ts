@@ -107,4 +107,12 @@ export class Playlist {
 
     return featuredPlaylists;
   }
+
+  async getPlaylistsByGenre({ genre }: { genre: PlaylistGenre }) {
+    const { playlistsByGenre } = await this.graphQLClient.playlistsByGenre({
+      genre,
+    });
+
+    return playlistsByGenre;
+  }
 }

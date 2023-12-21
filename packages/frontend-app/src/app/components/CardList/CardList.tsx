@@ -61,8 +61,8 @@ export const CardList = ({ title, to, children }: IProps) => {
 
   return (
     <section className="cardList">
-      <Link to={to} className="flex flex-row items-center mb-3">
-        <h2 className="text-base capitalize font-bold text-white mr-1">
+      <Link to={to} className="flex flex-row items-center mb-3 w-max">
+        <h2 className="text-base capitalize font-medium text-white mr-1">
           {title}
         </h2>
         <ArrowRightIcon size={10} color="#EDEDED" />

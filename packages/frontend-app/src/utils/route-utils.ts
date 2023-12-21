@@ -10,16 +10,23 @@ export interface IPageDatas {
   [key: string]: any;
 }
 
-export interface ILoadableComponentProps<PageData = unknown, Query = unknown> {
+export interface ILoadableComponentProps<
+  PageData = unknown,
+  Query = unknown,
+  Params = { [key: string]: string },
+> {
   pageData: PageData;
   api: ICreateApiClient;
   query: Query;
-  params: { [key: string]: string };
+  params: Params;
 }
 
-export interface ILoadData<Query = unknown> {
+export interface ILoadData<
+  Query = unknown,
+  Params = { [key: string]: string },
+> {
   api: ICreateApiClient;
-  params: { [key: string]: string };
+  params: Params;
   query: Query;
 }
 

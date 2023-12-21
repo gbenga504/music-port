@@ -17,7 +17,7 @@ function useParsedQueryParams<T = { [key: string]: string }>(
       obj[key] = value;
     }
 
-    if (validator) {
+    if (validator && Object.values(obj).length > 0) {
       validator.parse(obj);
     }
 

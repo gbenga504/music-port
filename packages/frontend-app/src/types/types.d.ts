@@ -11,7 +11,7 @@ declare module "react-router-dom" {
 
   type RouteObjectWithLoadData = RouteObject & {
     id: string;
-    loadData?: (options: ILoadData<any>) => Promise<IPageDatas>;
+    loadData?: (options: ILoadData<any, any>) => Promise<IPageDatas>;
     component: LoadableComponent;
     children?: RouteObjectWithLoadData[];
   };

@@ -1,10 +1,12 @@
 import React from "react";
 
 import { convertAPIPlaylistToPlayerPlaylist } from "../../../../utils/playlist";
+import { constructURL } from "../../../../utils/url";
 import { Card } from "../../../components/Card/Card";
 import { CardList } from "../../../components/CardList/CardList";
 import { PageLayout } from "../../../components/PageLayout";
 import { usePlayer } from "../../../components/Player/PlayerContext";
+import { routeIds } from "../../../routes";
 
 import type { IPageQuery, PageData } from "./load-data";
 import type { ILoadableComponentProps } from "../../../../utils/route-utils";
@@ -20,9 +22,15 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
       {featuredPlaylists.map((featuredPlaylist, index) => (
         <div
           key={featuredPlaylist.genre}
-          className={index === 0 ? "pt-6" : "pt-12"}
+          className={index === 0 ? "pt-0" : "pt-12"}
         >
-          <CardList title={featuredPlaylist.genre} to="">
+          <CardList
+            title={featuredPlaylist.genre}
+            to={constructURL({
+              routeId: routeIds.genrePage,
+              params: { genre: featuredPlaylist.genre },
+            })}
+          >
             {featuredPlaylist.items.map((playlist) => (
               <li key={playlist.id} className="w-[204px]">
                 <Card

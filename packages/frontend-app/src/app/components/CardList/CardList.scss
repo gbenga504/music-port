@@ -4,7 +4,7 @@
 
 @layer components {
   .cardList {
-    @apply px-10 relative w-full;
+    @apply p-0 relative w-full;
 
     /* Hide scrollbar for Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
@@ -27,11 +27,11 @@
     }
 
     & .leftArrow {
-      @apply left-0;
+      @apply -left-10;
     }
 
     & .rightArrow {
-      @apply right-0;
+      @apply -right-10;
     }
 
     &:hover {
