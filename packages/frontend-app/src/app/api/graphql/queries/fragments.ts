@@ -21,8 +21,10 @@ export const playlistFragment = gql`
   ${playlistSongFragment}
 
   fragment PlaylistFragment on Playlist {
+    id
     importLink
     public
+    coverImage
     platform
     importPlaylistId
     exportId

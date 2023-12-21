@@ -49,6 +49,15 @@ export const playlistGraphQLSchema = gql`
     }
   }
 
+  query playlistsByGenre($genre: PlaylistGenre!) {
+    playlistsByGenre(genre: $genre) {
+      genre
+      items {
+        ...PlaylistFragment
+      }
+    }
+  }
+
   #############################################################
   ######## MUTATIONS
   #############################################################

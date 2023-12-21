@@ -191,7 +191,7 @@ export type Query = {
   playlistById?: Maybe<Playlist>;
   playlistSongs: PlaylistSongLists;
   playlists: Playlists;
-  playliststByGenre: PlaylistsByGenre;
+  playlistsByGenre: PlaylistsByGenre;
 };
 
 export type QueryPlaylistByIdArgs = {
@@ -210,7 +210,7 @@ export type QueryPlaylistsArgs = {
   pageSize: Scalars["Int"];
 };
 
-export type QueryPlayliststByGenreArgs = {
+export type QueryPlaylistsByGenreArgs = {
   genre: PlaylistGenre;
 };
 
@@ -231,8 +231,10 @@ export type PlaylistSongFragmentFragment = {
 
 export type PlaylistFragmentFragment = {
   __typename?: "Playlist";
+  id: string;
   importLink: string;
   public: boolean;
+  coverImage: string;
   platform: PlaylistPlatform;
   importPlaylistId: string;
   exportId: string;
@@ -277,8 +279,10 @@ export type PlaylistsQuery = {
     pageSize: number;
     data: Array<{
       __typename?: "Playlist";
+      id: string;
       importLink: string;
       public: boolean;
+      coverImage: string;
       platform: PlaylistPlatform;
       importPlaylistId: string;
       exportId: string;
@@ -349,8 +353,10 @@ export type FeaturedPlaylistsQuery = {
     genre: PlaylistGenre;
     items: Array<{
       __typename?: "Playlist";
+      id: string;
       importLink: string;
       public: boolean;
+      coverImage: string;
       platform: PlaylistPlatform;
       importPlaylistId: string;
       exportId: string;
@@ -380,6 +386,52 @@ export type FeaturedPlaylistsQuery = {
       }>;
     }>;
   }>;
+};
+
+export type PlaylistsByGenreQueryVariables = Exact<{
+  genre: PlaylistGenre;
+}>;
+
+export type PlaylistsByGenreQuery = {
+  __typename?: "Query";
+  playlistsByGenre: {
+    __typename?: "PlaylistsByGenre";
+    genre: PlaylistGenre;
+    items: Array<{
+      __typename?: "Playlist";
+      id: string;
+      importLink: string;
+      public: boolean;
+      coverImage: string;
+      platform: PlaylistPlatform;
+      importPlaylistId: string;
+      exportId: string;
+      apiLink: string;
+      name: string;
+      genre: PlaylistGenre;
+      images: Array<{
+        __typename?: "PlaylistImage";
+        url: string;
+        width?: number | null;
+        height?: number | null;
+      }>;
+      owner: { __typename?: "PlaylistOwner"; name: string };
+      songs: Array<{
+        __typename?: "PlaylistSong";
+        name: string;
+        coverImage: string;
+        duration: number;
+        previewURL?: string | null;
+        artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
+        images: Array<{
+          __typename?: "PlaylistImage";
+          url: string;
+          width?: number | null;
+          height?: number | null;
+        }>;
+      }>;
+    }>;
+  };
 };
 
 export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
@@ -435,8 +487,10 @@ export type CreatePlaylistMutation = {
     success: boolean;
     data?: {
       __typename?: "Playlist";
+      id: string;
       importLink: string;
       public: boolean;
+      coverImage: string;
       platform: PlaylistPlatform;
       importPlaylistId: string;
       exportId: string;
@@ -491,8 +545,10 @@ export const PlaylistSongFragmentFragmentDoc = gql`
 `;
 export const PlaylistFragmentFragmentDoc = gql`
   fragment PlaylistFragment on Playlist {
+    id
     importLink
     public
+    coverImage
     platform
     importPlaylistId
     exportId
@@ -550,6 +606,17 @@ export const PlaylistSongsDocument = gql`
 export const FeaturedPlaylistsDocument = gql`
   query featuredPlaylists {
     featuredPlaylists {
+      genre
+      items {
+        ...PlaylistFragment
+      }
+    }
+  }
+  ${PlaylistFragmentFragmentDoc}
+`;
+export const PlaylistsByGenreDocument = gql`
+  query playlistsByGenre($genre: PlaylistGenre!) {
+    playlistsByGenre(genre: $genre) {
       genre
       items {
         ...PlaylistFragment
@@ -677,6 +744,21 @@ export function getSdk(
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         "featuredPlaylists",
+        "query",
+      );
+    },
+    playlistsByGenre(
+      variables: PlaylistsByGenreQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<PlaylistsByGenreQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaylistsByGenreQuery>(
+            PlaylistsByGenreDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        "playlistsByGenre",
         "query",
       );
     },

@@ -28,3 +28,5 @@ declare global {
     status: number;
   }
 }
+
+export type ObjectValues<T> = T[keyof T];

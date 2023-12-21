@@ -40,6 +40,13 @@ export type CreatePlaylistPayload = {
   success: Scalars["Boolean"];
 };
 
+export type FeaturedPlaylist = {
+  __typename?: "FeaturedPlaylist";
+  /** Genre of the playlist */
+  genre: PlaylistGenre;
+  items: Array<Playlist>;
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   convertPlaylist: ConvertPlaylistPayload;
@@ -60,8 +67,8 @@ export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
 
 export type MutationCreatePlaylistArgs = {
   author: Scalars["String"];
-  platform: Scalars["String"];
-  playlistGenre: Scalars["String"];
+  platform: PlaylistPlatform;
+  playlistGenre: PlaylistGenre;
   playlistLink: Scalars["String"];
 };
 
@@ -69,7 +76,7 @@ export type Playlist = {
   __typename?: "Playlist";
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
-  coverImage?: Maybe<Scalars["String"]>;
+  coverImage: Scalars["String"];
   duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
@@ -140,7 +147,7 @@ export type PlaylistSong = {
   __typename?: "PlaylistSong";
   /** Artists who were involved in the song */
   artists: Array<PlaylistSongArtist>;
-  coverImage?: Maybe<Scalars["String"]>;
+  coverImage: Scalars["String"];
   duration: Scalars["Int"];
   /** Images associated with the song */
   images: Array<PlaylistImage>;
@@ -163,10 +170,28 @@ export type PlaylistSongLists = {
   total: Scalars["Int"];
 };
 
+export type Playlists = {
+  __typename?: "Playlists";
+  currentPage: Scalars["Int"];
+  data: Array<Playlist>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
+
+export type PlaylistsByGenre = {
+  __typename?: "PlaylistsByGenre";
+  /** Genre of the playlist */
+  genre: PlaylistGenre;
+  items: Array<Playlist>;
+};
+
 export type Query = {
   __typename?: "Query";
+  featuredPlaylists: Array<FeaturedPlaylist>;
   playlistById?: Maybe<Playlist>;
   playlistSongs: PlaylistSongLists;
+  playlists: Playlists;
+  playlistsByGenre: PlaylistsByGenre;
 };
 
 export type QueryPlaylistByIdArgs = {
@@ -177,6 +202,16 @@ export type QueryPlaylistSongsArgs = {
   currentPage: Scalars["Int"];
   pageSize: Scalars["Int"];
   playlistId: Scalars["String"];
+};
+
+export type QueryPlaylistsArgs = {
+  currentPage: Scalars["Int"];
+  genre?: InputMaybe<Scalars["String"]>;
+  pageSize: Scalars["Int"];
+};
+
+export type QueryPlaylistsByGenreArgs = {
+  genre: PlaylistGenre;
 };
 
 export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
