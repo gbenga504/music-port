@@ -15,7 +15,7 @@ const PlaylistsByGenre = objectType({
   },
 });
 
-export const playlistsByGenre = queryField("playliststByGenre", {
+export const playlistsByGenre = queryField("playlistsByGenre", {
   type: PlaylistsByGenre,
   args: {
     genre: "PlaylistGenre",

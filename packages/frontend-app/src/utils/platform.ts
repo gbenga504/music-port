@@ -1,3 +1,9 @@
+import {
+  PlaylistPlatform,
+  PlaylistGenre as PGenre,
+} from "../app/api/graphql/graphql-client.gen";
+
+// @TODO: Delete this type
 export enum Platform {
   Spotify = "spotify",
   Deezer = "deezer",
@@ -9,6 +15,7 @@ export const PlatformValues = Object.values(Platform) as [
   ...Platform[],
 ];
 
+// @TODO: Delete this type
 export enum PlaylistGenre {
   ALL = "All",
   Afro = "Afro",
@@ -25,7 +32,12 @@ export enum PlaylistGenre {
   KPop = "KPop",
 }
 
-export const PlaylistGenreValues = Object.values(PlaylistGenre) as [
-  PlaylistGenre,
-  ...PlaylistGenre[],
+export const PlaylistGenreValues = Object.values(PGenre) as [
+  PGenre,
+  ...PGenre[],
+];
+
+export const PlaylistPlatformValues = Object.values(PlaylistPlatform) as [
+  PlaylistPlatform,
+  ...PlaylistPlatform[],
 ];

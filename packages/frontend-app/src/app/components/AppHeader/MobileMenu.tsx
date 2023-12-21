@@ -28,7 +28,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             variant="transparent"
             size="large"
             fullWidth
-            to={constructURL({ routeId: routeIds.discover })}
+            to={constructURL({ routeId: routeIds.discoverPage })}
             focused
           >
             <span className="flex gap-2 items-center">
@@ -42,7 +42,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             size="large"
             fullWidth
             to={constructURL({
-              routeId: routeIds.discover,
+              routeId: routeIds.discoverPage,
             })}
           >
             <span className="flex gap-2 items-center">

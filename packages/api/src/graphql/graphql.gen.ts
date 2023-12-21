@@ -232,7 +232,7 @@ export interface NexusGenFieldTypes {
     playlistById: NexusGenRootTypes["Playlist"] | null; // Playlist
     playlistSongs: NexusGenRootTypes["PlaylistSongLists"]; // PlaylistSongLists!
     playlists: NexusGenRootTypes["Playlists"]; // Playlists!
-    playliststByGenre: NexusGenRootTypes["PlaylistsByGenre"]; // PlaylistsByGenre!
+    playlistsByGenre: NexusGenRootTypes["PlaylistsByGenre"]; // PlaylistsByGenre!
   };
 }
 
@@ -335,7 +335,7 @@ export interface NexusGenFieldTypeNames {
     playlistById: "Playlist";
     playlistSongs: "PlaylistSongLists";
     playlists: "Playlists";
-    playliststByGenre: "PlaylistsByGenre";
+    playlistsByGenre: "PlaylistsByGenre";
   };
 }
 
@@ -377,7 +377,7 @@ export interface NexusGenArgTypes {
       genre?: string | null; // String
       pageSize: number; // Int!
     };
-    playliststByGenre: {
+    playlistsByGenre: {
       // args
       genre: NexusGenEnums["PlaylistGenre"]; // PlaylistGenre!
     };

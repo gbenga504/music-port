@@ -1,3 +1,7 @@
+import type {
+  PlaylistGenre,
+  PlaylistPlatform,
+} from "./graphql/graphql-client.gen";
 import type { IBaseClientParams } from "./types";
 
 export class Playlist {
@@ -49,8 +53,8 @@ export class Playlist {
   }: {
     author: string;
     playlistLink: string;
-    playlistGenre: string;
-    platform: string;
+    playlistGenre: PlaylistGenre;
+    platform: PlaylistPlatform;
   }) {
     const { createPlaylist } = await this.graphQLClient.createPlaylist({
       author,
@@ -102,5 +106,13 @@ export class Playlist {
     const { featuredPlaylists } = await this.graphQLClient.featuredPlaylists();
 
     return featuredPlaylists;
+  }
+
+  async getPlaylistsByGenre({ genre }: { genre: PlaylistGenre }) {
+    const { playlistsByGenre } = await this.graphQLClient.playlistsByGenre({
+      genre,
+    });
+
+    return playlistsByGenre;
   }
 }

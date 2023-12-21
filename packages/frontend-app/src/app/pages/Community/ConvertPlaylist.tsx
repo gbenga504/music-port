@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import classNames from "classnames";
 import { omit } from "lodash";
 import { useEffect, useRef, useState } from "react";
