@@ -1,6 +1,6 @@
 import { z, ZodError } from "zod";
 
-import { PlatformValues, PlaylistGenreValues } from "./platform";
+import { PlaylistPlatformValues, PlaylistGenreValues } from "./platform";
 import { getPlatformNameOrThrow } from "./url";
 
 import { ResourceError } from "../errors/resource-error";
@@ -42,8 +42,8 @@ const convertPlaylistUsingLinkSchema = z.object({
         }
       }
     }),
-  fromPlatform: z.enum(PlatformValues),
-  toPlatform: z.enum(PlatformValues),
+  fromPlatform: z.enum(PlaylistPlatformValues),
+  toPlatform: z.enum(PlaylistPlatformValues),
 });
 
 export type convertPlaylistUsingLinkFormInputs = z.infer<
@@ -80,7 +80,7 @@ const createPlaylistSchema = z.object({
       }
     }),
   playlistGenre: z.enum(PlaylistGenreValues),
-  streamingService: z.enum(PlatformValues),
+  streamingService: z.enum(PlaylistPlatformValues),
 });
 
 export type createPlaylistFormInputs = z.infer<typeof createPlaylistSchema>;
@@ -98,7 +98,7 @@ export const validateCreatePlaylistForm = (
 };
 
 const convertPlaylistSchema = z.object({
-  platform: z.enum(PlatformValues),
+  platform: z.enum(PlaylistPlatformValues),
 });
 
 export type convertPlaylistFormInputs = z.infer<typeof convertPlaylistSchema>;

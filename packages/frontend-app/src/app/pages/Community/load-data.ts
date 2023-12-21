@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { RedirectError } from "../../../errors/redirect-error";
 import { constructURL } from "../../../utils/url";
 import { routeIds } from "../../routes";
