@@ -7,19 +7,19 @@ import {
   YoutubeMusicIcon,
 } from "./icons";
 
-import { Platform } from "../../utils/platform";
+import { PlaylistPlatform } from "../api/graphql/graphql-client.gen";
 
 interface IProps {
-  platform: Platform;
+  platform: PlaylistPlatform;
 }
 
 export const PlatformIcon: React.FC<IProps> = ({ platform }) => {
   switch (platform) {
-    case Platform.Spotify:
+    case PlaylistPlatform.Spotify:
       return <SpotifyIcon />;
-    case Platform.Deezer:
+    case PlaylistPlatform.Deezer:
       return <DeezerIcon />;
-    case Platform.YoutubeMusic:
+    case PlaylistPlatform.YoutubeMusic:
       return <YoutubeMusicIcon />;
     default:
       return <AppleMusicIcon />;

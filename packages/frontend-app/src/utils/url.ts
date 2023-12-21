@@ -1,8 +1,8 @@
 import { generatePath } from "react-router-dom";
 
-import { Platform } from "./platform";
 import { getPath } from "./route-utils";
 
+import { PlaylistPlatform } from "../app/api/graphql/graphql-client.gen";
 import routes from "../app/routes";
 import { ResourceError } from "../errors/resource-error";
 
@@ -38,7 +38,7 @@ export const constructURL = ({
   return path;
 };
 
-export const getPlatformName = (link: string): Platform | null => {
+export const getPlatformName = (link: string): PlaylistPlatform | null => {
   let origin: string | null;
 
   try {
@@ -49,21 +49,21 @@ export const getPlatformName = (link: string): Platform | null => {
   }
 
   if (origin.includes("spotify.com")) {
-    return Platform.Spotify;
+    return PlaylistPlatform.Spotify;
   }
 
   if (origin.includes("deezer.com")) {
-    return Platform.Deezer;
+    return PlaylistPlatform.Deezer;
   }
 
   if (origin.includes("youtube.com")) {
-    return Platform.YoutubeMusic;
+    return PlaylistPlatform.YoutubeMusic;
   }
 
   return null;
 };
 
-export const getPlatformNameOrThrow = (link: string): Platform => {
+export const getPlatformNameOrThrow = (link: string): PlaylistPlatform => {
   const platformName = getPlatformName(link);
 
   if (!platformName) {

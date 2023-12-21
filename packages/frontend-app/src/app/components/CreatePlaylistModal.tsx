@@ -12,13 +12,16 @@ import { Space } from "./Space";
 
 import * as formValidation from "../../utils/form-validation";
 import { convertCamelCaseToCapitalize } from "../../utils/formatter";
-import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
+import {
+  PlaylistPlatformValues,
+  PlaylistGenreValues,
+} from "../../utils/platform";
 import { constructURL, getPlatformName } from "../../utils/url";
 import useParsedQueryParams from "../hooks/useParsedQueryParams";
 import { routeIds } from "../routes";
 
 import type { IRenderLabel } from "./Select/Select";
-import type { Platform } from "../../utils/platform";
+import type { PlaylistPlatform } from "../api/graphql/graphql-client.gen";
 import type { IPageQuery } from "../pages/Community/load-data";
 import type { ChangeEvent } from "react";
 import type { FormRenderProps } from "react-final-form";
@@ -69,7 +72,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     };
   };
 
-  const renderLabel = (opts: Parameters<IRenderLabel<Platform>>[0]) => {
+  const renderLabel = (opts: Parameters<IRenderLabel<PlaylistPlatform>>[0]) => {
     return (
       <Space>
         <PlatformIcon platform={opts.value} />
@@ -79,7 +82,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   };
 
   const renderOptions = () => {
-    return PlatformValues.map((platform) => (
+    return PlaylistPlatformValues.map((platform) => (
       <Option
         value={platform}
         label={convertCamelCaseToCapitalize(platform)}

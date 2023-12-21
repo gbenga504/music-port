@@ -4,18 +4,6 @@ import {
 } from "../app/api/graphql/graphql-client.gen";
 
 // @TODO: Delete this type
-export enum Platform {
-  Spotify = "spotify",
-  Deezer = "deezer",
-  YoutubeMusic = "youtubeMusic",
-}
-
-export const PlatformValues = Object.values(Platform) as [
-  Platform,
-  ...Platform[],
-];
-
-// @TODO: Delete this type
 export enum PlaylistGenre {
   ALL = "All",
   Afro = "Afro",
