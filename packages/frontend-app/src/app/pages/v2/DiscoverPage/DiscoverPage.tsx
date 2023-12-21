@@ -9,7 +9,7 @@ import { usePlayer } from "../../../components/Player/PlayerContext";
 import type { IPageQuery, PageData } from "./load-data";
 import type { ILoadableComponentProps } from "../../../../utils/route-utils";
 
-const Discover: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
+const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
   pageData,
 }) => {
   const { onChangePlaylist } = usePlayer();
@@ -45,4 +45,4 @@ const Discover: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
   );
 };
 
-export default Discover;
+export default DiscoverPage;
