@@ -198,6 +198,25 @@ export class PlaylistService {
     return this.playlistRepository.groupPlaylistsByGenre({ limit: 10 });
   }
 
+  async getPlaylistsByGenre({
+    genre,
+    pageSize,
+  }: {
+    genre: PlaylistGenre;
+    pageSize?: number;
+  }): Promise<{ genre: PlaylistGenre; items: IPlaylist[] }> {
+    const result = await this.playlistRepository.findManyPlaylist(
+      { genre },
+      1,
+      pageSize ?? 55,
+    );
+
+    return {
+      genre,
+      items: result.data,
+    };
+  }
+
   private async importPlaylist({
     accessToken,
     link,

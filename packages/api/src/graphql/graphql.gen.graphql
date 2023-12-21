@@ -17,27 +17,6 @@ type CreatePlaylistPayload {
   success: Boolean!
 }
 
-enum CreatePlaylistPlatform {
-  deezer
-  spotify
-  youtubeMusic
-}
-
-enum CreatePlaylistPlaylistGenre {
-  Afro
-  Blues
-  Classical
-  Country
-  Dance
-  HipPop
-  Jazz
-  KPop
-  Others
-  Rap
-  Reggae
-  Rock
-}
-
 type FeaturedPlaylist {
   """
   Genre of the playlist
@@ -58,8 +37,8 @@ type Mutation {
   ): ConvertPlaylistPayload!
   createPlaylist(
     author: String!
-    platform: CreatePlaylistPlatform!
-    playlistGenre: CreatePlaylistPlaylistGenre!
+    platform: PlaylistPlatform!
+    playlistGenre: PlaylistGenre!
     playlistLink: String!
   ): CreatePlaylistPayload!
 }
@@ -210,6 +189,14 @@ type Playlists {
   total: Int!
 }
 
+type PlaylistsByGenre {
+  """
+  Genre of the playlist
+  """
+  genre: PlaylistGenre!
+  items: [Playlist!]!
+}
+
 type Query {
   featuredPlaylists: [FeaturedPlaylist!]!
   playlistById(id: ID!): Playlist
@@ -219,4 +206,5 @@ type Query {
     playlistId: String!
   ): PlaylistSongLists!
   playlists(currentPage: Int!, genre: String, pageSize: Int!): Playlists!
+  playliststByGenre(genre: PlaylistGenre!): PlaylistsByGenre!
 }
