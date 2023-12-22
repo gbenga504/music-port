@@ -9,17 +9,22 @@ import {
 } from "nexus";
 
 import { createGraphQLContext } from "./create-graphql-context";
+import { GQLDate } from "./scalars/date-scalar";
 
 //@ts-expect-error prettier config is a JS file not TS but still we want use the import statement
 import prettierrc from "../../.prettierrc";
 import { UnauthorizedError } from "../errors/unauthorized-error";
-//@ts-ignore
 import * as Playlist from "../playlist/graphql";
 
 import type { Request } from "express";
 
 const schema = makeSchema({
-  types: [Playlist],
+  types: [
+    // Scalars
+    GQLDate,
+
+    Playlist,
+  ],
   outputs: {
     schema: join(__dirname, "graphql.gen.graphql"),
     typegen: join(__dirname, "graphql.gen.ts"),

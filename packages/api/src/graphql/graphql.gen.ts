@@ -4,9 +4,26 @@ import type { GraphQLContextType } from "./graphql-context-type";
 import type { IPlaylist } from "./../models";
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin";
 import type { core, connectionPluginCore } from "nexus";
-
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    /**
+     * A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    date<FieldName extends string>(
+      fieldName: FieldName,
+      opts?: core.CommonInputFieldConfig<TypeName, FieldName>
+    ): void; // "Date";
+  }
+}
 declare global {
   interface NexusGenCustomOutputMethods<TypeName extends string> {
+    /**
+     * A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+     */
+    date<FieldName extends string>(
+      fieldName: FieldName,
+      ...opts: core.ScalarOutSpread<TypeName, FieldName>
+    ): void; // "Date";
     /**
      * Adds a Relay-style connection to the type, with numerous options for configuration
      *
@@ -48,6 +65,7 @@ export interface NexusGenScalars {
   Float: number;
   Boolean: boolean;
   ID: string;
+  Date: any;
 }
 
 export interface NexusGenObjects {
@@ -164,6 +182,7 @@ export interface NexusGenFieldTypes {
     // field return type
     apiLink: string; // String!
     coverImage: string; // String!
+    createdAt: NexusGenScalars["Date"]; // Date!
     duration: number; // Int!
     exportId: string; // String!
     genre: NexusGenEnums["PlaylistGenre"]; // PlaylistGenre!
@@ -177,6 +196,7 @@ export interface NexusGenFieldTypes {
     public: boolean; // Boolean!
     songs: NexusGenRootTypes["PlaylistSong"][]; // [PlaylistSong!]!
     totalNumberOfSongs: number; // Int!
+    updatedAt: NexusGenScalars["Date"]; // Date!
   };
   PlaylistError: {
     // field return type
@@ -266,6 +286,7 @@ export interface NexusGenFieldTypeNames {
     // field return type name
     apiLink: "String";
     coverImage: "String";
+    createdAt: "Date";
     duration: "Int";
     exportId: "String";
     genre: "PlaylistGenre";
@@ -279,6 +300,7 @@ export interface NexusGenFieldTypeNames {
     public: "Boolean";
     songs: "PlaylistSong";
     totalNumberOfSongs: "Int";
+    updatedAt: "Date";
   };
   PlaylistError: {
     // field return type name
