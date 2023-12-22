@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
 import { useEffect, useState } from "react";
 import React from "react";
 import {
@@ -38,6 +41,9 @@ interface ITransformMatchedRoutesParams {
   api: ICreateApiClient;
   query: { [key: string]: string };
 }
+
+dayjs.extend(utc);
+dayjs.extend(relativeTime);
 
 const transformMatchedRoutes = ({
   routes,

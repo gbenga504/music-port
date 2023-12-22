@@ -37,7 +37,10 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
                   src={playlist.coverImage}
                   title={playlist.name}
                   owner={playlist.owner.name}
-                  link=""
+                  link={constructURL({
+                    routeId: ROUTE_IDS.playlistDetailsPage,
+                    params: { id: playlist.id },
+                  })}
                   onClickPlay={() =>
                     onChangePlaylist(
                       convertAPIPlaylistToPlayerPlaylist(playlist.songs)
