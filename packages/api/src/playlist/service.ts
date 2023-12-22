@@ -4,13 +4,13 @@ import * as validator from "./validator";
 
 import { InvalidExportIdError } from "../errors/invalid-export-id-error";
 import * as thirdPartyIntegrations from "../third-party-integrations";
-import { PlaylistGenre } from "../utils/platform";
+import { PLAYLIST_GENRE } from "../utils/platform";
 
 import type { PlaylistRepository } from "./repository";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
 import type { ConversionService } from "../conversion/service";
 import type { IPlaylist, IRawPlaylist } from "../models";
-import type { Platform } from "../utils/platform";
+import type { PlatformType, PlaylistGenreType } from "../utils/platform";
 import type { ObjectId } from "mongoose";
 
 interface IConstructorOptions {
@@ -40,8 +40,8 @@ export class PlaylistService {
     userId,
   }: {
     inputs: {
-      fromPlatform: string;
-      toPlatform: string;
+      fromPlatform: PlatformType;
+      toPlatform: PlatformType;
       link: string;
     };
     userAccessToken: string;
@@ -52,7 +52,7 @@ export class PlaylistService {
 
     const adminAccessToken =
       await this.adminAuthTokenService.getTokenByPlatform({
-        platform: fromPlatform as Platform,
+        platform: fromPlatform,
       });
 
     const rawPlaylist = await this.importPlaylist({
@@ -63,7 +63,7 @@ export class PlaylistService {
     return this.exportPlaylist({
       accessToken: userAccessToken,
       userId,
-      platform: toPlatform as Platform,
+      platform: toPlatform,
       playlist: rawPlaylist,
     });
   }
@@ -138,7 +138,7 @@ export class PlaylistService {
     const playlist = {
       ...rawPlaylist,
       exportId: this.generateExportId(),
-      genre: validInputs.playlistGenre ?? PlaylistGenre.Others,
+      genre: validInputs.playlistGenre ?? PLAYLIST_GENRE.Others,
       owner: {
         ...rawPlaylist.owner,
         name: validInputs.author ?? rawPlaylist.owner.name,
@@ -202,9 +202,9 @@ export class PlaylistService {
     genre,
     pageSize,
   }: {
-    genre: PlaylistGenre;
+    genre: PlaylistGenreType;
     pageSize?: number;
-  }): Promise<{ genre: PlaylistGenre; items: IPlaylist[] }> {
+  }): Promise<{ genre: PlaylistGenreType; items: IPlaylist[] }> {
     const result = await this.playlistRepository.findManyPlaylist(
       { genre },
       1,
@@ -249,7 +249,7 @@ export class PlaylistService {
   }: {
     accessToken: string;
     userId: string;
-    platform: Platform;
+    platform: PlatformType;
     playlist: IRawPlaylist & { _id?: ObjectId };
   }): Promise<{ url: string }> {
     const result = await thirdPartyIntegrations.createPlaylist(platform, {

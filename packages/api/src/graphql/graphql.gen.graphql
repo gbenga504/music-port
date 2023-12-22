@@ -27,13 +27,8 @@ type FeaturedPlaylist {
 
 type Mutation {
   convertPlaylist(
-    platform: String!
+    platform: PlaylistPlatform!
     playlistExportId: String!
-  ): ConvertPlaylistPayload!
-  convertPlaylistUsingAdminAuthToken(
-    fromPlatform: String!
-    link: String!
-    toPlatform: String!
   ): ConvertPlaylistPayload!
   createPlaylist(
     author: String!
@@ -205,6 +200,6 @@ type Query {
     pageSize: Int!
     playlistId: String!
   ): PlaylistSongLists!
-  playlists(currentPage: Int!, genre: String, pageSize: Int!): Playlists!
+  playlists(currentPage: Int!, genre: PlaylistGenre, pageSize: Int!): Playlists!
   playlistsByGenre(genre: PlaylistGenre!): PlaylistsByGenre!
 }

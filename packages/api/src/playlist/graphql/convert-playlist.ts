@@ -1,9 +1,31 @@
-import { mutationField, stringArg } from "nexus";
+import { mutationField, objectType, stringArg } from "nexus";
+
+import { GraphQLError } from "../../graphql/error-handling";
+
+const ConvertPlaylistData = objectType({
+  name: "ConvertPlaylistData",
+  definition(t) {
+    t.string("url");
+  },
+});
+
+const ConvertPlaylistPayload = objectType({
+  name: "ConvertPlaylistPayload",
+  definition(t) {
+    t.boolean("success");
+    t.nullable.field("data", {
+      type: ConvertPlaylistData,
+    });
+    t.nullable.field("error", {
+      type: GraphQLError,
+    });
+  },
+});
 
 export const convertPlaylist = mutationField("convertPlaylist", {
-  type: "ConvertPlaylistPayload",
+  type: ConvertPlaylistPayload,
   args: {
-    platform: stringArg(),
+    platform: "PlaylistPlatform",
     playlistExportId: stringArg(),
   },
   authorize(_parent, _args, ctx) {

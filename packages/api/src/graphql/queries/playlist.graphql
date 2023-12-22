@@ -1,20 +1,5 @@
-mutation convertPlaylistUsingAdminAuthToken(
-  $fromPlatform: String!
-  $toPlatform: String!
-  $link: String!
-) {
-  convertPlaylistUsingAdminAuthToken(
-    fromPlatform: $fromPlatform
-    toPlatform: $toPlatform
-    link: $link
-  ) {
-    success
-    data {
-      url
-    }
-    error {
-      name
-      message
-    }
+query featuredPlaylists {
+  featuredPlaylists {
+    genre
   }
 }

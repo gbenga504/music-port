@@ -1,4 +1,4 @@
-import { enumType, mutationField, objectType, stringArg } from "nexus";
+import { mutationField, objectType, stringArg } from "nexus";
 
 import { GraphQLError } from "../../graphql/error-handling";
 

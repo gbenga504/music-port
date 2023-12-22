@@ -14,14 +14,14 @@ import type {
 import type { ILoadableComponentProps } from "../utils/route-utils";
 import type { RouteObjectWithLoadData } from "react-router-dom";
 
-export const routeIds = {
+export const ROUTE_IDS = {
   discoverPage: "discoverPage",
   genrePage: "genrePage",
 } as const;
 
 const routes: RouteObjectWithLoadData[] = [
   {
-    id: routeIds.discoverPage,
+    id: ROUTE_IDS.discoverPage,
     path: "/",
     component: loadable<
       ILoadableComponentProps<DiscoverPageData, IDiscoverPageQuery>
@@ -29,7 +29,7 @@ const routes: RouteObjectWithLoadData[] = [
     loadData: discoverPageLoadData,
   },
   {
-    id: routeIds.genrePage,
+    id: ROUTE_IDS.genrePage,
     path: "/genre/:genre",
     component: loadable<
       ILoadableComponentProps<GenrePageData, unknown, IGenrePageParams>

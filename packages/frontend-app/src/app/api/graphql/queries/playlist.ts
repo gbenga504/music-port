@@ -10,7 +10,7 @@ export const playlistGraphQLSchema = gql`
   ######## QUERIES
   #############################################################
 
-  query playlists($genre: String, $currentPage: Int!, $pageSize: Int!) {
+  query playlists($genre: PlaylistGenre, $currentPage: Int!, $pageSize: Int!) {
     playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
       total
       currentPage
@@ -62,28 +62,10 @@ export const playlistGraphQLSchema = gql`
   ######## MUTATIONS
   #############################################################
 
-  mutation convertPlaylistUsingAdminAuthToken(
-    $fromPlatform: String!
-    $toPlatform: String!
-    $link: String!
+  mutation convertPlaylist(
+    $platform: PlaylistPlatform!
+    $playlistExportId: String!
   ) {
-    convertPlaylistUsingAdminAuthToken(
-      fromPlatform: $fromPlatform
-      toPlatform: $toPlatform
-      link: $link
-    ) {
-      success
-      data {
-        url
-      }
-      error {
-        name
-        message
-      }
-    }
-  }
-
-  mutation convertPlaylist($platform: String!, $playlistExportId: String!) {
     convertPlaylist(platform: $platform, playlistExportId: $playlistExportId) {
       success
       data {

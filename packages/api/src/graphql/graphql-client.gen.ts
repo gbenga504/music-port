@@ -50,19 +50,12 @@ export type FeaturedPlaylist = {
 export type Mutation = {
   __typename?: "Mutation";
   convertPlaylist: ConvertPlaylistPayload;
-  convertPlaylistUsingAdminAuthToken: ConvertPlaylistPayload;
   createPlaylist: CreatePlaylistPayload;
 };
 
 export type MutationConvertPlaylistArgs = {
   platform: Scalars["String"];
   playlistExportId: Scalars["String"];
-};
-
-export type MutationConvertPlaylistUsingAdminAuthTokenArgs = {
-  fromPlatform: Scalars["String"];
-  link: Scalars["String"];
-  toPlatform: Scalars["String"];
 };
 
 export type MutationCreatePlaylistArgs = {
@@ -214,45 +207,20 @@ export type QueryPlaylistsByGenreArgs = {
   genre: PlaylistGenre;
 };
 
-export type ConvertPlaylistUsingAdminAuthTokenMutationVariables = Exact<{
-  fromPlatform: Scalars["String"];
-  toPlatform: Scalars["String"];
-  link: Scalars["String"];
-}>;
+export type FeaturedPlaylistsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ConvertPlaylistUsingAdminAuthTokenMutation = {
-  __typename?: "Mutation";
-  convertPlaylistUsingAdminAuthToken: {
-    __typename?: "ConvertPlaylistPayload";
-    success: boolean;
-    data?: { __typename?: "ConvertPlaylistData"; url: string } | null;
-    error?: {
-      __typename?: "PlaylistError";
-      name: string;
-      message: string;
-    } | null;
-  };
+export type FeaturedPlaylistsQuery = {
+  __typename?: "Query";
+  featuredPlaylists: Array<{
+    __typename?: "FeaturedPlaylist";
+    genre: PlaylistGenre;
+  }>;
 };
 
-export const ConvertPlaylistUsingAdminAuthTokenDocument = gql`
-  mutation convertPlaylistUsingAdminAuthToken(
-    $fromPlatform: String!
-    $toPlatform: String!
-    $link: String!
-  ) {
-    convertPlaylistUsingAdminAuthToken(
-      fromPlatform: $fromPlatform
-      toPlatform: $toPlatform
-      link: $link
-    ) {
-      success
-      data {
-        url
-      }
-      error {
-        name
-        message
-      }
+export const FeaturedPlaylistsDocument = gql`
+  query featuredPlaylists {
+    featuredPlaylists {
+      genre
     }
   }
 `;
@@ -274,19 +242,19 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
-    convertPlaylistUsingAdminAuthToken(
-      variables: ConvertPlaylistUsingAdminAuthTokenMutationVariables,
+    featuredPlaylists(
+      variables?: FeaturedPlaylistsQueryVariables,
       requestHeaders?: Dom.RequestInit["headers"],
-    ): Promise<ConvertPlaylistUsingAdminAuthTokenMutation> {
+    ): Promise<FeaturedPlaylistsQuery> {
       return withWrapper(
         (wrappedRequestHeaders) =>
-          client.request<ConvertPlaylistUsingAdminAuthTokenMutation>(
-            ConvertPlaylistUsingAdminAuthTokenDocument,
+          client.request<FeaturedPlaylistsQuery>(
+            FeaturedPlaylistsDocument,
             variables,
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
-        "convertPlaylistUsingAdminAuthToken",
-        "mutation",
+        "featuredPlaylists",
+        "query",
       );
     },
   };
