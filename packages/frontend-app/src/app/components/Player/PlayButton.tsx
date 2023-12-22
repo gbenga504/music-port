@@ -32,7 +32,7 @@ export const PlayButton: React.FC<IProps> = ({
         />
       )}
       <IconButton
-        size="small"
+        size="medium"
         variant={isMobile ? "transparent" : "contained"}
         color="white"
         onClick={() =>
