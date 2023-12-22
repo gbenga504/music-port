@@ -1,7 +1,7 @@
 import React from "react";
 
 import { constructURL } from "../../../utils/url";
-import { routeIds } from "../../routes";
+import { ROUTE_IDS } from "../../routes";
 import { Button } from "../Button/Button";
 import { Drawer } from "../Drawer/Drawer";
 import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../icons";
@@ -28,7 +28,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             variant="transparent"
             size="large"
             fullWidth
-            to={constructURL({ routeId: routeIds.discoverPage })}
+            to={constructURL({ routeId: ROUTE_IDS.discoverPage })}
             focused
           >
             <span className="flex gap-2 items-center">
@@ -42,7 +42,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             size="large"
             fullWidth
             to={constructURL({
-              routeId: routeIds.discoverPage,
+              routeId: ROUTE_IDS.discoverPage,
             })}
           >
             <span className="flex gap-2 items-center">

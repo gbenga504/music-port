@@ -4,7 +4,7 @@ import * as validator from "./validator";
 
 import { InvalidExportIdError } from "../errors/invalid-export-id-error";
 import * as thirdPartyIntegrations from "../third-party-integrations";
-import { PlaylistGenre } from "../utils/platform";
+import { PLAYLIST_GENRE } from "../utils/platform";
 
 import type { PlaylistRepository } from "./repository";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
@@ -138,7 +138,7 @@ export class PlaylistService {
     const playlist = {
       ...rawPlaylist,
       exportId: this.generateExportId(),
-      genre: validInputs.playlistGenre ?? PlaylistGenre.Others,
+      genre: validInputs.playlistGenre ?? PLAYLIST_GENRE.Others,
       owner: {
         ...rawPlaylist.owner,
         name: validInputs.author ?? rawPlaylist.owner.name,

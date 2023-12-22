@@ -9,7 +9,7 @@ export const Platform = {
 export type PlatformType = ObjectValues<typeof Platform>;
 export const PlatformValues = Object.values(Platform);
 
-export const PlaylistGenre = {
+export const PLAYLIST_GENRE = {
   Afro: "Afro",
   HipPop: "HipPop",
   Others: "Others",
@@ -24,7 +24,7 @@ export const PlaylistGenre = {
   KPop: "KPop",
 } as const;
 
-export type PlaylistGenreType = ObjectValues<typeof PlaylistGenre>;
-export const PlaylistGenreValues = Object.values(PlaylistGenre);
+export type PlaylistGenreType = ObjectValues<typeof PLAYLIST_GENRE>;
+export const PlaylistGenreValues = Object.values(PLAYLIST_GENRE);
 
 export const MAX_SONGS_PER_PLAYLIST = 50;

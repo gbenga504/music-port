@@ -6,7 +6,7 @@ import { Card } from "../../../components/Card/Card";
 import { CardList } from "../../../components/CardList/CardList";
 import { PageLayout } from "../../../components/PageLayout";
 import { usePlayer } from "../../../components/Player/PlayerContext";
-import { routeIds } from "../../../routes";
+import { ROUTE_IDS } from "../../../routes";
 
 import type { IPageQuery, PageData } from "./load-data";
 import type { ILoadableComponentProps } from "../../../../utils/route-utils";
@@ -27,7 +27,7 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
           <CardList
             title={featuredPlaylist.genre}
             to={constructURL({
-              routeId: routeIds.genrePage,
+              routeId: ROUTE_IDS.genrePage,
               params: { genre: featuredPlaylist.genre },
             })}
           >

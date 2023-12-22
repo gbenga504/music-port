@@ -18,7 +18,7 @@ import {
 } from "../../utils/platform";
 import { constructURL, getPlatformName } from "../../utils/url";
 import { LOCAL_STORAGE_KEY, useLocalStorage } from "../hooks/useLocalStorage";
-import { routeIds } from "../routes";
+import { ROUTE_IDS } from "../routes";
 
 import type { IRenderLabel } from "./Select/Select";
 import type { PlaylistPlatform } from "../api/graphql/graphql-client.gen";
@@ -54,7 +54,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     });
 
     const redirectURI = constructURL({
-      routeId: routeIds.discoverPage,
+      routeId: ROUTE_IDS.discoverPage,
       query: {
         reviewPlaylist: "true",
       },
