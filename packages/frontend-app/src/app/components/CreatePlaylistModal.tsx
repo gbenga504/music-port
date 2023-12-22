@@ -6,7 +6,7 @@ import { Button } from "./Button/Button";
 import { Input } from "./Input/Input";
 import { Modal } from "./Modal/Modal";
 import { PlatformIcon } from "./PlatformIcon";
-import { PlaylistAction } from "./ReviewPlaylistModal/types";
+import { REVIEW_ACTION } from "./ReviewPlaylistModal/utils";
 import { Option, Select } from "./Select/Select";
 import { Space } from "./Space";
 
@@ -17,12 +17,11 @@ import {
   PlaylistGenreValues,
 } from "../../utils/platform";
 import { constructURL, getPlatformName } from "../../utils/url";
-import useParsedQueryParams from "../hooks/useParsedQueryParams";
+import { LOCAL_STORAGE_KEY, useLocalStorage } from "../hooks/useLocalStorage";
 import { routeIds } from "../routes";
 
 import type { IRenderLabel } from "./Select/Select";
 import type { PlaylistPlatform } from "../api/graphql/graphql-client.gen";
-import type { IPageQuery } from "../pages/Community/load-data";
 import type { ChangeEvent } from "react";
 import type { FormRenderProps } from "react-final-form";
 
@@ -32,7 +31,11 @@ interface IProps {
 }
 
 export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
-  const [query] = useParsedQueryParams<IPageQuery>();
+  const [_, setReviewPlaylistModalData] = useLocalStorage<
+    Record<string, unknown>
+  >(LOCAL_STORAGE_KEY.REVIEW_PLAYLIST_MODAL, {
+    action: undefined,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = () => {
@@ -42,13 +45,19 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const handleSubmitFormValues = (
     values: formValidation.createPlaylistFormInputs
   ) => {
+    setReviewPlaylistModalData({
+      action: REVIEW_ACTION.CREATE_PLAYLIST,
+      data: {
+        ...values,
+        playlistLink: values.playlistLink,
+        action: REVIEW_ACTION.CREATE_PLAYLIST,
+      },
+    });
+
     const redirectURI = constructURL({
       routeId: routeIds.discoverPage,
       query: {
-        ...values,
-        playlistLink: encodeURIComponent(values.playlistLink),
         reviewPlaylist: "true",
-        action: PlaylistAction.CREATE_PLAYLIST,
       },
     });
 
@@ -100,12 +109,6 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     <Modal open={open} onClose={handleClose} title="Post a playlist">
       <Form
         onSubmit={handleSubmitFormValues}
-        initialValues={{
-          author: query.author,
-          playlistLink: query.playlistLink,
-          playlistGenre: query.playlistGenre,
-          streamingService: query.streamingService,
-        }}
         validate={formValidation.validateCreatePlaylistForm}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {

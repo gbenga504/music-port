@@ -1,48 +1,28 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { z } from "zod";
 
-import { PlaylistActionValues } from "./types";
+import { REVIEW_ACTION, parseModalData, type ReviewActionType } from "./utils";
 
-import {
-  PlaylistGenreValues,
-  PlaylistPlatformValues,
-} from "../../../utils/platform";
 import { useApi } from "../../context/ApiContext";
-import useParsedQueryParams from "../../hooks/useParsedQueryParams";
+import {
+  LOCAL_STORAGE_KEY,
+  useLocalStorage,
+} from "../../hooks/useLocalStorage";
 import { Modal } from "../Modal/Modal";
 import { useToast } from "../Toast/ToastContext";
 
-import type { PlaylistActionType } from "./types";
-import type { PlaylistPlatform } from "../../api/graphql/graphql-client.gen";
-import type { PlaylistGenre } from "../../api/graphql/graphql-client.gen";
+import type { ValidateModalData } from "./utils";
 
 interface IProps {
   open: boolean;
 }
 
-const validateURLQueryParamsSchema = z.object({
-  action: z.enum(
-    PlaylistActionValues as [PlaylistActionType, ...PlaylistActionType[]]
-  ),
-  author: z.string(),
-  playlistLink: z.string(),
-  playlistGenre: z.enum(
-    PlaylistGenreValues as [PlaylistGenre, ...PlaylistGenre[]]
-  ),
-  streamingService: z.enum(
-    PlaylistPlatformValues as [PlaylistPlatform, ...PlaylistPlatform[]]
-  ),
-});
-
-export type validateURLQueryParamsSchemaType = z.infer<
-  typeof validateURLQueryParamsSchema
->;
-
 export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
-  const [query] = useParsedQueryParams<validateURLQueryParamsSchemaType>(
-    undefined,
-    validateURLQueryParamsSchema
+  const [modalData, setModalData] = useLocalStorage<Record<string, unknown>>(
+    LOCAL_STORAGE_KEY.REVIEW_PLAYLIST_MODAL,
+    {
+      action: undefined,
+    }
   );
   const api = useApi();
   const toast = useToast();
@@ -50,22 +30,33 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const action = query.action;
+    const action = modalData.action as ReviewActionType;
 
-    if (action) {
+    if (action && open) {
       switch (action) {
-        default:
-          handleCreatePlaylist();
+        default: {
+          const parsedModalData = parseModalData(
+            REVIEW_ACTION.CREATE_PLAYLIST,
+            modalData.data
+          );
+
+          handleCreatePlaylist(parsedModalData);
+        }
       }
+
+      // Here we reset the modal data
+      setModalData({ action: undefined });
     }
-  }, []);
+  }, [open]);
 
   const handleClose = () => {
     navigate(pathname, { replace: true });
   };
 
-  const handleCreatePlaylist = async () => {
-    const { author, playlistLink, playlistGenre, streamingService } = query;
+  const handleCreatePlaylist = async (
+    data: ValidateModalData<typeof REVIEW_ACTION.CREATE_PLAYLIST>
+  ) => {
+    const { author, playlistLink, playlistGenre, streamingService } = data;
 
     const result = await api.playlist.createPlaylist({
       author,
