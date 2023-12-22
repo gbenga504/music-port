@@ -50,7 +50,6 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
       data: {
         ...values,
         playlistLink: values.playlistLink,
-        action: REVIEW_ACTION.CREATE_PLAYLIST,
       },
     });
 
