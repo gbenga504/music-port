@@ -87,7 +87,7 @@ export const HeaderDetails: React.FC<IProps> = ({
         >
           {genre}
         </Link>
-        <h1 className="text-8xl font-bold capitalize -mt-1">{name}</h1>
+        <h1 className="text-7xl font-bold capitalize -mt-1">{name}</h1>
         {renderSharePlaylistSection()}
         {renderPreviewButton()}
       </section>
