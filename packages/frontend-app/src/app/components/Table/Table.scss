@@ -1,0 +1,13 @@
+@import "tailwindcss/components";
+
+@layer components {
+  th.TableCell {
+    & > div {
+      @apply border-r border-r-whiteWithAlpha;
+    }
+
+    &:last-child > div {
+      @apply border-r-0;
+    }
+  }
+}

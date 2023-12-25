@@ -23,8 +23,10 @@ module.exports = {
       colors: {
         primary: "#0BB4B5",
         primaryAlpha: "#C9F6F7",
+        whiteWithAlpha: "#ffffffa3",
         secondary50: "#EDEDED",
         secondary100: "#4D4D4D",
+        secondary150: "#232323",
         secondary200: "#2C2C2C",
         secondary300: "#252526",
         secondary400: "#1F1F1F",

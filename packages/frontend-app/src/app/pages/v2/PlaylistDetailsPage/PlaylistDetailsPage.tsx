@@ -1,6 +1,7 @@
 import React from "react";
 
 import { HeaderDetails } from "./components/HeaderDetails";
+import { SongList } from "./components/SongList";
 
 import { PageLayout } from "../../../components/PageLayout";
 
@@ -13,6 +14,7 @@ const GenrePage: React.FC<
   return (
     <PageLayout title="Playlist Details">
       <HeaderDetails {...pageData.playlistById} />
+      <SongList />
     </PageLayout>
   );
 };
