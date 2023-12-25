@@ -34,7 +34,7 @@ export const HeaderDetails: React.FC<IProps> = ({
   const renderSharePlaylistSection = () => {
     return (
       <div className="flex gap-2 items-center -mt-1">
-        <span className="text-xs text-secondary50">
+        <span className="text-xs text-whiteWithAlpha">
           CREATED {dayjs.utc(createdAt).fromNow().toUpperCase()}
         </span>
         <IconButton
