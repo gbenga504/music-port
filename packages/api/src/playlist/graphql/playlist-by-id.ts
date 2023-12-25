@@ -126,6 +126,8 @@ const Playlist = objectType({
         return coverImage.url;
       },
     });
+    t.date("createdAt");
+    t.date("updatedAt");
   },
 });
 

@@ -5,6 +5,8 @@ import { SpinnerIcon } from "../icons";
 
 import type { ReactElement, ReactNode } from "react";
 
+import "./Table.scss";
+
 interface ITableProps {
   children: ReactElement | ReactElement[];
   stickyHeader?: boolean;
@@ -21,7 +23,7 @@ const Table: React.FC<ITableProps> = ({
   return (
     <div
       className={classNames(
-        "w-full overflow-x-auto border border-lightGray rounded-md relative",
+        "w-full text-whiteWithAlpha overflow-x-auto relative",
         {
           [classes.container!]: !!classes.container,
         }
@@ -31,7 +33,7 @@ const Table: React.FC<ITableProps> = ({
         <div
           className={classNames(
             "absolute left-0 w-full h-full top-0 flex items-center",
-            "justify-center bg-secondaryAlpha300 z-1000",
+            "justify-center z-1000",
             {
               [classes.loadingContainer!]: !!classes.loadingContainer,
             }
@@ -77,7 +79,7 @@ const TableHead: React.FC<ITableHeadInternalProps> = ({
 
   return (
     <thead
-      className={classNames("text-primaryGray table-header-group", {
+      className={classNames("table-header-group text-xs font-thin", {
         [className!]: !!className,
       })}
     >
@@ -97,7 +99,7 @@ interface ITableBodyProps {
 const TableBody: React.FC<ITableBodyProps> = ({ className, children }) => {
   return (
     <tbody
-      className={classNames("text-white table-row-group", {
+      className={classNames("table-row-group text-sm font-light", {
         [className!]: !!className,
       })}
     >
@@ -140,9 +142,11 @@ const TableRow: React.FC<ITableRowInternalProps> = ({
       onClick={onClick}
       className={classNames("table-row align-middle outline-0", {
         [className!]: !!className,
-        "hover:bg-secondaryAlpha focus:bg-secondaryAlpha":
+        "hover:bg-secondary200 focus:bg-secondary200":
           !isEncapsulatedByTableHead && !isEncapsulatedByTableFooter,
-        "border-l-2 border-l-primary bg-secondaryAlpha": selected,
+        "odd:bg-secondary150":
+          !isEncapsulatedByTableHead && !isEncapsulatedByTableFooter,
+        "bg-primary": selected,
       })}
     >
       {Children.map(children, (child, i) => (
@@ -183,21 +187,18 @@ const TableCell: React.FC<ITableCellInternalProps> = ({
 
   return (
     <Element
-      className={classNames(
-        "font-normal table-cell align-middle text-left p-4",
-        {
-          [className!]: !!className,
-          ["sticky top-0"]: stickyHeader,
-          "text-left": align === "left",
-          "text-right": align === "right",
-          "text-center": align === "center",
-          "text-justify": align === "justify",
-        }
-      )}
+      className={classNames("TableCell table-cell align-middle text-left p-1", {
+        [className!]: !!className,
+        ["sticky top-0"]: stickyHeader,
+        "text-left": align === "left",
+        "text-right": align === "right",
+        "text-center": align === "center",
+        "text-justify": align === "justify",
+      })}
       scope="col"
       {...extraProps}
     >
-      {children}
+      <div>{children}</div>
     </Element>
   );
 };

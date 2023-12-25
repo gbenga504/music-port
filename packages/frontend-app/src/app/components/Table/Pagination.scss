@@ -48,6 +48,6 @@
 }
 
 .pagination-page-size-selector {
-  @apply bg-transparent border border-secondaryAlpha cursor-pointer min-w-[70px];
+  @apply bg-transparent border border-secondary100 cursor-pointer min-w-[70px];
   @apply outline-none active:border-primary focus:border-primary rounded-md h-7;
 }

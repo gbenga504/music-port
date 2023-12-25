@@ -93,6 +93,7 @@ export const Pagination: React.FC<IProps> = ({
       >
         <Button
           variant="transparent"
+          size="small"
           tabIndex={-1}
           disabled={current === 1}
           onClick={handleChange({ current: current - 1 })}
@@ -119,6 +120,7 @@ export const Pagination: React.FC<IProps> = ({
             <Button
               variant="transparent"
               tabIndex={-1}
+              size="small"
               className={classNames({
                 ellipsis: type === "seperator",
               })}
@@ -142,6 +144,7 @@ export const Pagination: React.FC<IProps> = ({
         <Button
           variant="transparent"
           tabIndex={-1}
+          size="small"
           disabled={current === Math.ceil(total / pageSize) || total === 0}
           onClick={handleChange({ current: current + 1 })}
         >

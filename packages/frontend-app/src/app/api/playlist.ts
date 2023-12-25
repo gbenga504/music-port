@@ -96,4 +96,12 @@ export class Playlist {
 
     return playlistsByGenre;
   }
+
+  async getPlaylistsById({ id }: { id: string }) {
+    const { playlistById } = await this.graphQLClient.playlistById({
+      id,
+    });
+
+    return playlistById;
+  }
 }

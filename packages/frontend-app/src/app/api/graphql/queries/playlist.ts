@@ -58,6 +58,12 @@ export const playlistGraphQLSchema = gql`
     }
   }
 
+  query playlistById($id: ID!) {
+    playlistById(id: $id) {
+      ...PlaylistFragment
+    }
+  }
+
   #############################################################
   ######## MUTATIONS
   #############################################################

@@ -17,6 +17,11 @@ type CreatePlaylistPayload {
   success: Boolean!
 }
 
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
 type FeaturedPlaylist {
   """
   Genre of the playlist
@@ -44,6 +49,7 @@ type Playlist {
   """
   apiLink: String!
   coverImage: String!
+  createdAt: Date!
   duration: Int!
 
   """
@@ -97,6 +103,7 @@ type Playlist {
   """
   songs: [PlaylistSong!]!
   totalNumberOfSongs: Int!
+  updatedAt: Date!
 }
 
 type PlaylistError {

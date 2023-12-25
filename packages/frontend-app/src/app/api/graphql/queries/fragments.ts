@@ -42,5 +42,7 @@ export const playlistFragment = gql`
       ...PlaylistSongFragment
     }
     genre
+    createdAt
+    updatedAt
   }
 `;

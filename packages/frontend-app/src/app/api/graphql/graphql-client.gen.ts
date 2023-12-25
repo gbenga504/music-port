@@ -19,6 +19,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
 };
 
 export type ConvertPlaylistData = {
@@ -70,6 +71,7 @@ export type Playlist = {
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
   coverImage: Scalars["String"];
+  createdAt: Scalars["Date"];
   duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
@@ -93,6 +95,7 @@ export type Playlist = {
   /** Songs associated with the playlist */
   songs: Array<PlaylistSong>;
   totalNumberOfSongs: Scalars["Int"];
+  updatedAt: Scalars["Date"];
 };
 
 export type PlaylistError = {
@@ -234,6 +237,8 @@ export type PlaylistFragmentFragment = {
   apiLink: string;
   name: string;
   genre: PlaylistGenre;
+  createdAt: any;
+  updatedAt: any;
   images: Array<{
     __typename?: "PlaylistImage";
     url: string;
@@ -282,6 +287,8 @@ export type PlaylistsQuery = {
       apiLink: string;
       name: string;
       genre: PlaylistGenre;
+      createdAt: any;
+      updatedAt: any;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -356,6 +363,8 @@ export type FeaturedPlaylistsQuery = {
       apiLink: string;
       name: string;
       genre: PlaylistGenre;
+      createdAt: any;
+      updatedAt: any;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -402,6 +411,8 @@ export type PlaylistsByGenreQuery = {
       apiLink: string;
       name: string;
       genre: PlaylistGenre;
+      createdAt: any;
+      updatedAt: any;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -425,6 +436,50 @@ export type PlaylistsByGenreQuery = {
       }>;
     }>;
   };
+};
+
+export type PlaylistByIdQueryVariables = Exact<{
+  id: Scalars["ID"];
+}>;
+
+export type PlaylistByIdQuery = {
+  __typename?: "Query";
+  playlistById?: {
+    __typename?: "Playlist";
+    id: string;
+    importLink: string;
+    public: boolean;
+    coverImage: string;
+    platform: PlaylistPlatform;
+    importPlaylistId: string;
+    exportId: string;
+    apiLink: string;
+    name: string;
+    genre: PlaylistGenre;
+    createdAt: any;
+    updatedAt: any;
+    images: Array<{
+      __typename?: "PlaylistImage";
+      url: string;
+      width?: number | null;
+      height?: number | null;
+    }>;
+    owner: { __typename?: "PlaylistOwner"; name: string };
+    songs: Array<{
+      __typename?: "PlaylistSong";
+      name: string;
+      coverImage: string;
+      duration: number;
+      previewURL?: string | null;
+      artists: Array<{ __typename?: "PlaylistSongArtist"; name: string }>;
+      images: Array<{
+        __typename?: "PlaylistImage";
+        url: string;
+        width?: number | null;
+        height?: number | null;
+      }>;
+    }>;
+  } | null;
 };
 
 export type ConvertPlaylistMutationVariables = Exact<{
@@ -470,6 +525,8 @@ export type CreatePlaylistMutation = {
       apiLink: string;
       name: string;
       genre: PlaylistGenre;
+      createdAt: any;
+      updatedAt: any;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -539,6 +596,8 @@ export const PlaylistFragmentFragmentDoc = gql`
       ...PlaylistSongFragment
     }
     genre
+    createdAt
+    updatedAt
   }
   ${PlaylistSongFragmentFragmentDoc}
 `;
@@ -594,6 +653,14 @@ export const PlaylistsByGenreDocument = gql`
       items {
         ...PlaylistFragment
       }
+    }
+  }
+  ${PlaylistFragmentFragmentDoc}
+`;
+export const PlaylistByIdDocument = gql`
+  query playlistById($id: ID!) {
+    playlistById(id: $id) {
+      ...PlaylistFragment
     }
   }
   ${PlaylistFragmentFragmentDoc}
@@ -713,6 +780,20 @@ export function getSdk(
             { ...requestHeaders, ...wrappedRequestHeaders },
           ),
         "playlistsByGenre",
+        "query",
+      );
+    },
+    playlistById(
+      variables: PlaylistByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<PlaylistByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaylistByIdQuery>(PlaylistByIdDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        "playlistById",
         "query",
       );
     },
