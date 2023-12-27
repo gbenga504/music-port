@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { InitiateConvertPlaylistModal } from "./ConvertPlaylistModal/InitiateConvertPlaylistModal";
+import { InitiatePortPlaylistModal } from "./PortPlaylistModal/InitiatePortPlaylistModal";
 
 import { convertAPIPlaylistToPlayerPlaylist } from "../../../../../utils/playlist";
 import { constructURL } from "../../../../../utils/url";
@@ -105,7 +105,7 @@ export const HeaderDetails: React.FC<IProps> = ({
         {renderSharePlaylistSection()}
         {renderPreviewButton()}
       </section>
-      <InitiateConvertPlaylistModal
+      <InitiatePortPlaylistModal
         open={openInitiateConvertPlaylistModal}
         onClose={() => setOpenInitiateConvertPlaylistModal(false)}
       />
