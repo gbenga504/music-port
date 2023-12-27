@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import { InitiateConvertPlaylistModal } from "./ConvertPlaylistModal/InitiateConvertPlaylistModal";
 
 import { convertAPIPlaylistToPlayerPlaylist } from "../../../../../utils/playlist";
 import { constructURL } from "../../../../../utils/url";
@@ -28,6 +30,10 @@ export const HeaderDetails: React.FC<IProps> = ({
   createdAt,
   songs,
 }) => {
+  const [
+    openInitiateConvertPlaylistModal,
+    setOpenInitiateConvertPlaylistModal,
+  ] = useState(false);
   const toast = useToast();
   const [_, copy] = useCopyToClipboard();
   const { onChangePlaylist } = usePlayer();
@@ -70,11 +76,11 @@ export const HeaderDetails: React.FC<IProps> = ({
         <Button
           size="small"
           onClick={() => {
-            console.log("gad man ");
+            setOpenInitiateConvertPlaylistModal(true);
           }}
           icon={<ConvertIcon size={16} fillColor="white" />}
         >
-          Convert
+          Port
         </Button>
       </Space>
     );
@@ -99,6 +105,10 @@ export const HeaderDetails: React.FC<IProps> = ({
         {renderSharePlaylistSection()}
         {renderPreviewButton()}
       </section>
+      <InitiateConvertPlaylistModal
+        open={openInitiateConvertPlaylistModal}
+        onClose={() => setOpenInitiateConvertPlaylistModal(false)}
+      />
     </header>
   );
 };

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY,
-  parseModalData,
+  parseReviewPlaylist,
 } from "./utils";
 
 import { useApi } from "../../context/ApiContext";
@@ -11,7 +11,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Modal } from "../Modal/Modal";
 import { useToast } from "../Toast/ToastContext";
 
-import type { ValidateModalData } from "./utils";
+import type { ReviewPlaylist } from "./utils";
 
 interface IProps {
   open: boolean;
@@ -29,7 +29,7 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
 
   useEffect(() => {
     if (open && Object.keys(modalData).length > 0) {
-      const parsedModalData = parseModalData(modalData);
+      const parsedModalData = parseReviewPlaylist(modalData);
       handleCreatePlaylist(parsedModalData);
     }
   }, [open]);
@@ -38,7 +38,7 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
     navigate(pathname, { replace: true });
   };
 
-  const handleCreatePlaylist = async (data: ValidateModalData) => {
+  const handleCreatePlaylist = async (data: ReviewPlaylist) => {
     const { author, playlistLink, playlistGenre, streamingService } = data;
 
     const result = await api.playlist.createPlaylist({
