@@ -187,7 +187,7 @@ const TableCell: React.FC<ITableCellInternalProps> = ({
 
   return (
     <Element
-      className={classNames("TableCell table-cell align-middle text-left p-1", {
+      className={classNames("TableCell table-cell align-middle text-left p-2", {
         [className!]: !!className,
         ["sticky top-0"]: stickyHeader,
         "text-left": align === "left",

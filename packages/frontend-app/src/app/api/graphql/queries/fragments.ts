@@ -44,5 +44,6 @@ export const playlistFragment = gql`
     genre
     createdAt
     updatedAt
+    duration
   }
 `;

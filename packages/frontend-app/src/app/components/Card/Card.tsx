@@ -8,12 +8,14 @@ import { LazyImage } from "../LazyImage/LazyImage";
 import { useToast } from "../Toast/ToastContext";
 import { CopyIcon, PlayIcon } from "../icons";
 
+import type { MouseEventHandler } from "react";
+
 interface IProps {
   src: string;
   title: string;
   owner: string;
   link: string;
-  onClickPlay?: () => void;
+  onClickPlay?: MouseEventHandler<HTMLElement>;
 }
 
 export const Card: React.FC<IProps> = ({
@@ -35,11 +37,18 @@ export const Card: React.FC<IProps> = ({
           </div>
 
           <div className="overlay">
-            <IconButton onClick={onClickPlay}>
+            <IconButton
+              onClick={(ev) => {
+                ev.preventDefault();
+                onClickPlay?.(ev);
+              }}
+            >
               <PlayIcon size={13} fillColorClassName="fill-white" />
             </IconButton>
             <IconButton
-              onClick={() => {
+              onClick={(ev) => {
+                ev.preventDefault();
+
                 copy(link);
                 toast({
                   title: "Link copied to clipboard",

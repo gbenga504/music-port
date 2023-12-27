@@ -239,6 +239,7 @@ export type PlaylistFragmentFragment = {
   genre: PlaylistGenre;
   createdAt: any;
   updatedAt: any;
+  duration: number;
   images: Array<{
     __typename?: "PlaylistImage";
     url: string;
@@ -289,6 +290,7 @@ export type PlaylistsQuery = {
       genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
+      duration: number;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -365,6 +367,7 @@ export type FeaturedPlaylistsQuery = {
       genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
+      duration: number;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -413,6 +416,7 @@ export type PlaylistsByGenreQuery = {
       genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
+      duration: number;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -458,6 +462,7 @@ export type PlaylistByIdQuery = {
     genre: PlaylistGenre;
     createdAt: any;
     updatedAt: any;
+    duration: number;
     images: Array<{
       __typename?: "PlaylistImage";
       url: string;
@@ -527,6 +532,7 @@ export type CreatePlaylistMutation = {
       genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
+      duration: number;
       images: Array<{
         __typename?: "PlaylistImage";
         url: string;
@@ -598,6 +604,7 @@ export const PlaylistFragmentFragmentDoc = gql`
     genre
     createdAt
     updatedAt
+    duration
   }
   ${PlaylistSongFragmentFragmentDoc}
 `;
