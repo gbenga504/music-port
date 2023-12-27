@@ -8,8 +8,9 @@ import { Button } from "../../../../components/Button/Button";
 import { IconButton } from "../../../../components/IconButton/IconButton";
 import { LazyImage } from "../../../../components/LazyImage/LazyImage";
 import { usePlayer } from "../../../../components/Player/PlayerContext";
+import { Space } from "../../../../components/Space";
 import { useToast } from "../../../../components/Toast/ToastContext";
-import { CopyIcon, PlayIcon } from "../../../../components/icons";
+import { ConvertIcon, CopyIcon, PlayIcon } from "../../../../components/icons";
 import useCopyToClipboard from "../../../../hooks/useCopyToClipboard";
 import { ROUTE_IDS } from "../../../../routes";
 
@@ -56,7 +57,7 @@ export const HeaderDetails: React.FC<IProps> = ({
 
   const renderPreviewButton = () => {
     return (
-      <div className="mt-4">
+      <Space className="mt-4">
         <Button
           size="small"
           onClick={() => {
@@ -68,7 +69,18 @@ export const HeaderDetails: React.FC<IProps> = ({
             <span>Preview</span>
           </div>
         </Button>
-      </div>
+        <Button
+          size="small"
+          onClick={() => {
+            console.log("gad man ");
+          }}
+        >
+          <div className="flex gap-1 items-center">
+            <ConvertIcon size={16} fillColor="white" />
+            <span>Convert</span>
+          </div>
+        </Button>
+      </Space>
     );
   };
 
