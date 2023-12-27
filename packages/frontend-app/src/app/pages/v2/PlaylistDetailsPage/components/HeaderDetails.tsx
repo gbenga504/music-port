@@ -63,22 +63,18 @@ export const HeaderDetails: React.FC<IProps> = ({
           onClick={() => {
             onChangePlaylist(convertAPIPlaylistToPlayerPlaylist(songs));
           }}
+          icon={<PlayIcon size={12} fillColorClassName="fill-white" />}
         >
-          <div className="flex gap-1 items-center">
-            <PlayIcon size={12} fillColorClassName="fill-white" />
-            <span>Preview</span>
-          </div>
+          Preview
         </Button>
         <Button
           size="small"
           onClick={() => {
             console.log("gad man ");
           }}
+          icon={<ConvertIcon size={16} fillColor="white" />}
         >
-          <div className="flex gap-1 items-center">
-            <ConvertIcon size={16} fillColor="white" />
-            <span>Convert</span>
-          </div>
+          Convert
         </Button>
       </Space>
     );

@@ -118,7 +118,7 @@ export const Button: React.FC<IProps> = (props) => {
 
   const renderIcon = () => {
     if (icon) {
-      return <span className="mr-2">{icon}</span>;
+      return <span className="mr-1">{icon}</span>;
     }
 
     return null;
