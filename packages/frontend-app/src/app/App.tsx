@@ -12,10 +12,10 @@ import {
 } from "react-router-dom";
 
 import { CookieBanner } from "./components/CookieBanner";
-import { CreatePlaylistModal } from "./components/CreatePlaylistModal";
+import { CreatePlaylistModal } from "./components/CreatePlaylistModal/CreatePlaylistModal";
+import { ReviewPlaylistModal } from "./components/CreatePlaylistModal/ReviewPlaylistModal";
 import { PageLoadingProgressBar } from "./components/PageLoadingProgressBar/PageLoadingProgressBar";
 import { PlayerProvider } from "./components/Player/PlayerContext";
-import { ReviewPlaylistModal } from "./components/ReviewPlaylistModal/ReviewPlaylistModal";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";

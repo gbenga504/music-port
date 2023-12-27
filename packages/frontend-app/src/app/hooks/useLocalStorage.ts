@@ -2,10 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 
 import type { Dispatch, SetStateAction } from "react";
 
-export const LOCAL_STORAGE_KEY = {
-  REVIEW_PLAYLIST_MODAL: "REVIEW_PLAYLIST_MODAL",
-} as const;
-
 type SetValue<T> = Dispatch<SetStateAction<T>>;
 
 /**
