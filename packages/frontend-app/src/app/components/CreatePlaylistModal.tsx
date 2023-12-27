@@ -1,6 +1,7 @@
 import omit from "lodash/omit";
 import React, { useState } from "react";
 import { Field, Form } from "react-final-form";
+import { useLocation } from "react-router-dom";
 
 import { Button } from "./Button/Button";
 import { Input } from "./Input/Input";
@@ -16,9 +17,8 @@ import {
   PlaylistPlatformValues,
   PlaylistGenreValues,
 } from "../../utils/platform";
-import { constructURL, getPlatformName } from "../../utils/url";
+import { getPlatformName } from "../../utils/url";
 import { LOCAL_STORAGE_KEY, useLocalStorage } from "../hooks/useLocalStorage";
-import { ROUTE_IDS } from "../routes";
 
 import type { IRenderLabel } from "./Select/Select";
 import type { PlaylistPlatform } from "../api/graphql/graphql-client.gen";
@@ -37,6 +37,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     action: undefined,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const { pathname } = useLocation();
 
   const handleClose = () => {
     onClose();
@@ -53,12 +54,11 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
       },
     });
 
-    const redirectURI = constructURL({
-      routeId: ROUTE_IDS.discoverPage,
-      query: {
-        reviewPlaylist: "true",
-      },
-    });
+    // TODO: We want to do this properly
+    // Basically we want to keep the existing search params on this page
+    // except the createPlaylist search params while adding the reviewPlaylist
+    // search params
+    const redirectURI = `${pathname}?reviewPlaylist=true`;
 
     setIsLoading(true);
     location.href = `/api/auth/${

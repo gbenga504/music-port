@@ -20,3 +20,23 @@ export const convertAPIPlaylistToPlayerPlaylist = (
     };
   });
 };
+
+export function calculateTime(
+  durationInMilliseconds: number,
+  formatStyle: "NO_FORMAT" | "SHORT" | "LONG" = "NO_FORMAT",
+): string {
+  const duration = durationInMilliseconds / 1000;
+  const minutes = Math.floor(duration / 60);
+  const seconds = Math.floor(duration % 60);
+
+  const returnedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  switch (formatStyle) {
+    case "LONG":
+      return `${minutes} minutes, ${returnedSeconds} seconds`;
+    case "SHORT":
+      return `${minutes} mins, ${returnedSeconds} secs`;
+    default:
+      return `${minutes}:${returnedSeconds}`;
+  }
+}
