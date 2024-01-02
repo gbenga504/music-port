@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { REVIEW_ACTION, parseModalData, type ReviewActionType } from "./utils";
+import {
+  REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY,
+  parseReviewPlaylist,
+} from "./utils";
 
 import { useApi } from "../../context/ApiContext";
-import {
-  LOCAL_STORAGE_KEY,
-  useLocalStorage,
-} from "../../hooks/useLocalStorage";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Modal } from "../Modal/Modal";
 import { useToast } from "../Toast/ToastContext";
 
-import type { ValidateModalData } from "./utils";
+import type { ReviewPlaylist } from "./utils";
 
 interface IProps {
   open: boolean;
@@ -19,10 +19,8 @@ interface IProps {
 
 export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
   const [modalData, setModalData] = useLocalStorage<Record<string, unknown>>(
-    LOCAL_STORAGE_KEY.REVIEW_PLAYLIST_MODAL,
-    {
-      action: undefined,
-    }
+    REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY,
+    {}
   );
   const api = useApi();
   const toast = useToast();
@@ -30,22 +28,9 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const action = modalData.action as ReviewActionType;
-
-    if (action && open) {
-      switch (action) {
-        default: {
-          const parsedModalData = parseModalData(
-            REVIEW_ACTION.CREATE_PLAYLIST,
-            modalData.data
-          );
-
-          handleCreatePlaylist(parsedModalData);
-        }
-      }
-
-      // Here we reset the modal data
-      setModalData({ action: undefined });
+    if (open && Object.keys(modalData).length > 0) {
+      const parsedModalData = parseReviewPlaylist(modalData);
+      handleCreatePlaylist(parsedModalData);
     }
   }, [open]);
 
@@ -53,9 +38,7 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
     navigate(pathname, { replace: true });
   };
 
-  const handleCreatePlaylist = async (
-    data: ValidateModalData<typeof REVIEW_ACTION.CREATE_PLAYLIST>
-  ) => {
+  const handleCreatePlaylist = async (data: ReviewPlaylist) => {
     const { author, playlistLink, playlistGenre, streamingService } = data;
 
     const result = await api.playlist.createPlaylist({
@@ -82,6 +65,7 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
       });
     }
 
+    setModalData({});
     handleClose();
   };
 

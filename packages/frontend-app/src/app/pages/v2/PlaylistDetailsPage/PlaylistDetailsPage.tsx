@@ -12,7 +12,7 @@ import type { ILoadableComponentProps } from "../../../../utils/route-utils";
 const PlaylistDetailsPage: React.FC<
   ILoadableComponentProps<PageData, unknown, IPageParams>
 > = ({ pageData }) => {
-  const { coverImage, name, genre, createdAt, songs, duration } =
+  const { coverImage, name, genre, createdAt, songs, duration, exportId } =
     pageData.playlistById;
 
   return (
@@ -23,6 +23,7 @@ const PlaylistDetailsPage: React.FC<
         genre={genre}
         createdAt={createdAt}
         songs={songs}
+        exportId={exportId}
       />
       <section className="w-full mt-10 mb-6">
         <SongList songs={songs} />

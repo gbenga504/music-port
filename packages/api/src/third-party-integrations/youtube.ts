@@ -7,6 +7,7 @@ import YTMusic from "ytmusic-api";
 import { MusicStreamingPlatformResourceFailureError } from "../errors/music-streaming-platform-resource-failure-error";
 import { WrongMusicStreamingPlatformPlaylistLinkError } from "../errors/wrong-music-streaming-platform-playlist-link-error";
 import { MAX_SONGS_PER_PLAYLIST, Platform } from "../utils/platform";
+import { sleep } from "../utils/sleep";
 
 import type { IThirdPartyIntegrations } from "./types";
 import type { IPlaylist, IRawPlaylist } from "../models";
@@ -116,6 +117,67 @@ class YoutubeMusic implements IThirdPartyIntegrations {
     return playlistId;
   }
 
+  private async createPlaylistItem({
+    videoId,
+    playlistId,
+    retries,
+    accessToken,
+  }: {
+    videoId: string;
+    playlistId: string;
+    retries: number;
+    accessToken: string;
+  }): Promise<void> {
+    // Youtube times out occassionally especially when creating multiple items
+    // So we setup a retry mechanism while sleeping each retry for a few milliseconds
+    if (retries <= 4) {
+      try {
+        await axios.post(
+          `https://www.googleapis.com/youtube/v3/playlistItems`,
+          {
+            snippet: {
+              playlistId,
+              resourceId: {
+                kind: "youtube#video",
+                videoId,
+              },
+            },
+          },
+          {
+            headers: { Authorization: "Bearer " + accessToken },
+            params: {
+              part: "id,snippet,contentDetails,status",
+            },
+          },
+        );
+      } catch (error) {
+        if (error instanceof AxiosError && error.response) {
+          const { data, status } = error.response;
+
+          if (
+            status === 409 &&
+            data.error.status === "ABORTED" &&
+            retries <= 3
+          ) {
+            await sleep(100);
+
+            return this.createPlaylistItem({
+              videoId,
+              playlistId,
+              retries: retries + 1,
+              accessToken,
+            });
+          }
+
+          throw new MusicStreamingPlatformResourceFailureError({
+            message: data?.error?.message,
+            code: status,
+          });
+        }
+      }
+    }
+  }
+
   async createPlaylist({
     playlist,
     accessToken,
@@ -146,32 +208,13 @@ class YoutubeMusic implements IThirdPartyIntegrations {
         },
       );
 
-      async function createPlaylistItem({
-        videoId,
-        playlistId,
-      }: {
-        videoId: string;
-        playlistId: string;
-      }) {
-        await axios.post(
-          `https://www.googleapis.com/youtube/v3/playlistItems`,
-          {
-            snippet: {
-              playlistId,
-              resourceId: videoId,
-            },
-          },
-          {
-            headers: { Authorization: "Bearer " + accessToken },
-            params: {
-              part: "id",
-            },
-          },
-        );
-      }
-
       const playlistItems = videoIds.map((videoId) =>
-        createPlaylistItem({ videoId, playlistId: playlistOnYoutubeMusic.id }),
+        this.createPlaylistItem({
+          videoId,
+          playlistId: playlistOnYoutubeMusic.id,
+          retries: 0,
+          accessToken,
+        }),
       );
 
       await Promise.all(playlistItems);

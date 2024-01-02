@@ -3,25 +3,28 @@ import React, { useState } from "react";
 import { Field, Form } from "react-final-form";
 import { useLocation } from "react-router-dom";
 
-import { Button } from "./Button/Button";
-import { Input } from "./Input/Input";
-import { Modal } from "./Modal/Modal";
-import { PlatformIcon } from "./PlatformIcon";
-import { REVIEW_ACTION } from "./ReviewPlaylistModal/utils";
-import { Option, Select } from "./Select/Select";
-import { Space } from "./Space";
+import {
+  REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY,
+  parseCreatePlaylist,
+} from "./utils";
 
-import * as formValidation from "../../utils/form-validation";
-import { convertCamelCaseToCapitalize } from "../../utils/formatter";
+import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
 import {
   PlaylistPlatformValues,
   PlaylistGenreValues,
-} from "../../utils/platform";
-import { getPlatformName } from "../../utils/url";
-import { LOCAL_STORAGE_KEY, useLocalStorage } from "../hooks/useLocalStorage";
+} from "../../../utils/platform";
+import { getPlatformName } from "../../../utils/url";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { Button } from "../Button/Button";
+import { Input } from "../Input/Input";
+import { Modal } from "../Modal/Modal";
+import { PlatformIcon } from "../PlatformIcon";
+import { Option, Select } from "../Select/Select";
+import { Space } from "../Space";
 
-import type { IRenderLabel } from "./Select/Select";
-import type { PlaylistPlatform } from "../api/graphql/graphql-client.gen";
+import type { CreatePlaylist } from "./utils";
+import type { PlaylistPlatform } from "../../api/graphql/graphql-client.gen";
+import type { IRenderLabel } from "../Select/Select";
 import type { ChangeEvent } from "react";
 import type { FormRenderProps } from "react-final-form";
 
@@ -33,9 +36,7 @@ interface IProps {
 export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const [_, setReviewPlaylistModalData] = useLocalStorage<
     Record<string, unknown>
-  >(LOCAL_STORAGE_KEY.REVIEW_PLAYLIST_MODAL, {
-    action: undefined,
-  });
+  >(REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY, {});
   const [isLoading, setIsLoading] = useState(false);
   const { pathname } = useLocation();
 
@@ -43,15 +44,10 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     onClose();
   };
 
-  const handleSubmitFormValues = (
-    values: formValidation.createPlaylistFormInputs
-  ) => {
+  const handleSubmitFormValues = (values: CreatePlaylist) => {
     setReviewPlaylistModalData({
-      action: REVIEW_ACTION.CREATE_PLAYLIST,
-      data: {
-        ...values,
-        playlistLink: values.playlistLink,
-      },
+      ...values,
+      playlistLink: values.playlistLink,
     });
 
     // TODO: We want to do this properly
@@ -67,7 +63,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   };
 
   const handlePlaylistLinkChange = (
-    form: FormRenderProps<formValidation.createPlaylistFormInputs>["form"]
+    form: FormRenderProps<CreatePlaylist>["form"]
   ) => {
     return function (evt: ChangeEvent<HTMLInputElement>) {
       const link = evt.target.value;
@@ -108,7 +104,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
     <Modal open={open} onClose={handleClose} title="Post a playlist">
       <Form
         onSubmit={handleSubmitFormValues}
-        validate={formValidation.validateCreatePlaylistForm}
+        validate={parseCreatePlaylist}
         subscription={{ dirty: true, invalid: true, error: true }}
         render={({ handleSubmit, form }) => {
           const { invalid, dirtyFieldsSinceLastSubmit } = form.getState();

@@ -14,7 +14,7 @@ import { PlaylistGenre } from "../../../utils/platform";
 import { constructURL } from "../../../utils/url";
 import { AppHeader } from "../../components/AppHeader/AppHeader";
 import { Button } from "../../components/Button/Button";
-import { CreatePlaylistModal } from "../../components/CreatePlaylistModal";
+import { CreatePlaylistModal } from "../../components/CreatePlaylistModal/CreatePlaylistModal";
 import { HeadMarkup } from "../../components/HeadMarkup";
 import { PageLayout } from "../../components/PageLayout";
 import { PlatformIcon } from "../../components/PlatformIcon";

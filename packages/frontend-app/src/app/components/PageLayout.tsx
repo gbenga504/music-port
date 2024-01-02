@@ -29,7 +29,7 @@ export const PageLayout: React.FC<IProps> = ({
       </div>
       <div>
         <AppHeader />
-        <div className="py-8 px-10">{children}</div>
+        <div className="py-8 px-10 pb-24">{children}</div>
       </div>
     </div>
   );
