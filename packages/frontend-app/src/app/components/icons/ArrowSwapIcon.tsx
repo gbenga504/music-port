@@ -14,7 +14,7 @@ export const ArrowSwapIcon: React.FC<IProps> = ({
   return (
     <svg
       viewBox="0 0 18 20"
-      fill="none"
+      fill={color}
       xmlns="http://www.w3.org/2000/svg"
       style={{ width: size, height: size }}
       className={className}

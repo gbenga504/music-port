@@ -1,17 +1,31 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
+import { doesPathMatch } from "../../../utils/route-utils";
 import { constructURL } from "../../../utils/url";
 import { ROUTE_IDS } from "../../routes";
 import { Button } from "../Button/Button";
 import { Drawer } from "../Drawer/Drawer";
-import { AnimatedHamburgerIcon, DiscoverIcon } from "../icons";
+import {
+  AnimatedHamburgerIcon,
+  ArrowSwapIcon,
+  DiscoverIcon,
+  LinkIcon,
+} from "../icons";
 
 interface IProps {
   open: boolean;
   onClose: () => void;
+  onClickOpenCreatePlaylistButton: () => void;
 }
 
-export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
+export const MobileMenu: React.FC<IProps> = ({
+  open,
+  onClose,
+  onClickOpenCreatePlaylistButton,
+}) => {
+  const { pathname } = useLocation();
+
   const renderHeader = () => {
     return (
       <div className="pb-2 mb-2 border-b-2 border-solid border-secondary100">
@@ -29,11 +43,36 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             size="large"
             fullWidth
             to={constructURL({ routeId: ROUTE_IDS.discoverPage })}
-            focused
+            focused={doesPathMatch({
+              routeId: ROUTE_IDS.discoverPage,
+              pathname,
+            })}
+            icon={<DiscoverIcon />}
           >
-            <span className="flex gap-2 items-center">
-              <DiscoverIcon size={20} /> Discover
-            </span>
+            Discover
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant="transparent"
+            size="large"
+            fullWidth
+            icon={<ArrowSwapIcon color="#0bb4b5" />}
+            onClick={onClickOpenCreatePlaylistButton}
+          >
+            <span className="flex gap-2 items-center">Create Playlist</span>
+          </Button>
+        </li>
+        <li>
+          <Button
+            variant="transparent"
+            size="large"
+            fullWidth
+            target="_blank"
+            href="https://github.com/gbenga504/music-port"
+            icon={<LinkIcon color="#0bb4b5" />}
+          >
+            <span className="flex gap-2 items-center">Github</span>
           </Button>
         </li>
       </ul>

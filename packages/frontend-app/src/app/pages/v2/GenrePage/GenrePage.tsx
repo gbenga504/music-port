@@ -19,7 +19,7 @@ const GenrePage: React.FC<
   return (
     <PageLayout title={`Genre | ${params.genre}`}>
       <h2 className="font-medium text-base mb-2">{playlistsByGenre.genre}</h2>
-      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2.5 lg:gap-5 justify-items-center">
+      <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2.5 gap-y-5 lg:gap-5 justify-items-center">
         {playlistsByGenre.items.map((playlist) => (
           <li key={playlist.id} className="w-full">
             <Card
