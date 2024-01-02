@@ -4,7 +4,7 @@ import { constructURL } from "../../../utils/url";
 import { ROUTE_IDS } from "../../routes";
 import { Button } from "../Button/Button";
 import { Drawer } from "../Drawer/Drawer";
-import { AnimatedHamburgerIcon, ConvertIcon, DiscoverIcon } from "../icons";
+import { AnimatedHamburgerIcon, DiscoverIcon } from "../icons";
 
 interface IProps {
   open: boolean;
@@ -36,20 +36,6 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
             </span>
           </Button>
         </li>
-        <li>
-          <Button
-            variant="transparent"
-            size="large"
-            fullWidth
-            to={constructURL({
-              routeId: ROUTE_IDS.discoverPage,
-            })}
-          >
-            <span className="flex gap-2 items-center">
-              <ConvertIcon size={20} /> Convert
-            </span>
-          </Button>
-        </li>
       </ul>
     );
   };
@@ -60,7 +46,7 @@ export const MobileMenu: React.FC<IProps> = ({ open, onClose }) => {
       onClose={onClose}
       classes={{ contentContainer: "!bg-secondary400" }}
     >
-      <div className="p-4 mt-5">
+      <div className="p-4">
         {renderHeader()}
         {renderBody()}
       </div>

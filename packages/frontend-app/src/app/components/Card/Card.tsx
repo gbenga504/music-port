@@ -32,7 +32,7 @@ export const Card: React.FC<IProps> = ({
     <Link to={link} className="w-full h-full">
       <div className="card h-full">
         <div className="relative flex-1 h-full">
-          <div className="h-full cover__image min-h-[204px] bg-secondary100">
+          <div className="h-full cover__image min-h-[144px] lg:min-h-[204px] bg-secondary100">
             <LazyImage src={src} alt={title} className="cover__image h-full" />
           </div>
 

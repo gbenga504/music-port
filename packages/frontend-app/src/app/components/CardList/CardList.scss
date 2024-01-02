@@ -18,8 +18,9 @@
     }
 
     & .arrowButton {
-      @apply text-white flex pointer-events-none opacity-0 transition-opacity duration-300;
+      @apply text-white pointer-events-none opacity-0 transition-opacity duration-300;
       @apply items-center justify-center h-full absolute w-10 z-10 top-0;
+      @apply hidden md:flex;
 
       &.arrow-visible {
         @apply pointer-events-auto opacity-100;
