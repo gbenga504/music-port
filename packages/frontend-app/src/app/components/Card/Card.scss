@@ -8,8 +8,9 @@
 
     & .overlay {
       @apply absolute bottom-0 left-0 w-full h-full bg-blackAlpha30;
-      @apply flex items-end justify-between p-4 opacity-0;
+      @apply items-end justify-between p-4 opacity-0;
       @apply hover:opacity-100 ease-in duration-300;
+      @apply hidden md:flex;
     }
 
     & .cover__image {

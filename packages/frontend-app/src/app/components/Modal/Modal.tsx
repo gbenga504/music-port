@@ -34,7 +34,7 @@ export const Modal: React.FC<IProps> = ({
   width = "md",
   children,
 }) => {
-  const matches = useMediaQuery(`(max-width: ${screens.lg})`);
+  const matches = useMediaQuery(`(max-width: ${screens.md})`);
   const [hasModalBeenAppendedToBody, setHasModalBeenAppendedToBody] =
     useState(false);
   const [internallyOpen, setInternallyOpen] = useState(false);
@@ -112,8 +112,8 @@ export const Modal: React.FC<IProps> = ({
           className={classNames("modal-contentContainer", {
             open: internallyOpen,
             motion: isModalOnScreen,
-            "lg:w-6/12 xl:w-4/12": width === "md",
-            "lg:w-7/12 xl:w-5/12": width === "lg",
+            "md:w-7/12 lg:w-6/12 xl:w-4/12": width === "md",
+            "md:w-6/12 lg:w-7/12 xl:w-5/12": width === "lg",
           })}
         >
           {renderHeader()}

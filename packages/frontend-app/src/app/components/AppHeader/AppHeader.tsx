@@ -12,14 +12,14 @@ import { AnimatedHamburgerIcon } from "../icons";
 interface IProps {}
 
 export const AppHeader: React.FC<IProps> = () => {
-  const matches = useMediaQuery(`(max-width: ${screens.lg})`);
+  const matches = useMediaQuery(`(max-width: ${screens.md})`);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const renderMobileMenuHamburger = () => {
     return (
-      <div className="block lg:hidden relative">
+      <div className="block md:hidden relative">
         <AnimatedHamburgerIcon
           open={isMobileMenuOpen}
           onClick={() => setIsMobileMenuOpen(true)}
@@ -28,13 +28,17 @@ export const AppHeader: React.FC<IProps> = () => {
     );
   };
 
+  const handleOpenCreatePlaylistModal = () => {
+    navigate(`${pathname}?createPlaylist=true`);
+  };
+
   return (
     <nav className="w-full p-3 bg-secondary200 flex justify-end">
-      <Space size="small" className="hidden lg:inline-flex">
+      <Space size="small" className="hidden md:inline-flex">
         <Button
           variant="contained"
           size="small"
-          onClick={() => navigate(`${pathname}?createPlaylist=true`)}
+          onClick={handleOpenCreatePlaylistModal}
         >
           Create playlist
         </Button>
@@ -53,6 +57,10 @@ export const AppHeader: React.FC<IProps> = () => {
         <MobileMenu
           open={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
+          onClickOpenCreatePlaylistButton={() => {
+            setIsMobileMenuOpen(false);
+            handleOpenCreatePlaylistModal();
+          }}
         />
       )}
     </nav>

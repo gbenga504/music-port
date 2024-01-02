@@ -11,6 +11,7 @@ interface IProps {
   title: string;
   to: string;
   children: ReactNode;
+  classNames?: { ul?: string };
 }
 
 interface IScrollInfo {
@@ -19,7 +20,12 @@ interface IScrollInfo {
   scrollPosition: number;
 }
 
-export const CardList = ({ title, to, children }: IProps) => {
+export const CardList = ({
+  title,
+  to,
+  children,
+  classNames: classNamesFromProps,
+}: IProps) => {
   const [scrollInfo, setScrollInfo] = useState<IScrollInfo>({
     direction: "Left",
     scrollEnd: "Left",
@@ -69,7 +75,11 @@ export const CardList = ({ title, to, children }: IProps) => {
       </Link>
       <ul
         ref={scrollContainerRef}
-        className={`grid grid-flow-col grid-cols-[max-content] gap-5 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory`}
+        className={classNames(
+          "grid grid-flow-col grid-cols-[max-content]",
+          "overflow-x-auto md:overflow-x-hidden scroll-smooth no-scrollbar snap-x snap-mandatory",
+          classNamesFromProps?.ul
+        )}
       >
         {children}
       </ul>

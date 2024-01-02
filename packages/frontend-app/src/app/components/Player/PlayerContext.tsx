@@ -60,7 +60,7 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({
     <PlayerContext.Provider value={memoizedContextValue}>
       {children}
       {playlist && (
-        <div className="fixed bottom-0 left-0 w-full bg-secondary200 p-3">
+        <div className="fixed bottom-0 z-10 left-0 w-full bg-[rgba(44,44,44,0.4)] backdrop-blur md:bg-secondary200 md:backdrop-blur-0 p-3">
           <Player playlist={playlist} />
         </div>
       )}

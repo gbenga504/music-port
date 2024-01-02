@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 import { convertAPIPlaylistToPlayerPlaylist } from "../../../../utils/playlist";
@@ -30,9 +31,16 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
               routeId: ROUTE_IDS.genrePage,
               params: { genre: featuredPlaylist.genre },
             })}
+            classNames={{
+              ul: classNames(
+                "gap-2.5 lg:gap-5",
+                "w-screen -ml-6 px-6",
+                "md:w-full md:ml-0 md:px-0"
+              ),
+            }}
           >
             {featuredPlaylist.items.map((playlist) => (
-              <li key={playlist.id} className="w-[204px]">
+              <li key={playlist.id} className="w-[144px] lg:w-[204px]">
                 <Card
                   src={playlist.coverImage}
                   title={playlist.name}

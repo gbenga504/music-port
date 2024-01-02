@@ -20,16 +20,16 @@ export const PageLayout: React.FC<IProps> = ({
   return (
     <div
       className={
-        "mx-0 h-screen grid grid-cols-1 lg:grid-cols-[260px_calc(100vw-260px)]"
+        "mx-0 h-screen grid grid-cols-1 md:grid-cols-[260px_calc(100vw-260px)]"
       }
     >
       <HeadMarkup title={title} description={description} />
-      <div className="hidden lg:block">
+      <div className="hidden md:block">
         <DesktopSidebar />
       </div>
       <div>
         <AppHeader />
-        <div className="py-8 px-10 pb-24">{children}</div>
+        <div className="pt-3 md:pt-8 px-6 md:px-10 pb-24">{children}</div>
       </div>
     </div>
   );

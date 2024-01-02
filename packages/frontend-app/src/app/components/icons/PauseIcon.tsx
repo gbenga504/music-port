@@ -4,9 +4,14 @@ import React from "react";
 interface IProps {
   size?: number;
   className?: string;
+  fillColorClassName?: string;
 }
 
-export const PauseIcon: React.FC<IProps> = ({ size = 20, className }) => {
+export const PauseIcon: React.FC<IProps> = ({
+  size = 20,
+  className,
+  fillColorClassName,
+}) => {
   return (
     <svg
       role="img"
@@ -15,7 +20,7 @@ export const PauseIcon: React.FC<IProps> = ({ size = 20, className }) => {
       aria-hidden="true"
       viewBox="0 0 16 16"
       data-encore-id="icon"
-      className={classNames("fill-black", className)}
+      className={classNames(fillColorClassName, className)}
     >
       <path d="M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z" />
     </svg>

@@ -47,7 +47,7 @@ export const PlayButton: React.FC<IProps> = ({
         {isPlaying ? (
           <PauseIcon
             size={16}
-            className={isMobile ? "fill-white" : undefined}
+            fillColorClassName={isMobile ? "fill-white" : undefined}
           />
         ) : (
           <PlayIcon
