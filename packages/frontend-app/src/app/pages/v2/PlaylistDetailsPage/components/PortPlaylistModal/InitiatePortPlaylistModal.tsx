@@ -44,7 +44,7 @@ export const InitiatePortPlaylistModal: React.FC<IProps> = ({
 
     // TODO: We want to do this properly
     // Basically we want to keep the existing search params on this page
-    const redirectURI = `${pathname}?convertPlaylist=true`;
+    const redirectURI = `${pathname}?portPlaylist=true`;
 
     setIsLoading(true);
     location.href = `/api/auth/${

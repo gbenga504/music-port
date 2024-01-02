@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { InitiatePortPlaylistModal } from "./PortPlaylistModal/InitiatePortPlaylistModal";
+import { PortPlaylistModal } from "./PortPlaylistModal/PortPlaylistModal";
 
 import { convertAPIPlaylistToPlayerPlaylist } from "../../../../../utils/playlist";
 import { constructURL } from "../../../../../utils/url";
@@ -14,13 +15,14 @@ import { Space } from "../../../../components/Space";
 import { useToast } from "../../../../components/Toast/ToastContext";
 import { ConvertIcon, CopyIcon, PlayIcon } from "../../../../components/icons";
 import useCopyToClipboard from "../../../../hooks/useCopyToClipboard";
+import useParsedQueryParams from "../../../../hooks/useParsedQueryParams";
 import { ROUTE_IDS } from "../../../../routes";
 
 import type { Playlist } from "../../../../api/graphql/graphql-client.gen";
 
 type IProps = Pick<
   Playlist,
-  "coverImage" | "name" | "genre" | "createdAt" | "songs"
+  "coverImage" | "name" | "genre" | "createdAt" | "songs" | "exportId"
 >;
 
 export const HeaderDetails: React.FC<IProps> = ({
@@ -29,6 +31,7 @@ export const HeaderDetails: React.FC<IProps> = ({
   genre,
   createdAt,
   songs,
+  exportId,
 }) => {
   const [
     openInitiateConvertPlaylistModal,
@@ -37,6 +40,7 @@ export const HeaderDetails: React.FC<IProps> = ({
   const toast = useToast();
   const [_, copy] = useCopyToClipboard();
   const { onChangePlaylist } = usePlayer();
+  const [query] = useParsedQueryParams();
 
   const renderSharePlaylistSection = () => {
     return (
@@ -108,6 +112,10 @@ export const HeaderDetails: React.FC<IProps> = ({
       <InitiatePortPlaylistModal
         open={openInitiateConvertPlaylistModal}
         onClose={() => setOpenInitiateConvertPlaylistModal(false)}
+      />
+      <PortPlaylistModal
+        open={query["portPlaylist"] === "true"}
+        exportId={exportId}
       />
     </header>
   );

@@ -11,7 +11,7 @@ export class Playlist {
     this.graphQLClient = graphQLClient;
   }
 
-  async convertPlaylist({
+  async portPlaylist({
     platform,
     exportId,
   }: {

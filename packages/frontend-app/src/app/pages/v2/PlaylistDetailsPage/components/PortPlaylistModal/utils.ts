@@ -11,8 +11,8 @@ const portPlaylistSchema = z.object({
   platform: z.enum(PlaylistPlatformValues),
 });
 
-export type portPlaylist = z.infer<typeof portPlaylistSchema>;
-export function parsePortPlaylist(data: unknown): portPlaylist {
+export type PortPlaylist = z.infer<typeof portPlaylistSchema>;
+export function parsePortPlaylist(data: unknown): PortPlaylist {
   return portPlaylistSchema.parse(data);
 }
 
