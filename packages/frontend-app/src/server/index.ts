@@ -1,6 +1,7 @@
 import cookieParser from "cookie-parser";
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import ip from "ip";
 
 import adminAuthTokenGeneratorRoutes from "./admin-auth-token-generator-routes";
 import authRoutes from "./auth-routes";
@@ -60,8 +61,13 @@ app.get("/*", async (req, res) => {
 });
 
 app.listen(process.env.PORT, function () {
-  console.log(`Frontend app is listening on port:  ${process.env.PORT}
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`Frontend app is listening on port:  ${process.env.PORT}
     Frontend base URL:     http://localhost:${process.env.PORT}
+    Check on other devices here: http://${ip.address("public", "ipv4")}:${
+      process.env.PORT
+    }
     GraphQL base URL: http://localhost:${process.env.PORT}/api/graphql
   `);
+  }
 });

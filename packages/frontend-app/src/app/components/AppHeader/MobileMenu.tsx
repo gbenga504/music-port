@@ -71,6 +71,7 @@ export const MobileMenu: React.FC<IProps> = ({
             target="_blank"
             href="https://github.com/gbenga504/music-port"
             icon={<LinkIcon color="#0bb4b5" />}
+            onClick={onClose}
           >
             <span className="flex gap-2 items-center">Github</span>
           </Button>
