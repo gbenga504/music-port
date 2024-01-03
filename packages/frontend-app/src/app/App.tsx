@@ -107,7 +107,7 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
     }) || []),
   ];
   const [matchedRoutes, setMatchedRoutes] = useState<IMacthedRoutes>(
-    transformedMatchedRoutes
+    () => transformedMatchedRoutes
   );
 
   useEffect(() => {
