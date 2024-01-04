@@ -2,12 +2,14 @@
 
 @layer components {
   th.TableCell {
-    & > div {
-      @apply border-r border-r-whiteWithAlpha;
+    &::after {
+      @apply bg-whiteWithAlpha inline-block h-4 absolute w-px;
+      @apply -translate-y-2/4 top-2/4 left-0;
+      content: "";
     }
 
-    &:last-child > div {
-      @apply border-r-0;
+    &:first-child::after {
+      @apply hidden;
     }
   }
 }
