@@ -12,6 +12,7 @@ interface ITableProps {
   stickyHeader?: boolean;
   classes?: { container?: string; table?: string; loadingContainer?: string };
   loading?: boolean;
+  minWidth?: number;
 }
 
 const Table: React.FC<ITableProps> = ({
@@ -19,6 +20,7 @@ const Table: React.FC<ITableProps> = ({
   children,
   stickyHeader = false,
   loading = false,
+  minWidth = 0,
 }) => {
   return (
     <div
@@ -43,9 +45,10 @@ const Table: React.FC<ITableProps> = ({
         </div>
       )}
       <table
-        className={classNames("w-full table border-spacing-0 min-w-[750px]", {
+        className={classNames("w-full table border-spacing-0", {
           [classes.table!]: !!classes.table,
         })}
+        style={{ minWidth }}
       >
         {Children.map(children, (child, i) => (
           <React.Fragment key={i}>

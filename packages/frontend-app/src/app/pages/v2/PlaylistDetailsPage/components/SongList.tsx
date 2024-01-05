@@ -40,7 +40,12 @@ export const SongList: React.FC<IProps> = ({ songs: songsFromProps }) => {
             src={song.coverImage}
           />
         </div>
-        <span>{song.name}</span>
+        <div className="flex flex-col">
+          <span>{song.name}</span>
+          <span className="text-xs block md:hidden">
+            {getDisplayNameForArtists(song)}
+          </span>
+        </div>
       </div>
     );
   };
@@ -50,7 +55,9 @@ export const SongList: React.FC<IProps> = ({ songs: songsFromProps }) => {
       <TableHead>
         <TableRow>
           <TableCell>Song</TableCell>
-          <TableCell align="left">Artist</TableCell>
+          <TableCell align="left" className="hidden md:table-cell">
+            Artist
+          </TableCell>
           <TableCell align="left">Time</TableCell>
         </TableRow>
       </TableHead>
@@ -58,7 +65,9 @@ export const SongList: React.FC<IProps> = ({ songs: songsFromProps }) => {
         {songs.map((song) => (
           <TableRow key={song.id}>
             <TableCell>{renderSongColumn(song)}</TableCell>
-            <TableCell align="left">{getDisplayNameForArtists(song)}</TableCell>
+            <TableCell align="left" className="hidden md:table-cell">
+              {getDisplayNameForArtists(song)}
+            </TableCell>
             <TableCell align="left">{calculateTime(song.duration)}</TableCell>
           </TableRow>
         ))}

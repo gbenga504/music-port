@@ -91,21 +91,23 @@ export const HeaderDetails: React.FC<IProps> = ({
   };
 
   return (
-    <header className="flex gap-x-8 items-end">
+    <header className="flex flex-col lg:flex-row gap-x-8 items-center lg:items-end">
       <section className="w-56 h-56 bg-secondary100 rounded-md">
         <LazyImage
           className="rounded-md w-full h-full object-cover"
           src={coverImage}
         />
       </section>
-      <section className="flex flex-col">
+      <section className="flex flex-col items-center lg:items-start mt-4 lg:mt-0">
         <Link
           className="text-base hover:underline font-normal text-primary capitalize"
           to={constructURL({ routeId: ROUTE_IDS.genrePage, params: { genre } })}
         >
           {genre}
         </Link>
-        <h1 className="text-7xl font-bold capitalize -mt-1">{name}</h1>
+        <h1 className="text-6xl sm:text-7xl font-bold capitalize -mt-1">
+          {name}
+        </h1>
         {renderSharePlaylistSection()}
         {renderPreviewButton()}
       </section>
