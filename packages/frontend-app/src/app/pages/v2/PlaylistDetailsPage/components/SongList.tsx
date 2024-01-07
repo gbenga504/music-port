@@ -34,14 +34,16 @@ export const SongList: React.FC<IProps> = ({ songs: songsFromProps }) => {
   const renderSongColumn = (song: (typeof songs)[number]) => {
     return (
       <div className="flex items-center">
-        <div className="w-10 h-10 bg-secondary100 rounded-md mr-2">
+        <div className="w-10 min-w-[40px] min-h-[40px] h-10 bg-secondary100 rounded-md mr-2">
           <LazyImage
             className="rounded-md w-full h-full object-cover"
             src={song.coverImage}
           />
         </div>
-        <div className="flex flex-col">
-          <span>{song.name}</span>
+        <div className="grid">
+          <span className="whitespace-nowrap w-full text-ellipsis overflow-hidden">
+            {song.name}
+          </span>
           <span className="text-xs block md:hidden">
             {getDisplayNameForArtists(song)}
           </span>

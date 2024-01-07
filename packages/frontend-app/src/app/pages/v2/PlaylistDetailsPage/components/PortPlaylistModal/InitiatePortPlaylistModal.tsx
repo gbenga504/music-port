@@ -77,7 +77,7 @@ export const InitiatePortPlaylistModal: React.FC<IProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={handleClose} title="Port this playlist">
+    <Modal open={open} onClose={handleClose} title="Export this playlist">
       <Form
         onSubmit={handleSubmitFormValues}
         validate={parseInitiatePortPlaylist}
