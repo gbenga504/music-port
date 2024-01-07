@@ -34,7 +34,7 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
             classNames={{
               ul: classNames(
                 "gap-2.5 lg:gap-5",
-                "w-screen -ml-6 px-6",
+                "w-screen -ml-3 px-3",
                 "md:w-full md:ml-0 md:px-0"
               ),
             }}
