@@ -84,7 +84,7 @@ export const HeaderDetails: React.FC<IProps> = ({
           }}
           icon={<ConvertIcon size={16} fillColor="white" />}
         >
-          Port
+          Export
         </Button>
       </Space>
     );
