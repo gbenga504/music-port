@@ -12,7 +12,7 @@ export const PageLoadingProgressBar: React.FC<IProps> = ({
   const _value = value > 100 ? 100 : value;
 
   return (
-    <div className="w-full h-1 bg-secondary relative">
+    <div className="w-full h-1 bg-secondary200 relative">
       {variant === "determinate" && (
         <div
           className="bg-primary h-1 ease-in-out duration-500"

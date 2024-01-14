@@ -74,7 +74,7 @@
   @apply max-h-48 overflow-y-scroll;
 
   &.dark {
-    @apply bg-secondary border-secondaryAlpha;
+    @apply border-lightGray bg-white;
   }
 
   &.white {
