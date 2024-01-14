@@ -2,7 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 
 import { DesktopPlayer } from "./DesktopPlayer";
 import { MobilePlayer } from "./MobilePlayer";
-import { handleFastForward, handlePlay, handlePause } from "./utils";
+import {
+  handleFastForward,
+  handlePause,
+  handleAudioLoadedData,
+  updateAudioCurrentDuration,
+  loadAudioIfNotPossibleToPlay,
+} from "./utils";
 
 import { useAttachUniqueIdToListItems } from "../../hooks/useAttachUniqueIdToListItems";
 
@@ -24,26 +30,22 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    function handleLoadedData() {
-      setIsLoadingSong(false);
-      setTotalDuration(Math.floor(audioRef.current?.duration || 0));
-      handlePlay({ audio: audioRef.current!, onSetIsPlaying: setIsPlaying });
+    async function handleLoadedData() {
+      handleAudioLoadedData({
+        audio: audioRef.current!,
+        onSetTotalDuration: setTotalDuration,
+        onSetIsLoadingSong: setIsLoadingSong,
+        onSetIsPlaying: setIsPlaying,
+      });
     }
 
     function updateCurrentDuration() {
-      if (!isSongDurationSliderActiveRef.current) {
-        const currentDuration = Math.floor(audioRef.current?.currentTime || 0);
-        setCurrentDuration(currentDuration);
-
-        // The Audio stops playing if the duration has reached the total duration
-        // We want to also update the UI to reflect this
-        if (
-          currentDuration ===
-          Math.floor(audioRef.current?.duration || Number.MAX_SAFE_INTEGER)
-        ) {
-          setIsPlaying(false);
-        }
-      }
+      updateAudioCurrentDuration({
+        isSongDurationSliderActive: isSongDurationSliderActiveRef.current,
+        onSetCurrentDuration: setCurrentDuration,
+        audio: audioRef.current,
+        onSetIsPlaying: setIsPlaying,
+      });
     }
 
     function handleLoadStart() {
@@ -56,7 +58,13 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
       audioRef.current?.addEventListener("loadstart", handleLoadStart);
       audioRef.current?.addEventListener("loadeddata", handleLoadedData);
       audioRef.current?.addEventListener("timeupdate", updateCurrentDuration);
-      audioRef.current?.load();
+
+      loadAudioIfNotPossibleToPlay({
+        audio: audioRef.current!,
+        onSetIsPlaying: setIsPlaying,
+        currentSongId: currentSong.id,
+        playlist,
+      });
     }
 
     return () => {
@@ -116,6 +124,7 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
           key={song.id}
           src={song.previewURL ?? undefined}
           preload="none"
+          id={song.id}
         />
       ))}
       <DesktopPlayer

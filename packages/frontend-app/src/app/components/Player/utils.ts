@@ -13,6 +13,9 @@ export interface ISongWithId extends ISong {
 export type IPlaylist = ISongWithId[];
 type IOnSetCurrentSong = (currentSong: ISongWithId) => void;
 type IOnSetIsPlaying = (isPlaying: boolean) => void;
+type IOnSetIsLoadingSong = (isLoadingSong: boolean) => void;
+type IOnSetTotalDuration = (totalDuration: number) => void;
+type IOnSetCurrentDuration = (currentDuration: number) => void;
 
 export function getDisplayNameForArtists({
   currentSong,
@@ -154,4 +157,111 @@ export function handleTogglePlayMode({
   }
 
   handlePlay({ audio, onSetIsPlaying });
+}
+
+export function preloadNext2Songs({
+  currentSongId,
+  playlist,
+}: {
+  currentSongId: string;
+  playlist: IPlaylist;
+}) {
+  // We preload the next 2 songs in the playlist
+  // A song is only loaded if it hasn't been loaded before "!audioElement.duration" else
+  // no need to waste resources
+  // Maybe we can also experiment with removing the "preload='none'" attribute on the audio
+  // and adding the audio into the DOM on demand
+  const next2SongsById = [];
+
+  const currentSongIndex = playlist.findIndex(
+    (song) => song.id === currentSongId,
+  );
+
+  if (currentSongIndex + 1 <= playlist.length - 1) {
+    next2SongsById.push(playlist[currentSongIndex + 1].id);
+  }
+
+  if (currentSongIndex + 2 <= playlist.length - 1) {
+    next2SongsById.push(playlist[currentSongIndex + 2].id);
+  }
+
+  next2SongsById.forEach((songId) => {
+    const audioElement = document.getElementById(
+      songId,
+    ) as HTMLAudioElement | null;
+
+    if (audioElement && !audioElement.duration) {
+      audioElement.load();
+    }
+  });
+}
+
+export async function handleAudioLoadedData({
+  audio,
+  onSetTotalDuration,
+  onSetIsLoadingSong,
+  onSetIsPlaying,
+}: {
+  audio: HTMLAudioElement;
+  onSetTotalDuration: IOnSetTotalDuration;
+  onSetIsLoadingSong: IOnSetIsLoadingSong;
+  onSetIsPlaying: IOnSetIsPlaying;
+}): Promise<void> {
+  onSetIsLoadingSong(false);
+  onSetTotalDuration(Math.floor(audio.duration || 0));
+
+  await handlePlay({
+    audio,
+    onSetIsPlaying,
+  });
+}
+
+export function updateAudioCurrentDuration({
+  isSongDurationSliderActive,
+  onSetCurrentDuration,
+  audio,
+  onSetIsPlaying,
+}: {
+  isSongDurationSliderActive: boolean;
+  onSetCurrentDuration: IOnSetCurrentDuration;
+  audio: HTMLAudioElement | null;
+  onSetIsPlaying: IOnSetIsPlaying;
+}) {
+  if (!isSongDurationSliderActive) {
+    const currentDuration = Math.floor(audio?.currentTime || 0);
+    onSetCurrentDuration(currentDuration);
+
+    // The Audio stops playing if the duration has reached the total duration
+    // We want to also update the UI to reflect this
+    if (
+      currentDuration === Math.floor(audio?.duration || Number.MAX_SAFE_INTEGER)
+    ) {
+      onSetIsPlaying(false);
+    }
+  }
+}
+
+export function loadAudioIfNotPossibleToPlay({
+  audio,
+  onSetIsPlaying,
+  currentSongId,
+  playlist,
+}: {
+  audio: HTMLAudioElement;
+  onSetIsPlaying: IOnSetIsPlaying;
+  currentSongId: string;
+  playlist: IPlaylist;
+}) {
+  if (audio.duration) {
+    handlePlay({
+      audio,
+      onSetIsPlaying,
+    });
+
+    preloadNext2Songs({ currentSongId, playlist });
+  } else {
+    audio.load();
+
+    preloadNext2Songs({ currentSongId, playlist });
+  }
 }
