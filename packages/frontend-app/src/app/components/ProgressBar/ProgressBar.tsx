@@ -32,6 +32,8 @@ export const ProgressBar: React.FC<IProps> = (props) => {
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
       if (canMoveThumb) {
+        document.body.style.userSelect = "none";
+
         return onInput?.(calculteProgressValue(event));
       }
     },
@@ -50,6 +52,7 @@ export const ProgressBar: React.FC<IProps> = (props) => {
         onChange?.(calculteProgressValue(event));
       }
 
+      document.body.style.userSelect = "auto";
       setCanMoveThumb(false);
     },
     [value, canMoveThumb, onChange]

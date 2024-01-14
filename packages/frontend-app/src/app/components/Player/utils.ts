@@ -108,13 +108,16 @@ export async function handlePlay({
   onSetIsPlaying: IOnSetIsPlaying;
 }) {
   try {
+    // This might fail especially if this function wasn't triggered by any user interactions,
+    // hence it is important that it is called first before anything else.
     await audio.play();
 
     onSetIsPlaying(true);
+    // eslint-disable-next-line unicorn/prefer-optional-catch-binding
   } catch (error) {
     // @todo: Find a better way to handle this
     // so we don't mess up the logs
-    console.warn(error);
+    onSetIsPlaying(false);
   }
 }
 
