@@ -30,19 +30,6 @@ module.exports = {
         secondary200: "#2C2C2C",
         secondary300: "#252526",
         secondary400: "#1F1F1F",
-
-        // These are special colors, hence have them here
-        whatsapp: "#1ED760",
-        twitter: "#55ACEE",
-        telegram: "#85B6FF",
-        linkedIn: "#0A66C2",
-        facebook: "#0000FF",
-
-        // TODO: Old colors, should be deleted
-        secondary: "#06062D",
-        secondaryAlpha: "#181835",
-        secondaryAlpha200: "rgba(24, 24, 53, 0.8)",
-        secondaryAlpha300: "rgba(6, 6, 45, 0.8)",
         blackAlpha30: "rgba(0,0,0,.30)",
         blackAlpha45: "rgba(0,0,0,.45)",
       },
