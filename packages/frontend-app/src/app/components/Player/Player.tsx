@@ -37,7 +37,10 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
 
         // The Audio stops playing if the duration has reached the total duration
         // We want to also update the UI to reflect this
-        if (currentDuration === Math.floor(audioRef.current!.duration)) {
+        if (
+          currentDuration ===
+          Math.floor(audioRef.current?.duration || Number.MAX_SAFE_INTEGER)
+        ) {
           setIsPlaying(false);
         }
       }
@@ -48,15 +51,12 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
     }
 
     if (currentSong) {
-      // we attempt to play the song when the song changes and fail silently
-      // if not possible. This way, the next song can start automatically
-      handlePlay({ audio: audioRef.current!, onSetIsPlaying: setIsPlaying });
-
       setTotalDuration(Math.floor(audioRef.current?.duration || 0));
 
       audioRef.current?.addEventListener("loadstart", handleLoadStart);
       audioRef.current?.addEventListener("loadeddata", handleLoadedData);
       audioRef.current?.addEventListener("timeupdate", updateCurrentDuration);
+      audioRef.current?.load();
     }
 
     return () => {
@@ -115,7 +115,7 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
           ref={song.id === currentSong.id ? audioRef : undefined}
           key={song.id}
           src={song.previewURL ?? undefined}
-          preload="auto"
+          preload="none"
         />
       ))}
       <DesktopPlayer
