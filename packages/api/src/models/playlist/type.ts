@@ -1,5 +1,5 @@
-import type { PlatformType, PlaylistGenreType } from "../../utils/platform";
-import type { ObjectId } from "mongoose";
+import type { PlatformType } from "../../utils/platform";
+import type { ObjectId } from "mongodb";
 
 export interface Image {
   url: string;
@@ -33,7 +33,7 @@ export interface IPlaylist {
     name: string;
   };
   songs: [Song, ...Song[]];
-  genre: PlaylistGenreType;
+  genre: ObjectId;
   duration: number;
 }
 

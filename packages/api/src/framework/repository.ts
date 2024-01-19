@@ -1,6 +1,7 @@
 import { ResourceError } from "../errors/resource-error";
 
-import type { ObjectId, Model, PipelineStage } from "mongoose";
+import type { ObjectId } from "mongodb";
+import type { Model, PipelineStage } from "mongoose";
 
 interface IDocument {
   _id: ObjectId;

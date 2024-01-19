@@ -4,17 +4,18 @@ import * as validator from "./validator";
 
 import { InvalidExportIdError } from "../errors/invalid-export-id-error";
 import * as thirdPartyIntegrations from "../third-party-integrations";
-import { PLAYLIST_GENRE } from "../utils/platform";
 
 import type { PlaylistRepository } from "./repository";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
 import type { ConversionService } from "../conversion/service";
-import type { IPlaylist, IRawPlaylist } from "../models";
-import type { PlatformType, PlaylistGenreType } from "../utils/platform";
-import type { ObjectId } from "mongoose";
+import type { IPlaylist, IPlaylistGenre, IRawPlaylist } from "../models";
+import type { PlaylistGenreRepository } from "../playlist-genre/repository";
+import type { PlatformType } from "../utils/platform";
+import type { ObjectId } from "mongodb";
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
+  playlistGenreRepository: PlaylistGenreRepository;
   adminAuthTokenService: AdminAuthTokenService;
   conversionService: ConversionService;
 }
@@ -23,15 +24,18 @@ export class PlaylistService {
   private playlistRepository: PlaylistRepository;
   private adminAuthTokenService: AdminAuthTokenService;
   private conversionService: ConversionService;
+  private playlistGenreRepository: PlaylistGenreRepository;
 
   constructor({
     playlistRepository,
     adminAuthTokenService,
     conversionService,
+    playlistGenreRepository,
   }: IConstructorOptions) {
     this.playlistRepository = playlistRepository;
     this.adminAuthTokenService = adminAuthTokenService;
     this.conversionService = conversionService;
+    this.playlistGenreRepository = playlistGenreRepository;
   }
 
   async convertPlaylistUsingAdminAuthToken({
@@ -138,7 +142,7 @@ export class PlaylistService {
     const playlist = {
       ...rawPlaylist,
       exportId: this.generateExportId(),
-      genre: validInputs.playlistGenre ?? PLAYLIST_GENRE.Others,
+      genre: validInputs.playlistGenreId,
       owner: {
         ...rawPlaylist.owner,
         name: validInputs.author ?? rawPlaylist.owner.name,
@@ -165,7 +169,7 @@ export class PlaylistService {
     currentPage,
     pageSize,
   }: {
-    query: { genre?: string | null };
+    query: { genreId?: string | null };
     currentPage: number;
     pageSize: number;
   }): Promise<ReturnType<PlaylistRepository["findManyPlaylist"]>> {
@@ -199,17 +203,19 @@ export class PlaylistService {
   }
 
   async getPlaylistsByGenre({
-    genre,
+    genreId,
     pageSize,
   }: {
-    genre: PlaylistGenreType;
+    genreId: string;
     pageSize?: number;
-  }): Promise<{ genre: PlaylistGenreType; items: IPlaylist[] }> {
+  }): Promise<{ genre: IPlaylistGenre; items: IPlaylist[] }> {
     const result = await this.playlistRepository.findManyPlaylist(
-      { genre },
+      { genreId },
       1,
       pageSize ?? 55,
     );
+
+    const genre = await this.playlistGenreRepository.findByIdOrThrow(genreId);
 
     return {
       genre,

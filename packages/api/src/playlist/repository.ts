@@ -5,7 +5,7 @@ import * as Models from "../models";
 
 import type { IFindMany, IFindOneOptions } from "../framework/repository";
 import type { IPlaylist } from "../models";
-import type { ObjectId } from "mongoose";
+import type { ObjectId } from "mongodb";
 
 export class PlaylistRepository extends Repository<IPlaylist> {
   constructor() {
@@ -38,14 +38,14 @@ export class PlaylistRepository extends Repository<IPlaylist> {
   }
 
   public async findManyPlaylist(
-    query: { genre?: string | null },
+    query: { genreId?: string | null },
     currentPage: number,
     pageSize: number,
   ): Promise<IFindMany<IPlaylist>> {
     const finalQuery: Partial<typeof query> = {};
 
-    if (query.genre) {
-      finalQuery["genre"] = query.genre;
+    if (query.genreId) {
+      finalQuery["genreId"] = query.genreId;
     }
 
     return this.findMany({
@@ -87,7 +87,7 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     limit = 10,
   }: {
     limit?: number;
-  }): Promise<{ genre: IPlaylist["genre"]; items: IPlaylist[] }[]> {
+  }): Promise<{ genre: Models.IPlaylistGenre; items: IPlaylist[] }[]> {
     const groupedPlaylists = await this.aggregate([
       {
         $group: {
@@ -99,12 +99,20 @@ export class PlaylistRepository extends Repository<IPlaylist> {
       },
       {
         $project: {
-          genre: "$_id",
+          genreId: "$_id",
           items: "$items",
         },
       },
       {
-        $sort: { genre: 1 },
+        $lookup: {
+          from: "PlaylistGenre",
+          localField: "genreId",
+          foreignField: "_id",
+          as: "s",
+        },
+      },
+      {
+        $sort: { "genre.name": 1 },
       },
     ]);
 
