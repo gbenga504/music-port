@@ -388,12 +388,12 @@ export interface NexusGenArgTypes {
     playlists: {
       // args
       currentPage: number; // Int!
-      genre?: NexusGenEnums["PlaylistGenre"] | null; // PlaylistGenre
+      genreId: string; // String!
       pageSize: number; // Int!
     };
     playlistsByGenre: {
       // args
-      genre: NexusGenEnums["PlaylistGenre"]; // PlaylistGenre!
+      genreId: string; // String!
     };
   };
 }

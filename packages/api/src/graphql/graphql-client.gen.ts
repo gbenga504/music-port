@@ -19,6 +19,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any;
 };
 
 export type ConvertPlaylistData = {
@@ -54,7 +56,7 @@ export type Mutation = {
 };
 
 export type MutationConvertPlaylistArgs = {
-  platform: Scalars["String"];
+  platform: PlaylistPlatform;
   playlistExportId: Scalars["String"];
 };
 
@@ -70,6 +72,7 @@ export type Playlist = {
   /** Api link to the playlist on the music streaming platform */
   apiLink: Scalars["String"];
   coverImage: Scalars["String"];
+  createdAt: Scalars["Date"];
   duration: Scalars["Int"];
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
@@ -93,6 +96,7 @@ export type Playlist = {
   /** Songs associated with the playlist */
   songs: Array<PlaylistSong>;
   totalNumberOfSongs: Scalars["Int"];
+  updatedAt: Scalars["Date"];
 };
 
 export type PlaylistError = {
@@ -199,7 +203,7 @@ export type QueryPlaylistSongsArgs = {
 
 export type QueryPlaylistsArgs = {
   currentPage: Scalars["Int"];
-  genre?: InputMaybe<Scalars["String"]>;
+  genre?: InputMaybe<PlaylistGenre>;
   pageSize: Scalars["Int"];
 };
 

@@ -1,4 +1,4 @@
-import { intArg, nullable, objectType, queryField } from "nexus";
+import { intArg, objectType, queryField, stringArg } from "nexus";
 
 export const playlists = queryField("playlists", {
   type: objectType({
@@ -13,13 +13,13 @@ export const playlists = queryField("playlists", {
     },
   }),
   args: {
-    genre: nullable("PlaylistGenre"),
+    genreId: stringArg(),
     currentPage: intArg(),
     pageSize: intArg(),
   },
   async resolve(_parent, args, ctx) {
     return ctx.playlistService.getPlaylists({
-      query: { genre: args.genre },
+      query: { genreId: args.genreId },
       currentPage: args.currentPage,
       pageSize: args.pageSize,
     });
