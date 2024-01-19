@@ -15,6 +15,7 @@ import { GQLDate } from "./scalars/date-scalar";
 import prettierrc from "../../.prettierrc";
 import { UnauthorizedError } from "../errors/unauthorized-error";
 import * as Playlist from "../playlist/graphql";
+import * as PlaylistGenre from "../playlist-genre/graphql";
 
 import type { Request } from "express";
 
@@ -23,6 +24,7 @@ const schema = makeSchema({
     // Scalars
     GQLDate,
 
+    PlaylistGenre,
     Playlist,
   ],
   outputs: {

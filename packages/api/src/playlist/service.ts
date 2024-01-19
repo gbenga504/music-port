@@ -111,7 +111,7 @@ export class PlaylistService {
     inputs: {
       author: string;
       playlistLink: string;
-      playlistGenre: string;
+      playlistGenreId: string;
       platform: string;
     };
     accessToken: string;
