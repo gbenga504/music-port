@@ -20,7 +20,7 @@ export const createPlaylist = mutationField("createPlaylist", {
   args: {
     author: stringArg(),
     playlistLink: stringArg(),
-    playlistGenre: "PlaylistGenre",
+    playlistGenreId: stringArg(),
     platform: "PlaylistPlatform",
   },
   authorize(_parent, _args, ctx) {

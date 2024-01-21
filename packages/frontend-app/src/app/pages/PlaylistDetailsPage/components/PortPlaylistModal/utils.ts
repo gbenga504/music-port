@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { formatError } from "../../../../../../utils/form-validation";
-import { PlaylistPlatformValues } from "../../../../../../utils/platform";
+import { formatError } from "../../../../../utils/form-validation";
+import { PlaylistPlatformValues } from "../../../../../utils/platform";
 
 export const PORT_PLAYLIST_MODAL_LOCAL_STORAGE_KEY = "PORT_PLAYLIST_MODAL";
 

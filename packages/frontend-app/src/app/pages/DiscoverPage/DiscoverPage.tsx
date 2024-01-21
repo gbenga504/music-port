@@ -1,16 +1,16 @@
 import classNames from "classnames";
 import React from "react";
 
-import { convertAPIPlaylistToPlayerPlaylist } from "../../../../utils/playlist";
-import { constructURL } from "../../../../utils/url";
-import { Card } from "../../../components/Card/Card";
-import { CardList } from "../../../components/CardList/CardList";
-import { PageLayout } from "../../../components/PageLayout";
-import { usePlayer } from "../../../components/Player/PlayerContext";
-import { ROUTE_IDS } from "../../../routes";
+import { convertAPIPlaylistToPlayerPlaylist } from "../../../utils/playlist";
+import { constructURL } from "../../../utils/url";
+import { Card } from "../../components/Card/Card";
+import { CardList } from "../../components/CardList/CardList";
+import { PageLayout } from "../../components/PageLayout";
+import { usePlayer } from "../../components/Player/PlayerContext";
+import { ROUTE_IDS } from "../../routes";
 
 import type { IPageQuery, PageData } from "./load-data";
-import type { ILoadableComponentProps } from "../../../../utils/route-utils";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
 
 const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
   pageData,
@@ -22,14 +22,14 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
     <PageLayout title="Discover | Find the timeless songs">
       {featuredPlaylists.map((featuredPlaylist, index) => (
         <div
-          key={featuredPlaylist.genre}
+          key={featuredPlaylist.genre.id}
           className={index === 0 ? "pt-0" : "pt-12"}
         >
           <CardList
-            title={featuredPlaylist.genre}
+            title={featuredPlaylist.genre.name}
             to={constructURL({
               routeId: ROUTE_IDS.genrePage,
-              params: { genre: featuredPlaylist.genre },
+              params: { id: featuredPlaylist.genre.id },
             })}
             classNames={{
               ul: classNames(

@@ -1,4 +1,4 @@
-import { objectType, queryField } from "nexus";
+import { objectType, queryField, stringArg } from "nexus";
 
 const PlaylistsByGenre = objectType({
   name: "PlaylistsByGenre",
@@ -16,11 +16,11 @@ const PlaylistsByGenre = objectType({
 export const playlistsByGenre = queryField("playlistsByGenre", {
   type: PlaylistsByGenre,
   args: {
-    genre: "PlaylistGenre",
+    genreId: stringArg(),
   },
   async resolve(_parent, args, ctx) {
     const result = await ctx.playlistService.getPlaylistsByGenre({
-      genre: args.genre,
+      genreId: args.genreId,
     });
 
     return result;

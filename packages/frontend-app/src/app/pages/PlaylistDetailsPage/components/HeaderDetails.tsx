@@ -5,30 +5,30 @@ import { Link } from "react-router-dom";
 import { InitiatePortPlaylistModal } from "./PortPlaylistModal/InitiatePortPlaylistModal";
 import { PortPlaylistModal } from "./PortPlaylistModal/PortPlaylistModal";
 
-import { convertAPIPlaylistToPlayerPlaylist } from "../../../../../utils/playlist";
-import { constructURL } from "../../../../../utils/url";
-import { Button } from "../../../../components/Button/Button";
-import { IconButton } from "../../../../components/IconButton/IconButton";
-import { LazyImage } from "../../../../components/LazyImage/LazyImage";
-import { usePlayer } from "../../../../components/Player/PlayerContext";
-import { Space } from "../../../../components/Space";
-import { useToast } from "../../../../components/Toast/ToastContext";
-import { ConvertIcon, CopyIcon, PlayIcon } from "../../../../components/icons";
-import useCopyToClipboard from "../../../../hooks/useCopyToClipboard";
-import useParsedQueryParams from "../../../../hooks/useParsedQueryParams";
-import { ROUTE_IDS } from "../../../../routes";
+import { convertAPIPlaylistToPlayerPlaylist } from "../../../../utils/playlist";
+import { constructURL } from "../../../../utils/url";
+import { Button } from "../../../components/Button/Button";
+import { IconButton } from "../../../components/IconButton/IconButton";
+import { LazyImage } from "../../../components/LazyImage/LazyImage";
+import { usePlayer } from "../../../components/Player/PlayerContext";
+import { Space } from "../../../components/Space";
+import { useToast } from "../../../components/Toast/ToastContext";
+import { ConvertIcon, CopyIcon, PlayIcon } from "../../../components/icons";
+import useCopyToClipboard from "../../../hooks/useCopyToClipboard";
+import useParsedQueryParams from "../../../hooks/useParsedQueryParams";
+import { ROUTE_IDS } from "../../../routes";
 
-import type { Playlist } from "../../../../api/graphql/graphql-client.gen";
+import type { Playlist } from "../../../api/graphql/graphql-client.gen";
 
 type IProps = Pick<
   Playlist,
-  "coverImage" | "name" | "genre" | "createdAt" | "songs" | "exportId"
+  "coverImage" | "name" | "genreLink" | "createdAt" | "songs" | "exportId"
 >;
 
 export const HeaderDetails: React.FC<IProps> = ({
   coverImage,
   name,
-  genre,
+  genreLink,
   createdAt,
   songs,
   exportId,
@@ -101,9 +101,12 @@ export const HeaderDetails: React.FC<IProps> = ({
       <section className="flex flex-col items-center lg:items-start mt-4 lg:mt-0">
         <Link
           className="text-base hover:underline font-normal text-primary capitalize"
-          to={constructURL({ routeId: ROUTE_IDS.genrePage, params: { genre } })}
+          to={constructURL({
+            routeId: ROUTE_IDS.genrePage,
+            params: { id: genreLink.id },
+          })}
         >
-          {genre}
+          {genreLink.name}
         </Link>
         <h1 className="text-6xl sm:text-7xl font-bold capitalize text-center -mt-1">
           {name}

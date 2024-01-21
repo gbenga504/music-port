@@ -1,5 +1,5 @@
 import type { PlatformType } from "../../utils/platform";
-import type { ObjectId } from "mongoose";
+import type { ObjectId } from "mongodb";
 
 export interface IConversion {
   _id: ObjectId;

@@ -2,23 +2,17 @@ import { z } from "zod";
 
 import { ResourceError } from "../../../errors/resource-error";
 import { formatError } from "../../../utils/form-validation";
-import {
-  PlaylistGenreValues,
-  PlaylistPlatformValues,
-} from "../../../utils/platform";
+import { PlaylistPlatformValues } from "../../../utils/platform";
 import { getPlatformNameOrThrow } from "../../../utils/url";
 
 import type { PlaylistPlatform } from "../../api/graphql/graphql-client.gen";
-import type { PlaylistGenre } from "../../api/graphql/graphql-client.gen";
 
 export const REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY = "REVIEW_PLAYLIST_MODAL";
 
 const reviewPlaylistSchema = z.object({
   author: z.string(),
   playlistLink: z.string(),
-  playlistGenre: z.enum(
-    PlaylistGenreValues as [PlaylistGenre, ...PlaylistGenre[]],
-  ),
+  playlistGenreId: z.string(),
   streamingService: z.enum(
     PlaylistPlatformValues as [PlaylistPlatform, ...PlaylistPlatform[]],
   ),
@@ -46,7 +40,7 @@ const createPlaylistSchema = z.object({
         }
       }
     }),
-  playlistGenre: z.enum(PlaylistGenreValues),
+  playlistGenreId: z.string(),
   streamingService: z.enum(PlaylistPlatformValues),
 });
 

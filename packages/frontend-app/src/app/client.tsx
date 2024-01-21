@@ -8,13 +8,17 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import { getApiClient } from "./api";
 
 import type { ICreateApiClient } from "./api";
-import type { IPageDatas } from "../utils/route-utils";
+import type { IGlobalPageData, IPageDatas } from "../utils/route-utils";
 
 interface ICallbackProps {
   // TODO: Type error properly. Error is a stringified object
   // on client side and an actual error object on server side
   // so there is a type mismatch during rehydration
-  appData: { pageDatas: IPageDatas; error?: any };
+  appData: {
+    pageDatas: IPageDatas;
+    globalPageData: IGlobalPageData;
+    error?: any;
+  };
   api: ICreateApiClient;
 }
 

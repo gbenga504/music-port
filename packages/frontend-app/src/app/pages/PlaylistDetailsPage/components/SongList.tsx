@@ -1,17 +1,17 @@
 import React from "react";
 
-import { calculateTime } from "../../../../../utils/playlist";
-import { LazyImage } from "../../../../components/LazyImage/LazyImage";
+import { calculateTime } from "../../../../utils/playlist";
+import { LazyImage } from "../../../components/LazyImage/LazyImage";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-} from "../../../../components/Table/Table";
-import { useAttachUniqueIdToListItems } from "../../../../hooks/useAttachUniqueIdToListItems";
+} from "../../../components/Table/Table";
+import { useAttachUniqueIdToListItems } from "../../../hooks/useAttachUniqueIdToListItems";
 
-import type { Playlist } from "../../../../api/graphql/graphql-client.gen";
+import type { Playlist } from "../../../api/graphql/graphql-client.gen";
 
 interface IProps {
   songs: Playlist["songs"];

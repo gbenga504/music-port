@@ -1,8 +1,7 @@
-import type { ILoadData } from "../../../../utils/route-utils";
-import type { PlaylistGenre } from "../../../api/graphql/graphql-client.gen";
+import type { ILoadData } from "../../../utils/route-utils";
 
 export interface IPageParams {
-  genre: PlaylistGenre;
+  id: string;
 }
 
 export async function loadData({
@@ -10,7 +9,7 @@ export async function loadData({
   params,
 }: ILoadData<unknown, IPageParams>) {
   const playlistsByGenre = await api.playlist.getPlaylistsByGenre({
-    genre: params.genre,
+    genreId: params.id,
   });
 
   return { playlistsByGenre };

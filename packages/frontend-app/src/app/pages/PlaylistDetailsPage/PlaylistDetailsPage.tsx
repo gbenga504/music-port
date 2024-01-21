@@ -4,15 +4,15 @@ import { Footer } from "./components/Footer";
 import { HeaderDetails } from "./components/HeaderDetails";
 import { SongList } from "./components/SongList";
 
-import { PageLayout } from "../../../components/PageLayout";
+import { PageLayout } from "../../components/PageLayout";
 
 import type { IPageParams, PageData } from "./load-data";
-import type { ILoadableComponentProps } from "../../../../utils/route-utils";
+import type { ILoadableComponentProps } from "../../../utils/route-utils";
 
 const PlaylistDetailsPage: React.FC<
   ILoadableComponentProps<PageData, unknown, IPageParams>
 > = ({ pageData }) => {
-  const { coverImage, name, genre, createdAt, songs, duration, exportId } =
+  const { coverImage, name, genreLink, createdAt, songs, duration, exportId } =
     pageData.playlistById;
 
   return (
@@ -20,7 +20,7 @@ const PlaylistDetailsPage: React.FC<
       <HeaderDetails
         coverImage={coverImage}
         name={name}
-        genre={genre}
+        genreLink={genreLink}
         createdAt={createdAt}
         songs={songs}
         exportId={exportId}

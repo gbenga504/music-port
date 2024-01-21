@@ -1,6 +1,6 @@
-import { NotFoundError } from "../../../../errors/not-found-error";
+import { NotFoundError } from "../../../errors/not-found-error";
 
-import type { ILoadData } from "../../../../utils/route-utils";
+import type { ILoadData } from "../../../utils/route-utils";
 
 export interface IPageParams {
   id: string;

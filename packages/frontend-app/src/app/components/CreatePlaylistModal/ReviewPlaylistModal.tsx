@@ -39,12 +39,12 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
   };
 
   const handleCreatePlaylist = async (data: ReviewPlaylist) => {
-    const { author, playlistLink, playlistGenre, streamingService } = data;
+    const { author, playlistLink, playlistGenreId, streamingService } = data;
 
     const result = await api.playlist.createPlaylist({
       author,
       playlistLink,
-      playlistGenre,
+      playlistGenreId,
       platform: streamingService,
     });
 

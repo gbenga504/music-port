@@ -4,6 +4,8 @@ import { ConversionRepository } from "../conversion/repository";
 import { ConversionService } from "../conversion/service";
 import { PlaylistRepository } from "../playlist/repository";
 import { PlaylistService } from "../playlist/service";
+import { PlaylistGenreRepository } from "../playlist-genre/repository";
+import { PlaylistGenreService } from "../playlist-genre/service";
 
 export function createContext() {
   // Conversion
@@ -16,15 +18,25 @@ export function createContext() {
     adminAuthTokenRepository,
   });
 
+  // Playlist genre
+  const playlistGenreRepository = new PlaylistGenreRepository();
+  const playlistGenreService = new PlaylistGenreService({
+    playlistGenreRepository,
+  });
+
   // Playlist
   const playlistRepository = new PlaylistRepository();
   const playlistService = new PlaylistService({
     playlistRepository,
     adminAuthTokenService,
     conversionService,
+    playlistGenreRepository,
   });
 
   return {
+    playlistGenreService,
+    playlistGenreRepository,
+
     playlistService,
     playlistRepository,
 

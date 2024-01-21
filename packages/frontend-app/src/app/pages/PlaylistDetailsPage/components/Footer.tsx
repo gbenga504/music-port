@@ -1,8 +1,8 @@
 import React from "react";
 
-import { calculateTime } from "../../../../../utils/playlist";
+import { calculateTime } from "../../../../utils/playlist";
 
-import type { Playlist } from "../../../../api/graphql/graphql-client.gen";
+import type { Playlist } from "../../../api/graphql/graphql-client.gen";
 
 interface IProps {
   songs: Playlist["songs"];

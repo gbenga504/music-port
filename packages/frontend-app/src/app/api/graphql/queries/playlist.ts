@@ -1,17 +1,26 @@
 import gql from "graphql-tag";
 
-import { playlistFragment, playlistSongFragment } from "./fragments";
+import {
+  playlistFragment,
+  playlistGenreFragment,
+  playlistSongFragment,
+} from "./fragments";
 
 export const playlistGraphQLSchema = gql`
   ${playlistFragment}
   ${playlistSongFragment}
+  ${playlistGenreFragment}
 
   #############################################################
   ######## QUERIES
   #############################################################
 
-  query playlists($genre: PlaylistGenre, $currentPage: Int!, $pageSize: Int!) {
-    playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
+  query playlists($genreId: String!, $currentPage: Int!, $pageSize: Int!) {
+    playlists(
+      genreId: $genreId
+      currentPage: $currentPage
+      pageSize: $pageSize
+    ) {
       total
       currentPage
       pageSize
@@ -42,16 +51,20 @@ export const playlistGraphQLSchema = gql`
 
   query featuredPlaylists {
     featuredPlaylists {
-      genre
+      genre {
+        ...PlaylistGenreFragment
+      }
       items {
         ...PlaylistFragment
       }
     }
   }
 
-  query playlistsByGenre($genre: PlaylistGenre!) {
-    playlistsByGenre(genre: $genre) {
-      genre
+  query playlistsByGenre($genreId: String!) {
+    playlistsByGenre(genreId: $genreId) {
+      genre {
+        ...PlaylistGenreFragment
+      }
       items {
         ...PlaylistFragment
       }
@@ -87,13 +100,13 @@ export const playlistGraphQLSchema = gql`
   mutation createPlaylist(
     $author: String!
     $playlistLink: String!
-    $playlistGenre: PlaylistGenre!
+    $playlistGenreId: String!
     $platform: PlaylistPlatform!
   ) {
     createPlaylist(
       author: $author
       playlistLink: $playlistLink
-      playlistGenre: $playlistGenre
+      playlistGenreId: $playlistGenreId
       platform: $platform
     ) {
       success

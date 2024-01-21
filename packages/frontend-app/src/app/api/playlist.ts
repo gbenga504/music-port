@@ -1,7 +1,4 @@
-import type {
-  PlaylistGenre,
-  PlaylistPlatform,
-} from "./graphql/graphql-client.gen";
+import type { PlaylistPlatform } from "./graphql/graphql-client.gen";
 import type { IBaseClientParams } from "./types";
 
 export class Playlist {
@@ -29,18 +26,18 @@ export class Playlist {
   async createPlaylist({
     author,
     playlistLink,
-    playlistGenre,
+    playlistGenreId,
     platform,
   }: {
     author: string;
     playlistLink: string;
-    playlistGenre: PlaylistGenre;
+    playlistGenreId: string;
     platform: PlaylistPlatform;
   }) {
     const { createPlaylist } = await this.graphQLClient.createPlaylist({
       author,
       playlistLink,
-      playlistGenre,
+      playlistGenreId,
       platform,
     });
 
@@ -48,16 +45,16 @@ export class Playlist {
   }
 
   async getPlaylists({
-    genre,
+    genreId,
     currentPage,
     pageSize,
   }: {
-    genre: PlaylistGenre | null;
+    genreId: string;
     currentPage: number;
     pageSize: number;
   }) {
     const { playlists } = await this.graphQLClient.playlists({
-      genre,
+      genreId,
       currentPage,
       pageSize,
     });
@@ -89,9 +86,9 @@ export class Playlist {
     return featuredPlaylists;
   }
 
-  async getPlaylistsByGenre({ genre }: { genre: PlaylistGenre }) {
+  async getPlaylistsByGenre({ genreId }: { genreId: string }) {
     const { playlistsByGenre } = await this.graphQLClient.playlistsByGenre({
-      genre,
+      genreId,
     });
 
     return playlistsByGenre;

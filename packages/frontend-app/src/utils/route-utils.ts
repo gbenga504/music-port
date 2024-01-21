@@ -10,6 +10,10 @@ export interface IPageDatas {
   [key: string]: any;
 }
 
+export type IGlobalPageData = Awaited<
+  ReturnType<typeof loadGlobalPageResources>
+>;
+
 export interface ILoadableComponentProps<
   PageData = unknown,
   Query = unknown,
@@ -19,6 +23,7 @@ export interface ILoadableComponentProps<
   api: ICreateApiClient;
   query: Query;
   params: Params;
+  globalPageData: IGlobalPageData;
 }
 
 export interface ILoadData<
@@ -44,6 +49,19 @@ interface ILoadPageResourcesOptions {
   api: ICreateApiClient;
   query: { [key: string]: string };
 }
+
+export const loadGlobalPageResources = async ({
+  api,
+}: {
+  api: ILoadPageResourcesOptions["api"];
+}) => {
+  const genres = await api.playlistGenre.getPlaylistGenres({
+    currentPage: 1,
+    pageSize: 100,
+  });
+
+  return { genres: genres.data };
+};
 
 export const loadPageResources = async ({
   matchedRoutes,

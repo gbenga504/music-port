@@ -6,15 +6,15 @@ import {
   parsePortPlaylist,
 } from "./utils";
 
-import { Button } from "../../../../../components/Button/Button";
-import { Input } from "../../../../../components/Input/Input";
-import { Modal } from "../../../../../components/Modal/Modal";
-import { Space } from "../../../../../components/Space";
-import { useToast } from "../../../../../components/Toast/ToastContext";
-import { CopyIcon } from "../../../../../components/icons";
-import { useApi } from "../../../../../context/ApiContext";
-import useCopyToClipboard from "../../../../../hooks/useCopyToClipboard";
-import { useLocalStorage } from "../../../../../hooks/useLocalStorage";
+import { Button } from "../../../../components/Button/Button";
+import { Input } from "../../../../components/Input/Input";
+import { Modal } from "../../../../components/Modal/Modal";
+import { Space } from "../../../../components/Space";
+import { useToast } from "../../../../components/Toast/ToastContext";
+import { CopyIcon } from "../../../../components/icons";
+import { useApi } from "../../../../context/ApiContext";
+import useCopyToClipboard from "../../../../hooks/useCopyToClipboard";
+import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 
 import type { PortPlaylist } from "./utils";
 

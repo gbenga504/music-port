@@ -9,11 +9,9 @@ import {
 } from "./utils";
 
 import { convertCamelCaseToCapitalize } from "../../../utils/formatter";
-import {
-  PlaylistPlatformValues,
-  PlaylistGenreValues,
-} from "../../../utils/platform";
+import { PlaylistPlatformValues } from "../../../utils/platform";
 import { getPlatformName } from "../../../utils/url";
+import { useGlobalPageData } from "../../context/GlobalPageDataContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Button } from "../Button/Button";
 import { Input } from "../Input/Input";
@@ -39,6 +37,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   >(REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY, {});
   const [isLoading, setIsLoading] = useState(false);
   const { pathname } = useLocation();
+  const { genres } = useGlobalPageData();
 
   const handleClose = () => {
     onClose();
@@ -147,7 +146,7 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                   )}
                 />
                 <Field
-                  name="playlistGenre"
+                  name="playlistGenreId"
                   render={({ input, meta }) => (
                     <Select
                       fullWidth
@@ -158,9 +157,9 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       error={Boolean(meta.error && meta.dirty)}
                       {...input}
                     >
-                      {PlaylistGenreValues.map((genre) => (
-                        <Option value={genre} key={genre}>
-                          {genre}
+                      {genres.map((genre) => (
+                        <Option value={genre.id} key={genre.id}>
+                          {genre.name}
                         </Option>
                       ))}
                     </Select>

@@ -1,25 +1,23 @@
-import { intArg, objectType, queryField, stringArg } from "nexus";
+import { intArg, objectType, queryField } from "nexus";
 
-export const playlists = queryField("playlists", {
+export const playlistGenres = queryField("playlistGenres", {
   type: objectType({
-    name: "Playlists",
+    name: "PlaylistGenres",
     definition(t) {
       t.int("total");
       t.int("pageSize");
       t.int("currentPage");
       t.list.field("data", {
-        type: "Playlist",
+        type: "PlaylistGenre",
       });
     },
   }),
   args: {
-    genreId: stringArg(),
     currentPage: intArg(),
     pageSize: intArg(),
   },
   async resolve(_parent, args, ctx) {
-    return ctx.playlistService.getPlaylists({
-      query: { genreId: args.genreId },
+    return ctx.playlistGenreService.getPlaylistGenres({
       currentPage: args.currentPage,
       pageSize: args.pageSize,
     });

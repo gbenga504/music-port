@@ -1,11 +1,10 @@
-import { ObjectId as MongoObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 
 import { Repository } from "../framework/repository";
 import * as Models from "../models";
 
 import type { IFindMany, IFindOneOptions } from "../framework/repository";
 import type { IPlaylist } from "../models";
-import type { ObjectId } from "mongoose";
 
 export class PlaylistRepository extends Repository<IPlaylist> {
   constructor() {
@@ -38,14 +37,14 @@ export class PlaylistRepository extends Repository<IPlaylist> {
   }
 
   public async findManyPlaylist(
-    query: { genre?: string | null },
+    query: { genre?: ObjectId | string | null },
     currentPage: number,
     pageSize: number,
   ): Promise<IFindMany<IPlaylist>> {
     const finalQuery: Partial<typeof query> = {};
 
     if (query.genre) {
-      finalQuery["genre"] = query.genre;
+      finalQuery["genre"] = new ObjectId(query.genre);
     }
 
     return this.findMany({
@@ -64,7 +63,7 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     // We should have a Songs table
 
     const playlist = await this.findMany({
-      query: { _id: new MongoObjectId(playlistId) },
+      query: { _id: new ObjectId(playlistId) },
       sort: { createdAt: -1 },
       projections: { songs: 1 },
     });
@@ -87,24 +86,39 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     limit = 10,
   }: {
     limit?: number;
-  }): Promise<{ genre: IPlaylist["genre"]; items: IPlaylist[] }[]> {
+  }): Promise<{ genre: Models.IPlaylistGenre; items: IPlaylist[] }[]> {
     const groupedPlaylists = await this.aggregate([
       {
+        $lookup: {
+          from: "playlistgenres",
+          localField: "genre",
+          foreignField: "_id",
+          as: "genre",
+        },
+      },
+      {
+        $unwind: "$genre",
+      },
+      {
         $group: {
-          _id: "$genre",
+          _id: "$genre.name",
+          genre: { $addToSet: "$genre" },
           items: {
             $topN: { n: limit, output: "$$ROOT", sortBy: { createdAt: 1 } },
           },
         },
       },
       {
+        $unwind: "$genre",
+      },
+      {
         $project: {
-          genre: "$_id",
+          genre: "$genre",
           items: "$items",
         },
       },
       {
-        $sort: { genre: 1 },
+        $sort: { "genre.name": 1 },
       },
     ]);
 

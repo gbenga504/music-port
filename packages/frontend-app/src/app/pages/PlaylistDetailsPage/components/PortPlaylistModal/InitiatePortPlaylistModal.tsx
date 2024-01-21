@@ -7,18 +7,18 @@ import {
   parseInitiatePortPlaylist,
 } from "./utils";
 
-import { convertCamelCaseToCapitalize } from "../../../../../../utils/formatter";
-import { PlaylistPlatformValues } from "../../../../../../utils/platform";
-import { Button } from "../../../../../components/Button/Button";
-import { Modal } from "../../../../../components/Modal/Modal";
-import { PlatformIcon } from "../../../../../components/PlatformIcon";
-import { Option, Select } from "../../../../../components/Select/Select";
-import { Space } from "../../../../../components/Space";
-import { useLocalStorage } from "../../../../../hooks/useLocalStorage";
+import { convertCamelCaseToCapitalize } from "../../../../../utils/formatter";
+import { PlaylistPlatformValues } from "../../../../../utils/platform";
+import { Button } from "../../../../components/Button/Button";
+import { Modal } from "../../../../components/Modal/Modal";
+import { PlatformIcon } from "../../../../components/PlatformIcon";
+import { Option, Select } from "../../../../components/Select/Select";
+import { Space } from "../../../../components/Space";
+import { useLocalStorage } from "../../../../hooks/useLocalStorage";
 
 import type { InitiatePortPlaylist } from "./utils";
-import type { PlaylistPlatform } from "../../../../../api/graphql/graphql-client.gen";
-import type { IRenderLabel } from "../../../../../components/Select/Select";
+import type { PlaylistPlatform } from "../../../../api/graphql/graphql-client.gen";
+import type { IRenderLabel } from "../../../../components/Select/Select";
 
 interface IProps {
   open: boolean;

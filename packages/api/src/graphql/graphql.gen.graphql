@@ -11,6 +11,12 @@ type ConvertPlaylistPayload {
   success: Boolean!
 }
 
+type CreatePlaylistGenrePayload {
+  data: PlaylistGenre
+  error: PlaylistError
+  success: Boolean!
+}
+
 type CreatePlaylistPayload {
   data: Playlist
   error: PlaylistError
@@ -38,9 +44,13 @@ type Mutation {
   createPlaylist(
     author: String!
     platform: PlaylistPlatform!
-    playlistGenre: PlaylistGenre!
+    playlistGenreId: String!
     playlistLink: String!
   ): CreatePlaylistPayload!
+  createPlaylistGenre(
+    isSystemGenerated: Boolean!
+    name: String!
+  ): CreatePlaylistGenrePayload!
 }
 
 type Playlist {
@@ -60,7 +70,7 @@ type Playlist {
   """
   Genre of the playlist
   """
-  genre: PlaylistGenre!
+  genreLink: PlaylistGenre!
   id: String!
 
   """
@@ -118,19 +128,25 @@ type PlaylistError {
   name: String!
 }
 
-enum PlaylistGenre {
-  Afro
-  Blues
-  Classical
-  Country
-  Dance
-  HipPop
-  Jazz
-  KPop
-  Others
-  Rap
-  Reggae
-  Rock
+type PlaylistGenre {
+  id: String!
+
+  """
+  Tells if the genre should contain only playlist created by the system or those created by users
+  """
+  isSystemGenerated: Boolean!
+
+  """
+  Name of the Genre
+  """
+  name: String!
+}
+
+type PlaylistGenres {
+  currentPage: Int!
+  data: [PlaylistGenre!]!
+  pageSize: Int!
+  total: Int!
 }
 
 type PlaylistImage {
@@ -202,11 +218,13 @@ type PlaylistsByGenre {
 type Query {
   featuredPlaylists: [FeaturedPlaylist!]!
   playlistById(id: ID!): Playlist
+  playlistGenreById(id: ID!): PlaylistGenre
+  playlistGenres(currentPage: Int!, pageSize: Int!): PlaylistGenres!
   playlistSongs(
     currentPage: Int!
     pageSize: Int!
     playlistId: String!
   ): PlaylistSongLists!
-  playlists(currentPage: Int!, genre: PlaylistGenre, pageSize: Int!): Playlists!
-  playlistsByGenre(genre: PlaylistGenre!): PlaylistsByGenre!
+  playlists(currentPage: Int!, genreId: String!, pageSize: Int!): Playlists!
+  playlistsByGenre(genreId: String!): PlaylistsByGenre!
 }

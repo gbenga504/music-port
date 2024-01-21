@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { enumType, idArg, nullable, objectType, queryField } from "nexus";
 
-import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
+import { PlatformValues } from "../../utils/platform";
 
 const PlaylistImage = objectType({
   name: "PlaylistImage",
@@ -92,12 +92,16 @@ const Playlist = objectType({
       description: "Api link to the playlist on the music streaming platform",
     });
     t.string("name", { description: "Name of the playlist" });
-    t.field("genre", {
+    t.field("genreLink", {
       description: "Genre of the playlist",
-      type: enumType({
-        name: "PlaylistGenre",
-        members: PlaylistGenreValues,
-      }),
+      type: "PlaylistGenre",
+      async resolve(parent, _args, ctx) {
+        const genre = await ctx.playlistGenreRepository.findByIdOrThrow(
+          parent.genre,
+        );
+
+        return genre;
+      },
     });
     t.field("owner", {
       type: PlaylistOwner,

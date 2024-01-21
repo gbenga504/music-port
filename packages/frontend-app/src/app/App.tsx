@@ -18,6 +18,7 @@ import { PageLoadingProgressBar } from "./components/PageLoadingProgressBar/Page
 import { PlayerProvider } from "./components/Player/PlayerContext";
 import { ToastProvider } from "./components/Toast/ToastContext";
 import { ApiProvider } from "./context/ApiContext";
+import { GlobalPageDataProvider } from "./context/GlobalPageDataContext";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";
 import routes from "./routes";
 
@@ -28,6 +29,7 @@ import type {
   IPageDatas,
   ILoadableComponentProps,
   IMacthedRoutes,
+  IGlobalPageData,
 } from "../utils/route-utils";
 import type { LoadableComponent } from "@loadable/component";
 import type { RouteObjectWithLoadData, Location } from "react-router-dom";
@@ -38,6 +40,7 @@ interface ITransformMatchedRoutesParams {
   routes: RouteObjectWithLoadData[];
   location: Location;
   pageDatas: IPageDatas;
+  globalPageData: IGlobalPageData;
   api: ICreateApiClient;
   query: { [key: string]: string };
 }
@@ -49,6 +52,7 @@ const transformMatchedRoutes = ({
   routes,
   location,
   pageDatas,
+  globalPageData,
   api,
   query,
 }: ITransformMatchedRoutesParams): IMacthedRoutes => {
@@ -72,6 +76,7 @@ const transformMatchedRoutes = ({
         element: (
           <Component
             pageData={pageData}
+            globalPageData={globalPageData}
             api={api}
             query={query}
             params={
@@ -87,10 +92,11 @@ const transformMatchedRoutes = ({
 
 interface IProps {
   pageDatas: IPageDatas;
+  globalPageData: IGlobalPageData;
   api: ICreateApiClient;
 }
 
-const App: React.FC<IProps> = ({ pageDatas, api }) => {
+const App: React.FC<IProps> = ({ pageDatas, globalPageData, api }) => {
   const location = useLocation();
   const [query] = useParsedQueryParams();
   const navigate = useNavigate();
@@ -102,6 +108,7 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
       routes,
       location,
       pageDatas,
+      globalPageData,
       api,
       query,
     }) || []),
@@ -119,10 +126,12 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
         api,
         query,
       });
+
       const matchedRoutes = transformMatchedRoutes({
         routes,
         location,
         pageDatas,
+        globalPageData,
         api,
         query,
       });
@@ -162,15 +171,17 @@ const App: React.FC<IProps> = ({ pageDatas, api }) => {
         </div>
       )}
       <ApiProvider api={api}>
-        <ToastProvider>
-          <PlayerProvider>
-            <div className="bg-secondary400 min-h-full h-fit">
-              {renderMatches(matchedRoutes)}
-              <CookieBanner />
-              {renderModals()}
-            </div>
-          </PlayerProvider>
-        </ToastProvider>
+        <GlobalPageDataProvider globalPageData={globalPageData}>
+          <ToastProvider>
+            <PlayerProvider>
+              <div className="bg-secondary400 min-h-full h-fit">
+                {renderMatches(matchedRoutes)}
+                <CookieBanner />
+                {renderModals()}
+              </div>
+            </PlayerProvider>
+          </ToastProvider>
+        </GlobalPageDataProvider>
       </ApiProvider>
     </>
   );

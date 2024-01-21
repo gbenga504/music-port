@@ -2,9 +2,10 @@ import { z } from "zod";
 
 import { ResourceError } from "../errors/resource-error";
 import { getPlatformNameOrThrow } from "../third-party-integrations";
-import { PlatformValues, PlaylistGenreValues } from "../utils/platform";
+import { PlatformValues } from "../utils/platform";
+import * as zodUtils from "../utils/zod-utils";
 
-import type { PlatformType, PlaylistGenreType } from "../utils/platform";
+import type { PlatformType } from "../utils/platform";
 
 const convertPlaylistUsingAdminAuthTokenSchema = z.object({
   fromPlatform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
@@ -66,9 +67,7 @@ const createPlaylistSchema = z.object({
         }
       }
     }),
-  playlistGenre: z.enum(
-    PlaylistGenreValues as [PlaylistGenreType, ...PlaylistGenreType[]],
-  ),
+  playlistGenreId: zodUtils.stringOrObjectId,
   platform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
 });
 

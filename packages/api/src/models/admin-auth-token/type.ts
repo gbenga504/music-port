@@ -1,4 +1,4 @@
-import type { ObjectId } from "mongoose";
+import type { ObjectId } from "mongodb";
 
 export interface IAdminAuthToken {
   _id: ObjectId;

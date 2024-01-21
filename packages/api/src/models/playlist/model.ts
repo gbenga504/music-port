@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, SchemaTypes } from "mongoose";
 
-import { PlatformValues, PlaylistGenreValues } from "../../utils/platform";
+import { PlatformValues } from "../../utils/platform";
 
 import type { Artist, Image, IPlaylist, Song } from "./type";
 
@@ -32,7 +32,7 @@ const SongSchema = new Schema<Song>({
 
 const PlaylistSchema = new Schema<IPlaylist>(
   {
-    importLink: { type: String, required: true },
+    importLink: { type: String, required: true, unique: true },
     public: { type: Boolean, required: true },
     platform: { type: String, enum: PlatformValues, required: true },
     importPlaylistId: { type: String, required: true },
@@ -58,7 +58,11 @@ const PlaylistSchema = new Schema<IPlaylist>(
         required: true,
       },
     ],
-    genre: { type: String, enum: PlaylistGenreValues, required: true },
+    genre: {
+      type: SchemaTypes.ObjectId,
+      ref: "PlaylistGenre",
+      required: true,
+    },
     duration: { type: Number, required: true },
   },
   { timestamps: true },
