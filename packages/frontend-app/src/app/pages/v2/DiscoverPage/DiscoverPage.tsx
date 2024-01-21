@@ -22,14 +22,14 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
     <PageLayout title="Discover | Find the timeless songs">
       {featuredPlaylists.map((featuredPlaylist, index) => (
         <div
-          key={featuredPlaylist.genre}
+          key={featuredPlaylist.genre.id}
           className={index === 0 ? "pt-0" : "pt-12"}
         >
           <CardList
-            title={featuredPlaylist.genre}
+            title={featuredPlaylist.genre.name}
             to={constructURL({
               routeId: ROUTE_IDS.genrePage,
-              params: { genre: featuredPlaylist.genre },
+              params: { id: featuredPlaylist.genre.id },
             })}
             classNames={{
               ul: classNames(

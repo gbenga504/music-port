@@ -13,8 +13,12 @@ import { ErrorBoundary } from "./ErrorBoundary";
 import routes from "./routes";
 
 import { RedirectError } from "../errors/redirect-error";
-import { loadPageResources } from "../utils/route-utils";
+import {
+  loadGlobalPageResources,
+  loadPageResources,
+} from "../utils/route-utils";
 
+import type { IGlobalPageData } from "../utils/route-utils";
 import type { Request, Response } from "express";
 
 export const renderer = async (
@@ -35,18 +39,23 @@ export const renderer = async (
   });
 
   let pageDatas = {};
+  let globalPageData = {} as IGlobalPageData;
 
   if (!error) {
     const matchedRoutes = matchRoutes(routes, req.url);
+
     pageDatas = await loadPageResources({
       matchedRoutes,
       api: req.api,
       query: req.query as { [key: string]: string },
     });
+
+    globalPageData = await loadGlobalPageResources({ api: req.api });
   }
 
   const data = {
     pageDatas,
+    globalPageData,
     error,
   };
 

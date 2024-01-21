@@ -169,7 +169,7 @@ export class PlaylistService {
     currentPage,
     pageSize,
   }: {
-    query: { genreId?: string | null };
+    query: { genre?: ObjectId | string | null };
     currentPage: number;
     pageSize: number;
   }): Promise<ReturnType<PlaylistRepository["findManyPlaylist"]>> {
@@ -210,7 +210,7 @@ export class PlaylistService {
     pageSize?: number;
   }): Promise<{ genre: IPlaylistGenre; items: IPlaylist[] }> {
     const result = await this.playlistRepository.findManyPlaylist(
-      { genreId },
+      { genre: genreId },
       1,
       pageSize ?? 55,
     );

@@ -34,6 +34,13 @@ export type ConvertPlaylistPayload = {
   success: Scalars["Boolean"];
 };
 
+export type CreatePlaylistGenrePayload = {
+  __typename?: "CreatePlaylistGenrePayload";
+  data?: Maybe<PlaylistGenre>;
+  error?: Maybe<PlaylistError>;
+  success: Scalars["Boolean"];
+};
+
 export type CreatePlaylistPayload = {
   __typename?: "CreatePlaylistPayload";
   data?: Maybe<Playlist>;
@@ -52,6 +59,7 @@ export type Mutation = {
   __typename?: "Mutation";
   convertPlaylist: ConvertPlaylistPayload;
   createPlaylist: CreatePlaylistPayload;
+  createPlaylistGenre: CreatePlaylistGenrePayload;
 };
 
 export type MutationConvertPlaylistArgs = {
@@ -62,8 +70,13 @@ export type MutationConvertPlaylistArgs = {
 export type MutationCreatePlaylistArgs = {
   author: Scalars["String"];
   platform: PlaylistPlatform;
-  playlistGenre: PlaylistGenre;
+  playlistGenreId: Scalars["String"];
   playlistLink: Scalars["String"];
+};
+
+export type MutationCreatePlaylistGenreArgs = {
+  isSystemGenerated: Scalars["Boolean"];
+  name: Scalars["String"];
 };
 
 export type Playlist = {
@@ -76,7 +89,7 @@ export type Playlist = {
   /** Unique Id used to export playlist */
   exportId: Scalars["String"];
   /** Genre of the playlist */
-  genre: PlaylistGenre;
+  genreLink: PlaylistGenre;
   id: Scalars["String"];
   /** Images for the playlist */
   images: Array<PlaylistImage>;
@@ -106,20 +119,22 @@ export type PlaylistError = {
   name: Scalars["String"];
 };
 
-export enum PlaylistGenre {
-  Afro = "Afro",
-  Blues = "Blues",
-  Classical = "Classical",
-  Country = "Country",
-  Dance = "Dance",
-  HipPop = "HipPop",
-  Jazz = "Jazz",
-  KPop = "KPop",
-  Others = "Others",
-  Rap = "Rap",
-  Reggae = "Reggae",
-  Rock = "Rock",
-}
+export type PlaylistGenre = {
+  __typename?: "PlaylistGenre";
+  id: Scalars["String"];
+  /** Tells if the genre should contain only playlist created by the system or those created by users */
+  isSystemGenerated: Scalars["Boolean"];
+  /** Name of the Genre */
+  name: Scalars["String"];
+};
+
+export type PlaylistGenres = {
+  __typename?: "PlaylistGenres";
+  currentPage: Scalars["Int"];
+  data: Array<PlaylistGenre>;
+  pageSize: Scalars["Int"];
+  total: Scalars["Int"];
+};
 
 export type PlaylistImage = {
   __typename?: "PlaylistImage";
@@ -185,6 +200,8 @@ export type Query = {
   __typename?: "Query";
   featuredPlaylists: Array<FeaturedPlaylist>;
   playlistById?: Maybe<Playlist>;
+  playlistGenreById?: Maybe<PlaylistGenre>;
+  playlistGenres: PlaylistGenres;
   playlistSongs: PlaylistSongLists;
   playlists: Playlists;
   playlistsByGenre: PlaylistsByGenre;
@@ -192,6 +209,15 @@ export type Query = {
 
 export type QueryPlaylistByIdArgs = {
   id: Scalars["ID"];
+};
+
+export type QueryPlaylistGenreByIdArgs = {
+  id: Scalars["ID"];
+};
+
+export type QueryPlaylistGenresArgs = {
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
 };
 
 export type QueryPlaylistSongsArgs = {
@@ -202,12 +228,19 @@ export type QueryPlaylistSongsArgs = {
 
 export type QueryPlaylistsArgs = {
   currentPage: Scalars["Int"];
-  genre?: InputMaybe<PlaylistGenre>;
+  genreId: Scalars["String"];
   pageSize: Scalars["Int"];
 };
 
 export type QueryPlaylistsByGenreArgs = {
-  genre: PlaylistGenre;
+  genreId: Scalars["String"];
+};
+
+export type PlaylistGenreFragmentFragment = {
+  __typename?: "PlaylistGenre";
+  id: string;
+  name: string;
+  isSystemGenerated: boolean;
 };
 
 export type PlaylistSongFragmentFragment = {
@@ -236,7 +269,6 @@ export type PlaylistFragmentFragment = {
   exportId: string;
   apiLink: string;
   name: string;
-  genre: PlaylistGenre;
   createdAt: any;
   updatedAt: any;
   duration: number;
@@ -261,10 +293,37 @@ export type PlaylistFragmentFragment = {
       height?: number | null;
     }>;
   }>;
+  genreLink: {
+    __typename?: "PlaylistGenre";
+    id: string;
+    name: string;
+    isSystemGenerated: boolean;
+  };
+};
+
+export type PlaylistGenresQueryVariables = Exact<{
+  currentPage: Scalars["Int"];
+  pageSize: Scalars["Int"];
+}>;
+
+export type PlaylistGenresQuery = {
+  __typename?: "Query";
+  playlistGenres: {
+    __typename?: "PlaylistGenres";
+    total: number;
+    currentPage: number;
+    pageSize: number;
+    data: Array<{
+      __typename?: "PlaylistGenre";
+      id: string;
+      name: string;
+      isSystemGenerated: boolean;
+    }>;
+  };
 };
 
 export type PlaylistsQueryVariables = Exact<{
-  genre?: InputMaybe<PlaylistGenre>;
+  genreId: Scalars["String"];
   currentPage: Scalars["Int"];
   pageSize: Scalars["Int"];
 }>;
@@ -287,7 +346,6 @@ export type PlaylistsQuery = {
       exportId: string;
       apiLink: string;
       name: string;
-      genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
       duration: number;
@@ -312,6 +370,12 @@ export type PlaylistsQuery = {
           height?: number | null;
         }>;
       }>;
+      genreLink: {
+        __typename?: "PlaylistGenre";
+        id: string;
+        name: string;
+        isSystemGenerated: boolean;
+      };
     }>;
   };
 };
@@ -352,7 +416,12 @@ export type FeaturedPlaylistsQuery = {
   __typename?: "Query";
   featuredPlaylists: Array<{
     __typename?: "FeaturedPlaylist";
-    genre: PlaylistGenre;
+    genre: {
+      __typename?: "PlaylistGenre";
+      id: string;
+      name: string;
+      isSystemGenerated: boolean;
+    };
     items: Array<{
       __typename?: "Playlist";
       id: string;
@@ -364,7 +433,6 @@ export type FeaturedPlaylistsQuery = {
       exportId: string;
       apiLink: string;
       name: string;
-      genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
       duration: number;
@@ -389,19 +457,30 @@ export type FeaturedPlaylistsQuery = {
           height?: number | null;
         }>;
       }>;
+      genreLink: {
+        __typename?: "PlaylistGenre";
+        id: string;
+        name: string;
+        isSystemGenerated: boolean;
+      };
     }>;
   }>;
 };
 
 export type PlaylistsByGenreQueryVariables = Exact<{
-  genre: PlaylistGenre;
+  genreId: Scalars["String"];
 }>;
 
 export type PlaylistsByGenreQuery = {
   __typename?: "Query";
   playlistsByGenre: {
     __typename?: "PlaylistsByGenre";
-    genre: PlaylistGenre;
+    genre: {
+      __typename?: "PlaylistGenre";
+      id: string;
+      name: string;
+      isSystemGenerated: boolean;
+    };
     items: Array<{
       __typename?: "Playlist";
       id: string;
@@ -413,7 +492,6 @@ export type PlaylistsByGenreQuery = {
       exportId: string;
       apiLink: string;
       name: string;
-      genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
       duration: number;
@@ -438,6 +516,12 @@ export type PlaylistsByGenreQuery = {
           height?: number | null;
         }>;
       }>;
+      genreLink: {
+        __typename?: "PlaylistGenre";
+        id: string;
+        name: string;
+        isSystemGenerated: boolean;
+      };
     }>;
   };
 };
@@ -459,7 +543,6 @@ export type PlaylistByIdQuery = {
     exportId: string;
     apiLink: string;
     name: string;
-    genre: PlaylistGenre;
     createdAt: any;
     updatedAt: any;
     duration: number;
@@ -484,6 +567,12 @@ export type PlaylistByIdQuery = {
         height?: number | null;
       }>;
     }>;
+    genreLink: {
+      __typename?: "PlaylistGenre";
+      id: string;
+      name: string;
+      isSystemGenerated: boolean;
+    };
   } | null;
 };
 
@@ -509,7 +598,7 @@ export type ConvertPlaylistMutation = {
 export type CreatePlaylistMutationVariables = Exact<{
   author: Scalars["String"];
   playlistLink: Scalars["String"];
-  playlistGenre: PlaylistGenre;
+  playlistGenreId: Scalars["String"];
   platform: PlaylistPlatform;
 }>;
 
@@ -529,7 +618,6 @@ export type CreatePlaylistMutation = {
       exportId: string;
       apiLink: string;
       name: string;
-      genre: PlaylistGenre;
       createdAt: any;
       updatedAt: any;
       duration: number;
@@ -554,6 +642,12 @@ export type CreatePlaylistMutation = {
           height?: number | null;
         }>;
       }>;
+      genreLink: {
+        __typename?: "PlaylistGenre";
+        id: string;
+        name: string;
+        isSystemGenerated: boolean;
+      };
     } | null;
     error?: {
       __typename?: "PlaylistError";
@@ -579,6 +673,13 @@ export const PlaylistSongFragmentFragmentDoc = gql`
     previewURL
   }
 `;
+export const PlaylistGenreFragmentFragmentDoc = gql`
+  fragment PlaylistGenreFragment on PlaylistGenre {
+    id
+    name
+    isSystemGenerated
+  }
+`;
 export const PlaylistFragmentFragmentDoc = gql`
   fragment PlaylistFragment on Playlist {
     id
@@ -601,16 +702,36 @@ export const PlaylistFragmentFragmentDoc = gql`
     songs {
       ...PlaylistSongFragment
     }
-    genre
+    genreLink {
+      ...PlaylistGenreFragment
+    }
     createdAt
     updatedAt
     duration
   }
   ${PlaylistSongFragmentFragmentDoc}
+  ${PlaylistGenreFragmentFragmentDoc}
+`;
+export const PlaylistGenresDocument = gql`
+  query playlistGenres($currentPage: Int!, $pageSize: Int!) {
+    playlistGenres(currentPage: $currentPage, pageSize: $pageSize) {
+      total
+      currentPage
+      pageSize
+      data {
+        ...PlaylistGenreFragment
+      }
+    }
+  }
+  ${PlaylistGenreFragmentFragmentDoc}
 `;
 export const PlaylistsDocument = gql`
-  query playlists($genre: PlaylistGenre, $currentPage: Int!, $pageSize: Int!) {
-    playlists(genre: $genre, currentPage: $currentPage, pageSize: $pageSize) {
+  query playlists($genreId: String!, $currentPage: Int!, $pageSize: Int!) {
+    playlists(
+      genreId: $genreId
+      currentPage: $currentPage
+      pageSize: $pageSize
+    ) {
       total
       currentPage
       pageSize
@@ -645,23 +766,29 @@ export const PlaylistSongsDocument = gql`
 export const FeaturedPlaylistsDocument = gql`
   query featuredPlaylists {
     featuredPlaylists {
-      genre
+      genre {
+        ...PlaylistGenreFragment
+      }
       items {
         ...PlaylistFragment
       }
     }
   }
+  ${PlaylistGenreFragmentFragmentDoc}
   ${PlaylistFragmentFragmentDoc}
 `;
 export const PlaylistsByGenreDocument = gql`
-  query playlistsByGenre($genre: PlaylistGenre!) {
-    playlistsByGenre(genre: $genre) {
-      genre
+  query playlistsByGenre($genreId: String!) {
+    playlistsByGenre(genreId: $genreId) {
+      genre {
+        ...PlaylistGenreFragment
+      }
       items {
         ...PlaylistFragment
       }
     }
   }
+  ${PlaylistGenreFragmentFragmentDoc}
   ${PlaylistFragmentFragmentDoc}
 `;
 export const PlaylistByIdDocument = gql`
@@ -693,13 +820,13 @@ export const CreatePlaylistDocument = gql`
   mutation createPlaylist(
     $author: String!
     $playlistLink: String!
-    $playlistGenre: PlaylistGenre!
+    $playlistGenreId: String!
     $platform: PlaylistPlatform!
   ) {
     createPlaylist(
       author: $author
       playlistLink: $playlistLink
-      playlistGenre: $playlistGenre
+      playlistGenreId: $playlistGenreId
       platform: $platform
     ) {
       success
@@ -732,6 +859,21 @@ export function getSdk(
   withWrapper: SdkFunctionWrapper = defaultWrapper,
 ) {
   return {
+    playlistGenres(
+      variables: PlaylistGenresQueryVariables,
+      requestHeaders?: Dom.RequestInit["headers"],
+    ): Promise<PlaylistGenresQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaylistGenresQuery>(
+            PlaylistGenresDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders },
+          ),
+        "playlistGenres",
+        "query",
+      );
+    },
     playlists(
       variables: PlaylistsQueryVariables,
       requestHeaders?: Dom.RequestInit["headers"],

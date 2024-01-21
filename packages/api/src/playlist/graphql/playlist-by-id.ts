@@ -96,7 +96,9 @@ const Playlist = objectType({
       description: "Genre of the playlist",
       type: "PlaylistGenre",
       async resolve(parent, _args, ctx) {
-        const genre = await ctx.playlistGenreRepository.findById(parent.genre);
+        const genre = await ctx.playlistGenreRepository.findByIdOrThrow(
+          parent.genre,
+        );
 
         return genre;
       },

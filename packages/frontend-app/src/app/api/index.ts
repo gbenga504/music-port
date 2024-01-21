@@ -4,6 +4,7 @@ import { Auth } from "./auth";
 import { CookieConsent } from "./cookie-consent";
 import { createGraphQLClient } from "./graphql/graphql-client";
 import { Playlist } from "./playlist";
+import { PlaylistGenre } from "./playlist-genre";
 
 import { isDOM } from "../../utils/dom";
 
@@ -42,11 +43,19 @@ export const createApiClient = ({
     httpClientForFrontend,
     graphQLClient,
   });
+
   const playlist = new Playlist({
     httpClientForBackend,
     httpClientForFrontend,
     graphQLClient,
   });
+
+  const playlistGenre = new PlaylistGenre({
+    httpClientForBackend,
+    httpClientForFrontend,
+    graphQLClient,
+  });
+
   const cookieConsent = new CookieConsent({
     httpClientForBackend,
     httpClientForFrontend,
@@ -56,6 +65,7 @@ export const createApiClient = ({
   return {
     auth,
     playlist,
+    playlistGenre,
     cookieConsent,
   };
 };

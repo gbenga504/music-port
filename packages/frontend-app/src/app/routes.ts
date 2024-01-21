@@ -36,7 +36,7 @@ const routes: RouteObjectWithLoadData[] = [
   },
   {
     id: ROUTE_IDS.genrePage,
-    path: "/genre/:genre",
+    path: "/genre/:id",
     component: loadable<
       ILoadableComponentProps<GenrePageData, unknown, IGenrePageParams>
     >(() => import("./pages/v2/GenrePage/GenrePage")),

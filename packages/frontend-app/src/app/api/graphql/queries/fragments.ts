@@ -1,5 +1,13 @@
 import gql from "graphql-tag";
 
+export const playlistGenreFragment = gql`
+  fragment PlaylistGenreFragment on PlaylistGenre {
+    id
+    name
+    isSystemGenerated
+  }
+`;
+
 export const playlistSongFragment = gql`
   fragment PlaylistSongFragment on PlaylistSong {
     artists {
@@ -19,6 +27,7 @@ export const playlistSongFragment = gql`
 
 export const playlistFragment = gql`
   ${playlistSongFragment}
+  ${playlistGenreFragment}
 
   fragment PlaylistFragment on Playlist {
     id
@@ -41,7 +50,9 @@ export const playlistFragment = gql`
     songs {
       ...PlaylistSongFragment
     }
-    genre
+    genreLink {
+      ...PlaylistGenreFragment
+    }
     createdAt
     updatedAt
     duration

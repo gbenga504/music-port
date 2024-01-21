@@ -22,13 +22,13 @@ import type { Playlist } from "../../../../api/graphql/graphql-client.gen";
 
 type IProps = Pick<
   Playlist,
-  "coverImage" | "name" | "genre" | "createdAt" | "songs" | "exportId"
+  "coverImage" | "name" | "genreLink" | "createdAt" | "songs" | "exportId"
 >;
 
 export const HeaderDetails: React.FC<IProps> = ({
   coverImage,
   name,
-  genre,
+  genreLink,
   createdAt,
   songs,
   exportId,
@@ -101,9 +101,12 @@ export const HeaderDetails: React.FC<IProps> = ({
       <section className="flex flex-col items-center lg:items-start mt-4 lg:mt-0">
         <Link
           className="text-base hover:underline font-normal text-primary capitalize"
-          to={constructURL({ routeId: ROUTE_IDS.genrePage, params: { genre } })}
+          to={constructURL({
+            routeId: ROUTE_IDS.genrePage,
+            params: { id: genreLink.id },
+          })}
         >
-          {genre}
+          {genreLink.name}
         </Link>
         <h1 className="text-6xl sm:text-7xl font-bold capitalize text-center -mt-1">
           {name}
