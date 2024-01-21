@@ -1,21 +1,21 @@
 import loadable from "@loadable/component";
 
-import { loadData as discoverPageLoadData } from "./pages/v2/DiscoverPage/load-data";
-import { loadData as genrePageLoadData } from "./pages/v2/GenrePage/load-data";
-import { loadData as playlistDetailsPageLoadData } from "./pages/v2/PlaylistDetailsPage/load-data";
+import { loadData as discoverPageLoadData } from "./pages/DiscoverPage/load-data";
+import { loadData as genrePageLoadData } from "./pages/GenrePage/load-data";
+import { loadData as playlistDetailsPageLoadData } from "./pages/PlaylistDetailsPage/load-data";
 
 import type {
   IPageQuery as IDiscoverPageQuery,
   PageData as DiscoverPageData,
-} from "./pages/v2/DiscoverPage/load-data";
+} from "./pages/DiscoverPage/load-data";
 import type {
   IPageParams as IGenrePageParams,
   PageData as GenrePageData,
-} from "./pages/v2/GenrePage/load-data";
+} from "./pages/GenrePage/load-data";
 import type {
   IPageParams as IPlaylistDetailsParams,
   PageData as PlaylistDetailsPageData,
-} from "./pages/v2/PlaylistDetailsPage/load-data";
+} from "./pages/PlaylistDetailsPage/load-data";
 import type { ILoadableComponentProps } from "../utils/route-utils";
 import type { RouteObjectWithLoadData } from "react-router-dom";
 
@@ -31,7 +31,7 @@ const routes: RouteObjectWithLoadData[] = [
     path: "/",
     component: loadable<
       ILoadableComponentProps<DiscoverPageData, IDiscoverPageQuery>
-    >(() => import("./pages/v2/DiscoverPage/DiscoverPage")),
+    >(() => import("./pages/DiscoverPage/DiscoverPage")),
     loadData: discoverPageLoadData,
   },
   {
@@ -39,7 +39,7 @@ const routes: RouteObjectWithLoadData[] = [
     path: "/genre/:id",
     component: loadable<
       ILoadableComponentProps<GenrePageData, unknown, IGenrePageParams>
-    >(() => import("./pages/v2/GenrePage/GenrePage")),
+    >(() => import("./pages/GenrePage/GenrePage")),
     loadData: genrePageLoadData,
   },
   {
@@ -51,7 +51,7 @@ const routes: RouteObjectWithLoadData[] = [
         unknown,
         IPlaylistDetailsParams
       >
-    >(() => import("./pages/v2/PlaylistDetailsPage/PlaylistDetailsPage")),
+    >(() => import("./pages/PlaylistDetailsPage/PlaylistDetailsPage")),
     loadData: playlistDetailsPageLoadData,
   },
 ];
