@@ -3,30 +3,24 @@ import React, { forwardRef, useState } from "react";
 
 import { RedStarIcon } from "../icons";
 
-import type { ChangeEventHandler, ReactNode } from "react";
+import type { ReactNode } from "react";
 import "./Input.scss";
 
-interface IProps {
+type IModifiedInputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "size" | "prefix"
+>;
+
+interface IProps extends IModifiedInputProps {
   size?: "medium" | "large";
   variant?: "dashed" | "outlined";
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  type?: string;
-  value?: string;
-  maxLength?: number;
-  disabled?: boolean;
-  defaultValue?: string;
-  placeholder?: string;
   fullWidth?: boolean;
   error?: boolean;
   helperText?: string;
   prefix?: ReactNode;
   label?: string;
-  required?: boolean;
   textColor?: "black" | "white";
-  className?: string;
-  name?: string;
-  onBlur?: () => void;
-  onFocus?: () => void;
+  rounded?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, IProps>(
@@ -46,6 +40,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
       className,
       onFocus,
       onBlur,
+      rounded,
       ...rest
     },
     ref
@@ -81,6 +76,7 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
             error,
             focused: isFocused,
             [`${className}`]: className,
+            "rounded-full": rounded,
           })}
         >
           {prefix && <div className="mr-3">{prefix}</div>}
@@ -90,12 +86,12 @@ export const Input = forwardRef<HTMLInputElement, IProps>(
               textBlack: textColor === "black",
               textWhite: textColor === "white",
             })}
-            onFocus={() => {
-              onFocus?.();
+            onFocus={(evt) => {
+              onFocus?.(evt);
               setIsFocused(true);
             }}
-            onBlur={() => {
-              onBlur?.();
+            onBlur={(evt) => {
+              onBlur?.(evt);
               setIsFocused(false);
             }}
             {...rest}

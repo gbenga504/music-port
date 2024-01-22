@@ -41,6 +41,7 @@
 
   & input {
     @apply flex-1 outline-none bg-transparent placeholder:text-primaryGray text-ellipsis text-base;
+    @apply font-light;
 
     &.textBlack {
       @apply text-black;
