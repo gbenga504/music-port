@@ -16,7 +16,7 @@ export const SearchBar = () => {
         className="searchBar"
         placeholder="Search"
         rounded
-        disabled={isComingSoonModalVisible}
+        readOnly
         onClick={() => setIsComingModalVisible(true)}
       />
       <ComingSoonModal
