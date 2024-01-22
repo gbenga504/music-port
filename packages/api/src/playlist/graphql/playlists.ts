@@ -19,7 +19,7 @@ export const playlists = queryField("playlists", {
   },
   async resolve(_parent, args, ctx) {
     return ctx.playlistService.getPlaylists({
-      query: { genreId: args.genreId },
+      query: { genre: args.genreId },
       currentPage: args.currentPage,
       pageSize: args.pageSize,
     });
