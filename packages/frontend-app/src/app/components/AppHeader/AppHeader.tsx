@@ -6,6 +6,7 @@ import { MobileMenu } from "./MobileMenu";
 
 import useMediaQuery, { screens } from "../../hooks/useMediaQuery";
 import { Button } from "../Button/Button";
+import { SearchBar } from "../SearchBar/SearchBar";
 import { Space } from "../Space";
 import { AnimatedHamburgerIcon } from "../icons";
 
@@ -33,7 +34,11 @@ export const AppHeader: React.FC<IProps> = () => {
   };
 
   return (
-    <nav className="w-full p-3 bg-secondary200 flex justify-end">
+    <nav className="w-full p-3 bg-secondary200 flex justify-between">
+      <div className="w-3/4 md:w-5/12">
+        <SearchBar />
+      </div>
+
       <Space size="small" className="hidden md:inline-flex">
         <Button
           variant="contained"
@@ -53,6 +58,7 @@ export const AppHeader: React.FC<IProps> = () => {
         </Button>
       </Space>
       {renderMobileMenuHamburger()}
+
       {matches && (
         <MobileMenu
           open={isMobileMenuOpen}

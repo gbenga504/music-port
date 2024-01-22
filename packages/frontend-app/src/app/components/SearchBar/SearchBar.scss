@@ -1,0 +1,13 @@
+@import "tailwindcss/components";
+@import "tailwindcss/base";
+@import "tailwindcss/utilities";
+
+.searchBar {
+  &.input {
+    @apply border-secondary100;
+
+    & input {
+      @apply text-sm;
+    }
+  }
+}
