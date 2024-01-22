@@ -12,7 +12,7 @@ export const ComingSoonModal: React.FC<IProps> = ({ open, onClose }) => {
     <Modal open={open} title="Coming Soon!!!" onClose={onClose}>
       <div className="text-secondary100 mt-4">
         This feature is coming soon. Please check back in a few weeks. To
-        contribute to the development of this feature, checkout our{" "}
+        contribute to the development of this feature, check out our{" "}
         <a
           className="text-primary underline"
           href="https://github.com/gbenga504/music-port"
