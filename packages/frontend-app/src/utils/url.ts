@@ -1,5 +1,6 @@
 import { generatePath } from "react-router-dom";
 
+import { globals } from "./globals";
 import { getPath } from "./route-utils";
 
 import { PlaylistPlatform } from "../app/api/graphql/graphql-client.gen";
@@ -10,10 +11,12 @@ export const constructURL = ({
   routeId,
   query,
   params,
+  withDomain,
 }: {
   routeId: string;
   query?: { [key: string]: string | undefined | null };
   params?: { [key: string]: string | number };
+  withDomain?: boolean;
 }): string => {
   let path = getPath({ routes, routeId });
 
@@ -35,7 +38,7 @@ export const constructURL = ({
     path += `?${searchParams.toString()}`;
   }
 
-  return path;
+  return withDomain ? `${globals.getSiteOrigin()}${path}` : path;
 };
 
 export const getPlatformName = (link: string): PlaylistPlatform | null => {

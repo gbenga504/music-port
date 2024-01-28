@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import "./Card.scss";
+import { globals } from "../../../utils/globals";
 import useCopyToClipboard from "../../hooks/useCopyToClipboard";
 import { IconButton } from "../IconButton/IconButton";
 import { LazyImage } from "../LazyImage/LazyImage";
@@ -49,7 +50,7 @@ export const Card: React.FC<IProps> = ({
               onClick={(ev) => {
                 ev.preventDefault();
 
-                copy(link);
+                copy(`${globals.getSiteOrigin()}${link}`);
                 toast({
                   title: "Link copied to clipboard",
                   status: "info",

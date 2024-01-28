@@ -62,7 +62,11 @@ export const renderer = async (
   const jsx = chunkExtractor.collectChunks(
     <StaticRouter location={req.url}>
       <ErrorBoundary error={error}>
-        <App {...data} api={req.api} />
+        <App
+          {...data}
+          api={req.api}
+          origin={`${req.protocol}://${req.get("host")}`}
+        />
       </ErrorBoundary>
     </StaticRouter>
   );

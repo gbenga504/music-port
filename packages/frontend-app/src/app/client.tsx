@@ -36,7 +36,7 @@ setupClient(({ appData, api }) => {
       document.getElementById("root")!,
       <BrowserRouter>
         <ErrorBoundary error={appData.error}>
-          <App {...appData} api={api} />
+          <App {...appData} api={api} origin={window.location.origin} />
         </ErrorBoundary>
       </BrowserRouter>
     );

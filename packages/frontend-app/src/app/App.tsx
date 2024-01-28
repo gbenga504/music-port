@@ -22,6 +22,7 @@ import { GlobalPageDataProvider } from "./context/GlobalPageDataContext";
 import useParsedQueryParams from "./hooks/useParsedQueryParams";
 import routes from "./routes";
 
+import { globals } from "../utils/globals";
 import { loadPageResources } from "../utils/route-utils";
 
 import type { ICreateApiClient } from "./api";
@@ -94,14 +95,19 @@ interface IProps {
   pageDatas: IPageDatas;
   globalPageData: IGlobalPageData;
   api: ICreateApiClient;
+  origin: string;
 }
 
-const App: React.FC<IProps> = ({ pageDatas, globalPageData, api }) => {
+const App: React.FC<IProps> = ({ pageDatas, globalPageData, api, origin }) => {
   const location = useLocation();
   const [query] = useParsedQueryParams();
   const navigate = useNavigate();
   const [isPageLoading, setIsPageLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>();
+
+  if (origin) {
+    globals.setSiteOrigin(origin);
+  }
 
   const transformedMatchedRoutes = [
     ...(transformMatchedRoutes({
