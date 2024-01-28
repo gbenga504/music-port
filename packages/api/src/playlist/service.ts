@@ -269,7 +269,7 @@ export class PlaylistService {
       importLink: playlist.importLink,
       exportLink: result.url,
       toPlatform: platform,
-      playlistId: playlist._id,
+      playlist: playlist._id,
     });
 
     return result;

@@ -6,5 +6,5 @@ export interface IConversion {
   importLink: string;
   exportLink: string;
   toPlatform: PlatformType;
-  playlistId?: ObjectId;
+  playlist?: ObjectId;
 }
