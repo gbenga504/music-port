@@ -15,7 +15,6 @@ export const SearchBar = () => {
         textColor="white"
         className="searchBar"
         placeholder="Search"
-        rounded
         readOnly
         onClick={() => setIsComingModalVisible(true)}
       />

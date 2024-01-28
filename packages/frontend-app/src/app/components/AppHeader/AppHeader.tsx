@@ -35,7 +35,7 @@ export const AppHeader: React.FC<IProps> = () => {
 
   return (
     <nav className="w-full p-3 bg-secondary200 flex justify-between">
-      <div className="w-3/4 md:w-5/12">
+      <div className="w-[80%] md:w-5/12">
         <SearchBar />
       </div>
 
