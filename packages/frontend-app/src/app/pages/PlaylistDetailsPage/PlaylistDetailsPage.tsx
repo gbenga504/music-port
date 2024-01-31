@@ -4,6 +4,7 @@ import { Footer } from "./components/Footer";
 import { HeaderDetails } from "./components/HeaderDetails";
 import { SongList } from "./components/SongList";
 
+import { HeadMarkup } from "../../components/HeadMarkup";
 import { PageLayout } from "../../components/PageLayout";
 
 import type { IPageParams, PageData } from "./load-data";
@@ -16,7 +17,12 @@ const PlaylistDetailsPage: React.FC<
     pageData.playlistById;
 
   return (
-    <PageLayout title="Playlist Details">
+    <PageLayout>
+      <HeadMarkup
+        title={name}
+        ogImage={coverImage}
+        ogImageAlt="This is the cover image of the playlist"
+      />
       <HeaderDetails
         coverImage={coverImage}
         name={name}
