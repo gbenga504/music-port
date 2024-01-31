@@ -5,6 +5,7 @@ import { convertAPIPlaylistToPlayerPlaylist } from "../../../utils/playlist";
 import { constructURL } from "../../../utils/url";
 import { Card } from "../../components/Card/Card";
 import { CardList } from "../../components/CardList/CardList";
+import { HeadMarkup } from "../../components/HeadMarkup";
 import { PageLayout } from "../../components/PageLayout";
 import { usePlayer } from "../../components/Player/PlayerContext";
 import { ROUTE_IDS } from "../../routes";
@@ -19,7 +20,11 @@ const DiscoverPage: React.FC<ILoadableComponentProps<PageData, IPageQuery>> = ({
   const { featuredPlaylists } = pageData;
 
   return (
-    <PageLayout title="Discover | Find the timeless songs">
+    <PageLayout>
+      <HeadMarkup
+        title="Discover | Find the timeless songs"
+        description="Discover and export millions of songs irrespective of your music platform"
+      />
       {featuredPlaylists.map((featuredPlaylist, index) => (
         <div
           key={featuredPlaylist.genre.id}
