@@ -1,11 +1,4 @@
-import {
-  booleanArg,
-  idArg,
-  mutationField,
-  nullable,
-  objectType,
-  stringArg,
-} from "nexus";
+import { idArg, mutationField, objectType } from "nexus";
 
 import { GraphQLError } from "../../graphql/error-handling";
 
