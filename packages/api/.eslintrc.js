@@ -4,7 +4,7 @@ module.exports = {
     "plugin:unicorn/recommended",
     "plugin:@typescript-eslint/recommended",
   ],
-  plugins: ["import"],
+  plugins: ["import", "unused-imports"],
   env: {
     node: true, // Node.js global variables and Node.js scoping
     es2018: true,
@@ -68,6 +68,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/ban-ts-comment": "off",
+    "unused-imports/no-unused-imports": "error",
   },
   overrides: [
     // Config files
