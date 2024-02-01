@@ -78,6 +78,17 @@ export interface NexusGenObjects {
     error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
     success: boolean; // Boolean!
   };
+  DeletePlaylist: {
+    // root type
+    error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
+  EditPlaylistGenrePayload: {
+    // root type
+    data?: NexusGenRootTypes["PlaylistGenre"] | null; // PlaylistGenre
+    error?: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
   FeaturedPlaylist: {
     // root type
     genre: NexusGenRootTypes["PlaylistGenre"]; // PlaylistGenre!
@@ -175,6 +186,17 @@ export interface NexusGenFieldTypes {
     error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
     success: boolean; // Boolean!
   };
+  DeletePlaylist: {
+    // field return type
+    error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
+  EditPlaylistGenrePayload: {
+    // field return type
+    data: NexusGenRootTypes["PlaylistGenre"] | null; // PlaylistGenre
+    error: NexusGenRootTypes["PlaylistError"] | null; // PlaylistError
+    success: boolean; // Boolean!
+  };
   FeaturedPlaylist: {
     // field return type
     genre: NexusGenRootTypes["PlaylistGenre"]; // PlaylistGenre!
@@ -185,6 +207,8 @@ export interface NexusGenFieldTypes {
     convertPlaylist: NexusGenRootTypes["ConvertPlaylistPayload"]; // ConvertPlaylistPayload!
     createPlaylist: NexusGenRootTypes["CreatePlaylistPayload"]; // CreatePlaylistPayload!
     createPlaylistGenre: NexusGenRootTypes["CreatePlaylistGenrePayload"]; // CreatePlaylistGenrePayload!
+    deletePlaylist: NexusGenRootTypes["DeletePlaylist"]; // DeletePlaylist!
+    editPlaylistGenre: NexusGenRootTypes["EditPlaylistGenrePayload"]; // EditPlaylistGenrePayload!
   };
   Playlist: {
     // field return type
@@ -301,6 +325,17 @@ export interface NexusGenFieldTypeNames {
     error: "PlaylistError";
     success: "Boolean";
   };
+  DeletePlaylist: {
+    // field return type name
+    error: "PlaylistError";
+    success: "Boolean";
+  };
+  EditPlaylistGenrePayload: {
+    // field return type name
+    data: "PlaylistGenre";
+    error: "PlaylistError";
+    success: "Boolean";
+  };
   FeaturedPlaylist: {
     // field return type name
     genre: "PlaylistGenre";
@@ -311,6 +346,8 @@ export interface NexusGenFieldTypeNames {
     convertPlaylist: "ConvertPlaylistPayload";
     createPlaylist: "CreatePlaylistPayload";
     createPlaylistGenre: "CreatePlaylistGenrePayload";
+    deletePlaylist: "DeletePlaylist";
+    editPlaylistGenre: "EditPlaylistGenrePayload";
   };
   Playlist: {
     // field return type name
@@ -422,6 +459,16 @@ export interface NexusGenArgTypes {
       // args
       isSystemGenerated: boolean; // Boolean!
       name: string; // String!
+    };
+    deletePlaylist: {
+      // args
+      id: string; // ID!
+    };
+    editPlaylistGenre: {
+      // args
+      id: string; // ID!
+      isSystemGenerated?: boolean | null; // Boolean
+      name?: string | null; // String
     };
   };
   Query: {

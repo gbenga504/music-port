@@ -1,4 +1,7 @@
-import { createPlaylistGenreSchema } from "./validator";
+import {
+  createPlaylistGenreSchema,
+  editPlaylistGenreSchema,
+} from "./validator";
 
 import type { PlaylistGenreRepository } from "./repository";
 import type { IPlaylistGenre } from "../models";
@@ -26,6 +29,20 @@ export class PlaylistGenreService {
     const validInputs = createPlaylistGenreSchema.parse(inputs);
 
     return this.playlistGenreRepository.create(validInputs);
+  }
+
+  async editPlaylistGenre({
+    inputs,
+  }: {
+    inputs: {
+      id: string;
+      name?: string | null;
+      isSystemGenerated?: boolean | null;
+    };
+  }): Promise<IPlaylistGenre> {
+    const { id, ...rest } = editPlaylistGenreSchema.parse(inputs);
+
+    return this.playlistGenreRepository.edit(id, rest);
   }
 
   async getById({

@@ -17,6 +17,13 @@ export class PlaylistGenreRepository extends Repository<IPlaylistGenre> {
     return this.createOne(playlistGenre);
   }
 
+  public async edit(
+    id: ObjectId,
+    playlistGenre: Partial<Omit<IPlaylistGenre, "_id">>,
+  ): Promise<IPlaylistGenre> {
+    return this.updateOneById(id, playlistGenre);
+  }
+
   public async findById(
     id: ObjectId | string,
     options?: IFindOneOptions,

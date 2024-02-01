@@ -22,6 +22,10 @@ export class PlaylistRepository extends Repository<IPlaylist> {
     return this.findOneById(id, options);
   }
 
+  public async deleteById(id: ObjectId | string): Promise<IPlaylist | null> {
+    return this.deleteOneById(new ObjectId(id));
+  }
+
   public async findOneByExportId(
     exportId: string,
     options?: IFindOneOptions,
