@@ -38,7 +38,7 @@ export class Repository<T extends IDocument> {
   protected async findOneAndUpdate(
     query: object,
     update: Partial<T>,
-    opt: { upsert: boolean } | undefined,
+    opt?: { upsert: boolean },
   ): Promise<T> {
     opt = { upsert: false, ...opt };
 
@@ -55,6 +55,24 @@ export class Repository<T extends IDocument> {
     }
 
     return result;
+  }
+
+  protected async updateOneById(id: ObjectId, updates: Partial<T>): Promise<T> {
+    const result = await this.findOneAndUpdate({ id }, updates);
+
+    return result;
+  }
+
+  protected async deleteOne(query: object): Promise<T | null> {
+    const oldDocument = await this.model.findOneAndRemove(query);
+
+    return oldDocument;
+  }
+
+  protected async deleteOneById(
+    id: ObjectId,
+  ): ReturnType<Repository<T>["deleteOne"]> {
+    return this.deleteOne({ id });
   }
 
   protected async findOne(

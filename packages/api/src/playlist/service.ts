@@ -202,6 +202,12 @@ export class PlaylistService {
     return this.playlistRepository.groupPlaylistsByGenre({ limit: 10 });
   }
 
+  async deletePlaylist(
+    id: string | ObjectId,
+  ): Promise<ReturnType<PlaylistRepository["deleteById"]>> {
+    return this.playlistRepository.deleteById(id);
+  }
+
   async getPlaylistsByGenre({
     genreId,
     pageSize,

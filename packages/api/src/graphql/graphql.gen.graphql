@@ -28,6 +28,17 @@ A date string, such as 2007-12-03, compliant with the `full-date` format outline
 """
 scalar Date
 
+type DeletePlaylist {
+  error: PlaylistError
+  success: Boolean!
+}
+
+type EditPlaylistGenrePayload {
+  data: PlaylistGenre
+  error: PlaylistError
+  success: Boolean!
+}
+
 type FeaturedPlaylist {
   """
   Genre of the playlist
@@ -51,6 +62,12 @@ type Mutation {
     isSystemGenerated: Boolean!
     name: String!
   ): CreatePlaylistGenrePayload!
+  deletePlaylist(id: ID!): DeletePlaylist!
+  editPlaylistGenre(
+    id: ID!
+    isSystemGenerated: Boolean
+    name: String
+  ): EditPlaylistGenrePayload!
 }
 
 type Playlist {
