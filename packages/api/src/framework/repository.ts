@@ -58,7 +58,7 @@ export class Repository<T extends IDocument> {
   }
 
   protected async updateOneById(id: ObjectId, updates: Partial<T>): Promise<T> {
-    const result = await this.findOneAndUpdate({ id }, updates);
+    const result = await this.findOneAndUpdate({ _id: id }, updates);
 
     return result;
   }
@@ -72,7 +72,7 @@ export class Repository<T extends IDocument> {
   protected async deleteOneById(
     id: ObjectId,
   ): ReturnType<Repository<T>["deleteOne"]> {
-    return this.deleteOne({ id });
+    return this.deleteOne({ _id: id });
   }
 
   protected async findOne(
