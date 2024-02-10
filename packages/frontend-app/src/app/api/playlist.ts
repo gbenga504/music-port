@@ -27,17 +27,20 @@ export class Playlist {
     author,
     playlistLink,
     playlistGenreId,
+    playlistName,
     platform,
   }: {
     author: string;
     playlistLink: string;
     playlistGenreId: string;
+    playlistName?: string;
     platform: PlaylistPlatform;
   }) {
     const { createPlaylist } = await this.graphQLClient.createPlaylist({
       author,
       playlistLink,
       playlistGenreId,
+      playlistName,
       platform,
     });
 

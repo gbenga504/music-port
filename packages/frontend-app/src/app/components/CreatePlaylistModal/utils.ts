@@ -16,6 +16,7 @@ const reviewPlaylistSchema = z.object({
   streamingService: z.enum(
     PlaylistPlatformValues as [PlaylistPlatform, ...PlaylistPlatform[]],
   ),
+  playlistName: z.string().optional(),
 });
 
 export type ReviewPlaylist = z.infer<typeof reviewPlaylistSchema>;
@@ -41,6 +42,7 @@ const createPlaylistSchema = z.object({
       }
     }),
   playlistGenreId: z.string(),
+  playlistName: z.string().optional(),
   streamingService: z.enum(PlaylistPlatformValues),
 });
 

@@ -454,6 +454,7 @@ export interface NexusGenArgTypes {
       platform: NexusGenEnums["PlaylistPlatform"]; // PlaylistPlatform!
       playlistGenreId: string; // String!
       playlistLink: string; // String!
+      playlistName?: string | null; // String
     };
     createPlaylistGenre: {
       // args

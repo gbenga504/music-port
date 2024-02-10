@@ -46,7 +46,6 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
   const handleSubmitFormValues = (values: CreatePlaylist) => {
     setReviewPlaylistModalData({
       ...values,
-      playlistLink: values.playlistLink,
     });
 
     // TODO: We want to do this properly
@@ -124,6 +123,19 @@ export const CreatePlaylistModal: React.FC<IProps> = ({ open, onClose }) => {
                       label="Your Name"
                       placeholder="E.g John Doe"
                       required
+                      helperText={meta.dirty && meta.error}
+                      error={Boolean(meta.error && meta.dirty)}
+                      {...input}
+                    />
+                  )}
+                />
+                <Field
+                  name="playlistName"
+                  render={({ input, meta }) => (
+                    <Input
+                      fullWidth
+                      label="Name of your playlist"
+                      placeholder="Epic Love"
                       helperText={meta.dirty && meta.error}
                       error={Boolean(meta.error && meta.dirty)}
                       {...input}
