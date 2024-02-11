@@ -48,6 +48,19 @@ export type CreatePlaylistPayload = {
   success: Scalars["Boolean"];
 };
 
+export type DeletePlaylist = {
+  __typename?: "DeletePlaylist";
+  error?: Maybe<PlaylistError>;
+  success: Scalars["Boolean"];
+};
+
+export type EditPlaylistGenrePayload = {
+  __typename?: "EditPlaylistGenrePayload";
+  data?: Maybe<PlaylistGenre>;
+  error?: Maybe<PlaylistError>;
+  success: Scalars["Boolean"];
+};
+
 export type FeaturedPlaylist = {
   __typename?: "FeaturedPlaylist";
   /** Genre of the playlist */
@@ -60,6 +73,8 @@ export type Mutation = {
   convertPlaylist: ConvertPlaylistPayload;
   createPlaylist: CreatePlaylistPayload;
   createPlaylistGenre: CreatePlaylistGenrePayload;
+  deletePlaylist: DeletePlaylist;
+  editPlaylistGenre: EditPlaylistGenrePayload;
 };
 
 export type MutationConvertPlaylistArgs = {
@@ -72,11 +87,22 @@ export type MutationCreatePlaylistArgs = {
   platform: PlaylistPlatform;
   playlistGenreId: Scalars["String"];
   playlistLink: Scalars["String"];
+  playlistName?: InputMaybe<Scalars["String"]>;
 };
 
 export type MutationCreatePlaylistGenreArgs = {
   isSystemGenerated: Scalars["Boolean"];
   name: Scalars["String"];
+};
+
+export type MutationDeletePlaylistArgs = {
+  id: Scalars["ID"];
+};
+
+export type MutationEditPlaylistGenreArgs = {
+  id: Scalars["ID"];
+  isSystemGenerated?: InputMaybe<Scalars["Boolean"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type Playlist = {
@@ -599,6 +625,7 @@ export type CreatePlaylistMutationVariables = Exact<{
   author: Scalars["String"];
   playlistLink: Scalars["String"];
   playlistGenreId: Scalars["String"];
+  playlistName?: InputMaybe<Scalars["String"]>;
   platform: PlaylistPlatform;
 }>;
 
@@ -821,12 +848,14 @@ export const CreatePlaylistDocument = gql`
     $author: String!
     $playlistLink: String!
     $playlistGenreId: String!
+    $playlistName: String
     $platform: PlaylistPlatform!
   ) {
     createPlaylist(
       author: $author
       playlistLink: $playlistLink
       playlistGenreId: $playlistGenreId
+      playlistName: $playlistName
       platform: $platform
     ) {
       success

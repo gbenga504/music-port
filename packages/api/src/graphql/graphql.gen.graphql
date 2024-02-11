@@ -57,6 +57,7 @@ type Mutation {
     platform: PlaylistPlatform!
     playlistGenreId: String!
     playlistLink: String!
+    playlistName: String
   ): CreatePlaylistPayload!
   createPlaylistGenre(
     isSystemGenerated: Boolean!

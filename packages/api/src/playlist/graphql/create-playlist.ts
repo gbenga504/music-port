@@ -1,4 +1,4 @@
-import { mutationField, objectType, stringArg } from "nexus";
+import { mutationField, nullable, objectType, stringArg } from "nexus";
 
 import { GraphQLError } from "../../graphql/error-handling";
 
@@ -20,6 +20,7 @@ export const createPlaylist = mutationField("createPlaylist", {
   args: {
     author: stringArg(),
     playlistLink: stringArg(),
+    playlistName: nullable(stringArg()),
     playlistGenreId: stringArg(),
     platform: "PlaylistPlatform",
   },

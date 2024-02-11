@@ -111,6 +111,7 @@ export class PlaylistService {
     inputs: {
       author: string;
       playlistLink: string;
+      playlistName?: string | null;
       playlistGenreId: string;
       platform: string;
     };
@@ -143,6 +144,7 @@ export class PlaylistService {
       ...rawPlaylist,
       exportId: this.generateExportId(),
       genre: validInputs.playlistGenreId,
+      name: validInputs.playlistName ?? rawPlaylist.name,
       owner: {
         ...rawPlaylist.owner,
         name: validInputs.author ?? rawPlaylist.owner.name,

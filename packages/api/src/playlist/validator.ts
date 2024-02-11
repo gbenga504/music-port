@@ -51,7 +51,10 @@ export const convertPlaylist = (input: any): convertPlaylistOutput => {
 };
 
 const createPlaylistSchema = z.object({
-  author: z.string().max(50),
+  author: z
+    .string()
+    .transform(zodUtils.transformers.trim)
+    .refine(zodUtils.refinements.lengthIsLessThan(50)),
   playlistLink: z
     .string()
     .url()
@@ -67,7 +70,12 @@ const createPlaylistSchema = z.object({
         }
       }
     }),
-  playlistGenreId: zodUtils.stringOrObjectId,
+  playlistGenreId: zodUtils.schemas.stringOrObjectId,
+  playlistName: z
+    .string()
+    .transform(zodUtils.transformers.trim)
+    .refine(zodUtils.refinements.lengthIsLessThan(21))
+    .optional(),
   platform: z.enum(PlatformValues as [PlatformType, ...PlatformType[]]),
 });
 

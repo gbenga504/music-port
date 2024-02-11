@@ -101,12 +101,14 @@ export const playlistGraphQLSchema = gql`
     $author: String!
     $playlistLink: String!
     $playlistGenreId: String!
+    $playlistName: String
     $platform: PlaylistPlatform!
   ) {
     createPlaylist(
       author: $author
       playlistLink: $playlistLink
       playlistGenreId: $playlistGenreId
+      playlistName: $playlistName
       platform: $platform
     ) {
       success
