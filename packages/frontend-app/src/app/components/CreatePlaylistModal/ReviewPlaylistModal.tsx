@@ -11,7 +11,7 @@ import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { Modal } from "../Modal/Modal";
 import { useToast } from "../Toast/ToastContext";
 
-import type { ReviewPlaylist } from "./utils";
+import type { CreatePlaylist } from "./utils";
 
 interface IProps {
   open: boolean;
@@ -38,7 +38,7 @@ export const ReviewPlaylistModal: React.FC<IProps> = ({ open }) => {
     navigate(pathname, { replace: true });
   };
 
-  const handleCreatePlaylist = async (data: ReviewPlaylist) => {
+  const handleCreatePlaylist = async (data: CreatePlaylist) => {
     const {
       author,
       playlistLink,

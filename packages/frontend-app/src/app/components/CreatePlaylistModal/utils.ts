@@ -9,21 +9,6 @@ import type { PlaylistPlatform } from "../../api/graphql/graphql-client.gen";
 
 export const REVIEW_PLAYLIST_MODAL_LOCAL_STORAGE_KEY = "REVIEW_PLAYLIST_MODAL";
 
-const reviewPlaylistSchema = z.object({
-  author: z.string(),
-  playlistLink: z.string(),
-  playlistGenreId: z.string(),
-  streamingService: z.enum(
-    PlaylistPlatformValues as [PlaylistPlatform, ...PlaylistPlatform[]],
-  ),
-  playlistName: z.string().optional(),
-});
-
-export type ReviewPlaylist = z.infer<typeof reviewPlaylistSchema>;
-export function parseReviewPlaylist(data: unknown): ReviewPlaylist {
-  return reviewPlaylistSchema.parse(data);
-}
-
 const createPlaylistSchema = z.object({
   author: z.string(),
   playlistLink: z
@@ -43,12 +28,15 @@ const createPlaylistSchema = z.object({
     }),
   playlistGenreId: z.string(),
   playlistName: z.string().optional(),
-  streamingService: z.enum(PlaylistPlatformValues),
+  streamingService: z.enum(
+    PlaylistPlatformValues as [PlaylistPlatform, ...PlaylistPlatform[]],
+  ),
 });
 
 export type CreatePlaylist = z.infer<typeof createPlaylistSchema>;
+
 export const parseCreatePlaylist = (
-  input: CreatePlaylist,
+  input: unknown,
 ): { [key: string]: string } => {
   try {
     createPlaylistSchema.parse(input);
@@ -57,4 +45,8 @@ export const parseCreatePlaylist = (
   } catch (error) {
     return formatError(error);
   }
+};
+
+export const parseReviewPlaylist = (input: unknown): CreatePlaylist => {
+  return createPlaylistSchema.parse(input);
 };
