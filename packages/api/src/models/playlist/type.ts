@@ -1,5 +1,5 @@
 import type { PlatformType } from "../../utils/platform";
-import type { ObjectId } from "mongodb";
+import type { DocumentId } from "../helper";
 
 export interface Image {
   url: string;
@@ -20,7 +20,7 @@ export interface Song {
 }
 
 export interface IPlaylist {
-  _id: ObjectId;
+  _id: DocumentId;
   importLink: string;
   public: boolean;
   platform: PlatformType;
@@ -33,7 +33,7 @@ export interface IPlaylist {
     name: string;
   };
   songs: [Song, ...Song[]];
-  genre: ObjectId;
+  genre: DocumentId;
   duration: number;
 }
 

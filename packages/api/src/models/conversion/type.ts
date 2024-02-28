@@ -1,10 +1,10 @@
 import type { PlatformType } from "../../utils/platform";
-import type { ObjectId } from "mongodb";
+import type { DocumentId } from "../helper";
 
 export interface IConversion {
-  _id: ObjectId;
+  _id: DocumentId;
   importLink: string;
   exportLink: string;
   toPlatform: PlatformType;
-  playlist?: ObjectId;
+  playlist?: DocumentId;
 }

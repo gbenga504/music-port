@@ -5,10 +5,6 @@ import type { LoadableComponent } from "@loadable/component";
 import type { RouteObject } from "react-router-dom";
 
 declare module "react-router-dom" {
-  interface IndexRouteObject {
-    component: LoadableComponent;
-  }
-
   type RouteObjectWithLoadData = RouteObject & {
     id: string;
     loadData?: (options: ILoadData<any, any>) => Promise<IPageDatas>;

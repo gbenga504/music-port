@@ -1,7 +1,7 @@
-import type { ObjectId } from "mongodb";
+import type { DocumentId } from "../helper";
 
 export interface IPlaylistGenre {
-  _id: ObjectId;
+  _id: DocumentId;
   name: string;
   isSystemGenerated: boolean;
 }
