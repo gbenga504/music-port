@@ -14,7 +14,7 @@ export type createPlaylistGenreOutput = z.output<
 export const editPlaylistGenreSchema = createPlaylistGenreSchema
   .deepPartial()
   .extend({
-    id: zodUtils.schemas.stringOrObjectId,
+    id: zodUtils.schemas.stringOrDocumentId,
   });
 
 export type editPlaylistGenreOutput = z.output<typeof editPlaylistGenreSchema>;

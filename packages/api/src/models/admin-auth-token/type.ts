@@ -1,7 +1,7 @@
-import type { ObjectId } from "mongodb";
+import type { DocumentId } from "../helper";
 
 export interface IAdminAuthToken {
-  _id: ObjectId;
+  _id: DocumentId;
   platform: "spotify" | "deezer" | "youtubeMusic";
   token: string;
   userId?: string;

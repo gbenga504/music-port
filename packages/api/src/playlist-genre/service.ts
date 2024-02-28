@@ -5,7 +5,7 @@ import {
 
 import type { PlaylistGenreRepository } from "./repository";
 import type { IPlaylistGenre } from "../models";
-import type { ObjectId } from "mongodb";
+import type { DocumentId } from "../models/helper";
 
 interface IConstructorOptions {
   playlistGenreRepository: PlaylistGenreRepository;
@@ -48,7 +48,7 @@ export class PlaylistGenreService {
   async getById({
     id,
   }: {
-    id: ObjectId | string;
+    id: DocumentId | string;
   }): Promise<IPlaylistGenre | null> {
     return this.playlistGenreRepository.findById(id);
   }

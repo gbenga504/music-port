@@ -1,19 +1,20 @@
-import { ObjectId } from "mongodb";
 import { z } from "zod";
+
+import { DocumentId } from "../models/helper";
 
 //
 // Schemas
 //
 export const schemas = {
-  stringOrObjectId: z.union([
-    z.instanceof(ObjectId),
+  stringOrDocumentId: z.union([
+    z.instanceof(DocumentId),
     z
       .string()
       .refine((arg: string) => {
-        return ObjectId.isValid(arg);
-      }, "Input is not an instanceOf ObjectId")
-      .transform((arg): ObjectId => {
-        return new ObjectId(arg);
+        return DocumentId.isValid(arg);
+      }, "Input is not an instanceOf DocumentId")
+      .transform((arg): DocumentId => {
+        return new DocumentId(arg);
       }),
   ]),
 };

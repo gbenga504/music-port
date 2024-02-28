@@ -9,9 +9,9 @@ import type { PlaylistRepository } from "./repository";
 import type { AdminAuthTokenService } from "../admin-auth-token/service";
 import type { ConversionService } from "../conversion/service";
 import type { IPlaylist, IPlaylistGenre, IRawPlaylist } from "../models";
+import type { DocumentId } from "../models/helper";
 import type { PlaylistGenreRepository } from "../playlist-genre/repository";
 import type { PlatformType } from "../utils/platform";
-import type { ObjectId } from "mongodb";
 
 interface IConstructorOptions {
   playlistRepository: PlaylistRepository;
@@ -154,7 +154,11 @@ export class PlaylistService {
     return this.playlistRepository.create(playlist);
   }
 
-  async getById({ id }: { id: ObjectId | string }): Promise<IPlaylist | null> {
+  async getById({
+    id,
+  }: {
+    id: DocumentId | string;
+  }): Promise<IPlaylist | null> {
     return this.playlistRepository.findById(id);
   }
 
@@ -171,7 +175,7 @@ export class PlaylistService {
     currentPage,
     pageSize,
   }: {
-    query: { genre?: ObjectId | string | null };
+    query: { genre?: DocumentId | string | null };
     currentPage: number;
     pageSize: number;
   }): Promise<ReturnType<PlaylistRepository["findManyPlaylist"]>> {
@@ -205,7 +209,7 @@ export class PlaylistService {
   }
 
   async deletePlaylist(
-    id: string | ObjectId,
+    id: string | DocumentId,
   ): Promise<ReturnType<PlaylistRepository["deleteById"]>> {
     return this.playlistRepository.deleteById(id);
   }
@@ -264,7 +268,7 @@ export class PlaylistService {
     accessToken: string;
     userId: string;
     platform: PlatformType;
-    playlist: IRawPlaylist & { _id?: ObjectId };
+    playlist: IRawPlaylist & { _id?: DocumentId };
   }): Promise<{ url: string }> {
     const result = await thirdPartyIntegrations.createPlaylist(platform, {
       accessToken,

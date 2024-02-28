@@ -70,7 +70,7 @@ const createPlaylistSchema = z.object({
         }
       }
     }),
-  playlistGenreId: zodUtils.schemas.stringOrObjectId,
+  playlistGenreId: zodUtils.schemas.stringOrDocumentId,
   playlistName: z
     .string()
     .transform(zodUtils.transformers.trim)
