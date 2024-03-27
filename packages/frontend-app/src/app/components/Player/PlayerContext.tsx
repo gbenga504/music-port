@@ -3,6 +3,7 @@ import React from "react";
 
 import { Player } from "./Player";
 
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useToast } from "../Toast/ToastContext";
 
 import type { IProps as IPlayerProps } from "./Player";
@@ -28,7 +29,11 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const toast = useToast();
-  const [playlist, setPlaylist] = useState<Playlist | null>(null);
+  // const [playlist, setPlaylist] = useState<Playlist | null>(null);
+  const [playlist, setPlaylist] = useLocalStorage<Playlist | null>(
+    "playlist",
+    null
+  );
 
   const removeSongsWithoutPreviewURL = (playlist: Playlist): Playlist => {
     return playlist.filter((song) => {
@@ -59,7 +64,7 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <PlayerContext.Provider value={memoizedContextValue}>
       {children}
-      {playlist && (
+      {playlist !== null && (
         <div className="fixed bottom-0 z-10 left-0 w-full bg-[rgba(44,44,44,0.4)] backdrop-blur md:bg-secondary200 md:backdrop-blur-0 p-3">
           <Player playlist={playlist} />
         </div>
