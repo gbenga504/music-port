@@ -11,6 +11,7 @@ import {
 } from "./utils";
 
 import { useAttachUniqueIdToListItems } from "../../hooks/useAttachUniqueIdToListItems";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 import type { ISong } from "./utils";
 
@@ -21,13 +22,38 @@ export interface IProps {
 export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
   const playlist = useAttachUniqueIdToListItems(playlistFromProps);
   const [isPlaying, setIsPlaying] = useState(false);
+  // console.log(isPlaying, "isPlaying");
   const [currentSong, setCurrentSong] = useState(playlist[0]);
+  // console.log(currentSong, "currentSong");
   const [currentDuration, setCurrentDuration] = useState(0);
+  // console.log(currentDuration, "currentDuration");
   const [totalDuration, setTotalDuration] = useState(0);
+  // console.log(totalDuration, "totalDuration");
   const [isLoadingSong, setIsLoadingSong] = useState(false);
+  // const [storedSong, setStoredSong] = useLocalStorage<ISong & { id: string }>(
+  //   "playlist",
+  //   // playlist[0]
+  //   currentSong
+  // );
+
+  // if (window === undefined) {
+  //   return null;
+  // }
+
+  // console.log(storedSong, "stored");
 
   const isSongDurationSliderActiveRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  // useEffect(() => {
+  //   if (storedSong !== null) {
+  //     setCurrentSong(storedSong);
+  //   }
+  // }, [storedSong]);
+
+  // useEffect(() => {
+  //   setStoredSong(currentSong);
+  // }, [currentSong]);
 
   useEffect(() => {
     async function handleLoadedData() {
