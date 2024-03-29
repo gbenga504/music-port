@@ -30,26 +30,30 @@ export const Player: React.FC<IProps> = ({ playlist: playlistFromProps }) => {
   const [totalDuration, setTotalDuration] = useState(0);
   // console.log(totalDuration, "totalDuration");
   const [isLoadingSong, setIsLoadingSong] = useState(false);
-  const [storedSong, setStoredSong] = useLocalStorage<ISong & { id: string }>(
-    "playlist",
-    playlist[0]
-  );
+  // const [storedSong, setStoredSong] = useLocalStorage<ISong & { id: string }>(
+  //   "playlist",
+  //   // playlist[0]
+  //   currentSong
+  // );
 
-  console.log(storedSong, "stored");
+  // if (window === undefined) {
+  //   return null;
+  // }
+
+  // console.log(storedSong, "stored");
 
   const isSongDurationSliderActiveRef = useRef(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  useEffect(() => {
-    if (storedSong !== null) {
-      setCurrentSong(storedSong);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (storedSong !== null) {
+  //     setCurrentSong(storedSong);
+  //   }
+  // }, [storedSong]);
 
-  useEffect(() => {
-    // Update localStorage with the current song index
-    setStoredSong(currentSong);
-  }, [currentSong]);
+  // useEffect(() => {
+  //   setStoredSong(currentSong);
+  // }, [currentSong]);
 
   useEffect(() => {
     async function handleLoadedData() {

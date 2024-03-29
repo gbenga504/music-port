@@ -1,9 +1,10 @@
-import { useContext, createContext, useState, useMemo } from "react";
+import { useContext, createContext, useState, useMemo, useEffect } from "react";
 import React from "react";
 
 import { Player } from "./Player";
 
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import useSsr from "../../hooks/useSsr";
 import { useToast } from "../Toast/ToastContext";
 
 import type { IProps as IPlayerProps } from "./Player";
@@ -29,17 +30,28 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const toast = useToast();
+  const isBrowser = useSsr();
+
+  // if (typeof window === undefined) {
+  //   return null;
+  // }
+
   // const [playlist, setPlaylist] = useState<Playlist | null>(null);
-  const [playlist, setPlaylist] = useLocalStorage<Playlist | null>(
-    "playlist",
-    null
-  );
+  const [playlist, setPlaylist] = isBrowser
+    ? useLocalStorage<Playlist | null>("playlist", null)
+    : useState<Playlist | null>(null);
 
   const removeSongsWithoutPreviewURL = (playlist: Playlist): Playlist => {
     return playlist.filter((song) => {
       return Boolean(song.previewURL);
     });
   };
+
+  useEffect(() => {
+    if (!isBrowser) {
+      setPlaylist(null);
+    }
+  }, [isBrowser]);
 
   const handleChangePlaylist = (playlist: Playlist): void => {
     const validPlaylist = removeSongsWithoutPreviewURL(playlist);
