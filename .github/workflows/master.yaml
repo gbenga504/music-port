@@ -1,7 +1,7 @@
 name: Deployment workflow
 on: [push]
 jobs:
-  Logs:
+  logs:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,7 +11,7 @@ jobs:
         run: |
           ls
 
-  Run Lint and Formats:
+  run-lint-and-formats:
     runs-on: ubuntu-latest
 
     steps:
