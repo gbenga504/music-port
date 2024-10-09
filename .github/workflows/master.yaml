@@ -10,7 +10,10 @@ jobs:
       - name: Check that our files are up to date
         run: |
           ls
+
   Run Lint & Formats:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout the repo
         uses: actions/checkout@v4
