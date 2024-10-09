@@ -1,6 +1,6 @@
 name: Hello world workflow # Used as the name of the workflow. Github uses the file path to this workflow if not provided
 # run-name: ${{github.actor}} is testing out Github actions 🚀 .Github uses the the commit message if this is not provided. Properly best for PRs
-on: []
+on: [label]
 jobs:
   Explore-Github-Actions:
     runs-on: ubuntu-latest
