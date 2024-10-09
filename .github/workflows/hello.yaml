@@ -20,5 +20,7 @@ jobs:
         run: |
           mkdir distro
           touch maga.js
-          mv touch.js distro
+          mv maga.js distro
+      - name: list files again
+        run: find . -name distro
       - run: echo "🍏 The job's status is ${{job.status}}"
