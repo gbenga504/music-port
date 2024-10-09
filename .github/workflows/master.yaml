@@ -11,7 +11,7 @@ jobs:
         run: |
           ls
 
-  Run Lint & Formats:
+  Run Lint and Formats:
     runs-on: ubuntu-latest
 
     steps:
