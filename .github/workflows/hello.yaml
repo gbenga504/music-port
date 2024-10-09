@@ -16,4 +16,9 @@ jobs:
       - name: List the files in the repository
         run: |
           ls ${{github.workspace}}
+      - name: Make a new directory and add a file to it
+      - run: |
+        mkdir distro \
+        touch maga.js \
+        mv touch.js distro
       - run: echo "🍏 The job's status is ${{job.status}}"
