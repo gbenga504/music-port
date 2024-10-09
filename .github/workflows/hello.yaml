@@ -2,8 +2,9 @@ name: Hello world
 run-name: ${{github.actor}} is testing out Github actions 🚀
 on: push
 jobs:
-  Explore-Gighub-Actions:
+  Explore-Github-Actions:
     runs-on: ubuntu-latest
+
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{github.event_name}} event."
       - run: echo "🐧 The job is now running on a ${{runner.os}} server hosted on Github"
@@ -13,5 +14,6 @@ jobs:
       - run: echo "💡 The ${{github.repository}} has been cloned to the ${{runner.os}} runner"
       - run: "🖥️ We are now ready to test your code in the runner"
       - name: List the files in the repository
-        run: ls
+        run: |
+          - ls
       - run: echo "🍏 The job's status is ${{job.status}}"
