@@ -10,4 +10,15 @@ jobs:
       - name: Check that our files are up to date
         run: |
           ls
-  # Run Lint & Formats:
+  Run Lint & Formats:
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Setup NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.19
+      - name: Run format and tests
+        run: yarn format
+      - name: Run Lint
+        run: yarn lint
