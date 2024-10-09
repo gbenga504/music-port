@@ -1,0 +1,13 @@
+name: Deployment workflow
+on: [push]
+jobs:
+  Logs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v4
+      - name: Check that our files are up to date
+        run: |
+          ls
+  # Run Lint & Formats:
