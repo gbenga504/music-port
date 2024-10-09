@@ -1,5 +1,5 @@
-# name: Hello world
-# run-name: ${{github.actor}} is testing out Github actions 🚀
+name: Hello world # Used as the name of the workflow. Github uses the file path to this workflow if not provided
+# run-name: ${{github.actor}} is testing out Github actions 🚀 .Github uses the the commit message if this is not provided. Properly best for PRs
 on: push
 jobs:
   Explore-Github-Actions:
