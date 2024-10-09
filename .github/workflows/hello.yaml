@@ -1,4 +1,4 @@
-name: Hello world
+# name: Hello world
 # run-name: ${{github.actor}} is testing out Github actions 🚀
 on: push
 jobs:
